@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin>
+   	<extension point="org.eclipse.ui.handlers">
+       <handler
+             class="com.daniel.test.handlers.TestHandler"
+             commandId="com.daniel.command.test">
+       </handler>
+       <handler
+             class="com.daniel.test.handlers.CreateJIRAIssueHandler"
+             commandId="com.daniel.command.createIssue">
+       </handler>
+	</extension>
+	<extension
+         point="org.eclipse.ui.commands">
+      	<command
+            	categoryId="org.eclipse.ui.category.help"
+            	description="%Daniel_Test"
+            	id="com.daniel.command.test"
+            	name="%Daniel_Test">
+      	</command>
+      	<command
+            	categoryId="org.eclipse.ui.category.help"
+            	description="%Create_JIRA_Issue"
+            	id="com.daniel.command.createIssue"
+            	name="%Create_JIRA_Issue">
+      	</command>
+	</extension>
+	<extension
+             point="org.eclipse.ui.viewActions">
+          <viewContribution
+                id="org.eclipse.pde.ui.logViewActions"
+                targetID="org.eclipse.pde.runtime.LogView">
+             <action
+                   class="com.daniel.test.actions.CreateJIRAIssueAction"
+                   enablesFor="+"
+                   hoverIcon="$nl$/icons/report_problem.png"
+                   icon="$nl$/icons/report_problem.png"
+                   id="com.daniel.createIssue"
+                   label="%Create_JIRA_Issue"
+                   menubarPath="additions"
+                   toolbarPath="additions"
+                   tooltip="%Create_JIRA_Issue">
+             </action>
+          </viewContribution>
+	</extension>
+	<extension point="org.eclipse.ui.menus">
+    <menuContribution locationURI="toolbar:org.eclipse.ui.main.toolbar?afterAll">
+       <toolbar id="com.daniel.test.toolbar">
+          <command
+                commandId="com.daniel.command.test"
+                disabledIcon="$nl$/icons/daniel_test.png"
+                icon="$nl$/icons/daniel_test.png"
+                id="com.daniel.test"
+                label="%Daniel_Test"
+                tooltip="%Daniel_Test">
+              <visibleWhen checkEnabled="false" />
+          </command>
+          <command
+                commandId="com.daniel.command.createIssue"
+                disabledIcon="$nl$/icons/report_problem.png"
+                icon="$nl$/icons/report_problem.png"
+                id="com.daniel.createIssue"
+                label="%Create_JIRA_Issue"
+                tooltip="%Create_JIRA_Issue">
+              <visibleWhen checkEnabled="false" />
+          </command>
+       </toolbar>
+    </menuContribution>
+    <!--menuContribution locationURI="popup:org.eclipse.pde.runtime.LogView?after=additions">
+       <toolbar id="com.daniel.test.errorpopup">
+          <command
+                commandId="com.daniel.command.createIssue"
+                disabledIcon="$nl$/icons/report_problem.png"
+                icon="$nl$/icons/report_problem.png"
+                id="com.daniel.createIssue"
+                label="%Create_JIRA_Issue"
+                tooltip="%Create_JIRA_Issue">
+              <visibleWhen checkEnabled="false" />
+          </command>
+       </toolbar>
+    </menuContribution>
+    <menuContribution locationURI="toolbar:org.eclipse.pde.runtime.LogView?after=additions">
+       <toolbar id="com.daniel.test.errortoolbar">
+          <command
+                commandId="com.daniel.command.createIssue"
+                disabledIcon="$nl$/icons/report_problem.png"
+                icon="$nl$/icons/report_problem.png"
+                id="com.daniel.createIssue"
+                label="%Create_JIRA_Issue"
+                tooltip="%Create_JIRA_Issue">
+              <visibleWhen checkEnabled="false" />
+          </command>
+       </toolbar>
+    </menuContribution-->
+	<menuContribution locationURI="menu:navigate?after=open.ext2">
+		<command
+			commandId="com.daniel.command.test"
+             disabledIcon="$nl$/icons/daniel_test.png"
+             icon="$nl$/icons/daniel_test.png"
+             id="caom,daniel.test"
+             label="%Daniel_Test"
+             style="push"
+             tooltip="%Daniel_Test">
+           <visibleWhen checkEnabled="false" />
+       </command>
+		<command
+			commandId="com.daniel.command.createIssue"
+             disabledIcon="$nl$/icons/report_problem.png"
+             icon="$nl$/icons/report_problem.png"
+             id="caom,daniel.createIssue"
+             label="%Create_JIRA_Issue"
+             style="push"
+             tooltip="%Create_JIRA_Issue">
+           <visibleWhen checkEnabled="false" />
+       </command>
+    </menuContribution>
+	</extension>
+	<extension point="org.eclipse.ui.popupMenus">
+	<viewerContribution
+       id="com.daniel.test.viewerContribution1"
+       targetID="org.eclipse.pde.runtime.LogView">
+    <action
+          class="com.daniel.test.actions.CreateJIRAIssueAction"
+          enablesFor="+"
+          icon="$nl$/icons/report_problem.png"
+          id="com.daniel.createIssue"
+          label="%Create_JIRA_Issue"
+          menubarPath="additions"
+          tooltip="%Create_JIRA_Issue">
+    </action>
+	</viewerContribution>
+    </extension>
+</plugin>
