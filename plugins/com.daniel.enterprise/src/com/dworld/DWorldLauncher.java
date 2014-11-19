@@ -35,6 +35,7 @@ import com.dworld.core.DWorldConstants;
 import com.dworld.core.Engine;
 import com.dworld.core.Land;
 import com.dworld.core.SelectionManager;
+import com.dworld.ui.BuildingPalette;
 import com.dworld.ui.DrawWorld;
 import com.dworld.ui.InfoScreen;
 import com.dworld.ui.Map;
@@ -301,6 +302,11 @@ public class DWorldLauncher implements KeyListener, FocusListener,
 		cbMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				buildMode = !buildMode;
+				if(buildMode){
+					BuildingPalette.showPalette();
+				}else{
+					BuildingPalette.hidePalette();
+				}
 			}
 		});
 		menu.add(cbMenuItem);
@@ -671,7 +677,6 @@ public class DWorldLauncher implements KeyListener, FocusListener,
 		window.setJMenuBar(menuBar);
 	}
 	
-	//@SuppressWarnings("unused")
 	private void initToolBar(){
 		JToolBar toolBar = new JToolBar("DWorld toolbar");
 		toolBar.setFloatable(false);
@@ -857,8 +862,12 @@ public class DWorldLauncher implements KeyListener, FocusListener,
 		}
 
 		public void actionPerformed(ActionEvent e) {
-			selectedElement = code;
+			setSelectedElement(code);
 		}
+	}
+	
+	public void setSelectedElement(int code){
+		selectedElement = code;
 	}
 
 	class ChangeManCodeAction implements ActionListener {

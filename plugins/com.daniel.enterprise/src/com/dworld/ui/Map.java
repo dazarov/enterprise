@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Point;
+import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -46,7 +47,7 @@ public class Map {
 		scroll.getVerticalScrollBar().setValue(750);
 		scroll.getHorizontalScrollBar().setValue(600);
 		window.setLocation(0, 0);
-		window.setSize(1600, 870);
+		window.setSize(Toolkit.getDefaultToolkit().getScreenSize());
 		window.addKeyListener(new KeyListener(){
 			public void keyPressed(KeyEvent event) {
 				if (event.getKeyCode() == 27) {
