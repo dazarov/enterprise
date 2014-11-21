@@ -3,13 +3,13 @@
     <!--this file was created by Eclipse Runnable JAR Export Wizard-->
     <!--ANT 1.7 is required                                        -->
     <target name="create_run_jar">
-        <jar destfile="/home/daniel/com.daniel.enterprise/DWorld.jar" filesetmanifest="mergewithoutmain">
+        <jar destfile="/home/daniel/git/enterprise/plugins//com.daniel.enterprise/DWorld.jar" filesetmanifest="mergewithoutmain">
             <manifest>
                 <attribute name="Built-By" value="Daniel Azarov"/>
                 <attribute name="Main-Class" value="com.dworld.DWorldLauncher"/>
                 <attribute name="Class-Path" value="."/>
             </manifest>
-            <fileset dir="/home/daniel/com.daniel.enterprise/bin"/>
+            <fileset dir="/home/daniel/git/enterprise/plugins//com.daniel.enterprise/bin"/>
         </jar>
     </target>
 </project>
