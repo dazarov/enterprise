@@ -28,6 +28,8 @@ public class SelectionManager {
 	
 	private static Rectangle selectedArea = null;
 	
+	private static Point startLine = null, endLine = null;
+	
 	public static void addSelection(IUnit unit){
 		if(!selectedUnits.contains(unit))
 			selectedUnits.add(unit);
@@ -36,6 +38,7 @@ public class SelectionManager {
 	public static void clearSelection(){
 		selectedArea = null;
 		selectedUnits.clear();
+		startLine = endLine = null;
 	}
 	
 	public static Rectangle getSelectedArea(){
@@ -44,6 +47,49 @@ public class SelectionManager {
 	
 	public static void setSelectedArea(Rectangle rectangle){
 		selectedArea = rectangle;
+		startLine = endLine = null;
+	}
+	
+	public static void setSelectedLine(Point start, Point end){
+		selectedArea = null;
+		selectedUnits.clear();
+		startLine = start;
+		endLine = end;
+	}
+	
+	public static ArrayList<Point> getSelectedLine(){
+		if(startLine != null){
+			ArrayList<Point> line = new ArrayList<Point>();
+			line.add(startLine);
+			line.add(endLine);
+			if(Math.abs(endLine.x - startLine.x) > Math.abs(endLine.y - startLine.y)){
+				int steps = Math.abs(endLine.x - startLine.x);
+				if(steps > 0){
+					int beginX = startLine.x;
+					int beginY = startLine.y;
+					int xStep = (endLine.x - startLine.x)/steps;
+					int yStep = (endLine.y - startLine.y)/steps;
+					
+					for(int index = 0; index < steps; index++){
+						line.add(new Point(beginX+xStep*index, beginY+yStep*index));
+					}
+				}
+			}else{
+				int steps = Math.abs(endLine.y - startLine.y);
+				if(steps > 0){
+					int beginX = startLine.x;
+					int beginY = startLine.y;
+					int xStep = (endLine.x - startLine.x)/steps;
+					int yStep = (endLine.y - startLine.y)/steps;
+					
+					for(int index = 0; index < steps; index++){
+						line.add(new Point(beginX+xStep*index, beginY+yStep*index));
+					}
+				}
+			}
+			return line;
+		}
+		return null;
 	}
 	
 	public static <T> void sendCommand(int commandId, T arg){

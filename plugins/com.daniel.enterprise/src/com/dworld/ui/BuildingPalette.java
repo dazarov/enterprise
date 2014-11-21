@@ -29,7 +29,7 @@ public class BuildingPalette {
 		palette.setFocusableWindowState(false);
 		palette.setFocusable(false);
 		palette.setVisible(true);
-		
+		DWorldWindowListener.getDefault().addWindow(palette);
 	}
 	
 	public static void hidePalette(){

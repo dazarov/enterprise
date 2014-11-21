@@ -6,6 +6,7 @@ import java.awt.Image;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.swing.ImageIcon;
@@ -592,6 +593,13 @@ public class DrawWorld {
 		if(area != null){
 			g.setColor(Color.yellow);
 			g.drawRect((area.x-startX)*DWorldConstants.UI_IMAGE_WIDTH, (area.y-startY)*DWorldConstants.UI_IMAGE_HEIGHT, area.width*DWorldConstants.UI_IMAGE_WIDTH-1, area.height*DWorldConstants.UI_IMAGE_HEIGHT-1);
+		}
+		ArrayList<Point> elements = SelectionManager.getSelectedLine();
+		if(elements != null){
+			g.setColor(Color.yellow);
+			for(Point point : elements){
+				g.drawRect((point.x-startX)*DWorldConstants.UI_IMAGE_WIDTH, (point.y-startY)*DWorldConstants.UI_IMAGE_HEIGHT, DWorldConstants.UI_IMAGE_WIDTH-1, DWorldConstants.UI_IMAGE_HEIGHT-1);
+			}
 		}
 	}
 

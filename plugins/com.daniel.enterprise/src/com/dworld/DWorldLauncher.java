@@ -17,6 +17,7 @@ import java.awt.event.MouseMotionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.File;
+import java.util.ArrayList;
 
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
@@ -36,6 +37,7 @@ import com.dworld.core.Engine;
 import com.dworld.core.Land;
 import com.dworld.core.SelectionManager;
 import com.dworld.ui.BuildingPalette;
+import com.dworld.ui.DWorldWindowListener;
 import com.dworld.ui.DrawWorld;
 import com.dworld.ui.InfoScreen;
 import com.dworld.ui.Map;
@@ -48,7 +50,7 @@ public class DWorldLauncher implements KeyListener, FocusListener,
 	private static final String TEST_FILE = "/test.dat";
 	
 	private static final int BRUSH = 1;
-	//private static final int LINE = 2;
+	private static final int LINE = 2;
 	private static final int RECTANGLE = 3;
 	
 	private static int draw_mode = BRUSH;
@@ -96,6 +98,7 @@ public class DWorldLauncher implements KeyListener, FocusListener,
 		
 		window = new JFrame();
 		engine = new Engine(window);
+		DWorldWindowListener.getDefault().addMainWindow(window);
 		initMenu();
 		initWindow();
 		initElements();
@@ -325,16 +328,16 @@ public class DWorldLauncher implements KeyListener, FocusListener,
 		buildGroup.add(rbMenuItem);
 		menu.add(rbMenuItem);
 		
-//		rbMenuItem = new JRadioButtonMenuItem("Line");
-//		//rbMenuItem.setIcon(new ImageIcon(DrawWorld.getImage(code)));
-//		rbMenuItem.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent e) {
-//				draw_mode = LINE;
-//			}
-//		});
-//		rbMenuItem.setSelected(true);
-//		buildGroup.add(rbMenuItem);
-//		menu.add(rbMenuItem);
+		rbMenuItem = new JRadioButtonMenuItem("Line");
+		//rbMenuItem.setIcon(new ImageIcon(DrawWorld.getImage(code)));
+		rbMenuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				draw_mode = LINE;
+			}
+		});
+		rbMenuItem.setSelected(true);
+		buildGroup.add(rbMenuItem);
+		menu.add(rbMenuItem);
 		
 		rbMenuItem = new JRadioButtonMenuItem("Rectangle");
 		//rbMenuItem.setIcon(new ImageIcon(DrawWorld.getImage(code)));
@@ -823,6 +826,10 @@ public class DWorldLauncher implements KeyListener, FocusListener,
 			selectedPoint = location;
 			SelectionManager.setSelectedArea(new Rectangle(selectedPoint,
 					new Dimension(1, 1)));
+		}else if(draw_mode == LINE){
+				SelectionManager.clearSelection();
+				selectedPoint = location;
+				SelectionManager.setSelectedLine(selectedPoint, selectedPoint);
 		}else{
 			if (e.getButton() == MouseEvent.BUTTON1)
 				Land.setLand(location, selectedElement);
@@ -835,19 +842,33 @@ public class DWorldLauncher implements KeyListener, FocusListener,
 
 	public void mouseReleased(MouseEvent e) {
 		button = e.getButton();
-		if(buildMode && draw_mode == RECTANGLE){
-			Rectangle rectangle = SelectionManager.getSelectedArea();
-			if(rectangle == null)
-				return;
-			for(int x = rectangle.x; x < rectangle.x+rectangle.width; x++){
-				for(int y = rectangle.y; y < rectangle.y+rectangle.height; y++){
-					if (e.getButton() == MouseEvent.BUTTON1)
-						Land.setLand(new Point(x, y), selectedElement);
-					else
-						Land.setLand(new Point(x, y), Land.Empty);
+		if(buildMode){
+			if(draw_mode == RECTANGLE){
+				Rectangle rectangle = SelectionManager.getSelectedArea();
+				if(rectangle == null)
+					return;
+				for(int x = rectangle.x; x < rectangle.x+rectangle.width; x++){
+					for(int y = rectangle.y; y < rectangle.y+rectangle.height; y++){
+						if (e.getButton() == MouseEvent.BUTTON1)
+							Land.setLand(new Point(x, y), selectedElement);
+						else
+							Land.setLand(new Point(x, y), Land.Empty);
+					}
 				}
+				Land.modified(window);
+			}else if(draw_mode == LINE){
+				ArrayList<Point> points = SelectionManager.getSelectedLine();
+				if(points != null){
+					for(Point point : points){
+						if (e.getButton() == MouseEvent.BUTTON1)
+							Land.setLand(point, selectedElement);
+						else
+							Land.setLand(point, Land.Empty);
+						
+					}
+				}
+				Land.modified(window);
 			}
-			Land.modified(window);
 		}
 		if(!buildMode){
 			SelectionManager.select();
@@ -937,6 +958,9 @@ public class DWorldLauncher implements KeyListener, FocusListener,
 				SelectionManager.setSelectedArea(new Rectangle(topX, topY,
 						width, height));
 			}
+			return;
+		}else if(buildMode && draw_mode == LINE){
+			SelectionManager.setSelectedLine(selectedPoint, location);
 			return;
 		}
 

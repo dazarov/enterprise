@@ -118,7 +118,7 @@ public class Map {
 		minimap.setFocusableWindowState(false);
 		minimap.setFocusable(false);
 		minimap.setVisible(true);
-		
+		DWorldWindowListener.getDefault().addWindow(minimap);
 	}
 	
 	public static void drawRegion(Graphics g, int startX, int startY, int width, int height){
