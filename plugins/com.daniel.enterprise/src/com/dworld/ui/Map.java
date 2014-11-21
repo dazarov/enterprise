@@ -62,7 +62,7 @@ public class Map {
 		window.setVisible(true);
 	}
 	
-	static JFrame minimap = null;
+	static DWindow minimap = null;
 	static Point drawPoint = null;
 	
 	public static void refreshMinimap(){
@@ -94,8 +94,7 @@ public class Map {
 	}
 	
 	public static void showMinimap(){
-		minimap = new JFrame();
-		minimap.setTitle("Mini Map");
+		minimap = new DWindow("Mini Map", DWindow.ORIENTATION_RIGHT);
 		minimap.setLayout(new GridLayout());
 		
 		JPanel panel = new JPanel(){
@@ -113,7 +112,7 @@ public class Map {
 		
 		minimap.add(panel);
 		minimap.pack();
-		minimap.setLocation(1000, 300);
+		//minimap.setLocation(1300, 300);
 		minimap.setSize(320, 320);
 		minimap.setFocusableWindowState(false);
 		minimap.setFocusable(false);

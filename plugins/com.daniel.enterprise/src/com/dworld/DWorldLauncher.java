@@ -130,7 +130,7 @@ public class DWorldLauncher implements KeyListener, FocusListener,
 		window.pack();
 		window.setSize(DWorldConstants.UI_WIDTH * DWorldConstants.UI_IMAGE_WIDTH + 8,
 				DWorldConstants.UI_HEIGHT * DWorldConstants.UI_IMAGE_HEIGHT + 48);
-		window.setLocation(200, 10);
+		window.setLocation(500, 10);
 		window.addKeyListener(launcher);
 		panel.addMouseListener(launcher);
 		panel.addMouseMotionListener(launcher);

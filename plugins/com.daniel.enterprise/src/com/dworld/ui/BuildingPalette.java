@@ -6,7 +6,6 @@ import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JToolBar;
 import javax.swing.SwingConstants;
 
@@ -14,18 +13,17 @@ import com.dworld.DWorldLauncher;
 import com.dworld.core.Land;
 
 public class BuildingPalette {
-	private static JFrame palette = null;
+	private static DWindow palette = null;
 	
 	public static void showPalette(){
-		palette = new JFrame();
-		palette.setTitle("Building Palette");
+		palette = new DWindow("Building Palette", DWindow.ORIENTATION_LEFT);
 		palette.setLayout(new GridLayout(1,5));
 		
 		initToolBar();
 		
 		palette.pack();
-		palette.setLocation(0, 0);
-		palette.setSize(200, 1000);
+//		palette.setLocation(300, 100);
+		palette.setSize(200, 600);
 		palette.setFocusableWindowState(false);
 		palette.setFocusable(false);
 		palette.setVisible(true);
@@ -56,15 +54,16 @@ public class BuildingPalette {
 		createToolButton(toolBar, Land.WhiteBrick);
 		createToolButton(toolBar, Land.Stone);
 		createToolButton(toolBar, Land.BlackStone);
+		toolBar.addSeparator();
 		createToolButton(toolBar, Land.Wood1);
 		createToolButton(toolBar, Land.Wood2);
 		createToolButton(toolBar, Land.Wood3);
 		createToolButton(toolBar, Land.Wood4);
 		toolBar.addSeparator();
-		createToolButton(toolBar, Land.Grass);
 		createToolButton(toolBar, Land.Water);
 		createToolButton(toolBar, Land.Sand);
 		toolBar.addSeparator();
+		createToolButton(toolBar, Land.Grass);
 		createToolButton(toolBar, Land.Tree1);
 		createToolButton(toolBar, Land.Tree2);
 		createToolButton(toolBar, Land.Tree3);
@@ -73,8 +72,10 @@ public class BuildingPalette {
 		toolBar = createToolBar();
 		createToolButton(toolBar, Land.Train_Horizontal);
 		createToolButton(toolBar, Land.Train_Vertical);
+		toolBar.addSeparator();
 		createToolButton(toolBar, Land.Station_Horizontal);
 		createToolButton(toolBar, Land.Station_Vertical);
+		toolBar.addSeparator();
 		createToolButton(toolBar, Land.Rail_Horizontal);
 		createToolButton(toolBar, Land.Rail_Vertical);
 		createToolButton(toolBar, Land.Rail_Diagonal_Up);
@@ -87,6 +88,7 @@ public class BuildingPalette {
 		createToolButton(toolBar, Land.Rail_Left_Down);
 		createToolButton(toolBar, Land.Rail_Right_Up);
 		createToolButton(toolBar, Land.Rail_Right_Down);
+		toolBar.addSeparator();
 		createToolButton(toolBar, Land.Rail_Vertical_Cross);
 		createToolButton(toolBar, Land.Rail_Diagonal_Cross);
 		palette.add(toolBar);
@@ -102,9 +104,7 @@ public class BuildingPalette {
 		toolBar.addSeparator();
 		createToolButton(toolBar, Land.ClosedVerticalBrickGate);
 		createToolButton(toolBar, Land.ClosedHorizontalBrickGate);
-		//palette.add(toolBar);
-		
-		//toolBar = createToolBar();
+		toolBar.addSeparator();
 		createToolButton(toolBar, Land.Ammo);
 		createToolButton(toolBar, Land.Grenada);
 		createToolButton(toolBar, Land.Rocket);
@@ -113,6 +113,14 @@ public class BuildingPalette {
 		createToolButton(toolBar, Land.Mine_Grass);
 		createToolButton(toolBar, Land.Mine_Sand);
 		toolBar.addSeparator();
+		createToolButton(toolBar, Land.Peasant);
+		createToolButton(toolBar, Land.Peasant_Grass);
+		createToolButton(toolBar, Land.Peasant_Sand);
+		toolBar.addSeparator();
+		createToolButton(toolBar, Land.Teleport5);
+		palette.add(toolBar);
+		
+		toolBar = createToolBar();
 		createToolButton(toolBar, Land.Gray_General);
 		createToolButton(toolBar, Land.Gray_General_Grass);
 		createToolButton(toolBar, Land.Gray_General_Sand);
@@ -120,9 +128,7 @@ public class BuildingPalette {
 		createToolButton(toolBar, Land.Gray_Officer);
 		createToolButton(toolBar, Land.Gray_Officer_Grass);
 		createToolButton(toolBar, Land.Gray_Officer_Sand);
-		palette.add(toolBar);
-		
-		toolBar = createToolBar();
+		toolBar.addSeparator();
 		createToolButton(toolBar, Land.Robot);
 		createToolButton(toolBar, Land.Robot_Grass);
 		createToolButton(toolBar, Land.Robot_Sand);
@@ -138,7 +144,9 @@ public class BuildingPalette {
 		createToolButton(toolBar, Land.Radar);
 		createToolButton(toolBar, Land.Radar_Grass);
 		createToolButton(toolBar, Land.Radar_Sand);
-		toolBar.addSeparator();
+		palette.add(toolBar);
+		
+		toolBar = createToolBar();
 		createToolButton(toolBar, Land.General);
 		createToolButton(toolBar, Land.General_Grass);
 		createToolButton(toolBar, Land.General_Sand);
@@ -162,14 +170,7 @@ public class BuildingPalette {
 		createToolButton(toolBar, Land.GoodRadar);
 		createToolButton(toolBar, Land.GoodRadar_Grass);
 		createToolButton(toolBar, Land.GoodRadar_Sand);
-		palette.add(toolBar);
 		
-		toolBar = createToolBar();
-		createToolButton(toolBar, Land.Peasant);
-		createToolButton(toolBar, Land.Peasant_Grass);
-		createToolButton(toolBar, Land.Peasant_Sand);
-		toolBar.addSeparator();
-		createToolButton(toolBar, Land.Teleport5);
 		palette.add(toolBar);
 	}
 	
