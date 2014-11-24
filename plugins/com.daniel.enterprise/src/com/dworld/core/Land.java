@@ -234,18 +234,23 @@ public class Land {
 	public static final int Station_Vertical = 186;
 	public static final int Station_Horizontal = 187;
 	
-//	public static final int Car_Vertical = 188;
-//	public static final int Car_Horizontal = 189;
-//	public static final int Car_Diagonal_Up = 190;
-//	public static final int Car_Diagonal_Down = 191;
-//	public static final int Car_Up_Right = 192;
-//	public static final int Car_Up_Left = 193;
-//	public static final int Car_Down_Right = 194;
-//	public static final int Car_Down_Left = 195;
-//	public static final int Car_Right_Up = 196;
-//	public static final int Car_Right_Down = 197;
-//	public static final int Car_Left_Up = 198;
-//	public static final int Car_Left_Down = 199;
+	public static final int WarTrain_Vertical = 188;
+	public static final int WarTrain_Horizontal = 189;
+	public static final int WarTrain_Diagonal_Up = 190;
+	public static final int WarTrain_Diagonal_Down = 191;
+	public static final int WarTrain_Up_Right = 192;
+	public static final int WarTrain_Up_Left = 193;
+	public static final int WarTrain_Down_Right = 194;
+	public static final int WarTrain_Down_Left = 195;
+	public static final int WarTrain_Right_Up = 196;
+	public static final int WarTrain_Right_Down = 197;
+	public static final int WarTrain_Left_Up = 198;
+	public static final int WarTrain_Left_Down = 199;
+	
+	public static final int WarTrain_Vertical_Cross = 200;
+	public static final int WarTrain_Horizontal_Cross = 201;
+	public static final int WarTrain_Diagonal_Up_Cross = 202;
+	public static final int WarTrain_Diagonal_Down_Cross = 203;
 
 	private static int[][] landMap = new int[DWorldConstants.MAX_X][DWorldConstants.MAX_Y];
 
@@ -344,6 +349,26 @@ public class Land {
 		trainList.add(new Integer(Train_Horizontal_Cross));
 		trainList.add(new Integer(Train_Diagonal_Up_Cross));
 		trainList.add(new Integer(Train_Diagonal_Down_Cross));
+	}
+	
+	public static ArrayList<Integer> wartrainList = new ArrayList<Integer>();
+	static {
+		wartrainList.add(new Integer(WarTrain_Diagonal_Down));
+		wartrainList.add(new Integer(WarTrain_Diagonal_Up));
+		wartrainList.add(new Integer(WarTrain_Down_Left));
+		wartrainList.add(new Integer(WarTrain_Down_Right));
+		wartrainList.add(new Integer(WarTrain_Horizontal));
+		wartrainList.add(new Integer(WarTrain_Left_Down));
+		wartrainList.add(new Integer(WarTrain_Left_Up));
+		wartrainList.add(new Integer(WarTrain_Right_Down));
+		wartrainList.add(new Integer(WarTrain_Right_Up));
+		wartrainList.add(new Integer(WarTrain_Up_Left));
+		wartrainList.add(new Integer(WarTrain_Up_Right));
+		wartrainList.add(new Integer(WarTrain_Vertical));
+		wartrainList.add(new Integer(WarTrain_Vertical_Cross));
+		wartrainList.add(new Integer(WarTrain_Horizontal_Cross));
+		wartrainList.add(new Integer(WarTrain_Diagonal_Up_Cross));
+		wartrainList.add(new Integer(WarTrain_Diagonal_Down_Cross));
 	}
 
 	public static ArrayList<Integer> walkList = new ArrayList<Integer>();
@@ -542,6 +567,7 @@ public class Land {
 		armoredCitizenList.add(new Integer(GoodBunker_Sand));
 		
 		armoredCitizenList.addAll(trainList);
+		armoredCitizenList.addAll(wartrainList);
 	}
 
 	public static final ArrayList<Integer> citizenList = new ArrayList<Integer>();

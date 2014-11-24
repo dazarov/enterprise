@@ -29,12 +29,112 @@ public class Train extends MovableUnit {
 	
 	@Override
 	protected int getDefaultBeneath(int code){
-		return RailUtils.getDefaultBeneath(code);
+		switch(code){
+		case Land.Train_Vertical:
+			return Land.Rail_Vertical;
+			
+		case Land.Train_Horizontal:
+			return Land.Rail_Horizontal;
+			
+		case Land.Train_Diagonal_Up:
+			return Land.Rail_Diagonal_Up;
+			
+		case Land.Train_Diagonal_Down:
+			return Land.Rail_Diagonal_Down;
+			
+		case Land.Train_Up_Right:
+			return Land.Rail_Up_Right;
+			
+		case Land.Train_Up_Left:
+			return Land.Rail_Up_Left;
+			
+		case Land.Train_Down_Right:
+			return Land.Rail_Down_Right;
+			
+		case Land.Train_Down_Left:
+			return Land.Rail_Down_Left;
+			
+		case Land.Train_Right_Up:
+			return Land.Rail_Right_Up;
+			
+		case Land.Train_Right_Down:
+			return Land.Rail_Right_Down;
+			
+		case Land.Train_Left_Up:
+			return Land.Rail_Left_Up;
+			
+		case Land.Train_Left_Down:
+			return Land.Rail_Left_Down;
+			
+		case Land.Train_Vertical_Cross:
+			return Land.Rail_Vertical_Cross;
+			
+		case Land.Train_Horizontal_Cross:
+			return Land.Rail_Vertical_Cross;
+			
+		case Land.Train_Diagonal_Up_Cross:
+			return Land.Rail_Diagonal_Cross;
+			
+		case Land.Train_Diagonal_Down_Cross:
+			return Land.Rail_Diagonal_Cross;
+		}
+		return Land.Empty;
 	}
 	
 	@Override
 	public int getCode(int beneath){
-		return RailUtils.getCode(beneath, direction);
+		switch(beneath){
+		case Land.Rail_Vertical:
+			return Land.Train_Vertical;
+			
+		case Land.Rail_Horizontal:
+			return Land.Train_Horizontal;
+			
+		case Land.Rail_Diagonal_Up:
+			return Land.Train_Diagonal_Up;
+			
+		case Land.Rail_Diagonal_Down:
+			return Land.Train_Diagonal_Down;
+			
+		case Land.Rail_Up_Right:
+			return Land.Train_Up_Right;
+			
+		case Land.Rail_Up_Left:
+			return Land.Train_Up_Left;
+			
+		case Land.Rail_Down_Right:
+			return Land.Train_Down_Right;
+			
+		case Land.Rail_Down_Left:
+			return Land.Train_Down_Left;
+			
+		case Land.Rail_Right_Up:
+			return Land.Train_Right_Up;
+			
+		case Land.Rail_Right_Down:
+			return Land.Train_Right_Down;
+			
+		case Land.Rail_Left_Up:
+			return Land.Train_Left_Up;
+			
+		case Land.Rail_Left_Down:
+			return Land.Train_Left_Down;
+			
+		case Land.Rail_Vertical_Cross:
+			if(direction == Direction.north || direction == Direction.south){
+				return Land.Train_Vertical_Cross;
+			}else{
+				return Land.Train_Horizontal_Cross;
+			}
+			
+		case Land.Rail_Diagonal_Cross:
+			if(direction == Direction.northeast || direction == Direction.southwest){
+				return Land.Train_Diagonal_Up_Cross;
+			}else{
+				return Land.Train_Diagonal_Down_Cross;
+			}
+		}
+		return Land.Empty;
 	}
 
 	@Override
@@ -87,7 +187,7 @@ public class Train extends MovableUnit {
 	}
 
 	
-	private void getRailDirection() {
+	protected void getRailDirection() {
 		if(beneath == oldBeneath){
 			return;
 		}else{
@@ -111,7 +211,7 @@ public class Train extends MovableUnit {
 	
 	private Point stationLocation = defaultPoint;
 	
-	private void searchForStation(){
+	protected void searchForStation(){
 		if(getLocation().equals(stationLocation)){
 			return;
 		}

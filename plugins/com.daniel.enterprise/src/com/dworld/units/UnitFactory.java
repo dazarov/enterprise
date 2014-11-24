@@ -19,6 +19,7 @@ import com.dworld.units.enemies.BadSoldier;
 import com.dworld.units.enemies.BadTank;
 import com.dworld.units.enemies.DarkKnight;
 import com.dworld.units.railroad.Train;
+import com.dworld.units.railroad.WarTrain;
 import com.dworld.units.weapon.Mine;
 
 public class UnitFactory {
@@ -111,18 +112,22 @@ public class UnitFactory {
 		unitMap.put(Land.Train_Diagonal_Up_Cross, Train.class);
 		unitMap.put(Land.Train_Diagonal_Down_Cross, Train.class);
 
-//		unitMap.put(Land.Car_Vertical, Car.class);
-//		unitMap.put(Land.Car_Horizontal, Car.class);
-//		unitMap.put(Land.Car_Diagonal_Up, Car.class);
-//		unitMap.put(Land.Car_Diagonal_Down, Car.class);
-//		unitMap.put(Land.Car_Up_Right, Car.class);
-//		unitMap.put(Land.Car_Up_Left, Car.class);
-//		unitMap.put(Land.Car_Down_Right, Car.class);
-//		unitMap.put(Land.Car_Down_Left, Car.class);
-//		unitMap.put(Land.Car_Right_Up, Car.class);
-//		unitMap.put(Land.Car_Right_Down, Car.class);
-//		unitMap.put(Land.Car_Left_Up, Car.class);
-//		unitMap.put(Land.Car_Left_Down, Car.class);
+		unitMap.put(Land.WarTrain_Vertical, WarTrain.class);
+		unitMap.put(Land.WarTrain_Horizontal, WarTrain.class);
+		unitMap.put(Land.WarTrain_Diagonal_Up, WarTrain.class);
+		unitMap.put(Land.WarTrain_Diagonal_Down, WarTrain.class);
+		unitMap.put(Land.WarTrain_Up_Right, WarTrain.class);
+		unitMap.put(Land.WarTrain_Up_Left, WarTrain.class);
+		unitMap.put(Land.WarTrain_Down_Right, WarTrain.class);
+		unitMap.put(Land.WarTrain_Down_Left, WarTrain.class);
+		unitMap.put(Land.WarTrain_Right_Up, WarTrain.class);
+		unitMap.put(Land.WarTrain_Right_Down, WarTrain.class);
+		unitMap.put(Land.WarTrain_Left_Up, WarTrain.class);
+		unitMap.put(Land.WarTrain_Left_Down, WarTrain.class);
+		unitMap.put(Land.WarTrain_Vertical_Cross, WarTrain.class);
+		unitMap.put(Land.WarTrain_Horizontal_Cross, WarTrain.class);
+		unitMap.put(Land.WarTrain_Diagonal_Up_Cross, WarTrain.class);
+		unitMap.put(Land.WarTrain_Diagonal_Down_Cross, WarTrain.class);
 		
 		unitMap.put(Land.OpenedHorizontalSteelGate, Gate.class);
 		unitMap.put(Land.ClosedHorizontalSteelGate, Gate.class);
