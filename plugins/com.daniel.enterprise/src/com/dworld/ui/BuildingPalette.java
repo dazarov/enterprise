@@ -67,6 +67,9 @@ public class BuildingPalette {
 		createToolButton(toolBar, Land.Tree1);
 		createToolButton(toolBar, Land.Tree2);
 		createToolButton(toolBar, Land.Tree3);
+		toolBar.addSeparator();
+		createToolButton(toolBar, Land.WarTrain_Horizontal);
+		createToolButton(toolBar, Land.WarTrain_Vertical);
 		palette.add(toolBar);
 		
 		toolBar = createToolBar();

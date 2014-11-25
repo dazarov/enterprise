@@ -537,52 +537,52 @@ public class DrawWorld {
 		image = loadImage("resources/land/train_d_d_cross.gif");
 		images.put(new Integer(Land.Train_Diagonal_Down_Cross), image);
 		
-		image = loadImage("resources/land/train_v.gif");
+		image = loadImage("resources/land/wtrain_v.gif");
 		images.put(new Integer(Land.WarTrain_Vertical), image);
 		
-		image = loadImage("resources/land/train_h.gif");
+		image = loadImage("resources/land/wtrain_h.gif");
 		images.put(new Integer(Land.WarTrain_Horizontal), image);
 
-		image = loadImage("resources/land/train_d_u.gif");
+		image = loadImage("resources/land/wtrain_d_u.gif");
 		images.put(new Integer(Land.WarTrain_Diagonal_Up), image);
 
-		image = loadImage("resources/land/train_d_d.gif");
+		image = loadImage("resources/land/wtrain_d_d.gif");
 		images.put(new Integer(Land.WarTrain_Diagonal_Down), image);
 
-		image = loadImage("resources/land/train_up_r.gif");
+		image = loadImage("resources/land/wtrain_up_r.gif");
 		images.put(new Integer(Land.WarTrain_Up_Right), image);
 
-		image = loadImage("resources/land/train_up_l.gif");
+		image = loadImage("resources/land/wtrain_up_l.gif");
 		images.put(new Integer(Land.WarTrain_Up_Left), image);
 
-		image = loadImage("resources/land/train_down_r.gif");
+		image = loadImage("resources/land/wtrain_down_r.gif");
 		images.put(new Integer(Land.WarTrain_Down_Right), image);
 
-		image = loadImage("resources/land/train_down_l.gif");
+		image = loadImage("resources/land/wtrain_down_l.gif");
 		images.put(new Integer(Land.WarTrain_Down_Left), image);
 
-		image = loadImage("resources/land/train_r_up.gif");
+		image = loadImage("resources/land/wtrain_r_up.gif");
 		images.put(new Integer(Land.WarTrain_Right_Up), image);
 
-		image = loadImage("resources/land/train_r_down.gif");
+		image = loadImage("resources/land/wtrain_r_down.gif");
 		images.put(new Integer(Land.WarTrain_Right_Down), image);
 
-		image = loadImage("resources/land/train_l_up.gif");
+		image = loadImage("resources/land/wtrain_l_up.gif");
 		images.put(new Integer(Land.WarTrain_Left_Up), image);
 
-		image = loadImage("resources/land/train_l_down.gif");
+		image = loadImage("resources/land/wtrain_l_down.gif");
 		images.put(new Integer(Land.WarTrain_Left_Down), image);
 		
-		image = loadImage("resources/land/train_v_cross.gif");
+		image = loadImage("resources/land/wtrain_v_cross.gif");
 		images.put(new Integer(Land.WarTrain_Vertical_Cross), image);
 		
-		image = loadImage("resources/land/train_h_cross.gif");
+		image = loadImage("resources/land/wtrain_h_cross.gif");
 		images.put(new Integer(Land.WarTrain_Horizontal_Cross), image);
 		
-		image = loadImage("resources/land/train_d_u_cross.gif");
+		image = loadImage("resources/land/wtrain_d_u_cross.gif");
 		images.put(new Integer(Land.WarTrain_Diagonal_Up_Cross), image);
 		
-		image = loadImage("resources/land/train_d_d_cross.gif");
+		image = loadImage("resources/land/wtrain_d_d_cross.gif");
 		images.put(new Integer(Land.WarTrain_Diagonal_Down_Cross), image);
 
 		image = loadImage("resources/land/station_v.gif");
