@@ -17,10 +17,15 @@ public class RailUtils {
 		case Land.Train_Horizontal:
 		case Land.Train_Diagonal_Up:
 		case Land.Train_Diagonal_Down:
+		case Land.WarTrain_Vertical:
+		case Land.WarTrain_Horizontal:
+		case Land.WarTrain_Diagonal_Up:
+		case Land.WarTrain_Diagonal_Down:
 			return direction;
 			
 		case Land.Rail_Up_Right:
 		case Land.Train_Up_Right:
+		case Land.WarTrain_Up_Right:
 			if(direction == Direction.north){
 				return Direction.northeast;
 			}else{
@@ -29,6 +34,7 @@ public class RailUtils {
 			
 		case Land.Rail_Up_Left:
 		case Land.Train_Up_Left:
+		case Land.WarTrain_Up_Left:
 			if(direction == Direction.north){
 				return Direction.northwest;
 			}else{
@@ -45,6 +51,7 @@ public class RailUtils {
 			
 		case Land.Rail_Down_Left:
 		case Land.Train_Down_Left:
+		case Land.WarTrain_Down_Left:
 			if(direction == Direction.south){
 				return Direction.southeast;
 			}else{
@@ -53,6 +60,7 @@ public class RailUtils {
 			
 		case Land.Rail_Right_Up:
 		case Land.Train_Right_Up:
+		case Land.WarTrain_Right_Up:
 			if(direction == Direction.east){
 				return Direction.northeast;
 			}else{
@@ -61,6 +69,7 @@ public class RailUtils {
 			
 		case Land.Rail_Right_Down:
 		case Land.Train_Right_Down:
+		case Land.WarTrain_Right_Down:
 			if(direction == Direction.east){
 				return Direction.southeast;
 			}else{
@@ -69,6 +78,7 @@ public class RailUtils {
 			
 		case Land.Rail_Left_Up:
 		case Land.Train_Left_Up:
+		case Land.WarTrain_Left_Up:
 			if(direction == Direction.west){
 				return Direction.northwest;
 			}else{
@@ -77,6 +87,7 @@ public class RailUtils {
 			
 		case Land.Rail_Left_Down:
 		case Land.Train_Left_Down:
+		case Land.WarTrain_Left_Down:
 			if(direction == Direction.west){
 				return Direction.southwest;
 			}else{
@@ -113,7 +124,7 @@ public class RailUtils {
 				break;
 			}
 			
-			if(location.y <= northLocation.y && (cc == Land.Rail_Horizontal || cc == Land.Train_Horizontal)){
+			if(location.y <= northLocation.y && (cc == Land.Rail_Horizontal || cc == Land.Train_Horizontal|| cc == Land.WarTrain_Horizontal)){
 				northLocation = (Point)location.clone();
 				northDirection = dd;
 			}
@@ -170,13 +181,13 @@ public class RailUtils {
 			return Direction.west;
 			
 		case Land.Rail_Vertical_Cross:
-			if(code == Land.Train_Vertical_Cross){
+			if(code == Land.Train_Vertical_Cross || code == Land.WarTrain_Vertical_Cross){
 				return Direction.north;
 			}else{
 				return Direction.east;
 			}
 		case Land.Rail_Diagonal_Cross:
-			if(code == Land.Train_Diagonal_Up_Cross){
+			if(code == Land.Train_Diagonal_Up_Cross || code == Land.WarTrain_Diagonal_Up_Cross){
 				return Direction.northeast;
 			}else{
 				return Direction.southeast;

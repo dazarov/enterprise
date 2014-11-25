@@ -1,8 +1,11 @@
 package com.dworld.units.railroad;
 
+import java.util.List;
+
 import com.dworld.core.DWorldConstants;
 import com.dworld.core.Direction;
 import com.dworld.core.Land;
+import com.dworld.units.weapon.Rocket;
 
 public class WarTrain extends Train {
 
@@ -134,4 +137,20 @@ public class WarTrain extends Train {
 		fireBullets(DWorldConstants.TANK_NOTARMORED_DISTANCE);
 		return true;
 	}
+	
+	@Override
+	protected List<Integer> getListToFightWith(){
+		return Land.enemyList;
+	}
+	
+	@Override
+	protected List<Integer> getArmoredListToFightWith(){
+		return Land.armoredEnemyList;
+	}
+	
+	@Override
+	protected int getRocketType(){
+		return Rocket.ManFriendly;
+	}
+
 }

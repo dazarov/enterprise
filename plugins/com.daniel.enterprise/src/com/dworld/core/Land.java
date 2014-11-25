@@ -331,26 +331,6 @@ public class Land {
 		railList.add(new Integer(Rail_Diagonal_Cross));
 	}
 
-	public static ArrayList<Integer> trainList = new ArrayList<Integer>();
-	static {
-		trainList.add(new Integer(Train_Diagonal_Down));
-		trainList.add(new Integer(Train_Diagonal_Up));
-		trainList.add(new Integer(Train_Down_Left));
-		trainList.add(new Integer(Train_Down_Right));
-		trainList.add(new Integer(Train_Horizontal));
-		trainList.add(new Integer(Train_Left_Down));
-		trainList.add(new Integer(Train_Left_Up));
-		trainList.add(new Integer(Train_Right_Down));
-		trainList.add(new Integer(Train_Right_Up));
-		trainList.add(new Integer(Train_Up_Left));
-		trainList.add(new Integer(Train_Up_Right));
-		trainList.add(new Integer(Train_Vertical));
-		trainList.add(new Integer(Train_Vertical_Cross));
-		trainList.add(new Integer(Train_Horizontal_Cross));
-		trainList.add(new Integer(Train_Diagonal_Up_Cross));
-		trainList.add(new Integer(Train_Diagonal_Down_Cross));
-	}
-	
 	public static ArrayList<Integer> wartrainList = new ArrayList<Integer>();
 	static {
 		wartrainList.add(new Integer(WarTrain_Diagonal_Down));
@@ -370,6 +350,28 @@ public class Land {
 		wartrainList.add(new Integer(WarTrain_Diagonal_Up_Cross));
 		wartrainList.add(new Integer(WarTrain_Diagonal_Down_Cross));
 	}
+
+	public static ArrayList<Integer> trainList = new ArrayList<Integer>();
+	static {
+		trainList.add(new Integer(Train_Diagonal_Down));
+		trainList.add(new Integer(Train_Diagonal_Up));
+		trainList.add(new Integer(Train_Down_Left));
+		trainList.add(new Integer(Train_Down_Right));
+		trainList.add(new Integer(Train_Horizontal));
+		trainList.add(new Integer(Train_Left_Down));
+		trainList.add(new Integer(Train_Left_Up));
+		trainList.add(new Integer(Train_Right_Down));
+		trainList.add(new Integer(Train_Right_Up));
+		trainList.add(new Integer(Train_Up_Left));
+		trainList.add(new Integer(Train_Up_Right));
+		trainList.add(new Integer(Train_Vertical));
+		trainList.add(new Integer(Train_Vertical_Cross));
+		trainList.add(new Integer(Train_Horizontal_Cross));
+		trainList.add(new Integer(Train_Diagonal_Up_Cross));
+		trainList.add(new Integer(Train_Diagonal_Down_Cross));
+		trainList.addAll(wartrainList);
+	}
+	
 
 	public static ArrayList<Integer> walkList = new ArrayList<Integer>();
 	static {
@@ -567,7 +569,6 @@ public class Land {
 		armoredCitizenList.add(new Integer(GoodBunker_Sand));
 		
 		armoredCitizenList.addAll(trainList);
-		armoredCitizenList.addAll(wartrainList);
 	}
 
 	public static final ArrayList<Integer> citizenList = new ArrayList<Integer>();
