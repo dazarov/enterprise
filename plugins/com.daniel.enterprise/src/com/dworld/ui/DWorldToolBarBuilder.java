@@ -1,6 +1,8 @@
 package com.dworld.ui;
 
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -8,6 +10,7 @@ import javax.swing.JFrame;
 import javax.swing.JToolBar;
 import javax.swing.SwingConstants;
 
+import com.dworld.DWorldLauncher;
 import com.dworld.core.Land;
 import com.dworld.ui.actions.ChangeManCodeAction;
 import com.dworld.ui.actions.SelectElementAction;
@@ -79,6 +82,9 @@ public class DWorldToolBarBuilder {
 	
 	private static void initToolBar(){
 		JToolBar toolBar = createToolBar();
+		
+		createDrawButtons(toolBar);
+		toolBar.addSeparator();
 		
 		createToolButton(toolBar, Land.Wall);
 		toolBar.addSeparator();
@@ -214,6 +220,35 @@ public class DWorldToolBarBuilder {
 		button.setIcon(new ImageIcon(DrawWorld.getImage(code)));
 		button.addActionListener(new SelectElementAction(code));
 		
+		toolBar.add(button);
+	}
+
+	private static void createDrawButtons(JToolBar toolBar){
+		JButton button = new JButton();
+		button.setIcon(new ImageIcon(DrawWorld.loadImage("resources/brush.png")));
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				DWorldLauncher.setDrawMode(DWorldLauncher.BRUSH);
+			}
+		});
+		toolBar.add(button);
+
+		button = new JButton();
+		button.setIcon(new ImageIcon(DrawWorld.loadImage("resources/line.png")));
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				DWorldLauncher.setDrawMode(DWorldLauncher.LINE);
+			}
+		});
+		toolBar.add(button);
+
+		button = new JButton();
+		button.setIcon(new ImageIcon(DrawWorld.loadImage("resources/rect.png")));
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				DWorldLauncher.setDrawMode(DWorldLauncher.RECTANGLE);
+			}
+		});
 		toolBar.add(button);
 	}
 }

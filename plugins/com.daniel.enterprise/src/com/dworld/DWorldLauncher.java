@@ -314,6 +314,7 @@ public class DWorldLauncher implements KeyListener, MouseListener, MouseMotionLi
 				}
 				Land.modified(window);
 			}
+			SelectionManager.clearSelection();
 		}
 		if(!isBuildMode()){
 			SelectionManager.select();

@@ -597,7 +597,7 @@ public class DrawWorld {
 		return images.get(new Integer(code));
 	}
 
-	private static Image loadImage(String path) {
+	public static Image loadImage(String path) {
 		URL url = DWorldLauncher.class.getClassLoader().getResource(path);
 		if(url != null){
 			return new ImageIcon(url).getImage();
