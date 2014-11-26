@@ -846,7 +846,7 @@ public class Land {
 	}
 	
 	private static boolean isBuildMode(){
-		return DWorldLauncher.launcher.isBuildMode();
+		return DWorldLauncher.getLauncher().isBuildMode();
 	}
 
 	public static void load(String fileName, Frame panel) {
