@@ -58,7 +58,7 @@ public class DWorldToolBarBuilder {
 		
 		palette.pack();
 //		palette.setLocation(300, 100);
-		palette.setSize(200, 600);
+		palette.setSize(200, 650);
 		palette.setFocusableWindowState(false);
 		palette.setFocusable(false);
 		palette.setVisible(true);
@@ -106,9 +106,7 @@ public class DWorldToolBarBuilder {
 		createToolButton(toolBar, Land.Tree1);
 		createToolButton(toolBar, Land.Tree2);
 		createToolButton(toolBar, Land.Tree3);
-		toolBar.addSeparator();
-		createToolButton(toolBar, Land.WarTrain_Horizontal);
-		createToolButton(toolBar, Land.WarTrain_Vertical);
+		
 		palette.add(toolBar);
 		
 		toolBar = createToolBar();
@@ -133,6 +131,9 @@ public class DWorldToolBarBuilder {
 		toolBar.addSeparator();
 		createToolButton(toolBar, Land.Rail_Vertical_Cross);
 		createToolButton(toolBar, Land.Rail_Diagonal_Cross);
+		toolBar.addSeparator();
+		createToolButton(toolBar, Land.WarTrain_Horizontal);
+		createToolButton(toolBar, Land.WarTrain_Vertical);
 		palette.add(toolBar);
 		
 		toolBar = createToolBar();
