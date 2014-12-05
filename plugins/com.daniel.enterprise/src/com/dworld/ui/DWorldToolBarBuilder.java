@@ -98,6 +98,7 @@ public class DWorldToolBarBuilder {
 		createToolButton(toolBar, Land.Wood3);
 		createToolButton(toolBar, Land.Wood4);
 		toolBar.addSeparator();
+		createToolButton(toolBar, Land.Mountain);
 		createToolButton(toolBar, Land.Water);
 		createToolButton(toolBar, Land.Sand);
 		toolBar.addSeparator();

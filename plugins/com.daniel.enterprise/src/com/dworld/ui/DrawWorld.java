@@ -591,6 +591,8 @@ public class DrawWorld {
 		image = loadImage("resources/land/station_h.gif");
 		images.put(new Integer(Land.Station_Horizontal), image);
 
+		image = loadImage("resources/land/mountain.gif");
+		images.put(new Integer(Land.Mountain), image);
 	}
 
 	public static Image getImage(int code) {

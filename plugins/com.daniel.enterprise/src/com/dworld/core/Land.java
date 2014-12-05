@@ -24,6 +24,10 @@ import com.dworld.units.weapon.Bullet;
 public class Land {
 	private static final int FILE_KEY = 200;
 	
+	/*******************************************************************************************************************************
+	 * Land codes section begin
+	 */
+	
 	public static final int Vacuum = -1;
 	public static final int Empty = 0;
 	public static final int Wall = 1;
@@ -251,6 +255,12 @@ public class Land {
 	public static final int WarTrain_Horizontal_Cross = 201;
 	public static final int WarTrain_Diagonal_Up_Cross = 202;
 	public static final int WarTrain_Diagonal_Down_Cross = 203;
+	
+	public static final int Mountain = 204;
+	
+	/**
+	 * Land codes section end
+	 ****************************************************************************************************/
 
 	private static int[][] landMap = new int[DWorldConstants.MAX_X][DWorldConstants.MAX_Y];
 

@@ -213,11 +213,11 @@ public class DWorldMenuBuilder {
 		createBuildMenuItem(subMenu, group, "Wood", Land.Wood3);
 		createBuildMenuItem(subMenu, group, "Wood", Land.Wood4);
 		subMenu.addSeparator();
-		createBuildMenuItem(subMenu, group, "Grass", Land.Grass);
-		
+		createBuildMenuItem(subMenu, group, "Mountain", Land.Mountain);
 		createBuildMenuItem(subMenu, group, "Water", Land.Water);
 		createBuildMenuItem(subMenu, group, "Sand", Land.Sand);
 		subMenu.addSeparator();
+		createBuildMenuItem(subMenu, group, "Grass", Land.Grass);
 		createBuildMenuItem(subMenu, group, "Tree", Land.Tree1);
 		createBuildMenuItem(subMenu, group, "Tree", Land.Tree2);
 		createBuildMenuItem(subMenu, group, "Tree", Land.Tree3);

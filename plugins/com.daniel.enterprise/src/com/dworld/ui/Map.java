@@ -180,7 +180,9 @@ public class Map {
 					case Land.Sand:
 						g.setColor(Color.yellow);
 						break;
-						
+					case Land.Mountain:
+						g.setColor(Color.magenta);
+						break;
 					case Land.Wood1:
 					case Land.Wood2:
 					case Land.Wood3:
