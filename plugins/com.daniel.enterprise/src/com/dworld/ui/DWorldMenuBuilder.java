@@ -167,7 +167,7 @@ public class DWorldMenuBuilder {
 		//rbMenuItem.setIcon(new ImageIcon(DrawWorld.getImage(code)));
 		rbMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				DWorldLauncher.setDrawMode(DWorldLauncher.BRUSH);
+				DWorldLauncher.setDrawMode(DWorldLauncher.DRAW_BRUSH);
 			}
 		});
 		rbMenuItem.setSelected(true);
@@ -178,7 +178,7 @@ public class DWorldMenuBuilder {
 		//rbMenuItem.setIcon(new ImageIcon(DrawWorld.getImage(code)));
 		rbMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				DWorldLauncher.setDrawMode(DWorldLauncher.LINE);
+				DWorldLauncher.setDrawMode(DWorldLauncher.DRAW_LINE);
 			}
 		});
 		rbMenuItem.setSelected(true);
@@ -189,7 +189,18 @@ public class DWorldMenuBuilder {
 		//rbMenuItem.setIcon(new ImageIcon(DrawWorld.getImage(code)));
 		rbMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				DWorldLauncher.setDrawMode(DWorldLauncher.RECTANGLE);
+				DWorldLauncher.setDrawMode(DWorldLauncher.DRAW_RECTANGLE);
+			}
+		});
+		rbMenuItem.setSelected(true);
+		buildGroup.add(rbMenuItem);
+		menu.add(rbMenuItem);
+		
+		rbMenuItem = new JRadioButtonMenuItem("Fill");
+		//rbMenuItem.setIcon(new ImageIcon(DrawWorld.getImage(code)));
+		rbMenuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				DWorldLauncher.setDrawMode(DWorldLauncher.DRAW_FILL);
 			}
 		});
 		rbMenuItem.setSelected(true);

@@ -230,7 +230,7 @@ public class DWorldToolBarBuilder {
 		button.setIcon(new ImageIcon(DrawWorld.loadImage("resources/brush.png")));
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				DWorldLauncher.setDrawMode(DWorldLauncher.BRUSH);
+				DWorldLauncher.setDrawMode(DWorldLauncher.DRAW_BRUSH);
 			}
 		});
 		toolBar.add(button);
@@ -239,7 +239,7 @@ public class DWorldToolBarBuilder {
 		button.setIcon(new ImageIcon(DrawWorld.loadImage("resources/line.png")));
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				DWorldLauncher.setDrawMode(DWorldLauncher.LINE);
+				DWorldLauncher.setDrawMode(DWorldLauncher.DRAW_LINE);
 			}
 		});
 		toolBar.add(button);
@@ -248,7 +248,16 @@ public class DWorldToolBarBuilder {
 		button.setIcon(new ImageIcon(DrawWorld.loadImage("resources/rect.png")));
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				DWorldLauncher.setDrawMode(DWorldLauncher.RECTANGLE);
+				DWorldLauncher.setDrawMode(DWorldLauncher.DRAW_RECTANGLE);
+			}
+		});
+		toolBar.add(button);
+		
+		button = new JButton();
+		button.setIcon(new ImageIcon(DrawWorld.loadImage("resources/fill.png")));
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				DWorldLauncher.setDrawMode(DWorldLauncher.DRAW_FILL);
 			}
 		});
 		toolBar.add(button);

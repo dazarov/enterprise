@@ -37,11 +37,12 @@ public class DWorldLauncher implements KeyListener, MouseListener, MouseMotionLi
 	public static final String BACKUP_FILE = "/backup.dat";
 	public static final String TEST_FILE = "/test.dat";
 	
-	public static final int BRUSH = 1;
-	public static final int LINE = 2;
-	public static final int RECTANGLE = 3;
+	public static final int DRAW_BRUSH = 1;
+	public static final int DRAW_LINE = 2;
+	public static final int DRAW_RECTANGLE = 3;
+	public static final int DRAW_FILL = 4;
 	
-	private static int draw_mode = BRUSH;
+	private static int draw_mode = DRAW_BRUSH;
 	
 	private static DWorldLauncher launcher;
 	private static ControlledUnit controlledUnit = null;
@@ -253,16 +254,16 @@ public class DWorldLauncher implements KeyListener, MouseListener, MouseMotionLi
 				SelectionManager.setSelectedArea(null);
 			}
 			return;
-		}else if(draw_mode == RECTANGLE){
+		}else if(isRect()){
 			SelectionManager.clearSelection();
 			selectedPoint = location;
 			SelectionManager.setSelectedArea(new Rectangle(selectedPoint,
 					new Dimension(1, 1)));
-		}else if(draw_mode == LINE){
+		}else if(isLine()){
 				SelectionManager.clearSelection();
 				selectedPoint = location;
 				SelectionManager.setSelectedLine(selectedPoint, selectedPoint);
-		}else{
+		}else if(isBrush()){
 			if (e.getButton() == MouseEvent.BUTTON1)
 				Land.setLand(location, selectedElement);
 			else
@@ -273,15 +274,19 @@ public class DWorldLauncher implements KeyListener, MouseListener, MouseMotionLi
 	}
 	
 	public boolean isRect(){
-		return draw_mode == RECTANGLE;
+		return draw_mode == DRAW_RECTANGLE;
 	}
 	
 	public boolean isLine(){
-		return draw_mode == LINE;
+		return draw_mode == DRAW_LINE;
 	}
 	
 	public boolean isBrush(){
-		return draw_mode == BRUSH;
+		return draw_mode == DRAW_BRUSH;
+	}
+	
+	public boolean isFill(){
+		return draw_mode == DRAW_FILL;
 	}
 
 	@Override
@@ -305,13 +310,23 @@ public class DWorldLauncher implements KeyListener, MouseListener, MouseMotionLi
 				ArrayList<Point> points = SelectionManager.getSelectedLine();
 				if(points != null){
 					for(Point point : points){
-						if (e.getButton() == MouseEvent.BUTTON1)
+						if (e.getButton() == MouseEvent.BUTTON1){
 							Land.setLand(point, selectedElement);
-						else
+						}else{
 							Land.setLand(point, Land.Empty);
-						
+						}
 					}
 				}
+				Land.modified(window);
+			}else if(isFill()){
+				Point location = getLocation(e.getX(), e.getY());
+				int oldCode = Land.getLand(location);
+				if (e.getButton() == MouseEvent.BUTTON1){
+					fill(location.x, location.y, oldCode, selectedElement);
+				}else{
+					fill(location.x, location.y, oldCode, Land.Empty);
+				}
+				
 				Land.modified(window);
 			}
 			SelectionManager.clearSelection();
@@ -404,5 +419,31 @@ public class DWorldLauncher implements KeyListener, MouseListener, MouseMotionLi
 
 	@Override
 	public void mouseMoved(MouseEvent arg0) {
+	}
+	
+	private void fill(int x, int y, int oldCode, int newCode){
+		int startX = x;
+		int startY = y;
+		while(Land.getLand(startX, startY) == oldCode){
+			startY--;
+		}
+		startY++;
+		while(Land.getLand(startX, startY) == oldCode){
+			startX--;
+		}
+		startX++;
+		int xx = startX;
+		int yy = startY;
+		while(true){
+			while(Land.getLand(xx, yy) == oldCode){
+				Land.setLand(xx, yy, newCode);
+				xx++;
+			}
+			xx = startX;
+			yy++;
+			if(Land.getLand(xx, yy) != oldCode){
+				return;
+			}
+		}
 	}
 }
