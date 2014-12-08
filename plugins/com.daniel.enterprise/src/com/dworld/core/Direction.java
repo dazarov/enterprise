@@ -25,7 +25,7 @@ public class Direction {
 	
 	public int value;
 	
-	public Direction(int value){
+	Direction(int value){
 		this.value = value;
 	}
 	

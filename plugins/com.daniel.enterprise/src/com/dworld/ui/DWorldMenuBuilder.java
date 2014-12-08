@@ -151,6 +151,7 @@ public class DWorldMenuBuilder {
 		cbMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				DWorldLauncher.getLauncher().setBuildMode(!DWorldLauncher.getLauncher().isBuildMode());
+				Engine.getEngine().pause(DWorldLauncher.getLauncher().isBuildMode());
 				if(DWorldLauncher.getLauncher().isBuildMode()){
 					DWorldToolBarBuilder.showPalette();
 				}else{

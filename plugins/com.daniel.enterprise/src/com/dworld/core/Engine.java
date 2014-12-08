@@ -10,7 +10,7 @@ import com.dworld.ui.Map;
 
 public class Engine extends Thread{
 	private static final long MAIN_DELAY = 60;
-	private static final long SLEEP_DELAY = 500;
+	private static final long SLEEP_DELAY = 100;
 	private static final int minimapRefreshRate = 10;
 	
 	private static Engine instance;
@@ -74,13 +74,13 @@ public class Engine extends Thread{
 				
 				delay = MAIN_DELAY - time;
 				
-				if(delay < 0) delay = 0;
-				
-				try {
-					sleep(delay);
-				} catch (Exception ex) {
-					ex.printStackTrace();
-					return;
+				if(delay > 0){
+					try {
+						sleep(delay);
+					} catch (Exception ex) {
+						ex.printStackTrace();
+						return;
+					}
 				}
 				loop();
 			}else{
@@ -93,6 +93,7 @@ public class Engine extends Thread{
 					return;
 				}
 			}
+			refreshMinimap();
 			window.repaint();
 		}
 	}
@@ -220,7 +221,9 @@ public class Engine extends Thread{
 		toDelete.clear();
 		
 		slowLoop();
-		
+	}
+	
+	private void refreshMinimap(){
 		refreshCounter--;
 		
 		if(refreshCounter <= 0){
