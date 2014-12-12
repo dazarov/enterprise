@@ -121,7 +121,6 @@ public class Map {
 	}
 	
 	public static void drawRegion(Graphics g, int startX, int startY, int width, int height){
-		
 		for(int x = startX, windowX = 0; x < (startX+width); x++, windowX++){
 			for(int y = startY, windowY = 0; y < (startY+height); y++, windowY++){
 				int code = Land.getLand(x, y);
