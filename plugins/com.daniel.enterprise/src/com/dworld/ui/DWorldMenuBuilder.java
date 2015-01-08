@@ -316,45 +316,45 @@ public class DWorldMenuBuilder {
 
 		subMenu = new JMenu("Enemies");
 
-		createBuildMenuItem(subMenu, group, "General", Land.Gray_General);
-		createBuildMenuItem(subMenu, group, "General", Land.Gray_General_Grass);
-		createBuildMenuItem(subMenu, group, "General", Land.Gray_General_Sand);
+		createBuildMenuItem(subMenu, group, "General", Land.BadGeneral);
+		createBuildMenuItem(subMenu, group, "General", Land.BadGeneral_Grass);
+		createBuildMenuItem(subMenu, group, "General", Land.BadGeneral_Sand);
 		subMenu.addSeparator();
-		createBuildMenuItem(subMenu, group, "Officer", Land.Gray_Officer);
-		createBuildMenuItem(subMenu, group, "Officer", Land.Gray_Officer_Grass);
-		createBuildMenuItem(subMenu, group, "Officer", Land.Gray_Officer_Sand);
+		createBuildMenuItem(subMenu, group, "Officer", Land.BadOfficer);
+		createBuildMenuItem(subMenu, group, "Officer", Land.BadOfficer_Grass);
+		createBuildMenuItem(subMenu, group, "Officer", Land.BadOfficer_Sand);
 		subMenu.addSeparator();
-		createBuildMenuItem(subMenu, group, "Robot", Land.Robot);
-		createBuildMenuItem(subMenu, group, "Robot", Land.Robot_Grass);
-		createBuildMenuItem(subMenu, group, "Robot", Land.Robot_Sand);
+		createBuildMenuItem(subMenu, group, "Robot", Land.BadSoldier);
+		createBuildMenuItem(subMenu, group, "Robot", Land.BadSoldier_Grass);
+		createBuildMenuItem(subMenu, group, "Robot", Land.BadSoldier_Sand);
 		subMenu.addSeparator();
-		createBuildMenuItem(subMenu, group, "Tank", Land.Tank);
-		createBuildMenuItem(subMenu, group, "Tank", Land.Tank_Grass);
-		createBuildMenuItem(subMenu, group, "Tank", Land.Tank_Sand);
+		createBuildMenuItem(subMenu, group, "Tank", Land.BadTank);
+		createBuildMenuItem(subMenu, group, "Tank", Land.BadTank_Grass);
+		createBuildMenuItem(subMenu, group, "Tank", Land.BadTank_Sand);
 		subMenu.addSeparator();
-		createBuildMenuItem(subMenu, group, "Bunker", Land.Bunker);
-		createBuildMenuItem(subMenu, group, "Bunker", Land.Bunker_Grass);
-		createBuildMenuItem(subMenu, group, "Bunker", Land.Bunker_Sand);
+		createBuildMenuItem(subMenu, group, "Bunker", Land.BadBunker);
+		createBuildMenuItem(subMenu, group, "Bunker", Land.BadBunker_Grass);
+		createBuildMenuItem(subMenu, group, "Bunker", Land.BadBunker_Sand);
 		subMenu.addSeparator();
-		createBuildMenuItem(subMenu, group, "Radar", Land.Radar);
-		createBuildMenuItem(subMenu, group, "Radar", Land.Radar_Grass);
-		createBuildMenuItem(subMenu, group, "Radar", Land.Radar_Sand);
+		createBuildMenuItem(subMenu, group, "Radar", Land.BadRadar);
+		createBuildMenuItem(subMenu, group, "Radar", Land.BadRadar_Grass);
+		createBuildMenuItem(subMenu, group, "Radar", Land.BadRadar_Sand);
 
 		menu.add(subMenu);
 
 		subMenu = new JMenu("Citizens");
 
-		createBuildMenuItem(subMenu, group, "General", Land.General);
-		createBuildMenuItem(subMenu, group, "General", Land.General_Grass);
-		createBuildMenuItem(subMenu, group, "General", Land.General_Sand);
+		createBuildMenuItem(subMenu, group, "General", Land.GoodGeneral);
+		createBuildMenuItem(subMenu, group, "General", Land.GoodGeneral_Grass);
+		createBuildMenuItem(subMenu, group, "General", Land.GoodGeneral_Sand);
 		subMenu.addSeparator();
-		createBuildMenuItem(subMenu, group, "Officer", Land.Officer);
-		createBuildMenuItem(subMenu, group, "Officer", Land.Officer_Grass);
-		createBuildMenuItem(subMenu, group, "Officer", Land.Officer_Sand);
+		createBuildMenuItem(subMenu, group, "Officer", Land.GoodOfficer);
+		createBuildMenuItem(subMenu, group, "Officer", Land.GoodOfficer_Grass);
+		createBuildMenuItem(subMenu, group, "Officer", Land.GoodOfficer_Sand);
 		subMenu.addSeparator();
-		createBuildMenuItem(subMenu, group, "Soldier", Land.Soldier);
-		createBuildMenuItem(subMenu, group, "Soldier", Land.Soldier_Grass);
-		createBuildMenuItem(subMenu, group, "Soldier", Land.Soldier_Sand);
+		createBuildMenuItem(subMenu, group, "Soldier", Land.GoodSoldier);
+		createBuildMenuItem(subMenu, group, "Soldier", Land.GoodSoldier_Grass);
+		createBuildMenuItem(subMenu, group, "Soldier", Land.GoodSoldier_Sand);
 		subMenu.addSeparator();
 		createBuildMenuItem(subMenu, group, "Tank", Land.GoodTank);
 		createBuildMenuItem(subMenu, group, "Tank", Land.GoodTank_Grass);
@@ -393,16 +393,16 @@ public class DWorldMenuBuilder {
 		
 		menu = new JMenu("Hero");
 		
-		createHeroMenuItem(menu, "Hero", Land.Man);
+		createHeroMenuItem(menu, "Hero", Land.Hero);
 		createHeroMenuItem(menu, "Peasant", Land.Peasant);
-		createHeroMenuItem(menu, "Soldier", Land.Soldier);
-		createHeroMenuItem(menu, "Officer", Land.Officer);
-		createHeroMenuItem(menu, "General", Land.General);
-		createHeroMenuItem(menu, "Robot", Land.Robot);
+		createHeroMenuItem(menu, "Soldier", Land.GoodSoldier);
+		createHeroMenuItem(menu, "Officer", Land.GoodOfficer);
+		createHeroMenuItem(menu, "General", Land.GoodGeneral);
+		createHeroMenuItem(menu, "Robot", Land.BadSoldier);
 		createHeroMenuItem(menu, "Tank", Land.GoodTank);
-		createHeroMenuItem(menu, "Gray Officer", Land.Gray_Officer);
-		createHeroMenuItem(menu, "Gray General", Land.Gray_General);
-		createHeroMenuItem(menu, "Gray Tank", Land.Tank);
+		createHeroMenuItem(menu, "Gray Officer", Land.BadOfficer);
+		createHeroMenuItem(menu, "Gray General", Land.BadGeneral);
+		createHeroMenuItem(menu, "Gray Tank", Land.BadTank);
 		createHeroMenuItem(menu, "Dark Knight", Land.Dark_Knight);
 		
 		menu.addSeparator();

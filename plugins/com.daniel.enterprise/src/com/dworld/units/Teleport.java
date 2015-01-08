@@ -11,15 +11,21 @@ import com.dworld.core.Land;
 public class Teleport extends ActiveUnit implements ISlow {
 	private static HashMap<Integer, Point> toPoints = new HashMap<Integer, Point>();
 	static{
-		toPoints.put(new Integer(Land.Teleport1), new Point(Land.getMaxX()/2, Land.getMaxY()/2)); 	// Center
-		toPoints.put(new Integer(Land.Teleport2), new Point(Land.getMaxX()-25, 15));				// Home
+		toPoints.put(new Integer(Land.Teleport1), new Point(Land.getMaxX()/2, Land.getMaxY()/2)); 	// Center Fort
+		toPoints.put(new Integer(Land.Teleport2), new Point(Land.getMaxX()-25, 15));				// Safest Place
 		toPoints.put(new Integer(Land.Teleport3), new Point(3353, 2053));							// Scientific Center
-		toPoints.put(new Integer(Land.Teleport4), new Point(1232, 1690));							// Capital
+		toPoints.put(new Integer(Land.Teleport4), new Point(1232, 1690));							// Capital Palace
 		toPoints.put(new Integer(Land.Teleport5), new Point(Land.getMaxX()-15, Land.getMaxY()/2));	// Transport Center
 		toPoints.put(new Integer(Land.Teleport6), new Point(1488, 1204));							// Jail
 		toPoints.put(new Integer(Land.Teleport7), new Point(1276, 1273));							// Grand Hotel
 		toPoints.put(new Integer(Land.Teleport8), new Point(1763, 2000));							// Bunker
 		toPoints.put(new Integer(Land.Teleport9), new Point(1362, 1972));							// Palace
+		toPoints.put(new Integer(Land.Teleport10), new Point(0, 0));
+		toPoints.put(new Integer(Land.Teleport11), new Point(0, 0));
+		toPoints.put(new Integer(Land.Teleport12), new Point(0, 0));
+		toPoints.put(new Integer(Land.Teleport13), new Point(0, 0));
+		toPoints.put(new Integer(Land.Teleport14), new Point(0, 0));
+		toPoints.put(new Integer(Land.Teleport15), new Point(0, 0));
 	} 
 
 	public Teleport(int x, int y, int code) {
@@ -28,28 +34,42 @@ public class Teleport extends ActiveUnit implements ISlow {
 
 	@Override
 	public void step() {
+		boolean fail = false;
 		if(Land.getLand(getLocation()) != code){
 			die();
 			return;
 		}
 		Point point = getPoint();
 		int land = Land.getLand(point);
-		if (land == Land.Man || land == Land.Man_Grass) {
+		if (land == Land.Hero || land == Land.Hero_Grass || land == Land.Hero_Sand) {
 			IUnit unit = Engine.getEngine().findUnit(point);
 			if(unit instanceof MovableUnit){
 				int check = Land.getLand(toPoints.get(new Integer(code)));
-				if(check == Land.Empty || check == Land.Grass){
-					if(land == Land.Man)
+				if(check == Land.Empty || check == Land.Grass || check == Land.Sand){
+					if(land == Land.Hero){
 						Land.setLand(point, Land.Empty);
-					else
+					}else if(land == Land.Hero_Grass){
 						Land.setLand(point, Land.Grass);
-					if(check == Land.Empty)
-						Land.setLand(toPoints.get(new Integer(code)), Land.Man);
-					else
-						Land.setLand(toPoints.get(new Integer(code)), Land.Man_Grass);
+					}else if(land == Land.Hero_Sand){
+						Land.setLand(point, Land.Sand);
+					}else{
+						fail = true;
+					}
 					
-					unit.setLocation((Point)toPoints.get(new Integer(code)).clone());
-					((MovableUnit) unit).setBeneath(check);
+					if(check == Land.Empty){
+						Land.setLand(toPoints.get(new Integer(code)), Land.Hero);
+					}else if(check == Land.Grass){
+						Land.setLand(toPoints.get(new Integer(code)), Land.Hero_Grass);
+					}else if(check == Land.Sand){
+						Land.setLand(toPoints.get(new Integer(code)), Land.Hero_Sand);
+					}else{
+						fail = true;
+					}
+					
+					if(!fail){
+						unit.setLocation((Point)toPoints.get(new Integer(code)).clone());
+						((MovableUnit) unit).setBeneath(check);
+					}
 				}
 			}
 		}

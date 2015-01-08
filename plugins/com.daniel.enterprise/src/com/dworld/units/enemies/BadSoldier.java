@@ -16,11 +16,11 @@ public class BadSoldier extends Soldier {
 	public int getCode(int beneath){
 		switch(beneath){
 		case Land.Grass:
-			return Land.Robot_Grass;
+			return Land.BadSoldier_Grass;
 		case Land.Sand:
-			return Land.Robot_Sand;
+			return Land.BadSoldier_Sand;
 		default:
-			return Land.Robot;
+			return Land.BadSoldier;
 		}
 	}
 
@@ -28,9 +28,9 @@ public class BadSoldier extends Soldier {
 	protected int getGrave(int beneath){
 		switch(beneath){
 		case Land.Grass:
-			return Land.RobotGrave_Grass;
+			return Land.BadSoldierGrave_Grass;
 		case Land.Sand:
-			return Land.RobotGrave_Sand;
+			return Land.BadSoldierGrave_Sand;
 		default:
 			return Land.RobotGrave;
 		}

@@ -11,11 +11,11 @@ public class GoodGeneral extends GoodSoldier {
 	public int getCode(int beneath){
 		switch(beneath){
 		case Land.Grass:
-			return Land.General_Grass;
+			return Land.GoodGeneral_Grass;
 		case Land.Sand:
-			return Land.General_Sand;
+			return Land.GoodGeneral_Sand;
 		default:
-			return Land.General;
+			return Land.GoodGeneral;
 		}
 	}
 

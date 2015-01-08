@@ -12,11 +12,11 @@ public class BadGeneral extends BadSoldier {
 	public int getCode(int beneath){
 		switch(beneath){
 		case Land.Grass:
-			return Land.Gray_General_Grass;
+			return Land.BadGeneral_Grass;
 		case Land.Sand:
-			return Land.Gray_General_Sand;
+			return Land.BadGeneral_Sand;
 		default:
-			return Land.Gray_General;
+			return Land.BadGeneral;
 		}
 	}
 }

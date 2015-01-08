@@ -41,13 +41,13 @@ public class DrawWorld {
 		images.put(new Integer(Land.Ammo), image);
 
 		image = loadImage("resources/land/robot.gif");
-		images.put(new Integer(Land.Robot), image);
+		images.put(new Integer(Land.BadSoldier), image);
 
 		image = loadImage("resources/land/tank.gif");
-		images.put(new Integer(Land.Tank), image);
+		images.put(new Integer(Land.BadTank), image);
 
 		image = loadImage("resources/land/hiro.gif");
-		images.put(new Integer(Land.Man), image);
+		images.put(new Integer(Land.Hero), image);
 
 		image = loadImage("resources/land/bomb.gif");
 		images.put(new Integer(Land.Bomb), image);
@@ -107,10 +107,10 @@ public class DrawWorld {
 		images.put(new Integer(Land.TankGrave), image);
 
 		image = loadImage("resources/land/bunker.gif");
-		images.put(new Integer(Land.Bunker), image);
+		images.put(new Integer(Land.BadBunker), image);
 
 		image = loadImage("resources/land/patriot.gif");
-		images.put(new Integer(Land.Radar), image);
+		images.put(new Integer(Land.BadRadar), image);
 
 		image = loadImage("resources/land/hwgo.gif");
 		images.put(new Integer(Land.OpenedHorizontalWoodGate), image);
@@ -160,7 +160,7 @@ public class DrawWorld {
 		images.put(new Integer(Land.Grass), image);
 		
 		image = loadImage("resources/land/hiro_grass.gif");
-		images.put(new Integer(Land.Man_Grass), image);
+		images.put(new Integer(Land.Hero_Grass), image);
 
 		image = loadImage("resources/land/bullet_grass.gif");
 		images.put(new Integer(Land.Bullet_Grass), image);
@@ -169,10 +169,10 @@ public class DrawWorld {
 		images.put(new Integer(Land.Bomb_Grass), image);
 
 		image = loadImage("resources/land/robot_grass.gif");
-		images.put(new Integer(Land.Robot_Grass), image);
+		images.put(new Integer(Land.BadSoldier_Grass), image);
 
 		image = loadImage("resources/land/tank_grass.gif");
-		images.put(new Integer(Land.Tank_Grass), image);
+		images.put(new Integer(Land.BadTank_Grass), image);
 
 		image = loadImage("resources/land/r_u_g.gif");
 		images.put(new Integer(Land.RocketNorth_Grass), image);
@@ -232,10 +232,10 @@ public class DrawWorld {
 		images.put(new Integer(Land.RocketSouthWest_Water), image);
 
 		image = loadImage("resources/land/soldier.gif");
-		images.put(new Integer(Land.Soldier), image);
+		images.put(new Integer(Land.GoodSoldier), image);
 
 		image = loadImage("resources/land/soldier_grass.gif");
-		images.put(new Integer(Land.Soldier_Grass), image);
+		images.put(new Integer(Land.GoodSoldier_Grass), image);
 
 		image = loadImage("resources/land/tank2.gif");
 		images.put(new Integer(Land.GoodTank), image);
@@ -265,12 +265,18 @@ public class DrawWorld {
 		images.put(new Integer(Land.Teleport7), image);
 		images.put(new Integer(Land.Teleport8), image);
 		images.put(new Integer(Land.Teleport9), image);
+		images.put(new Integer(Land.Teleport10), image);
+		images.put(new Integer(Land.Teleport11), image);
+		images.put(new Integer(Land.Teleport12), image);
+		images.put(new Integer(Land.Teleport13), image);
+		images.put(new Integer(Land.Teleport14), image);
+		images.put(new Integer(Land.Teleport15), image);
 		
 		image = loadImage("resources/land/bunker_grass.gif");
-		images.put(new Integer(Land.Bunker_Grass), image);
+		images.put(new Integer(Land.BadBunker_Grass), image);
 
 		image = loadImage("resources/land/patriot_grass.gif");
-		images.put(new Integer(Land.Radar_Grass), image);
+		images.put(new Integer(Land.BadRadar_Grass), image);
 		
 		image = loadImage("resources/land/bunker2_grass.gif");
 		images.put(new Integer(Land.GoodBunker_Grass), image);
@@ -282,7 +288,7 @@ public class DrawWorld {
 		images.put(new Integer(Land.Sand), image);
 
 		image = loadImage("resources/land/hiro_sand.gif");
-		images.put(new Integer(Land.Man_Sand), image);
+		images.put(new Integer(Land.Hero_Sand), image);
 
 		image = loadImage("resources/land/bullet_sand.gif");
 		images.put(new Integer(Land.Bullet_Sand), image);
@@ -318,19 +324,19 @@ public class DrawWorld {
 		images.put(new Integer(Land.RocketSouthWest_Sand), image);
 		
 		image = loadImage("resources/land/robot_sand.gif");
-		images.put(new Integer(Land.Robot_Sand), image);
+		images.put(new Integer(Land.BadSoldier_Sand), image);
 
 		image = loadImage("resources/land/tank_sand.gif");
-		images.put(new Integer(Land.Tank_Sand), image);
+		images.put(new Integer(Land.BadTank_Sand), image);
 		
 		image = loadImage("resources/land/bunker_sand.gif");
-		images.put(new Integer(Land.Bunker_Sand), image);
+		images.put(new Integer(Land.BadBunker_Sand), image);
 
 		image = loadImage("resources/land/patriot_sand.gif");
-		images.put(new Integer(Land.Radar_Sand), image);
+		images.put(new Integer(Land.BadRadar_Sand), image);
 
 		image = loadImage("resources/land/soldier_sand.gif");
-		images.put(new Integer(Land.Soldier_Sand), image);
+		images.put(new Integer(Land.GoodSoldier_Sand), image);
 
 		image = loadImage("resources/land/tank2_sand.gif");
 		images.put(new Integer(Land.GoodTank_Sand), image);
@@ -351,10 +357,10 @@ public class DrawWorld {
 		images.put(new Integer(Land.Grave_Sand), image);
 
 		image = loadImage("resources/land/graver_grass.gif");
-		images.put(new Integer(Land.RobotGrave_Grass), image);
+		images.put(new Integer(Land.BadSoldierGrave_Grass), image);
 
 		image = loadImage("resources/land/graver_sand.gif");
-		images.put(new Integer(Land.RobotGrave_Sand), image);
+		images.put(new Integer(Land.BadSoldierGrave_Sand), image);
 		
 		image = loadImage("resources/land/white_brick.gif");
 		images.put(new Integer(Land.WhiteBrick), image);
@@ -387,22 +393,22 @@ public class DrawWorld {
 		images.put(new Integer(Land.CannonBall_Water), image);
 		
 		image = loadImage("resources/land/officer.gif");
-		images.put(new Integer(Land.Officer), image);
+		images.put(new Integer(Land.GoodOfficer), image);
 		
 		image = loadImage("resources/land/officer_grass.gif");
-		images.put(new Integer(Land.Officer_Grass), image);
+		images.put(new Integer(Land.GoodOfficer_Grass), image);
 		
 		image = loadImage("resources/land/officer_sand.gif");
-		images.put(new Integer(Land.Officer_Sand), image);
+		images.put(new Integer(Land.GoodOfficer_Sand), image);
 
 		image = loadImage("resources/land/general.gif");
-		images.put(new Integer(Land.General), image);
+		images.put(new Integer(Land.GoodGeneral), image);
 		
 		image = loadImage("resources/land/general_grass.gif");
-		images.put(new Integer(Land.General_Grass), image);
+		images.put(new Integer(Land.GoodGeneral_Grass), image);
 		
 		image = loadImage("resources/land/general_sand.gif");
-		images.put(new Integer(Land.General_Sand), image);
+		images.put(new Integer(Land.GoodGeneral_Sand), image);
 		
 		image = loadImage("resources/land/tree1.gif");
 		images.put(new Integer(Land.Tree1), image);
@@ -421,22 +427,22 @@ public class DrawWorld {
 		images.put(new Integer(Land.Dark_Knight_Sand), image);
 
 		image = loadImage("resources/land/gray_officer.gif");
-		images.put(new Integer(Land.Gray_Officer), image);
+		images.put(new Integer(Land.BadOfficer), image);
 		
 		image = loadImage("resources/land/gray_officer_grass.gif");
-		images.put(new Integer(Land.Gray_Officer_Grass), image);
+		images.put(new Integer(Land.BadOfficer_Grass), image);
 		
 		image = loadImage("resources/land/gray_officer_sand.gif");
-		images.put(new Integer(Land.Gray_Officer_Sand), image);
+		images.put(new Integer(Land.BadOfficer_Sand), image);
 
 		image = loadImage("resources/land/gray_general.gif");
-		images.put(new Integer(Land.Gray_General), image);
+		images.put(new Integer(Land.BadGeneral), image);
 		
 		image = loadImage("resources/land/gray_general_grass.gif");
-		images.put(new Integer(Land.Gray_General_Grass), image);
+		images.put(new Integer(Land.BadGeneral_Grass), image);
 		
 		image = loadImage("resources/land/gray_general_sand.gif");
-		images.put(new Integer(Land.Gray_General_Sand), image);
+		images.put(new Integer(Land.BadGeneral_Sand), image);
 
 		image = loadImage("resources/land/peasant.gif");
 		images.put(new Integer(Land.Peasant), image);

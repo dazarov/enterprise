@@ -61,41 +61,41 @@ public class Bullet extends MovableWeapon {
 			return false;
 		}
 		switch (code) {
-		case Land.Man:
-		case Land.Soldier:
-		case Land.Officer:
-		case Land.General:
+		case Land.Hero:
+		case Land.GoodSoldier:
+		case Land.GoodOfficer:
+		case Land.GoodGeneral:
 			Land.setLand(point, Land.Grave);
 			break;
-		case Land.Man_Grass:
-		case Land.Soldier_Grass:
-		case Land.Officer_Grass:
-		case Land.General_Grass:
+		case Land.Hero_Grass:
+		case Land.GoodSoldier_Grass:
+		case Land.GoodOfficer_Grass:
+		case Land.GoodGeneral_Grass:
 			Land.setLand(point, Land.Grave_Grass);
 			break;
-		case Land.Man_Sand:
-		case Land.Soldier_Sand:
-		case Land.Officer_Sand:
-		case Land.General_Sand:
+		case Land.Hero_Sand:
+		case Land.GoodSoldier_Sand:
+		case Land.GoodOfficer_Sand:
+		case Land.GoodGeneral_Sand:
 			Land.setLand(point, Land.Grave_Sand);
 			break;
-		case Land.Robot:
-		case Land.Gray_Officer:
-		case Land.Gray_General:
+		case Land.BadSoldier:
+		case Land.BadOfficer:
+		case Land.BadGeneral:
 		case Land.Dark_Knight:
 			Land.setLand(point, Land.RobotGrave);
 			break;
-		case Land.Robot_Grass:
-		case Land.Gray_Officer_Grass:
-		case Land.Gray_General_Grass:
+		case Land.BadSoldier_Grass:
+		case Land.BadOfficer_Grass:
+		case Land.BadGeneral_Grass:
 		case Land.Dark_Knight_Grass:
-			Land.setLand(point, Land.RobotGrave_Grass);
+			Land.setLand(point, Land.BadSoldierGrave_Grass);
 			break;
-		case Land.Robot_Sand:
-		case Land.Gray_Officer_Sand:
-		case Land.Gray_General_Sand:
+		case Land.BadSoldier_Sand:
+		case Land.BadOfficer_Sand:
+		case Land.BadGeneral_Sand:
 		case Land.Dark_Knight_Sand:
-			Land.setLand(point, Land.RobotGrave_Sand);
+			Land.setLand(point, Land.BadSoldierGrave_Sand);
 			break;
 		}
 		if (beneath != Land.Vacuum)

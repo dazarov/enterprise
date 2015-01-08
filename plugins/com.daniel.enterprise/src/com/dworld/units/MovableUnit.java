@@ -145,30 +145,30 @@ public abstract class MovableUnit extends ActiveUnit {
 	
 	protected int getDefaultBeneath(int code){
 		switch(code){
-		case Land.Man_Grass:
-		case Land.Soldier_Grass:
-		case Land.Robot_Grass:
+		case Land.Hero_Grass:
+		case Land.GoodSoldier_Grass:
+		case Land.BadSoldier_Grass:
 		case Land.Peasant_Grass:
-		case Land.Officer_Grass:
-		case Land.General_Grass:
-		case Land.Gray_Officer_Grass:
-		case Land.Gray_General_Grass:
+		case Land.GoodOfficer_Grass:
+		case Land.GoodGeneral_Grass:
+		case Land.BadOfficer_Grass:
+		case Land.BadGeneral_Grass:
 		case Land.Dark_Knight_Grass:
-		case Land.Tank_Grass:
+		case Land.BadTank_Grass:
 		case Land.GoodTank_Grass:
 			
 			return Land.Grass;
 			
-		case Land.Man_Sand:
-		case Land.Soldier_Sand:
-		case Land.Robot_Sand:
+		case Land.Hero_Sand:
+		case Land.GoodSoldier_Sand:
+		case Land.BadSoldier_Sand:
 		case Land.Peasant_Sand:
-		case Land.Officer_Sand:
-		case Land.General_Sand:
-		case Land.Gray_Officer_Sand:
-		case Land.Gray_General_Sand:
+		case Land.GoodOfficer_Sand:
+		case Land.GoodGeneral_Sand:
+		case Land.BadOfficer_Sand:
+		case Land.BadGeneral_Sand:
 		case Land.Dark_Knight_Sand:
-		case Land.Tank_Sand:
+		case Land.BadTank_Sand:
 		case Land.GoodTank_Sand:
 			
 			return Land.Sand;

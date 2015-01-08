@@ -34,9 +34,9 @@ public class Land {
 	public static final int Brick = 2;
 	public static final int Grenada = 3;
 	public static final int Ammo = 4;
-	public static final int Robot = 5;
-	public static final int Tank = 6;
-	public static final int Man = 7;
+	public static final int BadSoldier = 5;
+	public static final int BadTank = 6;
+	public static final int Hero = 7;
 	public static final int Bomb = 8;
 	public static final int Bullet = 9;
 	public static final int Patron = 10;
@@ -56,8 +56,8 @@ public class Land {
 	public static final int ClosedDoor = 24;
 	public static final int RobotGrave = 25;
 	public static final int TankGrave = 26;
-	public static final int Bunker = 27;
-	public static final int Radar = 28;
+	public static final int BadBunker = 27;
+	public static final int BadRadar = 28;
 
 	public static final int OpenedHorizontalWoodGate = 29;
 	public static final int ClosedHorizontalWoodGate = 30;
@@ -78,11 +78,11 @@ public class Land {
 	public static final int ClosedHorizontalBrickGate = 44;
 
 	public static final int Grass = 45;
-	public static final int Man_Grass = 46;
+	public static final int Hero_Grass = 46;
 	public static final int Bullet_Grass = 47;
 	public static final int Bomb_Grass = 48;
-	public static final int Robot_Grass = 49;
-	public static final int Tank_Grass = 50;
+	public static final int BadSoldier_Grass = 49;
+	public static final int BadTank_Grass = 50;
 	public static final int RocketNorth_Grass = 51;
 	public static final int RocketSouth_Grass = 52;
 	public static final int RocketEast_Grass = 53;
@@ -104,8 +104,8 @@ public class Land {
 	public static final int RocketSouthEast_Water = 68;
 	public static final int RocketSouthWest_Water = 69;
 
-	public static final int Soldier = 70;
-	public static final int Soldier_Grass = 71;
+	public static final int GoodSoldier = 70;
+	public static final int GoodSoldier_Grass = 71;
 	public static final int GoodTank = 72;
 	public static final int GoodTank_Grass = 73;
 	public static final int GoodBunker = 74;
@@ -120,8 +120,8 @@ public class Land {
 	public static final int Teleport4 = 81;
 	public static final int Teleport5 = 82;
 
-	public static final int Bunker_Grass = 83;
-	public static final int Radar_Grass = 84;
+	public static final int BadBunker_Grass = 83;
+	public static final int BadRadar_Grass = 84;
 	public static final int GoodBunker_Grass = 85;
 	public static final int GoodRadar_Grass = 86;
 
@@ -136,25 +136,25 @@ public class Land {
 	public static final int RocketNorthWest_Sand = 95;
 	public static final int RocketSouthEast_Sand = 96;
 	public static final int RocketSouthWest_Sand = 97;
-	public static final int Man_Sand = 98;
-	public static final int Soldier_Sand = 99;
+	public static final int Hero_Sand = 98;
+	public static final int GoodSoldier_Sand = 99;
 	public static final int GoodTank_Sand = 100;
 	public static final int GoodBunker_Sand = 101;
 	public static final int GoodRadar_Sand = 102;
-	public static final int Robot_Sand = 103;
-	public static final int Tank_Sand = 104;
-	public static final int Bunker_Sand = 105;
-	public static final int Radar_Sand = 106;
+	public static final int BadSoldier_Sand = 103;
+	public static final int BadTank_Sand = 104;
+	public static final int BadBunker_Sand = 105;
+	public static final int BadRadar_Sand = 106;
 	public static final int Mine_Sand = 107;
 
 	public static final int Stone = 108;
 
 	public static final int Grave_Grass = 109;
 	public static final int Grave_Sand = 110;
-	public static final int RobotGrave_Grass = 111;
-	public static final int RobotGrave_Sand = 112;
-	public static final int TankGrave_Grass = 113;
-	public static final int TankGrave_Sand = 114;
+	public static final int BadSoldierGrave_Grass = 111;
+	public static final int BadSoldierGrave_Sand = 112;
+	public static final int BadTankGrave_Grass = 113;
+	public static final int BadTankGrave_Sand = 114;
 	
 	public static final int WhiteBrick = 115;
 	public static final int BlackStone = 116;
@@ -168,13 +168,13 @@ public class Land {
 	public static final int CannonBall_Sand = 123;
 	public static final int CannonBall_Water = 124;
 	
-	public static final int Officer = 125;
-	public static final int Officer_Grass = 126;
-	public static final int Officer_Sand = 127;
+	public static final int GoodOfficer = 125;
+	public static final int GoodOfficer_Grass = 126;
+	public static final int GoodOfficer_Sand = 127;
 	
-	public static final int General = 128;
-	public static final int General_Grass = 129;
-	public static final int General_Sand = 130;
+	public static final int GoodGeneral = 128;
+	public static final int GoodGeneral_Grass = 129;
+	public static final int GoodGeneral_Sand = 130;
 	
 	public static final int Teleport6 = 131;
 	public static final int Teleport7 = 132;
@@ -189,13 +189,13 @@ public class Land {
 	public static final int Dark_Knight_Grass = 139;
 	public static final int Dark_Knight_Sand = 140;
 
-	public static final int Gray_Officer = 141;
-	public static final int Gray_Officer_Grass = 142;
-	public static final int Gray_Officer_Sand = 143;
+	public static final int BadOfficer = 141;
+	public static final int BadOfficer_Grass = 142;
+	public static final int BadOfficer_Sand = 143;
 
-	public static final int Gray_General = 144;
-	public static final int Gray_General_Grass = 145;
-	public static final int Gray_General_Sand = 146;
+	public static final int BadGeneral = 144;
+	public static final int BadGeneral_Grass = 145;
+	public static final int BadGeneral_Sand = 146;
 
 	public static final int Peasant = 147;
 	public static final int Peasant_Grass = 148;
@@ -258,11 +258,32 @@ public class Land {
 	
 	public static final int Mountain = 204;
 	
+	public static final int Teleport10 = 205;
+	public static final int Teleport11 = 206;
+	public static final int Teleport12 = 207;
+	public static final int Teleport13 = 208;
+	public static final int Teleport14 = 209;
+	public static final int Teleport15 = 210;
+	
 	/**
 	 * Land codes section end
 	 ****************************************************************************************************/
 
+	/**
+	 * Map itself
+	 */
 	private static int[][] landMap = new int[DWorldConstants.MAX_X][DWorldConstants.MAX_Y];
+	
+	/**
+	 * Land lists section start
+	 */
+	
+	public static ArrayList<Integer> heroList = new ArrayList<Integer>();
+	static {
+		heroList.add(new Integer(Hero));
+		heroList.add(new Integer(Hero_Grass));
+		heroList.add(new Integer(Hero_Sand));
+	}
 
 	public static ArrayList<Integer> rocketList = new ArrayList<Integer>();
 	static {
@@ -442,6 +463,10 @@ public class Land {
 		unexplosiveList.add(new Integer(Sand));
 	}
 
+	/**
+	 * list of codes which should be replaced by grass code during the save procedure
+	 * they are codes of flying objects above the grass
+	 */
 	private static ArrayList<Integer> grassList = new ArrayList<Integer>();
 	static {
 		grassList.add(new Integer(Bullet_Grass));
@@ -457,6 +482,10 @@ public class Land {
 		grassList.add(new Integer(RocketSouthWest_Grass));
 	}
 
+	/**
+	 * list of codes which should be replaced by water code during the save procedure
+	 * they are codes of flying objects above the water
+	 */
 	private static ArrayList<Integer> waterList = new ArrayList<Integer>();
 	static {
 		waterList.add(new Integer(Bullet_Water));
@@ -472,8 +501,10 @@ public class Land {
 		waterList.add(new Integer(RocketSouthWest_Water));
 	}
 	
-	
-
+	/**
+	 * list of codes which should be replaced by Sand code during the save procedure
+	 * they are codes of flying objects above the sand
+	 */
 	private static ArrayList<Integer> sandList = new ArrayList<Integer>();
 	static {
 		sandList.add(new Integer(Sand));
@@ -492,21 +523,20 @@ public class Land {
 	
 	private static ArrayList<Integer> sandExplList = new ArrayList<Integer>();
 	static {
-		sandExplList.addAll(sandList);
-		sandExplList.add(new Integer(Man_Sand));
+		sandExplList.add(new Integer(Hero_Sand));
 		sandExplList.add(new Integer(Mine_Sand));
-		sandExplList.add(new Integer(Soldier_Sand));
-		sandExplList.add(new Integer(Officer_Sand));
-		sandExplList.add(new Integer(General_Sand));
+		sandExplList.add(new Integer(GoodSoldier_Sand));
+		sandExplList.add(new Integer(GoodOfficer_Sand));
+		sandExplList.add(new Integer(GoodGeneral_Sand));
 		sandExplList.add(new Integer(GoodTank_Sand));
 		sandExplList.add(new Integer(GoodBunker_Sand));
 		sandExplList.add(new Integer(GoodRadar_Sand));
-		sandExplList.add(new Integer(Robot_Sand));
-		sandExplList.add(new Integer(Tank_Sand));
-		sandExplList.add(new Integer(Bunker_Sand));
-		sandExplList.add(new Integer(Radar_Sand));
-		sandExplList.add(new Integer(Gray_Officer_Sand));
-		sandExplList.add(new Integer(Gray_General_Sand));
+		sandExplList.add(new Integer(BadSoldier_Sand));
+		sandExplList.add(new Integer(BadTank_Sand));
+		sandExplList.add(new Integer(BadBunker_Sand));
+		sandExplList.add(new Integer(BadRadar_Sand));
+		sandExplList.add(new Integer(BadOfficer_Sand));
+		sandExplList.add(new Integer(BadGeneral_Sand));
 		sandExplList.add(new Integer(Dark_Knight_Sand));
 		sandExplList.add(new Integer(Peasant_Sand));
 	}
@@ -534,31 +564,31 @@ public class Land {
 	
 	public final static ArrayList<Integer> armoredEnemyList = new ArrayList<Integer>();
 	static {
-		armoredEnemyList.add(new Integer(Tank));
-		armoredEnemyList.add(new Integer(Tank_Grass));
-		armoredEnemyList.add(new Integer(Tank_Sand));
+		armoredEnemyList.add(new Integer(BadTank));
+		armoredEnemyList.add(new Integer(BadTank_Grass));
+		armoredEnemyList.add(new Integer(BadTank_Sand));
 		
-		armoredEnemyList.add(new Integer(Bunker));
-		armoredEnemyList.add(new Integer(Bunker_Grass));
-		armoredEnemyList.add(new Integer(Bunker_Sand));
+		armoredEnemyList.add(new Integer(BadBunker));
+		armoredEnemyList.add(new Integer(BadBunker_Grass));
+		armoredEnemyList.add(new Integer(BadBunker_Sand));
 		
-		armoredEnemyList.add(new Integer(Radar));
-		armoredEnemyList.add(new Integer(Radar_Grass));
-		armoredEnemyList.add(new Integer(Radar_Sand));
+		armoredEnemyList.add(new Integer(BadRadar));
+		armoredEnemyList.add(new Integer(BadRadar_Grass));
+		armoredEnemyList.add(new Integer(BadRadar_Sand));
 	}
 
 	public final static ArrayList<Integer> enemyList = new ArrayList<Integer>();
 	static {
 		enemyList.addAll(armoredEnemyList);
-		enemyList.add(new Integer(Robot));
-		enemyList.add(new Integer(Robot_Grass));
-		enemyList.add(new Integer(Robot_Sand));
-		enemyList.add(new Integer(Gray_Officer));
-		enemyList.add(new Integer(Gray_Officer_Grass));
-		enemyList.add(new Integer(Gray_Officer_Sand));
-		enemyList.add(new Integer(Gray_General));
-		enemyList.add(new Integer(Gray_General_Grass));
-		enemyList.add(new Integer(Gray_General_Sand));
+		enemyList.add(new Integer(BadSoldier));
+		enemyList.add(new Integer(BadSoldier_Grass));
+		enemyList.add(new Integer(BadSoldier_Sand));
+		enemyList.add(new Integer(BadOfficer));
+		enemyList.add(new Integer(BadOfficer_Grass));
+		enemyList.add(new Integer(BadOfficer_Sand));
+		enemyList.add(new Integer(BadGeneral));
+		enemyList.add(new Integer(BadGeneral_Grass));
+		enemyList.add(new Integer(BadGeneral_Sand));
 		enemyList.add(new Integer(Dark_Knight));
 		enemyList.add(new Integer(Dark_Knight_Grass));
 		enemyList.add(new Integer(Dark_Knight_Sand));
@@ -585,21 +615,19 @@ public class Land {
 	static {
 		citizenList.addAll(armoredCitizenList);
 		
-		citizenList.add(new Integer(Man));
-		citizenList.add(new Integer(Man_Grass));
-		citizenList.add(new Integer(Man_Sand));
+		citizenList.addAll(heroList);
 		
-		citizenList.add(new Integer(Soldier));
-		citizenList.add(new Integer(Soldier_Grass));
-		citizenList.add(new Integer(Soldier_Sand));
+		citizenList.add(new Integer(GoodSoldier));
+		citizenList.add(new Integer(GoodSoldier_Grass));
+		citizenList.add(new Integer(GoodSoldier_Sand));
 
-		citizenList.add(new Integer(Officer));
-		citizenList.add(new Integer(Officer_Grass));
-		citizenList.add(new Integer(Officer_Sand));
+		citizenList.add(new Integer(GoodOfficer));
+		citizenList.add(new Integer(GoodOfficer_Grass));
+		citizenList.add(new Integer(GoodOfficer_Sand));
 
-		citizenList.add(new Integer(General));
-		citizenList.add(new Integer(General_Grass));
-		citizenList.add(new Integer(General_Sand));
+		citizenList.add(new Integer(GoodGeneral));
+		citizenList.add(new Integer(GoodGeneral_Grass));
+		citizenList.add(new Integer(GoodGeneral_Sand));
 		
 		citizenList.add(new Integer(Peasant));
 		citizenList.add(new Integer(Peasant_Grass));
@@ -631,7 +659,53 @@ public class Land {
 		saveList.add(new Integer(OpenedVerticalBrickGate));
 		saveList.add(new Integer(ClosedVerticalBrickGate));
 	}
+	
+/*	
+ * to implement thees we need to have list of all codes for water, grass and sand
+	public static int getPureCode(int code){
+		if(waterList.contains(code)){
+			return getPureCodeFromWater(code);
+		}else if(grassList.contains(code)){
+			return getPureCodeFromGrass(code);
+		}else if(sandList.contains(code)){
+			return getPureCodeFromSand(code);
+		}
+		return Vacuum;
+	}
+	
+	public static int getPureCodeFromWater(int code){
+		return Vacuum;
+	}
+	public static int getPureCodeFromGrass(int code){
+		return Vacuum;
+	}
+	public static int getPureCodeFromSand(int code){
+		return Vacuum;
+	}
+	
+	public static int getGrassCode(int code){
+		int pureCode = getPureCode(code);
+		switch(pureCode){
+		case Man:
+			return Man_Grass;
+		}
+		return Vacuum;
+	}
 
+	public static int getSandCode(int code){
+		int pureCode = getPureCode(code);
+		switch(pureCode){
+		case Man:
+			return Man_Sand;
+		}
+		return Vacuum;
+	}
+
+	public static int getWaterCode(int code){
+		return Vacuum;
+	}
+*/
+	
 	public static int getLand(Point location) {
 		return getLand(location.x, location.y);
 	}

@@ -9,18 +9,18 @@ import com.dworld.units.weapon.Rocket;
 public class BadTank extends Tank {
 
 	public BadTank(int x, int y, int code) {
-		super(x, y, Land.Tank);
+		super(x, y, Land.BadTank);
 	}
 	
 	@Override
 	public int getCode(int beneath){
 		switch(beneath){
 		case Land.Grass:
-			return Land.Tank_Grass;
+			return Land.BadTank_Grass;
 		case Land.Sand:
-			return Land.Tank_Sand;
+			return Land.BadTank_Sand;
 		default:
-			return Land.Tank;
+			return Land.BadTank;
 		}
 	}
 	

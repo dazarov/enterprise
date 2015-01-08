@@ -81,32 +81,32 @@ public class ControlledUnit extends MovableUnit {
 	
 	@Override
 	public int getCode(int beneath){
-		if(code == Land.Man){
+		if(code == Land.Hero){
 			switch(beneath){
 			case Land.Grass:
-				return Land.Man_Grass;
+				return Land.Hero_Grass;
 			case Land.Sand:
-				return Land.Man_Sand;
+				return Land.Hero_Sand;
 			default:
-				return Land.Man;
+				return Land.Hero;
 			}
-		}else if(code == Land.Soldier){
+		}else if(code == Land.GoodSoldier){
 			switch(beneath){
 			case Land.Grass:
-				return Land.Soldier_Grass;
+				return Land.GoodSoldier_Grass;
 			case Land.Sand:
-				return Land.Soldier_Sand;
+				return Land.GoodSoldier_Sand;
 			default:
-				return Land.Soldier;
+				return Land.GoodSoldier;
 			}
-		}else if(code == Land.Robot){
+		}else if(code == Land.BadSoldier){
 			switch(beneath){
 			case Land.Grass:
-				return Land.Robot_Grass;
+				return Land.BadSoldier_Grass;
 			case Land.Sand:
-				return Land.Robot_Sand;
+				return Land.BadSoldier_Sand;
 			default:
-				return Land.Robot;
+				return Land.BadSoldier;
 			}
 		}else if(code == Land.Peasant){
 			switch(beneath){
@@ -117,41 +117,41 @@ public class ControlledUnit extends MovableUnit {
 			default:
 				return Land.Peasant;
 			}
-		}else if(code == Land.Officer){
+		}else if(code == Land.GoodOfficer){
 			switch(beneath){
 			case Land.Grass:
-				return Land.Officer_Grass;
+				return Land.GoodOfficer_Grass;
 			case Land.Sand:
-				return Land.Officer_Sand;
+				return Land.GoodOfficer_Sand;
 			default:
-				return Land.Officer;
+				return Land.GoodOfficer;
 			}
-		}else if(code == Land.General){
+		}else if(code == Land.GoodGeneral){
 			switch(beneath){
 			case Land.Grass:
-				return Land.General_Grass;
+				return Land.GoodGeneral_Grass;
 			case Land.Sand:
-				return Land.General_Sand;
+				return Land.GoodGeneral_Sand;
 			default:
-				return Land.General;
+				return Land.GoodGeneral;
 			}
-		}else if(code == Land.Gray_Officer){
+		}else if(code == Land.BadOfficer){
 			switch(beneath){
 			case Land.Grass:
-				return Land.Gray_Officer_Grass;
+				return Land.BadOfficer_Grass;
 			case Land.Sand:
-				return Land.Gray_Officer_Sand;
+				return Land.BadOfficer_Sand;
 			default:
-				return Land.Gray_Officer;
+				return Land.BadOfficer;
 			}
-		}else if(code == Land.Gray_General){
+		}else if(code == Land.BadGeneral){
 			switch(beneath){
 			case Land.Grass:
-				return Land.Gray_General_Grass;
+				return Land.BadGeneral_Grass;
 			case Land.Sand:
-				return Land.Gray_General_Sand;
+				return Land.BadGeneral_Sand;
 			default:
-				return Land.Gray_General;
+				return Land.BadGeneral;
 			}
 		}else if(code == Land.Dark_Knight){
 			switch(beneath){
@@ -171,14 +171,14 @@ public class ControlledUnit extends MovableUnit {
 			default:
 				return Land.GoodTank;
 			}
-		}else if(code == Land.Tank){
+		}else if(code == Land.BadTank){
 			switch(beneath){
 			case Land.Grass:
-				return Land.Tank_Grass;
+				return Land.BadTank_Grass;
 			case Land.Sand:
-				return Land.Tank_Sand;
+				return Land.BadTank_Sand;
 			default:
-				return Land.Tank;
+				return Land.BadTank;
 			}
 		}else{
 			return Land.Food;
@@ -335,7 +335,7 @@ public class ControlledUnit extends MovableUnit {
 	}
 	
 	protected int getRocketType(){
-		if(code == Land.Man || code == Land.Soldier || code == Land.Officer || code == Land.General || code == Land.Peasant)
+		if(code == Land.Hero || code == Land.GoodSoldier || code == Land.GoodOfficer || code == Land.GoodGeneral || code == Land.Peasant)
 			return Rocket.ManFriendly;
 		else
 			return Rocket.EnemyFriendly;
