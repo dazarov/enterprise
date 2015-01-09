@@ -660,52 +660,6 @@ public class Land {
 		saveList.add(new Integer(ClosedVerticalBrickGate));
 	}
 	
-/*	
- * to implement thees we need to have list of all codes for water, grass and sand
-	public static int getPureCode(int code){
-		if(waterList.contains(code)){
-			return getPureCodeFromWater(code);
-		}else if(grassList.contains(code)){
-			return getPureCodeFromGrass(code);
-		}else if(sandList.contains(code)){
-			return getPureCodeFromSand(code);
-		}
-		return Vacuum;
-	}
-	
-	public static int getPureCodeFromWater(int code){
-		return Vacuum;
-	}
-	public static int getPureCodeFromGrass(int code){
-		return Vacuum;
-	}
-	public static int getPureCodeFromSand(int code){
-		return Vacuum;
-	}
-	
-	public static int getGrassCode(int code){
-		int pureCode = getPureCode(code);
-		switch(pureCode){
-		case Man:
-			return Man_Grass;
-		}
-		return Vacuum;
-	}
-
-	public static int getSandCode(int code){
-		int pureCode = getPureCode(code);
-		switch(pureCode){
-		case Man:
-			return Man_Sand;
-		}
-		return Vacuum;
-	}
-
-	public static int getWaterCode(int code){
-		return Vacuum;
-	}
-*/
-	
 	public static int getLand(Point location) {
 		return getLand(location.x, location.y);
 	}

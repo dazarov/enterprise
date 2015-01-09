@@ -34,42 +34,23 @@ public class Teleport extends ActiveUnit implements ISlow {
 
 	@Override
 	public void step() {
-		boolean fail = false;
 		if(Land.getLand(getLocation()) != code){
 			die();
 			return;
 		}
 		Point point = getPoint();
 		int land = Land.getLand(point);
-		if (land == Land.Hero || land == Land.Hero_Grass || land == Land.Hero_Sand) {
+		if (Land.heroList.contains(land)) {
 			IUnit unit = Engine.getEngine().findUnit(point);
 			if(unit instanceof MovableUnit){
 				int check = Land.getLand(toPoints.get(new Integer(code)));
 				if(check == Land.Empty || check == Land.Grass || check == Land.Sand){
-					if(land == Land.Hero){
-						Land.setLand(point, Land.Empty);
-					}else if(land == Land.Hero_Grass){
-						Land.setLand(point, Land.Grass);
-					}else if(land == Land.Hero_Sand){
-						Land.setLand(point, Land.Sand);
-					}else{
-						fail = true;
-					}
+					Land.setLand(point, ((MovableUnit) unit).getBeneath());
 					
-					if(check == Land.Empty){
-						Land.setLand(toPoints.get(new Integer(code)), Land.Hero);
-					}else if(check == Land.Grass){
-						Land.setLand(toPoints.get(new Integer(code)), Land.Hero_Grass);
-					}else if(check == Land.Sand){
-						Land.setLand(toPoints.get(new Integer(code)), Land.Hero_Sand);
-					}else{
-						fail = true;
-					}
+					Land.setLand(toPoints.get(new Integer(code)), ((MovableUnit) unit).getCode(check));
 					
-					if(!fail){
-						unit.setLocation((Point)toPoints.get(new Integer(code)).clone());
-						((MovableUnit) unit).setBeneath(check);
-					}
+					unit.setLocation((Point)toPoints.get(new Integer(code)).clone());
+					((MovableUnit) unit).setBeneath(check);
 				}
 			}
 		}
