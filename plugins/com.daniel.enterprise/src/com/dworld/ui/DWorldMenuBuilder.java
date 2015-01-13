@@ -379,13 +379,12 @@ public class DWorldMenuBuilder {
 		createBuildMenuItem(subMenu, group, "Transport Center", Land.Teleport5);
 		subMenu.addSeparator();
 		createBuildMenuItem(subMenu, group, "Center", Land.Teleport1);
-		createBuildMenuItem(subMenu, group, "Home", Land.Teleport2);
-		createBuildMenuItem(subMenu, group, "Scientific Center", Land.Teleport3);
 		createBuildMenuItem(subMenu, group, "Capital", Land.Teleport4);
 		createBuildMenuItem(subMenu, group, "Jail", Land.Teleport6);
 		createBuildMenuItem(subMenu, group, "Grand Hotel", Land.Teleport7);
 		createBuildMenuItem(subMenu, group, "Bunker", Land.Teleport8);
 		createBuildMenuItem(subMenu, group, "Palace", Land.Teleport9);
+		createBuildMenuItem(subMenu, group, "Military Base", Land.Teleport11);
 
 		menu.add(subMenu);
 

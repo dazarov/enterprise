@@ -80,6 +80,7 @@ public class InfoScreen extends JDialog{
 		buffer.append("<tr><td><b>Map size:</b></td><td align=\"right\">"+Land.getMaxX()+" x "+Land.getMaxY()+"</td></tr>");
 		buffer.append("<tr><td><b>Screen size:</b></td><td align=\"right\">"+DWorldConstants.UI_WIDTH+" x "+DWorldConstants.UI_HEIGHT+"</td></tr>");
 		buffer.append("<tr><td><b>Hero position:</b></td><td align=\"right\">"+controlledUnit.getLocation().x+", "+controlledUnit.getLocation().y+"</td></tr>");
+		buffer.append("<tr><td><b>Viewport position:</b></td><td align=\"right\">"+controlledUnit.getDrawPosition().x+", "+controlledUnit.getDrawPosition().y+"</td></tr>");
 		buffer.append("<tr><td><b>Number of active units:</b></td><td align=\"right\">"+Engine.getEngine().getNumberOfActiveUnits()+" / "+Engine.getEngine().getMaxNumber()+"</td></tr>");
 		buffer.append("<tr><td><b>Number of units:</b></td><td align=\"right\">"+(Engine.getEngine().getNumberOfActiveUnits()+Engine.getEngine().getNumberOfSlowUnits())+"</td></tr>");
 		buffer.append("<tr><td><b>Total Number of used units:</b></td><td align=\"right\">"+Unit.getUnits()+"</td></tr>");

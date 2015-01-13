@@ -18,18 +18,21 @@ public class Teleport extends ActiveUnit implements ISlow {
 		toPoints.put(new Integer(Land.Teleport5), new Point(Land.getMaxX()-15, Land.getMaxY()/2));	// Transport Center
 		toPoints.put(new Integer(Land.Teleport6), new Point(1488, 1204));							// Jail
 		toPoints.put(new Integer(Land.Teleport7), new Point(1276, 1273));							// Grand Hotel
-		toPoints.put(new Integer(Land.Teleport8), new Point(1763, 2000));							// Bunker
+		toPoints.put(new Integer(Land.Teleport8), new Point(1763, 2000));							// Secret Bunker
 		toPoints.put(new Integer(Land.Teleport9), new Point(1362, 1972));							// Palace
-		toPoints.put(new Integer(Land.Teleport10), new Point(0, 0));
-		toPoints.put(new Integer(Land.Teleport11), new Point(0, 0));
-		toPoints.put(new Integer(Land.Teleport12), new Point(0, 0));
+		toPoints.put(new Integer(Land.Teleport10), new Point(Land.getMaxX()/2, 5));					// Dark Knight Palace
+		toPoints.put(new Integer(Land.Teleport11), new Point(1573, 1380));							// Military Base
+		toPoints.put(new Integer(Land.Teleport12), new Point(3485, 1100));							// Island
 		toPoints.put(new Integer(Land.Teleport13), new Point(0, 0));
 		toPoints.put(new Integer(Land.Teleport14), new Point(0, 0));
 		toPoints.put(new Integer(Land.Teleport15), new Point(0, 0));
-	} 
+	}
+	
+	private Point pointToGo;
 
 	public Teleport(int x, int y, int code) {
 		super(x, y, code);
+		pointToGo = toPoints.get(new Integer(code));
 	}
 
 	@Override
@@ -38,19 +41,19 @@ public class Teleport extends ActiveUnit implements ISlow {
 			die();
 			return;
 		}
-		Point point = getPoint();
-		int land = Land.getLand(point);
-		if (Land.heroList.contains(land)) {
-			IUnit unit = Engine.getEngine().findUnit(point);
+		Point herePoint = getPoint();
+		int hereCode = Land.getLand(herePoint);
+		if (Land.heroList.contains(hereCode)) {
+			IUnit unit = Engine.getEngine().findUnit(herePoint);
 			if(unit instanceof MovableUnit){
-				int check = Land.getLand(toPoints.get(new Integer(code)));
-				if(check == Land.Empty || check == Land.Grass || check == Land.Sand){
-					Land.setLand(point, ((MovableUnit) unit).getBeneath());
+				int thereCode = Land.getLand(pointToGo);
+				if(thereCode == Land.Empty || thereCode == Land.Grass || thereCode == Land.Sand){
+					Land.setLand(herePoint, ((MovableUnit) unit).getBeneath());
 					
-					Land.setLand(toPoints.get(new Integer(code)), ((MovableUnit) unit).getCode(check));
+					Land.setLand(pointToGo, ((MovableUnit) unit).getCode(thereCode));
 					
-					unit.setLocation((Point)toPoints.get(new Integer(code)).clone());
-					((MovableUnit) unit).setBeneath(check);
+					unit.setLocation((Point)pointToGo.clone());
+					((MovableUnit) unit).setBeneath(thereCode);
 				}
 			}
 		}

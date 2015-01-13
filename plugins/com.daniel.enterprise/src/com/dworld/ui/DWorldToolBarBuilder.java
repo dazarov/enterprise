@@ -61,8 +61,7 @@ public class DWorldToolBarBuilder {
 		initToolBar();
 		
 		palette.pack();
-//		palette.setLocation(300, 100);
-		palette.setSize(200, 650);
+		palette.setSize(200, 700);
 		palette.setFocusableWindowState(false);
 		palette.setFocusable(false);
 		palette.setVisible(true);
