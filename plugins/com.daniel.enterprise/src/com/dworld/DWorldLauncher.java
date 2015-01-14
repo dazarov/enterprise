@@ -13,6 +13,7 @@ import java.awt.event.MouseMotionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
@@ -185,15 +186,16 @@ public class DWorldLauncher implements KeyListener, MouseListener, MouseMotionLi
 		
 		if (controlledUnit != null)
 			controlledUnit.control(keyCode, keyModifiers);
-		// System.out.println("keyPressed");
-		// System.out.println("Char - "+event.getKeyChar());
-		// System.out.println("Code - "+event.getKeyCode());
-		// System.out.println("Modifiers - "+event.getModifiers());
-		// System.out.println("ModifiersExt - "+event.getModifiersEx());
+		 
 	}
 	
 	@Override
 	public void keyPressed(KeyEvent event) {
+//		System.out.println("keyPressed");
+//		System.out.println("Char - "+event.getKeyChar());
+//		System.out.println("Code - "+event.getKeyCode());
+//		System.out.println("Modifiers - "+event.getModifiers());
+//		System.out.println("ModifiersExt - "+event.getModifiersEx());
 		doKeyPressed(event.getKeyCode(), event.getModifiers());
 	}
 
@@ -265,10 +267,16 @@ public class DWorldLauncher implements KeyListener, MouseListener, MouseMotionLi
 				selectedPoint = location;
 				SelectionManager.setSelectedLine(selectedPoint, selectedPoint);
 		}else if(isBrush()){
-			if (e.getButton() == MouseEvent.BUTTON1)
+			if (e.getButton() == MouseEvent.BUTTON1){
 				Land.setLand(location, selectedElement);
-			else
+				try {
+					Land.loadUnit(selectedElement, location.x, location.y, null);
+				} catch (IOException e1) {
+					// do nothing
+				}
+			}else{
 				Land.setLand(location, Land.Empty);
+			}
 	
 			Land.modified(window);
 		}

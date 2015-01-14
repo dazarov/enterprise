@@ -49,7 +49,10 @@ public class Bomb extends MovableWeapon {
 
 	@Override
 	protected boolean findNewDirection() {
-		die();
+		if (distance <= 0) {
+			die();
+		}
+		distance--;
 		return false;
 	}
 

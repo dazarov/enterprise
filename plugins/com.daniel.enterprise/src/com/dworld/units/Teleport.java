@@ -22,7 +22,7 @@ public class Teleport extends ActiveUnit implements ISlow {
 		toPoints.put(new Integer(Land.Teleport9), new Point(1362, 1972));							// Palace
 		toPoints.put(new Integer(Land.Teleport10), new Point(Land.getMaxX()/2, 5));					// Dark Knight Palace
 		toPoints.put(new Integer(Land.Teleport11), new Point(1573, 1380));							// Military Base
-		toPoints.put(new Integer(Land.Teleport12), new Point(3485, 1100));							// Island
+		toPoints.put(new Integer(Land.Teleport12), new Point(2884, 1103));							// Island
 		toPoints.put(new Integer(Land.Teleport13), new Point(0, 0));
 		toPoints.put(new Integer(Land.Teleport14), new Point(0, 0));
 		toPoints.put(new Integer(Land.Teleport15), new Point(0, 0));

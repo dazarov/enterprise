@@ -854,14 +854,10 @@ public class Land {
 	}
 
 	
-	private static boolean loadUnit(int code, int x, int y,
-			InputStream stream) throws IOException {
+	public static boolean loadUnit(int code, int x, int y,	InputStream stream) throws IOException {
 		IUnit unit = UnitFactory.createUnit(code, x, y);
-		if(unit != null){
+		if(unit != null && stream != null){
 			unit.load(stream);
-			if(isBuildMode() && unit instanceof IActive){
-				((IActive)unit).deactivate();
-			}
 			return true;
 		}
 		return false;
@@ -881,10 +877,6 @@ public class Land {
 	public static void modified(Frame panel){
 		dirty = true;
 		panel.setTitle(DWorldLauncher.MODIFYED_TITLE);
-	}
-	
-	private static boolean isBuildMode(){
-		return DWorldLauncher.getLauncher().isBuildMode();
 	}
 
 	public static void load(String fileName, Frame panel) {
