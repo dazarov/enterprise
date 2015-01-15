@@ -1,7 +1,6 @@
 package com.dworld.units;
 
 import java.awt.Point;
-import java.io.IOException;
 import java.util.List;
 
 import com.dworld.core.DWorldConstants;

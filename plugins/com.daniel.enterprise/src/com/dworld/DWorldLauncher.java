@@ -13,7 +13,6 @@ import java.awt.event.MouseMotionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
@@ -29,9 +28,9 @@ import com.dworld.core.IUnit;
 import com.dworld.core.Land;
 import com.dworld.core.SelectionManager;
 import com.dworld.ui.DWorldMenuBuilder;
+import com.dworld.ui.DWorldToolBarBuilder;
 import com.dworld.ui.DWorldWindowListener;
 import com.dworld.ui.DrawWorld;
-import com.dworld.ui.DWorldToolBarBuilder;
 import com.dworld.ui.Map;
 import com.dworld.units.ControlledUnit;
 import com.dworld.units.UnitFactory;
