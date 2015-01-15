@@ -282,12 +282,7 @@ public class ControlledUnit extends MovableUnit {
 			case 84: // t
 				
 				Land.setLand(getLocation().x, getLocation().y-1, Land.Teleport5);
-				try {
-					Land.loadUnit(Land.Teleport5, getLocation().x, getLocation().y-1, null);
-				} catch (IOException e1) {
-					// do nothing
-				}
-				//new Bomb(getLocation().x, getLocation().y, Direction.north, 10);
+				UnitFactory.createUnit(Land.Teleport5, getLocation().x, getLocation().y-1);
 				break;
 
 			case 67: // c

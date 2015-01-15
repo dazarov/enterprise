@@ -25,6 +25,7 @@ import javax.swing.JToolBar;
 import com.dworld.core.DWorldConstants;
 import com.dworld.core.Direction;
 import com.dworld.core.Engine;
+import com.dworld.core.IUnit;
 import com.dworld.core.Land;
 import com.dworld.core.SelectionManager;
 import com.dworld.ui.DWorldMenuBuilder;
@@ -33,6 +34,7 @@ import com.dworld.ui.DrawWorld;
 import com.dworld.ui.DWorldToolBarBuilder;
 import com.dworld.ui.Map;
 import com.dworld.units.ControlledUnit;
+import com.dworld.units.UnitFactory;
 
 public class DWorldLauncher implements KeyListener, MouseListener, MouseMotionListener {
 	public static final String SAVE_FILE = "/save.dat";
@@ -269,12 +271,12 @@ public class DWorldLauncher implements KeyListener, MouseListener, MouseMotionLi
 		}else if(isBrush()){
 			if (e.getButton() == MouseEvent.BUTTON1){
 				Land.setLand(location, selectedElement);
-				try {
-					Land.loadUnit(selectedElement, location.x, location.y, null);
-				} catch (IOException e1) {
-					// do nothing
-				}
+				UnitFactory.createUnit(selectedElement, location.x, location.y);
 			}else{
+				IUnit unit = Engine.getEngine().findUnit(location);
+				if(unit != null){
+					unit.die();
+				}
 				Land.setLand(location, Land.Empty);
 			}
 	

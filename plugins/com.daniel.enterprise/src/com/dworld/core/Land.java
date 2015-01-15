@@ -854,9 +854,9 @@ public class Land {
 	}
 
 	
-	public static boolean loadUnit(int code, int x, int y,	InputStream stream) throws IOException {
+	private static boolean loadUnit(int code, int x, int y,	InputStream stream) throws IOException {
 		IUnit unit = UnitFactory.createUnit(code, x, y);
-		if(unit != null && stream != null){
+		if(unit != null){
 			unit.load(stream);
 			return true;
 		}
