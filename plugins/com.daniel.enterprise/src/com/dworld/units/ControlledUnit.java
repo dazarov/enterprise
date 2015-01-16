@@ -341,10 +341,11 @@ public class ControlledUnit extends MovableUnit {
 	}
 	
 	protected int getRocketType(){
-		if(code == Land.Hero || code == Land.GoodSoldier || code == Land.GoodOfficer || code == Land.GoodGeneral || code == Land.Peasant)
+		if(Land.citizenList.contains(code)){
 			return Rocket.ManFriendly;
-		else
+		}else{
 			return Rocket.EnemyFriendly;
+		}
 	}
 	
 	protected Rocket fireRocket(){
