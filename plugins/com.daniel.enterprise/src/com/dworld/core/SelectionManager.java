@@ -26,7 +26,7 @@ public class SelectionManager {
 	
 	private static ArrayList<IUnit> selectedUnits = new ArrayList<IUnit>();
 	
-	private static Rectangle selectedArea = null;
+	private static Rectangle selectedArea = null, copiedArea = null;
 	
 	private static Point startLine = null, endLine = null;
 	
@@ -58,29 +58,33 @@ public class SelectionManager {
 	}
 	
 	public static ArrayList<Point> getSelectedLine(){
-		if(startLine != null){
+		return getSelectedLineInternal(startLine, endLine);
+	}
+	
+	private static ArrayList<Point> getSelectedLineInternal(Point start, Point end){
+		if(start != null){
 			ArrayList<Point> line = new ArrayList<Point>();
-			line.add(startLine);
-			line.add(endLine);
-			if(Math.abs(endLine.x - startLine.x) > Math.abs(endLine.y - startLine.y)){
-				int steps = Math.abs(endLine.x - startLine.x);
+			line.add(start);
+			line.add(end);
+			if(Math.abs(end.x - start.x) > Math.abs(end.y - start.y)){
+				int steps = Math.abs(end.x - start.x);
 				if(steps > 0){
-					int beginX = startLine.x;
-					int beginY = startLine.y;
-					int xStep = (endLine.x - startLine.x)/steps;
-					int yStep = (endLine.y - startLine.y)/steps;
+					int beginX = start.x;
+					int beginY = start.y;
+					int xStep = (end.x - start.x)/steps;
+					int yStep = (end.y - start.y)/steps;
 					
 					for(int index = 0; index < steps; index++){
 						line.add(new Point(beginX+xStep*index, beginY+yStep*index));
 					}
 				}
 			}else{
-				int steps = Math.abs(endLine.y - startLine.y);
+				int steps = Math.abs(end.y - start.y);
 				if(steps > 0){
-					int beginX = startLine.x;
-					int beginY = startLine.y;
-					int xStep = (endLine.x - startLine.x)/steps;
-					int yStep = (endLine.y - startLine.y)/steps;
+					int beginX = start.x;
+					int beginY = start.y;
+					int xStep = (end.x - start.x)/steps;
+					int yStep = (end.y - start.y)/steps;
 					
 					for(int index = 0; index < steps; index++){
 						line.add(new Point(beginX+xStep*index, beginY+yStep*index));
@@ -121,6 +125,27 @@ public class SelectionManager {
 			return true;
 		}
 		return false;
+	}
+	
+	public static void copy(){
+		copiedArea = selectedArea;
+	}
+
+	public static void paste(){
+		if(copiedArea != null && selectedArea != null){
+			Point copyTo = selectedArea.getLocation();
+			int newX = copyTo.x, newY = copyTo.y;
+			
+			for(int x = copiedArea.x; x < copiedArea.x+copiedArea.width; x++){
+				for(int y = copiedArea.y; y < copiedArea.y+copiedArea.height; y++){
+					int code = Land.getLand(x, y);
+					Land.setLand(newX, newY, code);
+					newY++;
+				}
+				newY = copyTo.y;
+				newX++;
+			}
+		}
 	}
 
 }

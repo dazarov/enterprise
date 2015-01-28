@@ -181,11 +181,11 @@ public abstract class MovableUnit extends ActiveUnit {
 	
 	abstract protected int getGrave(int beneath);
 
-	public double getSpeed() {
+	protected double getSpeed() {
 		return speed;
 	}
 
-	public void setSpeed(double speed) {
+	protected void setSpeed(double speed) {
 		if (speed > DWorldConstants.MAX_SPEED)
 			this.speed = DWorldConstants.MAX_SPEED;
 		else if (speed < 0)
