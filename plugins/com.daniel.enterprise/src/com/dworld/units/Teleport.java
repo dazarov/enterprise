@@ -18,7 +18,7 @@ public class Teleport extends ActiveUnit implements ISlow {
 		toPoints.put(new Integer(Land.Teleport5), new Point(Land.getMaxX()-15, Land.getMaxY()/2));	// Transport Center
 		toPoints.put(new Integer(Land.Teleport6), new Point(1488, 1204));							// Jail
 		toPoints.put(new Integer(Land.Teleport7), new Point(1276, 1273));							// Grand Hotel
-		toPoints.put(new Integer(Land.Teleport8), new Point(1763, 2000));							// Secret Bunker
+		toPoints.put(new Integer(Land.Teleport8), new Point(1485, 2128));							// Secret Bunker
 		toPoints.put(new Integer(Land.Teleport9), new Point(1362, 1972));							// Palace
 		toPoints.put(new Integer(Land.Teleport10), new Point(Land.getMaxX()/2, 5));					// Dark Knight Palace
 		toPoints.put(new Integer(Land.Teleport11), new Point(1573, 1380));							// Military Base

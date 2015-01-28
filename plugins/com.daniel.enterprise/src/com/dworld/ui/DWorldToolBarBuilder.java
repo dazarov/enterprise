@@ -12,7 +12,6 @@ import javax.swing.SwingConstants;
 
 import com.dworld.DWorldLauncher;
 import com.dworld.core.Land;
-import com.dworld.core.SelectionManager;
 import com.dworld.ui.actions.ChangeManCodeAction;
 import com.dworld.ui.actions.SelectElementAction;
 
@@ -265,23 +264,5 @@ public class DWorldToolBarBuilder {
 			}
 		});
 		toolBar.add(button);
-		
-//		button = new JButton("Copy");
-//		//button.setIcon(new ImageIcon(DrawWorld.loadImage("resources/fill.png")));
-//		button.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent e) {
-//				SelectionManager.copy();
-//			}
-//		});
-//		toolBar.add(button);
-//		
-//		button = new JButton("Paste");
-//		//button.setIcon(new ImageIcon(DrawWorld.loadImage("resources/fill.png")));
-//		button.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent e) {
-//				SelectionManager.paste();
-//			}
-//		});
-//		toolBar.add(button);
 	}
 }

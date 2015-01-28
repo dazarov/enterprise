@@ -61,6 +61,25 @@ public class ControlledUnit extends MovableUnit {
 				break;
 			}
 			return;
+		}else if(modifier == 2){
+				switch(key){
+				case 37: // Left
+					drawPosition.x -= 1;
+					break;
+
+				case 38: // Up
+					drawPosition.y -= 1;
+					break;
+
+				case 39: // Right
+					drawPosition.x += 1;
+					break;
+
+				case 40: // Down
+					drawPosition.y += 1;
+					break;
+				}
+				return;
 		}else if(key == 76){ // l key
 			Land.setLand(getLocation(), getCode(getBeneath()));
 			activate();
@@ -71,7 +90,7 @@ public class ControlledUnit extends MovableUnit {
 	}
 	
 	public Point getDrawPosition(){
-		if(modifier != 1){
+		if(modifier == 0){
 			drawPosition = (Point)getLocation().clone();
 			return getLocation();
 		}else{

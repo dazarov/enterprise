@@ -173,6 +173,17 @@ public class DWorldLauncher implements KeyListener, MouseListener, MouseMotionLi
 		window.add(toolBar, BorderLayout.NORTH);
 	}
 	
+	/**
+	 * Modifier could be
+	 * 
+	 * 0 - no Ctrl or Shift pressed
+	 * 1 - Shift pressed
+	 * 2 - Ctrl pressed
+	 * 3 - Ctrl and Shift pressed
+	 * 
+	 * @param keyCode
+	 * @param keyModifiers
+	 */
 	public void doKeyPressed(int keyCode, int keyModifiers){
 		if (keyCode == 0)
 			return;
