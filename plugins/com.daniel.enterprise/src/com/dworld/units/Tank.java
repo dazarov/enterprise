@@ -1,11 +1,11 @@
 package com.dworld.units;
 
-import com.dworld.core.DWorldConstants;
+import com.dworld.core.DWConstants;
 
 public abstract class Tank extends MovableUnit {
 
 	public Tank(int x, int y, int code) {
-		super(x, y, code, DWorldConstants.TANK_SPEED);
+		super(x, y, code, DWConstants.TANK_SPEED);
 	}
 	
 	@Override
@@ -16,11 +16,11 @@ public abstract class Tank extends MovableUnit {
 		
 		fireAgainstRocket();
 		
-		fireCannonBalls(DWorldConstants.TANK_ARMORED_DISTANCE);
+		fireCannonBalls(DWConstants.TANK_ARMORED_DISTANCE);
 		
-		fireBullets(DWorldConstants.TANK_NOTARMORED_DISTANCE);
+		fireBullets(DWConstants.TANK_NOTARMORED_DISTANCE);
 		
-		extendedFireCannonBalls(DWorldConstants.TANK_ARMORED_DISTANCE);
+		extendedFireCannonBalls(DWConstants.TANK_ARMORED_DISTANCE);
 		return true;
 	}
 }

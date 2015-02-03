@@ -7,7 +7,7 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.dworld.core.DWorldConstants;
+import com.dworld.core.DWConstants;
 import com.dworld.core.Direction;
 import com.dworld.core.Land;
 import com.dworld.core.SelectionManager;
@@ -59,11 +59,11 @@ public abstract class MovableUnit extends ActiveUnit {
 		this.beneath = beneath;
 	}
 
-	private double curent = DWorldConstants.MAX_SPEED;
+	private double curent = DWConstants.MAX_SPEED;
 	
 	public final void step() {
 		if (!lookAround()) {
-			curent += DWorldConstants.MAX_SPEED;
+			curent += DWConstants.MAX_SPEED;
 			return;
 		}
 		
@@ -77,7 +77,7 @@ public abstract class MovableUnit extends ActiveUnit {
 		curent -= speed;
 		
 		if (curent <= 0) {
-			curent += DWorldConstants.MAX_SPEED;
+			curent += DWConstants.MAX_SPEED;
 			findDirection();
 			if (Land.canIWalk(getLocation(), direction, getWalkList())) {
 				walk();
@@ -186,10 +186,10 @@ public abstract class MovableUnit extends ActiveUnit {
 	}
 
 	protected void setSpeed(double speed) {
-		if (speed > DWorldConstants.MAX_SPEED)
-			this.speed = DWorldConstants.MAX_SPEED;
+		if (speed > DWConstants.MAX_SPEED)
+			this.speed = DWConstants.MAX_SPEED;
 		else if (speed < 0)
-			this.speed = DWorldConstants.STOP_SPEED;
+			this.speed = DWConstants.STOP_SPEED;
 		else
 			this.speed = speed;
 		
@@ -197,7 +197,7 @@ public abstract class MovableUnit extends ActiveUnit {
 	}
 	
 	private void stop(){
-		speed = DWorldConstants.STOP_SPEED;
+		speed = DWConstants.STOP_SPEED;
 	}
 
 	private void go(){
@@ -420,7 +420,7 @@ public abstract class MovableUnit extends ActiveUnit {
 	}
 	
 	protected void fireCannonBalls(){
-		fireCannonBalls(DWorldConstants.VISIBLE_DISTANCE);
+		fireCannonBalls(DWConstants.VISIBLE_DISTANCE);
 	}
 	
 	protected Bullet fireBullet(){

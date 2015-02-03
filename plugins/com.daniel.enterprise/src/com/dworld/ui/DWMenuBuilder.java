@@ -12,17 +12,17 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JRadioButtonMenuItem;
 
-import com.dworld.DWorldLauncher;
-import com.dworld.core.Engine;
+import com.dworld.DWLauncher;
+import com.dworld.core.DWEngine;
 import com.dworld.core.Land;
 import com.dworld.core.SelectionManager;
 import com.dworld.ui.actions.ChangeManCodeAction;
 import com.dworld.ui.actions.SelectElementAction;
 
-public class DWorldMenuBuilder {
+public class DWMenuBuilder {
 	private JFrame window;
 	
-	public DWorldMenuBuilder(JFrame window){
+	public DWMenuBuilder(JFrame window){
 		this.window = window;
 	}
 	
@@ -37,7 +37,7 @@ public class DWorldMenuBuilder {
 		menuItem = new JMenuItem("Load");
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Engine.getEngine().load(DWorldLauncher.SAVE_FILE);
+				DWEngine.getEngine().load(DWLauncher.SAVE_FILE);
 			}
 		});
 		menu.add(menuItem);
@@ -45,7 +45,7 @@ public class DWorldMenuBuilder {
 		menuItem = new JMenuItem("Save");
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Engine.getEngine().save(DWorldLauncher.SAVE_FILE);
+				DWEngine.getEngine().save(DWLauncher.SAVE_FILE);
 			}
 		});
 		menu.add(menuItem);
@@ -55,7 +55,7 @@ public class DWorldMenuBuilder {
 		menuItem = new JMenuItem("Load Backup");
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Engine.getEngine().load(DWorldLauncher.BACKUP_FILE);
+				DWEngine.getEngine().load(DWLauncher.BACKUP_FILE);
 			}
 		});
 		menu.add(menuItem);
@@ -63,7 +63,7 @@ public class DWorldMenuBuilder {
 		menuItem = new JMenuItem("Save Backup");
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Engine.getEngine().save(DWorldLauncher.BACKUP_FILE);
+				DWEngine.getEngine().save(DWLauncher.BACKUP_FILE);
 			}
 		});
 		menu.add(menuItem);
@@ -73,7 +73,7 @@ public class DWorldMenuBuilder {
 		menuItem = new JMenuItem("Load Test");
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Engine.getEngine().load(DWorldLauncher.TEST_FILE);
+				DWEngine.getEngine().load(DWLauncher.TEST_FILE);
 			}
 		});
 		menu.add(menuItem);
@@ -81,7 +81,7 @@ public class DWorldMenuBuilder {
 		menuItem = new JMenuItem("Save Test");
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Engine.getEngine().save(DWorldLauncher.TEST_FILE);
+				DWEngine.getEngine().save(DWLauncher.TEST_FILE);
 			}
 		});
 		menu.add(menuItem);
@@ -91,7 +91,7 @@ public class DWorldMenuBuilder {
 		menuItem = new JMenuItem("Exit");
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(DWorldLauncher.getLauncher().exitConfirmation())
+				if(DWLauncher.getLauncher().exitConfirmation())
 					System.exit(0);
 			}
 		});
@@ -105,7 +105,7 @@ public class DWorldMenuBuilder {
 		menuItem = new JMenuItem("Map");
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Map.showMap();
+				DWMap.showMap();
 			}
 		});
 		menu.add(menuItem);
@@ -113,7 +113,7 @@ public class DWorldMenuBuilder {
 		menuItem = new JMenuItem("Mini Map");
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Map.showMinimap();
+				DWMap.showMinimap();
 			}
 		});
 		menu.add(menuItem);
@@ -123,7 +123,7 @@ public class DWorldMenuBuilder {
 		menuItem = new JMenuItem("Pause");
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Engine.getEngine().pause(true);
+				DWEngine.getEngine().pause(true);
 			}
 		});
 		menu.add(menuItem);
@@ -131,7 +131,7 @@ public class DWorldMenuBuilder {
 		menuItem = new JMenuItem("Go");
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Engine.getEngine().pause(false);
+				DWEngine.getEngine().pause(false);
 			}
 		});
 		menu.add(menuItem);
@@ -141,7 +141,7 @@ public class DWorldMenuBuilder {
 		menuItem = new JMenuItem("Info");
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new InfoScreen(window, DWorldLauncher.getControlledUnit());
+				new DWInfoScreen(window, DWLauncher.getControlledUnit());
 			}
 		});
 		menu.add(menuItem);
@@ -150,12 +150,12 @@ public class DWorldMenuBuilder {
 		cbMenuItem = new JCheckBoxMenuItem("Build mode");
 		cbMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				DWorldLauncher.getLauncher().setBuildMode(!DWorldLauncher.getLauncher().isBuildMode());
-				Engine.getEngine().pause(DWorldLauncher.getLauncher().isBuildMode());
-				if(DWorldLauncher.getLauncher().isBuildMode()){
-					DWorldToolBarBuilder.showPalette();
+				DWLauncher.getLauncher().setBuildMode(!DWLauncher.getLauncher().isBuildMode());
+				DWEngine.getEngine().pause(DWLauncher.getLauncher().isBuildMode());
+				if(DWLauncher.getLauncher().isBuildMode()){
+					DWToolBarBuilder.showPalette();
 				}else{
-					DWorldToolBarBuilder.hidePalette();
+					DWToolBarBuilder.hidePalette();
 				}
 			}
 		});
@@ -377,25 +377,25 @@ public class DWorldMenuBuilder {
 		menu.addSeparator();
 		
 		menuItem = new JCheckBoxMenuItem("Fight");
-		if(DWorldLauncher.getControlledUnit() != null)
-			menuItem.setSelected(DWorldLauncher.getControlledUnit().isFight());
+		if(DWLauncher.getControlledUnit() != null)
+			menuItem.setSelected(DWLauncher.getControlledUnit().isFight());
 		else
 			menuItem.setSelected(false);
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				DWorldLauncher.getControlledUnit().setFight(!DWorldLauncher.getControlledUnit().isFight());
+				DWLauncher.getControlledUnit().setFight(!DWLauncher.getControlledUnit().isFight());
 			}
 		});
 		menu.add(menuItem);
 		
 		menuItem = new JCheckBoxMenuItem("Defense");
-		if(DWorldLauncher.getControlledUnit() != null)
-			menuItem.setSelected(DWorldLauncher.getControlledUnit().isDefense());
+		if(DWLauncher.getControlledUnit() != null)
+			menuItem.setSelected(DWLauncher.getControlledUnit().isDefense());
 		else
 			menuItem.setSelected(true);
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				DWorldLauncher.getControlledUnit().setDefense(!DWorldLauncher.getControlledUnit().isDefense());
+				DWLauncher.getControlledUnit().setDefense(!DWLauncher.getControlledUnit().isDefense());
 			}
 		});
 		menu.add(menuItem);
@@ -409,7 +409,7 @@ public class DWorldMenuBuilder {
 		JRadioButtonMenuItem rbMenuItem = new JRadioButtonMenuItem("Attack");
 		rbMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				DWorldLauncher.getLauncher().setAttackMode(true);
+				DWLauncher.getLauncher().setAttackMode(true);
 			}
 		});
 		rbMenuItem.setSelected(false);
@@ -419,7 +419,7 @@ public class DWorldMenuBuilder {
 		rbMenuItem = new JRadioButtonMenuItem("Move to");
 		rbMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				DWorldLauncher.getLauncher().setAttackMode(false);
+				DWLauncher.getLauncher().setAttackMode(false);
 			}
 		});
 		rbMenuItem.setSelected(true);
@@ -509,7 +509,7 @@ public class DWorldMenuBuilder {
 	
 	private void createHeroMenuItem(JMenu menu, String name, int code){
 		JMenuItem menuItem = new JMenuItem(name);
-		menuItem.setIcon(new ImageIcon(DrawWorld.getImage(code)));
+		menuItem.setIcon(new ImageIcon(DWDraw.getImage(code)));
 		menuItem.addActionListener(new ChangeManCodeAction(window, code));
 		menu.add(menuItem);
 	}
@@ -517,9 +517,9 @@ public class DWorldMenuBuilder {
 	private void createBuildMenuItem(JMenu menu, ButtonGroup group,
 			String name, int code) {
 		JRadioButtonMenuItem rbMenuItem = new JRadioButtonMenuItem(name);
-		rbMenuItem.setIcon(new ImageIcon(DrawWorld.getImage(code)));
+		rbMenuItem.setIcon(new ImageIcon(DWDraw.getImage(code)));
 		rbMenuItem.addActionListener(new SelectElementAction(code));
-		if (DWorldLauncher.getLauncher().getSelectedElement() == code)
+		if (DWLauncher.getLauncher().getSelectedElement() == code)
 			rbMenuItem.setSelected(true);
 		group.add(rbMenuItem);
 		menu.add(rbMenuItem);

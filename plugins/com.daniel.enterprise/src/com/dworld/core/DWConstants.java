@@ -1,6 +1,6 @@
 package com.dworld.core;
 
-public class DWorldConstants {
+public class DWConstants {
 	// Size
 	
 	public static final int MAX_X = 3500;

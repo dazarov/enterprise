@@ -2,7 +2,7 @@ package com.dworld.units.railroad;
 
 import java.util.List;
 
-import com.dworld.core.DWorldConstants;
+import com.dworld.core.DWConstants;
 import com.dworld.core.Direction;
 import com.dworld.core.Land;
 import com.dworld.units.weapon.Rocket;
@@ -132,9 +132,9 @@ public class WarTrain extends Train {
 		//searchForStation();
 		//fireAgainstRocket();
 		
-		fireCannonBalls(DWorldConstants.TANK_ARMORED_DISTANCE);
+		fireCannonBalls(DWConstants.TANK_ARMORED_DISTANCE);
 		
-		fireBullets(DWorldConstants.TANK_NOTARMORED_DISTANCE);
+		fireBullets(DWConstants.TANK_NOTARMORED_DISTANCE);
 		return true;
 	}
 	

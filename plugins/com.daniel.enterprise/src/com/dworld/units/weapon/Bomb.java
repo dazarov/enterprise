@@ -2,7 +2,7 @@ package com.dworld.units.weapon;
 
 import java.util.List;
 
-import com.dworld.core.DWorldConstants;
+import com.dworld.core.DWConstants;
 import com.dworld.core.Direction;
 import com.dworld.core.Land;
 
@@ -11,7 +11,7 @@ public class Bomb extends MovableWeapon {
 	boolean first = true;
 
 	public Bomb(int x, int y, Direction direction, int distance) {
-		super(x, y, Land.Bomb, DWorldConstants.BOMB_SPEED);
+		super(x, y, Land.Bomb, DWConstants.BOMB_SPEED);
 		setDirection(direction);
 		this.distance = distance;
 		Land.setLand(getLocation(), beneath);

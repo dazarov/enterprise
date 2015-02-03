@@ -1,6 +1,6 @@
 package com.dworld.units;
 
-import com.dworld.core.DWorldConstants;
+import com.dworld.core.DWConstants;
 import com.dworld.core.ISlow;
 
 public abstract class Radar extends ActiveUnit implements ISlow {
@@ -15,6 +15,6 @@ public abstract class Radar extends ActiveUnit implements ISlow {
 			return;
 		}
 		
-		extendedFireRockets(DWorldConstants.RADAR_VISIBLE_DISTANCE);
+		extendedFireRockets(DWConstants.RADAR_VISIBLE_DISTANCE);
 	}
 }

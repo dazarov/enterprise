@@ -11,13 +11,13 @@ import java.util.HashMap;
 
 import javax.swing.ImageIcon;
 
-import com.dworld.DWorldLauncher;
-import com.dworld.core.DWorldConstants;
+import com.dworld.DWLauncher;
+import com.dworld.core.DWConstants;
 import com.dworld.core.Land;
 import com.dworld.core.SelectionManager;
 import com.dworld.units.ControlledUnit;
 
-public class DrawWorld {
+public class DWDraw {
 	private static int startX = 0, startY = 0;
 	private static HashMap<Integer, Image> images = new HashMap<Integer, Image>();
 	private static ControlledUnit unit = null;
@@ -606,7 +606,7 @@ public class DrawWorld {
 	}
 
 	public static Image loadImage(String path) {
-		URL url = DWorldLauncher.class.getClassLoader().getResource(path);
+		URL url = DWLauncher.class.getClassLoader().getResource(path);
 		if(url != null){
 			return new ImageIcon(url).getImage();
 		}else{
@@ -637,24 +637,24 @@ public class DrawWorld {
 		if (unit != null)
 			calculateLocation(unit.getDrawPosition());
 		
-		for (int x = 0; x < DWorldConstants.UI_WIDTH; x++) {
-			for (int y = 0; y < DWorldConstants.UI_HEIGHT; y++) {
+		for (int x = 0; x < DWConstants.UI_WIDTH; x++) {
+			for (int y = 0; y < DWConstants.UI_HEIGHT; y++) {
 				code = Land.getLand(startX + x, startY + y);
 				
 				image = getImage(code);
-				g.drawImage(image, x * DWorldConstants.UI_IMAGE_WIDTH, y * DWorldConstants.UI_IMAGE_HEIGHT, DWorldConstants.UI_IMAGE_WIDTH,	DWorldConstants.UI_IMAGE_HEIGHT, null);
+				g.drawImage(image, x * DWConstants.UI_IMAGE_WIDTH, y * DWConstants.UI_IMAGE_HEIGHT, DWConstants.UI_IMAGE_WIDTH,	DWConstants.UI_IMAGE_HEIGHT, null);
 			}
 		}
 		Rectangle area = SelectionManager.getSelectedArea();
 		if(area != null){
 			g.setColor(Color.yellow);
-			g.drawRect((area.x-startX)*DWorldConstants.UI_IMAGE_WIDTH, (area.y-startY)*DWorldConstants.UI_IMAGE_HEIGHT, area.width*DWorldConstants.UI_IMAGE_WIDTH-1, area.height*DWorldConstants.UI_IMAGE_HEIGHT-1);
+			g.drawRect((area.x-startX)*DWConstants.UI_IMAGE_WIDTH, (area.y-startY)*DWConstants.UI_IMAGE_HEIGHT, area.width*DWConstants.UI_IMAGE_WIDTH-1, area.height*DWConstants.UI_IMAGE_HEIGHT-1);
 		}
 		ArrayList<Point> elements = SelectionManager.getSelectedLine();
 		if(elements != null){
 			g.setColor(Color.yellow);
 			for(Point point : elements){
-				g.drawRect((point.x-startX)*DWorldConstants.UI_IMAGE_WIDTH, (point.y-startY)*DWorldConstants.UI_IMAGE_HEIGHT, DWorldConstants.UI_IMAGE_WIDTH-1, DWorldConstants.UI_IMAGE_HEIGHT-1);
+				g.drawRect((point.x-startX)*DWConstants.UI_IMAGE_WIDTH, (point.y-startY)*DWConstants.UI_IMAGE_HEIGHT, DWConstants.UI_IMAGE_WIDTH-1, DWConstants.UI_IMAGE_HEIGHT-1);
 			}
 		}
 	}
@@ -664,7 +664,7 @@ public class DrawWorld {
 	}
 
 	public static void setX(int x) {
-		DrawWorld.startX = x;
+		DWDraw.startX = x;
 	}
 
 	public static int getY() {
@@ -672,10 +672,10 @@ public class DrawWorld {
 	}
 
 	public static void setY(int y) {
-		DrawWorld.startY = y;
+		DWDraw.startY = y;
 	}
 
 	public static void setUnit(ControlledUnit unit) {
-		DrawWorld.unit = unit;
+		DWDraw.unit = unit;
 	}
 }

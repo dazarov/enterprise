@@ -12,13 +12,12 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.dworld.DWorldLauncher;
-import com.dworld.ui.DProgressMonitor;
-import com.dworld.ui.DrawWorld;
-import com.dworld.ui.MessageDialog;
+import com.dworld.DWLauncher;
+import com.dworld.ui.DWProgressMonitor;
+import com.dworld.ui.DWDraw;
+import com.dworld.ui.DWMessageDialog;
 import com.dworld.units.ControlledUnit;
 import com.dworld.units.MovableUnit;
-import com.dworld.units.UnitFactory;
 import com.dworld.units.weapon.Bullet;
 
 public class Land {
@@ -272,7 +271,7 @@ public class Land {
 	/**
 	 * Map itself
 	 */
-	private static int[][] landMap = new int[DWorldConstants.MAX_X][DWorldConstants.MAX_Y];
+	private static int[][] landMap = new int[DWConstants.MAX_X][DWConstants.MAX_Y];
 	
 	/**
 	 * Land lists section start
@@ -665,10 +664,10 @@ public class Land {
 	}
 
 	public static int getLand(int x, int y) {
-		if (x > DWorldConstants.MAX_X - 1 || y > DWorldConstants.MAX_Y - 1) {
+		if (x > DWConstants.MAX_X - 1 || y > DWConstants.MAX_Y - 1) {
 			return Land.Vacuum;
 		}
-		if (x < DWorldConstants.MIN_X || y < DWorldConstants.MIN_Y) {
+		if (x < DWConstants.MIN_X || y < DWConstants.MIN_Y) {
 			return Land.Vacuum;
 		}
 		int code;
@@ -735,9 +734,9 @@ public class Land {
 
 	public static int getLand(Point location, Direction direction) {
 		location = getNewLocation(location, direction);
-		if (location.x > DWorldConstants.MAX_X - 1 || location.y > DWorldConstants.MAX_Y - 1)
+		if (location.x > DWConstants.MAX_X - 1 || location.y > DWConstants.MAX_Y - 1)
 			return Vacuum;
-		if (location.x < DWorldConstants.MIN_X || location.y < DWorldConstants.MIN_Y)
+		if (location.x < DWConstants.MIN_X || location.y < DWConstants.MIN_Y)
 			return Vacuum;
 		return getLand(location);
 	}
@@ -773,7 +772,7 @@ public class Land {
 	}
 	
 	public static int findUnit(Point location, Direction direction, List<Integer> list) {
-		return findUnit(location, direction, list, DWorldConstants.VISIBLE_DISTANCE);
+		return findUnit(location, direction, list, DWConstants.VISIBLE_DISTANCE);
 	}
 
 	public static int findUnit(final Point location, final Direction direction, final List<Integer> list, final int maxDistance) {
@@ -810,18 +809,18 @@ public class Land {
 			if (!flyAndFindList.contains(new Integer(land)))
 				return null;
 			distance++;
-			if (distance > DWorldConstants.VISIBLE_DISTANCE)
+			if (distance > DWConstants.VISIBLE_DISTANCE)
 				return null;
 			point = getNewLocation(point, direction);
 		}
 	}
 
 	public static int getMaxX() {
-		return DWorldConstants.MAX_X;
+		return DWConstants.MAX_X;
 	}
 
 	public static int getMaxY() {
-		return DWorldConstants.MAX_Y;
+		return DWConstants.MAX_Y;
 	}
 
 	public static void explode(final Point location) {
@@ -848,14 +847,14 @@ public class Land {
 	private static void loadMan(final int x, final int y, int code,
 			InputStream stream) throws IOException {
 		ControlledUnit unit = new ControlledUnit(x, y, code);
-		DWorldLauncher.setControlledUnit(unit);
+		DWLauncher.setControlledUnit(unit);
 		unit.load(stream);
-		DrawWorld.setUnit(unit);
+		DWDraw.setUnit(unit);
 	}
 
 	
 	private static boolean loadUnit(int code, int x, int y,	InputStream stream) throws IOException {
-		IUnit unit = UnitFactory.createUnit(code, x, y);
+		IUnit unit = DWUnitFactory.createUnit(code, x, y);
 		if(unit != null){
 			unit.load(stream);
 			return true;
@@ -871,29 +870,29 @@ public class Land {
 	
 	private static void saved(Frame panel){
 		dirty = false;
-		panel.setTitle(DWorldLauncher.TITLE);
+		panel.setTitle(DWLauncher.TITLE);
 	}
 	
 	public static void modified(Frame panel){
 		dirty = true;
-		panel.setTitle(DWorldLauncher.MODIFYED_TITLE);
+		panel.setTitle(DWLauncher.MODIFYED_TITLE);
 	}
 
 	public static void load(String fileName, Frame panel) {
-		for (int x = 0; x < DWorldConstants.MAX_X; x++) {
-			for (int y = 0; y < DWorldConstants.MAX_Y; y++) {
+		for (int x = 0; x < DWConstants.MAX_X; x++) {
+			for (int y = 0; y < DWConstants.MAX_Y; y++) {
 				synchronized(landMap){
 					landMap[x][y] = Empty;
 				}
 			}
 		}
-		File file = new File(DWorldLauncher.getPath()+fileName);
+		File file = new File(DWLauncher.getPath()+fileName);
 		if (!file.exists()){
-			new MessageDialog(panel, "Error", "File "+file.getAbsolutePath()+" not found");
+			new DWMessageDialog(panel, "Error", "File "+file.getAbsolutePath()+" not found");
 			return;
 		}
 		
-		DProgressMonitor progressMonitor = new DProgressMonitor(panel, "Loading "+fileName+" file...", DWorldConstants.MAX_X);
+		DWProgressMonitor progressMonitor = new DWProgressMonitor(panel, "Loading "+fileName+" file...", DWConstants.MAX_X);
 		int progress = 0;
 		try {
 			FileInputStream fs = new FileInputStream(file);
@@ -902,11 +901,11 @@ public class Land {
 			int heroX = readInt(stream);
 			int heroY = readInt(stream);
 			
-			for (int x = 0; x < DWorldConstants.MAX_X; x++) {
+			for (int x = 0; x < DWConstants.MAX_X; x++) {
 				progress++;
 				progressMonitor.setProgress(progress);
 
-				for (int y = 0; y < DWorldConstants.MAX_Y; y++) {
+				for (int y = 0; y < DWConstants.MAX_Y; y++) {
 					int code = stream.read();
 					
 					if(x == heroX && y == heroY){
@@ -931,22 +930,22 @@ public class Land {
 	}
 
 	public static void save(String fileName, Frame panel) {
-		File file = new File(DWorldLauncher.getPath()+fileName);
-		DProgressMonitor progressMonitor = new DProgressMonitor(panel, "Saving "+fileName+" file...", DWorldConstants.MAX_X);
+		File file = new File(DWLauncher.getPath()+fileName);
+		DWProgressMonitor progressMonitor = new DWProgressMonitor(panel, "Saving "+fileName+" file...", DWConstants.MAX_X);
 		int progress = 0;
 		try {
 			FileOutputStream fs = new FileOutputStream(file);
 			BufferedOutputStream stream = new BufferedOutputStream(fs);
 			
-			ControlledUnit hero = DWorldLauncher.getControlledUnit();
+			ControlledUnit hero = DWLauncher.getControlledUnit();
 			
 			writeInt(stream, hero.getLocation().x);
 			writeInt(stream, hero.getLocation().y);
 			
-			for (int x = 0; x < DWorldConstants.MAX_X; x++) {
+			for (int x = 0; x < DWConstants.MAX_X; x++) {
 				progress++;
 				progressMonitor.setProgress(progress);
-				for (int y = 0; y < DWorldConstants.MAX_Y; y++) {
+				for (int y = 0; y < DWConstants.MAX_Y; y++) {
 					int code;
 					synchronized(landMap){
 						code = landMap[x][y];
@@ -964,7 +963,7 @@ public class Land {
 					}
 					stream.write(code);
 					if (saveList.contains(code)) {
-						IUnit unit = Engine.getEngine().findUnit(new Point(x, y));
+						IUnit unit = DWEngine.getEngine().findUnit(new Point(x, y));
 						if (unit != null)
 							unit.save(stream);
 					}

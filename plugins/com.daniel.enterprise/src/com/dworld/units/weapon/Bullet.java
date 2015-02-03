@@ -3,7 +3,7 @@ package com.dworld.units.weapon;
 import java.awt.Point;
 import java.util.List;
 
-import com.dworld.core.DWorldConstants;
+import com.dworld.core.DWConstants;
 import com.dworld.core.Direction;
 import com.dworld.core.Land;
 
@@ -11,7 +11,7 @@ public class Bullet extends MovableWeapon {
 	private int counter=0;
 
 	public Bullet(int x, int y, Direction direction) {
-		super(x, y, Land.Bullet, DWorldConstants.BULLET_SPEED);
+		super(x, y, Land.Bullet, DWConstants.BULLET_SPEED);
 		setDirection(direction);
 		Land.setLand(getLocation(), beneath);
 	}
@@ -107,7 +107,7 @@ public class Bullet extends MovableWeapon {
 	@Override
 	protected void walk() {
 		counter++;
-		if(counter > DWorldConstants.BULLET_RANGE){
+		if(counter > DWConstants.BULLET_RANGE){
 			die();
 			return;
 		}

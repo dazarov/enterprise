@@ -18,20 +18,20 @@ import javax.swing.JFrame;
  * @author daniel
  *
  */
-public class DWorldWindowListener implements WindowListener, ComponentListener{
-	private static DWorldWindowListener instance;
+public class DWWindowListener implements WindowListener, ComponentListener{
+	private static DWWindowListener instance;
 	
 	JFrame mainWindow = null;
-	ArrayList<DWindow> windows = new ArrayList<DWindow>();
+	ArrayList<DWWindow> windows = new ArrayList<DWWindow>();
 	
-	public static DWorldWindowListener getDefault(){
+	public static DWWindowListener getDefault(){
 		if(instance == null){
-			instance = new DWorldWindowListener();
+			instance = new DWWindowListener();
 		}
 		return instance;
 	}
 	
-	public void addWindow(DWindow window){
+	public void addWindow(DWWindow window){
 		windows.add(window);
 		window.addWindowListener(this);
 		window.addComponentListener(this);
@@ -92,7 +92,7 @@ public class DWorldWindowListener implements WindowListener, ComponentListener{
 	public void componentMoved(ComponentEvent e) {
 		Window w = (Window)e.getComponent();
 		if(w.equals(mainWindow)){
-			for(DWindow window : windows){
+			for(DWWindow window : windows){
 				relocate(window);
 			}
 		}
@@ -116,13 +116,13 @@ public class DWorldWindowListener implements WindowListener, ComponentListener{
 	public void componentHidden(ComponentEvent e) {
 	}
 	
-	private void relocate(DWindow window){
+	private void relocate(DWWindow window){
 		Point mainLocation = mainWindow.getLocation();
 		Dimension mainSize = mainWindow.getSize();
 		Dimension size = window.getSize();
-		if(window.getOrientation() == DWindow.ORIENTATION_RIGHT){
+		if(window.getOrientation() == DWWindow.ORIENTATION_RIGHT){
 			window.setLocation(mainLocation.x+mainSize.width, mainLocation.y+(mainSize.height-size.height)/2);
-		}else if(window.getOrientation() == DWindow.ORIENTATION_LEFT){
+		}else if(window.getOrientation() == DWWindow.ORIENTATION_LEFT){
 			window.setLocation(mainLocation.x-size.width, mainLocation.y+(mainSize.height-size.height)/2);
 		}
 	}

@@ -21,21 +21,21 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JToolBar;
 
-import com.dworld.core.DWorldConstants;
+import com.dworld.core.DWConstants;
+import com.dworld.core.DWUnitFactory;
 import com.dworld.core.Direction;
-import com.dworld.core.Engine;
+import com.dworld.core.DWEngine;
 import com.dworld.core.IUnit;
 import com.dworld.core.Land;
 import com.dworld.core.SelectionManager;
-import com.dworld.ui.DWorldMenuBuilder;
-import com.dworld.ui.DWorldToolBarBuilder;
-import com.dworld.ui.DWorldWindowListener;
-import com.dworld.ui.DrawWorld;
-import com.dworld.ui.Map;
+import com.dworld.ui.DWMenuBuilder;
+import com.dworld.ui.DWToolBarBuilder;
+import com.dworld.ui.DWWindowListener;
+import com.dworld.ui.DWDraw;
+import com.dworld.ui.DWMap;
 import com.dworld.units.ControlledUnit;
-import com.dworld.units.UnitFactory;
 
-public class DWorldLauncher implements KeyListener, MouseListener, MouseMotionListener {
+public class DWLauncher implements KeyListener, MouseListener, MouseMotionListener {
 	public static final String SAVE_FILE = "/save.dat";
 	public static final String BACKUP_FILE = "/backup.dat";
 	public static final String TEST_FILE = "/test.dat";
@@ -47,7 +47,7 @@ public class DWorldLauncher implements KeyListener, MouseListener, MouseMotionLi
 	
 	private static int draw_mode = DRAW_BRUSH;
 	
-	private static DWorldLauncher launcher;
+	private static DWLauncher launcher;
 	private static ControlledUnit controlledUnit = null;
 	private JFrame window;
 	private static String path;
@@ -59,9 +59,9 @@ public class DWorldLauncher implements KeyListener, MouseListener, MouseMotionLi
 	
 	private static boolean attack_mode = false;
 	
-	private Engine engine;
+	private DWEngine engine;
 
-	public DWorldLauncher() {
+	public DWLauncher() {
 
 	}
 	
@@ -69,7 +69,7 @@ public class DWorldLauncher implements KeyListener, MouseListener, MouseMotionLi
 		draw_mode = mode;
 	}
 	
-	public static DWorldLauncher getLauncher(){
+	public static DWLauncher getLauncher(){
 		return launcher;
 	}
 
@@ -77,7 +77,7 @@ public class DWorldLauncher implements KeyListener, MouseListener, MouseMotionLi
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		launcher = new DWorldLauncher();
+		launcher = new DWLauncher();
 
 		launcher.init();
 		
@@ -89,7 +89,7 @@ public class DWorldLauncher implements KeyListener, MouseListener, MouseMotionLi
 	}
 
 	private void init() {
-		File jar = new File(DWorldLauncher.class.getProtectionDomain().getCodeSource().getLocation().getPath());
+		File jar = new File(DWLauncher.class.getProtectionDomain().getCodeSource().getLocation().getPath());
 		if(jar.exists()){
 			path = jar.getParent();
 		}else{
@@ -97,8 +97,8 @@ public class DWorldLauncher implements KeyListener, MouseListener, MouseMotionLi
 		}
 		
 		window = new JFrame();
-		engine = new Engine(window);
-		DWorldWindowListener.getDefault().addMainWindow(window);
+		engine = new DWEngine(window);
+		DWWindowListener.getDefault().addMainWindow(window);
 		initMenu();
 		initWindow();
 	}
@@ -118,17 +118,17 @@ public class DWorldLauncher implements KeyListener, MouseListener, MouseMotionLi
 			static final long serialVersionUID = 12;
 
 			public void paint(Graphics g) {
-				DrawWorld.draw(g);
+				DWDraw.draw(g);
 			}
 		};
 		
-		panel.setSize(DWorldConstants.UI_WIDTH * DWorldConstants.UI_IMAGE_WIDTH, DWorldConstants.UI_HEIGHT * DWorldConstants.UI_IMAGE_HEIGHT);
+		panel.setSize(DWConstants.UI_WIDTH * DWConstants.UI_IMAGE_WIDTH, DWConstants.UI_HEIGHT * DWConstants.UI_IMAGE_HEIGHT);
 		window.setLayout(new BorderLayout());
 		window.add(panel, BorderLayout.CENTER);
 		initToolBar();
 		window.pack();
-		window.setSize(DWorldConstants.UI_WIDTH * DWorldConstants.UI_IMAGE_WIDTH + 8,
-				DWorldConstants.UI_HEIGHT * DWorldConstants.UI_IMAGE_HEIGHT + 48);
+		window.setSize(DWConstants.UI_WIDTH * DWConstants.UI_IMAGE_WIDTH + 8,
+				DWConstants.UI_HEIGHT * DWConstants.UI_IMAGE_HEIGHT + 48);
 		window.setLocation(480, 10);
 		window.addKeyListener(launcher);
 		panel.addMouseListener(launcher);
@@ -144,7 +144,7 @@ public class DWorldLauncher implements KeyListener, MouseListener, MouseMotionLi
 			}
 		});
 		
-		Map.switchMinimap();
+		DWMap.switchMinimap();
 	}
 	
 	public boolean exitConfirmation(){
@@ -161,13 +161,13 @@ public class DWorldLauncher implements KeyListener, MouseListener, MouseMotionLi
 	}
 
 	private void initMenu() {
-		DWorldMenuBuilder menuBuilder = new DWorldMenuBuilder(window);
+		DWMenuBuilder menuBuilder = new DWMenuBuilder(window);
 		
 		window.setJMenuBar(menuBuilder.buildMenu());
 	}
 	
 	private void initToolBar(){
-		DWorldToolBarBuilder toolBarBuilder = new DWorldToolBarBuilder(window);
+		DWToolBarBuilder toolBarBuilder = new DWToolBarBuilder(window);
 		JToolBar toolBar = toolBarBuilder.buildToolBar();
 		
 		window.add(toolBar, BorderLayout.NORTH);
@@ -191,9 +191,9 @@ public class DWorldLauncher implements KeyListener, MouseListener, MouseMotionLi
 			if(exitConfirmation())
 				System.exit(0);
 		}else if (keyCode == 77) { // m
-			Map.showMap();
+			DWMap.showMap();
 		}else if (keyCode == 78) { // n
-			Map.switchMinimap();
+			DWMap.switchMinimap();
 		}
 		
 		if (controlledUnit != null)
@@ -239,8 +239,8 @@ public class DWorldLauncher implements KeyListener, MouseListener, MouseMotionLi
 	
 	private Point getLocation(int mouseX, int mouseY){
 		return new Point(
-			DrawWorld.getX() + (mouseX - 3) / DWorldConstants.UI_IMAGE_WIDTH,
-			DrawWorld.getY() + mouseY / DWorldConstants.UI_IMAGE_HEIGHT
+			DWDraw.getX() + (mouseX - 3) / DWConstants.UI_IMAGE_WIDTH,
+			DWDraw.getY() + mouseY / DWConstants.UI_IMAGE_HEIGHT
 		);
 	}
 
@@ -281,9 +281,9 @@ public class DWorldLauncher implements KeyListener, MouseListener, MouseMotionLi
 		}else if(isBrush()){
 			if (e.getButton() == MouseEvent.BUTTON1){
 				Land.setLand(location, selectedElement);
-				UnitFactory.createUnit(selectedElement, location.x, location.y);
+				DWUnitFactory.createUnit(selectedElement, location.x, location.y);
 			}else{
-				IUnit unit = Engine.getEngine().findUnit(location);
+				IUnit unit = DWEngine.getEngine().findUnit(location);
 				if(unit != null){
 					unit.die();
 				}
@@ -374,7 +374,7 @@ public class DWorldLauncher implements KeyListener, MouseListener, MouseMotionLi
 	}
 
 	public static void setControlledUnit(ControlledUnit controlledUnit) {
-		DWorldLauncher.controlledUnit = controlledUnit;
+		DWLauncher.controlledUnit = controlledUnit;
 	}
 
 	public boolean isBuildMode() {

@@ -3,7 +3,7 @@ package com.dworld.units.railroad;
 import java.awt.Point;
 import java.util.List;
 
-import com.dworld.core.DWorldConstants;
+import com.dworld.core.DWConstants;
 import com.dworld.core.Direction;
 import com.dworld.core.Land;
 import com.dworld.units.MovableUnit;
@@ -19,7 +19,7 @@ public class Train extends MovableUnit {
 	private boolean reversable = true;
 
 	public Train(int x, int y, int code) {
-		super(x, y, code, DWorldConstants.TRAIN_SPEED);
+		super(x, y, code, DWConstants.TRAIN_SPEED);
 	}
 
 	@Override

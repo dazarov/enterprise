@@ -2,7 +2,7 @@ package com.dworld.units.weapon;
 
 import java.util.List;
 
-import com.dworld.core.DWorldConstants;
+import com.dworld.core.DWConstants;
 import com.dworld.core.Direction;
 import com.dworld.core.Land;
 
@@ -14,7 +14,7 @@ public class Rocket extends MovableWeapon {
 	private int type;
 
 	public Rocket(int x, int y, Direction direction, int type) {
-		super(x, y, Land.RocketNorth, DWorldConstants.ROCKET_SPEED);
+		super(x, y, Land.RocketNorth, DWConstants.ROCKET_SPEED);
 		this.type = type;
 		setDirection(direction);
 		code = getCode(beneath);
@@ -172,9 +172,9 @@ public class Rocket extends MovableWeapon {
 
 		Direction dir = Direction.nowhere;
 		if (type == EnemyFriendly){
-			dir = findTarget(Land.citizenList, DWorldConstants.ROCKET_VISIBLE_DISTANCE);
+			dir = findTarget(Land.citizenList, DWConstants.ROCKET_VISIBLE_DISTANCE);
 		}else{
-			dir = findTarget(Land.enemyList, DWorldConstants.ROCKET_VISIBLE_DISTANCE);
+			dir = findTarget(Land.enemyList, DWConstants.ROCKET_VISIBLE_DISTANCE);
 		}
 		if (dir != Direction.nowhere && direction != dir) {
 			direction = dir;
@@ -193,7 +193,7 @@ public class Rocket extends MovableWeapon {
 	@Override
 	protected void walk() {
 		counter++;
-		if(counter > DWorldConstants.ROCKET_RANGE){
+		if(counter > DWConstants.ROCKET_RANGE){
 			die();
 			return;
 		}

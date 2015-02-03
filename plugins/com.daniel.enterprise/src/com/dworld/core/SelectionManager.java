@@ -107,7 +107,7 @@ public class SelectionManager {
 			for(int x = selectedArea.x; x < selectedArea.x + selectedArea.width; x++){
 				for(int y = selectedArea.y; y < selectedArea.y + selectedArea.height; y++){
 					Point point = new Point(x, y);
-					IUnit unit = Engine.getEngine().findUnit(point);
+					IUnit unit = DWEngine.getEngine().findUnit(point);
 					if(unit != null){
 						addSelection(unit);
 					}
@@ -118,7 +118,7 @@ public class SelectionManager {
 	}
 	
 	public static boolean sendDefaultCommand(Point location){
-		IUnit unit = Engine.getEngine().findUnit(location);
+		IUnit unit = DWEngine.getEngine().findUnit(location);
 		if(unit != null){
 			unit.command(DEFAULT_COMMAND, null);
 			clearSelection();

@@ -2,7 +2,7 @@ package com.dworld.ui;
 
 import javax.swing.JFrame;
 
-public class DWindow extends JFrame {
+public class DWWindow extends JFrame {
 	public static final int ORIENTATION_TOP = 0;
 	public static final int ORIENTATION_BOTTOM = 1;
 	public static final int ORIENTATION_LEFT = 2;
@@ -11,7 +11,7 @@ public class DWindow extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private int orientation;
 	
-	public DWindow(String title, int orientation){
+	public DWWindow(String title, int orientation){
 		super(title);
 		this.orientation = orientation;
 	}

@@ -1,10 +1,11 @@
-package com.dworld.units;
+package com.dworld.core;
 
 import java.lang.reflect.Constructor;
 import java.util.HashMap;
 
-import com.dworld.core.IUnit;
-import com.dworld.core.Land;
+import com.dworld.units.Gate;
+import com.dworld.units.Teleport;
+import com.dworld.units.Unit;
 import com.dworld.units.citizens.GoodBunker;
 import com.dworld.units.citizens.GoodGeneral;
 import com.dworld.units.citizens.GoodOfficer;
@@ -22,7 +23,7 @@ import com.dworld.units.railroad.Train;
 import com.dworld.units.railroad.WarTrain;
 import com.dworld.units.weapon.Mine;
 
-public class UnitFactory {
+public class DWUnitFactory {
 	private static HashMap<Integer, Class<? extends Unit>> unitMap = new HashMap<Integer, Class<? extends Unit>>();
 	static{
 		unitMap.put(Land.BadSoldier, BadSoldier.class);

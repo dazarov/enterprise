@@ -5,9 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.dworld.core.IActive;
-import com.dworld.core.DWorldConstants;
+import com.dworld.core.DWConstants;
 import com.dworld.core.Direction;
-import com.dworld.core.Engine;
+import com.dworld.core.DWEngine;
 import com.dworld.core.Land;
 import com.dworld.core.SearchResult;
 import com.dworld.core.SelectionManager;
@@ -39,7 +39,7 @@ public abstract class ActiveUnit extends Unit implements IActive {
 	@Override
 	public void die() {
 		if (isAlive()) {
-			Engine.getEngine().removeElement(this);
+			DWEngine.getEngine().removeElement(this);
 			super.die();
 		}
 	}
@@ -66,7 +66,7 @@ public abstract class ActiveUnit extends Unit implements IActive {
 		if(list == null){
 			throw new IllegalArgumentException("Illegal argument list, make sure you defined methods getListToFightWith() and getArmoredListToFightWith() !");
 		}
-		return findUnit(list, DWorldConstants.VISIBLE_DISTANCE);
+		return findUnit(list, DWConstants.VISIBLE_DISTANCE);
 	}
 
 	protected Direction[] findUnit(List<Integer> list, final int maxDistance) {
@@ -198,7 +198,7 @@ public abstract class ActiveUnit extends Unit implements IActive {
 	}
 	
 	protected void fireBullets(){
-		fireBullets(DWorldConstants.VISIBLE_DISTANCE);
+		fireBullets(DWConstants.VISIBLE_DISTANCE);
 	}
 	
 	protected Direction fireAgainstRocket(){
@@ -227,7 +227,7 @@ public abstract class ActiveUnit extends Unit implements IActive {
 	private Rocket[] rocket = new Rocket[8];
 	
 	protected void fireRockets(){
-		fireRockets(DWorldConstants.VISIBLE_DISTANCE);
+		fireRockets(DWConstants.VISIBLE_DISTANCE);
 	}
 	
 	protected void fireRockets(final int distance){
@@ -244,7 +244,7 @@ public abstract class ActiveUnit extends Unit implements IActive {
 		for (Target target : targets) {
 			Direction targetDirection = target.getDirection();
 			int targetDistance = target.getDistance();
-			if(targetDistance > DWorldConstants.MIN_RANGE){
+			if(targetDistance > DWConstants.MIN_RANGE){
 				if(rocket[targetDirection.value] == null || !rocket[targetDirection.value].isAlive()){
 					if(checkDistance(targetDirection, targetDistance)){
 						rocket[targetDirection.value] = fireRocket(targetDirection, getRocketType());
@@ -274,7 +274,7 @@ public abstract class ActiveUnit extends Unit implements IActive {
 		for(Target target : targets) {
 			Direction targetDirection = target.getDirection();
 			int targetDistance = target.getDistance();
-			if(targetDistance > DWorldConstants.MIN_RANGE){
+			if(targetDistance > DWConstants.MIN_RANGE){
 				if(cannonBalls[targetDirection.value] == null || !cannonBalls[targetDirection.value].isAlive()){
 					if(checkDistance(targetDirection, targetDistance)){
 						cannonBalls[targetDirection.value] = fireCannon(targetDirection, targetDistance);

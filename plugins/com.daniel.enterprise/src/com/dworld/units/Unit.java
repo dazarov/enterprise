@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import com.dworld.core.Engine;
+import com.dworld.core.DWEngine;
 import com.dworld.core.IUnit;
 
 public abstract class Unit implements IUnit{
@@ -23,7 +23,7 @@ public abstract class Unit implements IUnit{
 		alive = true;
 		this.location = new Point(x, y);
 		units++;
-		Engine.getEngine().addUnit(this);
+		DWEngine.getEngine().addUnit(this);
 	}
 	
 	@Override
@@ -39,7 +39,7 @@ public abstract class Unit implements IUnit{
 	@Override
 	public void resurrect(){
 		alive = true;
-		Engine.getEngine().addUnit(this);
+		DWEngine.getEngine().addUnit(this);
 	}
 
 	@Override
@@ -53,7 +53,7 @@ public abstract class Unit implements IUnit{
 			throw new IllegalStateException("Illegal use of method setLocation, make sure your unit is instance of MovableUnit!");
 		}
 		this.location.setLocation(location);
-		Engine.getEngine().moveUnit(this);
+		DWEngine.getEngine().moveUnit(this);
 	}
 	
 	@Override

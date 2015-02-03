@@ -10,8 +10,8 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
-import com.dworld.core.DWorldConstants;
-import com.dworld.core.Engine;
+import com.dworld.core.DWConstants;
+import com.dworld.core.DWEngine;
 import com.dworld.core.Land;
 import com.dworld.core.IActive;
 import com.dworld.units.ControlledUnit;
@@ -37,13 +37,13 @@ import com.dworld.units.weapon.CannonBall;
 import com.dworld.units.weapon.Mine;
 import com.dworld.units.weapon.Rocket;
 
-public class InfoScreen extends JDialog{
+public class DWInfoScreen extends JDialog{
 	public static final long serialVersionUID = 2;
 	private JLabel label;
 	
 	private ControlledUnit controlledUnit;
 
-	public InfoScreen(Frame parent, ControlledUnit controlledUnit){
+	public DWInfoScreen(Frame parent, ControlledUnit controlledUnit){
 		super(parent);
 		this.controlledUnit = controlledUnit;
 		setResizable(false);
@@ -78,13 +78,13 @@ public class InfoScreen extends JDialog{
 		
 		buffer.append("<center><table border=0 width=300px>");
 		buffer.append("<tr><td><b>Map size:</b></td><td align=\"right\">"+Land.getMaxX()+" x "+Land.getMaxY()+"</td></tr>");
-		buffer.append("<tr><td><b>Screen size:</b></td><td align=\"right\">"+DWorldConstants.UI_WIDTH+" x "+DWorldConstants.UI_HEIGHT+"</td></tr>");
+		buffer.append("<tr><td><b>Screen size:</b></td><td align=\"right\">"+DWConstants.UI_WIDTH+" x "+DWConstants.UI_HEIGHT+"</td></tr>");
 		buffer.append("<tr><td><b>Hero position:</b></td><td align=\"right\">"+controlledUnit.getLocation().x+", "+controlledUnit.getLocation().y+"</td></tr>");
 		buffer.append("<tr><td><b>Viewport position:</b></td><td align=\"right\">"+controlledUnit.getDrawPosition().x+", "+controlledUnit.getDrawPosition().y+"</td></tr>");
-		buffer.append("<tr><td><b>Number of active units:</b></td><td align=\"right\">"+Engine.getEngine().getNumberOfActiveUnits()+" / "+Engine.getEngine().getMaxNumber()+"</td></tr>");
-		buffer.append("<tr><td><b>Number of units:</b></td><td align=\"right\">"+(Engine.getEngine().getNumberOfActiveUnits()+Engine.getEngine().getNumberOfSlowUnits())+"</td></tr>");
+		buffer.append("<tr><td><b>Number of active units:</b></td><td align=\"right\">"+DWEngine.getEngine().getNumberOfActiveUnits()+" / "+DWEngine.getEngine().getMaxNumber()+"</td></tr>");
+		buffer.append("<tr><td><b>Number of units:</b></td><td align=\"right\">"+(DWEngine.getEngine().getNumberOfActiveUnits()+DWEngine.getEngine().getNumberOfSlowUnits())+"</td></tr>");
 		buffer.append("<tr><td><b>Total Number of used units:</b></td><td align=\"right\">"+Unit.getUnits()+"</td></tr>");
-		buffer.append("<tr><td><b>Loop time:</b></td><td align=\"right\">"+Engine.getEngine().getCurrentDelta()+" / "+Engine.getEngine().getMaxDelta()+"</td></tr>");
+		buffer.append("<tr><td><b>Loop time:</b></td><td align=\"right\">"+DWEngine.getEngine().getCurrentDelta()+" / "+DWEngine.getEngine().getMaxDelta()+"</td></tr>");
 		buffer.append("</table></center>");
 		
 		int trains = 0;
@@ -111,8 +111,8 @@ public class InfoScreen extends JDialog{
 		int dots = 0;
 		int patriots = 0;
 		
-		for(int i = 0; i < Engine.getEngine().getNumberOfActiveUnits(); i++){
-			IActive element = Engine.getEngine().getElement(i);
+		for(int i = 0; i < DWEngine.getEngine().getNumberOfActiveUnits(); i++){
+			IActive element = DWEngine.getEngine().getElement(i);
 			if(element instanceof Mine)
 				mines++;
 			else if(element instanceof Bullet)
@@ -147,8 +147,8 @@ public class InfoScreen extends JDialog{
 				trains++;
 		}
 		
-		for(int i = 0; i < Engine.getEngine().getNumberOfSlowUnits(); i++){
-			IActive element = Engine.getEngine().getSlowElement(i);
+		for(int i = 0; i < DWEngine.getEngine().getNumberOfSlowUnits(); i++){
+			IActive element = DWEngine.getEngine().getSlowElement(i);
 			if(element instanceof Gate)
 				doors++;
 			else if(element instanceof Teleport)

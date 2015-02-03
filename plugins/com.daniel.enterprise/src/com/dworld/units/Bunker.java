@@ -1,6 +1,6 @@
 package com.dworld.units;
 
-import com.dworld.core.DWorldConstants;
+import com.dworld.core.DWConstants;
 
 public abstract class Bunker extends ActiveUnit {
 
@@ -14,6 +14,6 @@ public abstract class Bunker extends ActiveUnit {
 			return;
 		}
 		
-		fireBullets(DWorldConstants.BUNKER_VISIBLE_DISTANCE);
+		fireBullets(DWConstants.BUNKER_VISIBLE_DISTANCE);
 	}
 }

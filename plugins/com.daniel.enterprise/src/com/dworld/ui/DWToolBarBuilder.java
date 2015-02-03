@@ -10,16 +10,16 @@ import javax.swing.JFrame;
 import javax.swing.JToolBar;
 import javax.swing.SwingConstants;
 
-import com.dworld.DWorldLauncher;
+import com.dworld.DWLauncher;
 import com.dworld.core.Land;
 import com.dworld.ui.actions.ChangeManCodeAction;
 import com.dworld.ui.actions.SelectElementAction;
 
-public class DWorldToolBarBuilder {
-	private static DWindow palette = null;
+public class DWToolBarBuilder {
+	private static DWWindow palette = null;
 	private JFrame window;
 	
-	public DWorldToolBarBuilder(JFrame window){
+	public DWToolBarBuilder(JFrame window){
 		this.window = window;
 	}
 	
@@ -49,13 +49,13 @@ public class DWorldToolBarBuilder {
 	
 	private void createHeroButton(JToolBar toolBar, final int code){
 		JButton button = new JButton();
-		button.setIcon(new ImageIcon(DrawWorld.getImage(code)));
+		button.setIcon(new ImageIcon(DWDraw.getImage(code)));
 		button.addActionListener(new ChangeManCodeAction(window, code));
 		
 		toolBar.add(button);
 	}
 	public static void showPalette(){
-		palette = new DWindow("Building Palette", DWindow.ORIENTATION_LEFT);
+		palette = new DWWindow("Building Palette", DWWindow.ORIENTATION_LEFT);
 		palette.setLayout(new GridLayout(1,5));
 		
 		initToolBar();
@@ -65,7 +65,7 @@ public class DWorldToolBarBuilder {
 		palette.setFocusableWindowState(false);
 		palette.setFocusable(false);
 		palette.setVisible(true);
-		DWorldWindowListener.getDefault().addWindow(palette);
+		DWWindowListener.getDefault().addWindow(palette);
 	}
 	
 	public static void hidePalette(){
@@ -222,7 +222,7 @@ public class DWorldToolBarBuilder {
 	
 	private static void createToolButton(JToolBar toolBar, final int code){
 		JButton button = new JButton();
-		button.setIcon(new ImageIcon(DrawWorld.getImage(code)));
+		button.setIcon(new ImageIcon(DWDraw.getImage(code)));
 		button.addActionListener(new SelectElementAction(code));
 		
 		toolBar.add(button);
@@ -230,37 +230,37 @@ public class DWorldToolBarBuilder {
 
 	private static void createDrawButtons(JToolBar toolBar){
 		JButton button = new JButton();
-		button.setIcon(new ImageIcon(DrawWorld.loadImage("resources/brush.png")));
+		button.setIcon(new ImageIcon(DWDraw.loadImage("resources/brush.png")));
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				DWorldLauncher.setDrawMode(DWorldLauncher.DRAW_BRUSH);
+				DWLauncher.setDrawMode(DWLauncher.DRAW_BRUSH);
 			}
 		});
 		toolBar.add(button);
 
 		button = new JButton();
-		button.setIcon(new ImageIcon(DrawWorld.loadImage("resources/line.png")));
+		button.setIcon(new ImageIcon(DWDraw.loadImage("resources/line.png")));
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				DWorldLauncher.setDrawMode(DWorldLauncher.DRAW_LINE);
+				DWLauncher.setDrawMode(DWLauncher.DRAW_LINE);
 			}
 		});
 		toolBar.add(button);
 
 		button = new JButton();
-		button.setIcon(new ImageIcon(DrawWorld.loadImage("resources/rect.png")));
+		button.setIcon(new ImageIcon(DWDraw.loadImage("resources/rect.png")));
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				DWorldLauncher.setDrawMode(DWorldLauncher.DRAW_RECTANGLE);
+				DWLauncher.setDrawMode(DWLauncher.DRAW_RECTANGLE);
 			}
 		});
 		toolBar.add(button);
 		
 		button = new JButton();
-		button.setIcon(new ImageIcon(DrawWorld.loadImage("resources/fill.png")));
+		button.setIcon(new ImageIcon(DWDraw.loadImage("resources/fill.png")));
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				DWorldLauncher.setDrawMode(DWorldLauncher.DRAW_FILL);
+				DWLauncher.setDrawMode(DWLauncher.DRAW_FILL);
 			}
 		});
 		toolBar.add(button);

@@ -3,7 +3,8 @@ package com.dworld.units;
 import java.awt.Point;
 import java.util.List;
 
-import com.dworld.core.DWorldConstants;
+import com.dworld.core.DWConstants;
+import com.dworld.core.DWUnitFactory;
 import com.dworld.core.Direction;
 import com.dworld.core.Land;
 import com.dworld.units.weapon.Rocket;
@@ -12,13 +13,13 @@ public class ControlledUnit extends MovableUnit {
 	protected int key = -1;
 	protected int modifier = 0;
 	protected Point drawPosition = new Point(0,0);
-	protected double currentSpeed = DWorldConstants.STOP_SPEED;
+	protected double currentSpeed = DWConstants.STOP_SPEED;
 	protected boolean fightActive = false;
 	protected boolean defenseActive = true;
 	
 	public ControlledUnit(int x, int y, int code) {
-		super(x, y, code, DWorldConstants.MAX_SPEED);
-		currentSpeed = DWorldConstants.STOP_SPEED;
+		super(x, y, code, DWConstants.MAX_SPEED);
+		currentSpeed = DWConstants.STOP_SPEED;
 		speed = currentSpeed;
 	}
 	
@@ -272,7 +273,7 @@ public class ControlledUnit extends MovableUnit {
 				break;
 				
 			case 87: // w
-				currentSpeed = DWorldConstants.WALK_SPEED;
+				currentSpeed = DWConstants.WALK_SPEED;
 				speed = currentSpeed;
 				break;
 				
@@ -283,7 +284,7 @@ public class ControlledUnit extends MovableUnit {
 				
 			case 107: // +
 				currentSpeed += 0.1;
-				if(currentSpeed > DWorldConstants.MAX_SPEED) currentSpeed = DWorldConstants.MAX_SPEED;
+				if(currentSpeed > DWConstants.MAX_SPEED) currentSpeed = DWConstants.MAX_SPEED;
 				speed = currentSpeed;
 				break;
 
@@ -300,7 +301,7 @@ public class ControlledUnit extends MovableUnit {
 			case 84: // t
 				
 				Land.setLand(getLocation().x, getLocation().y-1, Land.Teleport5);
-				UnitFactory.createUnit(Land.Teleport5, getLocation().x, getLocation().y-1);
+				DWUnitFactory.createUnit(Land.Teleport5, getLocation().x, getLocation().y-1);
 				break;
 
 			case 67: // c
@@ -313,22 +314,22 @@ public class ControlledUnit extends MovableUnit {
 
 			case 37: // Left
 				direction = Direction.west;
-				speed = DWorldConstants.MAX_SPEED;
+				speed = DWConstants.MAX_SPEED;
 				break;
 
 			case 38: // Up
 				direction = Direction.north;
-				speed = DWorldConstants.MAX_SPEED;
+				speed = DWConstants.MAX_SPEED;
 				break;
 
 			case 39: // Right
 				direction = Direction.east;
-				speed = DWorldConstants.MAX_SPEED;
+				speed = DWConstants.MAX_SPEED;
 				break;
 
 			case 40: // Down
 				direction = Direction.south;
-				speed = DWorldConstants.MAX_SPEED;
+				speed = DWConstants.MAX_SPEED;
 				break;
 			}
 			key = -1;

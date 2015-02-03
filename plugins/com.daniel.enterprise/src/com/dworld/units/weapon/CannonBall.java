@@ -2,23 +2,23 @@ package com.dworld.units.weapon;
 
 import java.util.List;
 
-import com.dworld.core.DWorldConstants;
+import com.dworld.core.DWConstants;
 import com.dworld.core.Direction;
 import com.dworld.core.Land;
 
 public class CannonBall extends MovableWeapon {
 	private int counter=0;
-	private int range = DWorldConstants.CANNONBALL_RANGE;
+	private int range = DWConstants.CANNONBALL_RANGE;
 	
 	public CannonBall(int x, int y, Direction direction, int range) {
 		this(x, y, direction);
-		if(range <= DWorldConstants.CANNONBALL_RANGE){
+		if(range <= DWConstants.CANNONBALL_RANGE){
 			this.range = range;
 		}
 	}
 
 	public CannonBall(int x, int y, Direction direction) {
-		super(x, y, Land.CannonBall, DWorldConstants.CANNONBALL_SPEED);
+		super(x, y, Land.CannonBall, DWConstants.CANNONBALL_SPEED);
 		setDirection(direction);
 		Land.setLand(getLocation(), beneath);
 	}

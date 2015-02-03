@@ -13,10 +13,10 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneLayout;
 
-import com.dworld.DWorldLauncher;
+import com.dworld.DWLauncher;
 import com.dworld.core.Land;
 
-public class Map {
+public class DWMap {
 	public static void showMap(){
 		final JFrame window = new JFrame();
 		window.setTitle("Map");
@@ -62,17 +62,17 @@ public class Map {
 		window.setVisible(true);
 	}
 	
-	static DWindow minimap = null;
+	static DWWindow minimap = null;
 	static Point drawPoint = null;
 	
 	public static void refreshMinimap(){
 		if(minimap != null){
 			if(drawPoint == null)
-				drawPoint = new Point(DWorldLauncher.getControlledUnit().getDrawPosition());
+				drawPoint = new Point(DWLauncher.getControlledUnit().getDrawPosition());
 			else{
-				if(!DWorldLauncher.getControlledUnit().getDrawPosition().equals(drawPoint)){
+				if(!DWLauncher.getControlledUnit().getDrawPosition().equals(drawPoint)){
 					minimap.repaint();
-					drawPoint = new Point(DWorldLauncher.getControlledUnit().getDrawPosition());
+					drawPoint = new Point(DWLauncher.getControlledUnit().getDrawPosition());
 				}
 			}
 			
@@ -94,7 +94,7 @@ public class Map {
 	}
 	
 	public static void showMinimap(){
-		minimap = new DWindow("Mini Map", DWindow.ORIENTATION_RIGHT);
+		minimap = new DWWindow("Mini Map", DWWindow.ORIENTATION_RIGHT);
 		minimap.setLayout(new GridLayout());
 		
 		JPanel panel = new JPanel(){
@@ -102,8 +102,8 @@ public class Map {
 
 			public void paint(Graphics g) {
 				super.paint(g);
-				if(DWorldLauncher.getControlledUnit() != null)
-					drawRegion(g, DWorldLauncher.getControlledUnit().getDrawPosition().x-150, DWorldLauncher.getControlledUnit().getDrawPosition().y-150, 300, 300);
+				if(DWLauncher.getControlledUnit() != null)
+					drawRegion(g, DWLauncher.getControlledUnit().getDrawPosition().x-150, DWLauncher.getControlledUnit().getDrawPosition().y-150, 300, 300);
 			}
 		};
 		panel.setBackground(Color.black);
@@ -117,7 +117,7 @@ public class Map {
 		minimap.setFocusableWindowState(false);
 		minimap.setFocusable(false);
 		minimap.setVisible(true);
-		DWorldWindowListener.getDefault().addWindow(minimap);
+		DWWindowListener.getDefault().addWindow(minimap);
 	}
 	
 	public static void drawRegion(Graphics g, int startX, int startY, int width, int height){

@@ -5,17 +5,17 @@ import java.awt.Point;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import com.dworld.DWorldLauncher;
-import com.dworld.ui.Map;
+import com.dworld.DWLauncher;
+import com.dworld.ui.DWMap;
 
-public class Engine extends Thread{
+public class DWEngine extends Thread{
 	private static final long MAIN_DELAY = 60;
 	private static final long SLEEP_DELAY = 100;
 	private static final int minimapRefreshRate = 10;
 	
-	private static Engine instance;
+	private static DWEngine instance;
 	
-	public static Engine getEngine(){
+	public static DWEngine getEngine(){
 		return instance;
 	}
 	
@@ -37,9 +37,9 @@ public class Engine extends Thread{
 	private static long current=0;
 	private static long delay=0;
 	
-	public Engine(Frame window){
+	public DWEngine(Frame window){
 		super();
-		Engine.window = window;
+		DWEngine.window = window;
 		instance = this;
 	}
 	
@@ -102,18 +102,18 @@ public class Engine extends Thread{
 	private static Frame window;
 	
 	public void save(String fileName){
-		Engine.fileName = fileName;
+		DWEngine.fileName = fileName;
 		save = true;
 	}
 	
 	public void saveAndExit(String fileName){
-		Engine.fileName = fileName;
+		DWEngine.fileName = fileName;
 		save = true;
 		exit = true;
 	}
 
 	public void load(String fileName){
-		Engine.fileName = fileName;
+		DWEngine.fileName = fileName;
 		load = true;
 	}
 	
@@ -143,7 +143,7 @@ public class Engine extends Thread{
 
 	public void changeManCode(int code){
 		pause(true);
-		DWorldLauncher.getControlledUnit().setCode(code);
+		DWLauncher.getControlledUnit().setCode(code);
 		pause(false);
 	}
 	
@@ -228,7 +228,7 @@ public class Engine extends Thread{
 		
 		if(refreshCounter <= 0){
 			refreshCounter = minimapRefreshRate;
-			Map.refreshMinimap();
+			DWMap.refreshMinimap();
 		}
 	}
 

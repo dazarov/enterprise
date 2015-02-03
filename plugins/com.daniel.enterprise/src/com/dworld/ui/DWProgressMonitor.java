@@ -7,12 +7,12 @@ import javax.swing.JDialog;
 import javax.swing.JProgressBar;
 
 
-public class DProgressMonitor extends JDialog {
+public class DWProgressMonitor extends JDialog {
 	public static final long serialVersionUID = 1;
 	
 	private JProgressBar progressBar;
 	
-	public DProgressMonitor(Frame parent, String title, int max){
+	public DWProgressMonitor(Frame parent, String title, int max){
 		super(parent);
 		setResizable(false);
 		setTitle(title);

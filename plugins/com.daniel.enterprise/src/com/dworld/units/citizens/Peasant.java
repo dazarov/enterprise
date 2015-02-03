@@ -1,13 +1,13 @@
 package com.dworld.units.citizens;
 
-import com.dworld.core.DWorldConstants;
+import com.dworld.core.DWConstants;
 import com.dworld.core.Land;
 import com.dworld.units.MovableUnit;
 
 public class Peasant extends MovableUnit {
 
 	public Peasant(int x, int y, int code) {
-		super(x, y, code, DWorldConstants.PEASANT_SPEED);
+		super(x, y, code, DWConstants.PEASANT_SPEED);
 		mode = STAY_MODE;
 	}
 

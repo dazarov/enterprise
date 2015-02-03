@@ -9,8 +9,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import com.dworld.core.DWorldConstants;
-import com.dworld.ui.Map;
+import com.dworld.core.DWConstants;
+import com.dworld.ui.DWMap;
 
 public class ShowGraphics{
 	public static void main(String[] args) {
@@ -26,13 +26,13 @@ public class ShowGraphics{
 			}
 		};
 		
-		panel.setSize(DWorldConstants.UI_WIDTH * DWorldConstants.UI_IMAGE_WIDTH, DWorldConstants.UI_HEIGHT * DWorldConstants.UI_IMAGE_HEIGHT);
+		panel.setSize(DWConstants.UI_WIDTH * DWConstants.UI_IMAGE_WIDTH, DWConstants.UI_HEIGHT * DWConstants.UI_IMAGE_HEIGHT);
 		window.setLayout(new BorderLayout());
 		window.add(panel, BorderLayout.CENTER);
 		//initToolBar();
 		window.pack();
-		window.setSize(DWorldConstants.UI_WIDTH * DWorldConstants.UI_IMAGE_WIDTH + 8,
-				DWorldConstants.UI_HEIGHT * DWorldConstants.UI_IMAGE_HEIGHT + 48);
+		window.setSize(DWConstants.UI_WIDTH * DWConstants.UI_IMAGE_WIDTH + 8,
+				DWConstants.UI_HEIGHT * DWConstants.UI_IMAGE_HEIGHT + 48);
 		window.setLocation(200, 10);
 		//window.addKeyListener(launcher);
 		//panel.addMouseListener(launcher);
@@ -67,7 +67,7 @@ public class ShowGraphics{
 			}
 		});
 		
-		Map.switchMinimap();
+		DWMap.switchMinimap();
 
 	}
 }
