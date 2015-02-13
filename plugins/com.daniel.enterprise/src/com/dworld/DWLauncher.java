@@ -22,17 +22,16 @@ import javax.swing.JPanel;
 import javax.swing.JToolBar;
 
 import com.dworld.core.DWConstants;
-import com.dworld.core.DWUnitFactory;
-import com.dworld.core.Direction;
 import com.dworld.core.DWEngine;
+import com.dworld.core.DWUnitFactory;
 import com.dworld.core.IUnit;
 import com.dworld.core.Land;
 import com.dworld.core.SelectionManager;
+import com.dworld.ui.DWDraw;
+import com.dworld.ui.DWMap;
 import com.dworld.ui.DWMenuBuilder;
 import com.dworld.ui.DWToolBarBuilder;
 import com.dworld.ui.DWWindowListener;
-import com.dworld.ui.DWDraw;
-import com.dworld.ui.DWMap;
 import com.dworld.units.ControlledUnit;
 
 public class DWLauncher implements KeyListener, MouseListener, MouseMotionListener {
@@ -442,74 +441,74 @@ public class DWLauncher implements KeyListener, MouseListener, MouseMotionListen
 	public void mouseMoved(MouseEvent arg0) {
 	}
 	
-//	private void fill2(int x, int y, int oldCode, int newCode){
-//		if(oldCode == newCode){
-//			return;
-//		}
-//		int startX = x;
-//		int startY = y;
-//		while(Land.getLand(startX, startY) == oldCode){
-//			startY--;
-//		}
-//		startY++;
-//		while(Land.getLand(startX, startY) == oldCode){
-//			startX--;
-//		}
-//		startX++;
-//		int xx = startX;
-//		int yy = startY;
-//		while(true){
-//			while(Land.getLand(xx, yy) == oldCode){
-//				Land.setLand(xx, yy, newCode);
-//				xx++;
-//			}
-//			xx = startX;
-//			yy++;
-//			if(Land.getLand(xx, yy) != oldCode){
-//				return;
-//			}
-//		}
-//	}
-	
 	private void fill(int x, int y, int oldCode, int newCode){
 		if(oldCode == newCode){
 			return;
 		}
+		int startX = x;
+		int startY = y;
+		while(Land.getLand(startX, startY) == oldCode){
+			startY--;
+		}
+		startY++;
+		while(Land.getLand(startX, startY) == oldCode){
+			startX--;
+		}
+		startX++;
+		int xx = startX;
+		int yy = startY;
 		while(true){
-			if(Land.getLand(x, y) != oldCode){
+			while(Land.getLand(xx, yy) == oldCode){
+				Land.setLand(xx, yy, newCode);
+				xx++;
+			}
+			xx = startX;
+			yy++;
+			if(Land.getLand(xx, yy) != oldCode){
 				return;
-			}
-			int startX = x;
-			int startY = y;
-			while(Land.getLand(startX, startY) == oldCode){
-				startY--;
-			}
-			startY++;
-			while(Land.getLand(startX, startY) == oldCode){
-				startX--;
-			}
-			startX++;
-			Direction direction = Direction.east;
-			Point location = new Point(startX, startY);
-			while(true){
-				Land.setLand(location, newCode);
-				direction = findDirection(location, oldCode, newCode, direction);
-				if(direction == Direction.nowhere){
-					break;
-				}
-				location = Land.getNewLocation(location, direction);
 			}
 		}
 	}
 	
-	private Direction findDirection(Point location, int oldCode, int newCode, Direction direction){
-		Direction dir = direction.getAnticlockwiseDirection(2);
-		for(int i = 0; i < 3; i++){
-			if(Land.getLand(location, dir) == oldCode){
-				return dir; 
-			}
-			dir = dir.getClockwiseDirection(2);
-		}
-		return Direction.nowhere;
-	}
+//	private void fill(int x, int y, int oldCode, int newCode){
+//		if(oldCode == newCode){
+//			return;
+//		}
+//		while(true){
+//			if(Land.getLand(x, y) != oldCode){
+//				return;
+//			}
+//			int startX = x;
+//			int startY = y;
+//			while(Land.getLand(startX, startY) == oldCode){
+//				startY--;
+//			}
+//			startY++;
+//			while(Land.getLand(startX, startY) == oldCode){
+//				startX--;
+//			}
+//			startX++;
+//			Direction direction = Direction.east;
+//			Point location = new Point(startX, startY);
+//			while(true){
+//				Land.setLand(location, newCode);
+//				direction = findDirection(location, oldCode, newCode, direction);
+//				if(direction == Direction.nowhere){
+//					break;
+//				}
+//				location = Land.getNewLocation(location, direction);
+//			}
+//		}
+//	}
+	
+//	private Direction findDirection(Point location, int oldCode, int newCode, Direction direction){
+//		Direction dir = direction.getAnticlockwiseDirection(2);
+//		for(int i = 0; i < 3; i++){
+//			if(Land.getLand(location, dir) == oldCode){
+//				return dir; 
+//			}
+//			dir = dir.getClockwiseDirection(2);
+//		}
+//		return Direction.nowhere;
+//	}
 }

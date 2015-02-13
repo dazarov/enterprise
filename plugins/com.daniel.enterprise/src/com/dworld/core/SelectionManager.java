@@ -147,5 +147,64 @@ public class SelectionManager {
 			}
 		}
 	}
+	
+	public static void turnRight(){
+		if(selectedArea != null){
+			for(int x = selectedArea.x; x < selectedArea.x+selectedArea.width; x++){
+				for(int y = selectedArea.y; y < selectedArea.y+selectedArea.height; y++){
+					int code1 = Land.getLand(x, y);
+					int x2 = selectedArea.x + (selectedArea.height-(y-selectedArea.y))-1;
+					int y2 = selectedArea.y + (selectedArea.width - (x-selectedArea.x))-1;
+					
+					int code2 = Land.getLand(x2, y2);
+					Land.setLand(x, y, code2);
+					Land.setLand(x2, y2, code1);
+				}
+			}
+		}
+	}
+	
+	public static void turnLeft(){
+		if(selectedArea != null){
+			for(int x = selectedArea.x; x < selectedArea.x+selectedArea.width; x++){
+				for(int y = selectedArea.y; y < selectedArea.y+selectedArea.height; y++){
+					int code1 = Land.getLand(x, y);
+					int x2 = y + selectedArea.height;
+					int y2 = x + selectedArea.width;
+					
+					int code2 = Land.getLand(x2, y2);
+					Land.setLand(x, y, code2);
+					Land.setLand(x2, y2, code1);
+				}
+			}
+		}
+	}
 
+	public static void flipVertically(){
+		if(selectedArea != null){
+			for(int x = selectedArea.x; x < selectedArea.x+selectedArea.width; x++){
+				for(int y = selectedArea.y; y < (selectedArea.y+selectedArea.height/2); y++){
+					int code1 = Land.getLand(x, y);
+					int y2 = (selectedArea.y + selectedArea.height-1)-(y-selectedArea.y);
+					int code2 = Land.getLand(x, y2);
+					Land.setLand(x, y, code2);
+					Land.setLand(x, y2, code1);
+				}
+			}
+		}
+	}
+	
+	public static void flipHorizontally(){
+		if(selectedArea != null){
+			for(int x = selectedArea.x; x < (selectedArea.x+selectedArea.width/2); x++){
+				for(int y = selectedArea.y; y < (selectedArea.y+selectedArea.height); y++){
+					int code1 = Land.getLand(x, y);
+					int x2 = (selectedArea.x + selectedArea.width-1)-(x-selectedArea.x);
+					int code2 = Land.getLand(x2, y);
+					Land.setLand(x, y, code2);
+					Land.setLand(x2, y, code1);
+				}
+			}
+		}
+	}
 }

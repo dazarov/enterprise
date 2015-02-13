@@ -179,7 +179,41 @@ public class DWMenuBuilder {
 		menu.add(menuItem);
 		
 		menu.addSeparator();
+		
+		menuItem = new JMenuItem("Turn Right");
+		menuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				SelectionManager.turnRight();
+			}
+		});
+		menu.add(menuItem);
+		
+		menuItem = new JMenuItem("Turn Left");
+		menuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				SelectionManager.turnLeft();
+			}
+		});
+		menu.add(menuItem);
 
+		menuItem = new JMenuItem("Flip Horizontally");
+		menuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				SelectionManager.flipHorizontally();
+			}
+		});
+		menu.add(menuItem);
+
+		menuItem = new JMenuItem("Flip Vertically");
+		menuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				SelectionManager.flipVertically();
+			}
+		});
+		menu.add(menuItem);
+
+		menu.addSeparator();
+		
 		ButtonGroup group = new ButtonGroup();
 
 		JMenu subMenu = new JMenu("Landscape");
