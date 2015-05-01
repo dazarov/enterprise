@@ -149,32 +149,50 @@ public class SelectionManager {
 	}
 	
 	public static void turnRight(){
+		ArrayList<String> done = new ArrayList<String>();
 		if(selectedArea != null){
 			for(int x = selectedArea.x; x < selectedArea.x+selectedArea.width; x++){
 				for(int y = selectedArea.y; y < selectedArea.y+selectedArea.height; y++){
 					int code1 = Land.getLand(x, y);
-					int x2 = selectedArea.x + (selectedArea.height-(y-selectedArea.y))-1;
-					int y2 = selectedArea.y + (selectedArea.width - (x-selectedArea.x))-1;
 					
-					int code2 = Land.getLand(x2, y2);
-					Land.setLand(x, y, code2);
-					Land.setLand(x2, y2, code1);
+					int x2 = selectedArea.x + (selectedArea.height - (y-selectedArea.y))-1;
+					
+					int y2 = selectedArea.y + (x-selectedArea.x);
+					
+					String doneString = ""+x+","+y;
+					String doneString2 = ""+x2+","+y2;
+					
+					if(!done.contains(doneString)){
+						done.add(doneString2);
+						int code2 = Land.getLand(x2, y2);
+						Land.setLand(x, y, code2);
+						Land.setLand(x2, y2, code1);
+					}
 				}
 			}
 		}
 	}
 	
 	public static void turnLeft(){
+		ArrayList<String> done = new ArrayList<String>();
 		if(selectedArea != null){
 			for(int x = selectedArea.x; x < selectedArea.x+selectedArea.width; x++){
 				for(int y = selectedArea.y; y < selectedArea.y+selectedArea.height; y++){
 					int code1 = Land.getLand(x, y);
-					int x2 = y + selectedArea.height;
-					int y2 = x + selectedArea.width;
 					
-					int code2 = Land.getLand(x2, y2);
-					Land.setLand(x, y, code2);
-					Land.setLand(x2, y2, code1);
+					int x2 = selectedArea.x + (y-selectedArea.y);
+					
+					int y2 = selectedArea.y + (selectedArea.width - (x-selectedArea.x))-1;
+					
+					String doneString = ""+x+","+y;
+					String doneString2 = ""+x2+","+y2;
+					
+					if(!done.contains(doneString)){
+						done.add(doneString2);
+						int code2 = Land.getLand(x2, y2);
+						Land.setLand(x, y, code2);
+						Land.setLand(x2, y2, code1);
+					}
 				}
 			}
 		}
