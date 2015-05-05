@@ -225,4 +225,65 @@ public class SelectionManager {
 			}
 		}
 	}
+	
+	public static void moveUp(){
+		if(selectedArea != null){
+			for(int y = selectedArea.y; y < selectedArea.y+selectedArea.height; y++){
+				for(int x = selectedArea.x; x < selectedArea.x+selectedArea.width; x++){
+					int code1 = Land.getLand(x, y);
+					int y2 = y - 1;
+					int code2 = Land.getLand(x, y2);
+					Land.setLand(x, y, code2);
+					Land.setLand(x, y2, code1);
+				}
+			}
+			selectedArea.y = selectedArea.y - 1;
+		}
+	}
+
+	public static void moveDown(){
+		if(selectedArea != null){
+			for(int y = selectedArea.y+selectedArea.height-1; y >= selectedArea.y; y--){
+				for(int x = selectedArea.x; x < selectedArea.x+selectedArea.width; x++){
+					int code1 = Land.getLand(x, y);
+					int y2 = y + 1;
+					int code2 = Land.getLand(x, y2);
+					Land.setLand(x, y, code2);
+					Land.setLand(x, y2, code1);
+				}
+			}
+			selectedArea.y = selectedArea.y + 1;
+		}
+	}
+	
+	public static void moveLeft(){
+		if(selectedArea != null){
+			for(int x = selectedArea.x; x < selectedArea.x+selectedArea.width; x++){
+				for(int y = selectedArea.y; y < selectedArea.y+selectedArea.height; y++){
+					int code1 = Land.getLand(x, y);
+					int x2 = x - 1;
+					int code2 = Land.getLand(x2, y);
+					Land.setLand(x, y, code2);
+					Land.setLand(x2, y, code1);
+				}
+			}
+			selectedArea.x = selectedArea.x - 1;
+		}
+	}
+	
+	public static void moveRight(){
+		if(selectedArea != null){
+			for(int x = selectedArea.x+selectedArea.width-1; x >= selectedArea.x; x--){
+				for(int y = selectedArea.y; y < selectedArea.y+selectedArea.height; y++){
+					int code1 = Land.getLand(x, y);
+					int x2 = x + 1;
+					int code2 = Land.getLand(x2, y);
+					Land.setLand(x, y, code2);
+					Land.setLand(x2, y, code1);
+				}
+			}
+			selectedArea.x = selectedArea.x + 1;
+		}
+		
+	}
 }

@@ -12,6 +12,7 @@ import javax.swing.SwingConstants;
 
 import com.dworld.DWLauncher;
 import com.dworld.core.Land;
+import com.dworld.core.SelectionManager;
 import com.dworld.ui.actions.ChangeManCodeAction;
 import com.dworld.ui.actions.SelectElementAction;
 
@@ -61,7 +62,7 @@ public class DWToolBarBuilder {
 		initToolBar();
 		
 		palette.pack();
-		palette.setSize(200, 700);
+		palette.setSize(200, 720);
 		palette.setFocusableWindowState(false);
 		palette.setFocusable(false);
 		palette.setVisible(true);
@@ -100,15 +101,8 @@ public class DWToolBarBuilder {
 		createToolButton(toolBar, Land.Wood2);
 		createToolButton(toolBar, Land.Wood3);
 		createToolButton(toolBar, Land.Wood4);
-		toolBar.addSeparator();
-		createToolButton(toolBar, Land.Mountain);
-		createToolButton(toolBar, Land.Water);
-		createToolButton(toolBar, Land.Sand);
-		toolBar.addSeparator();
-		createToolButton(toolBar, Land.Grass);
-		createToolButton(toolBar, Land.Tree1);
-		createToolButton(toolBar, Land.Tree2);
-		createToolButton(toolBar, Land.Tree3);
+		
+		
 		
 		palette.add(toolBar);
 		
@@ -190,6 +184,10 @@ public class DWToolBarBuilder {
 		createToolButton(toolBar, Land.BadRadar);
 		createToolButton(toolBar, Land.BadRadar_Grass);
 		createToolButton(toolBar, Land.BadRadar_Sand);
+		toolBar.addSeparator();
+		createToolButton(toolBar, Land.Mountain);
+		createToolButton(toolBar, Land.Water);
+		createToolButton(toolBar, Land.Sand);
 		palette.add(toolBar);
 		
 		toolBar = createToolBar();
@@ -216,7 +214,11 @@ public class DWToolBarBuilder {
 		createToolButton(toolBar, Land.GoodRadar);
 		createToolButton(toolBar, Land.GoodRadar_Grass);
 		createToolButton(toolBar, Land.GoodRadar_Sand);
-		
+		toolBar.addSeparator();
+		createToolButton(toolBar, Land.Grass);
+		createToolButton(toolBar, Land.Tree1);
+		createToolButton(toolBar, Land.Tree2);
+		createToolButton(toolBar, Land.Tree3);
 		palette.add(toolBar);
 	}
 	
@@ -261,6 +263,77 @@ public class DWToolBarBuilder {
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				DWLauncher.setDrawMode(DWLauncher.DRAW_FILL);
+			}
+		});
+		toolBar.add(button);
+		
+		toolBar.addSeparator();
+		
+		button = new JButton();
+		button.setIcon(new ImageIcon(DWDraw.loadImage("resources/FlipVertically.png")));
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				SelectionManager.flipVertically();
+			}
+		});
+		toolBar.add(button);
+
+		button = new JButton();
+		button.setIcon(new ImageIcon(DWDraw.loadImage("resources/FlipHorizontally.png")));
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				SelectionManager.flipHorizontally();
+			}
+		});
+		toolBar.add(button);
+		
+		button = new JButton();
+		button.setIcon(new ImageIcon(DWDraw.loadImage("resources/TurnRight.png")));
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				SelectionManager.turnRight();
+			}
+		});
+		toolBar.add(button);
+
+		button = new JButton();
+		button.setIcon(new ImageIcon(DWDraw.loadImage("resources/TurnLeft.png")));
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				SelectionManager.turnLeft();
+			}
+		});
+		toolBar.add(button);
+		
+		button = new JButton();
+		button.setIcon(new ImageIcon(DWDraw.loadImage("resources/MoveUp.png")));
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				SelectionManager.moveUp();
+			}
+		});
+		toolBar.add(button);
+		button = new JButton();
+		button.setIcon(new ImageIcon(DWDraw.loadImage("resources/MoveDown.png")));
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				SelectionManager.moveDown();
+			}
+		});
+		toolBar.add(button);
+		button = new JButton();
+		button.setIcon(new ImageIcon(DWDraw.loadImage("resources/MoveRight.png")));
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				SelectionManager.moveRight();
+			}
+		});
+		toolBar.add(button);
+		button = new JButton();
+		button.setIcon(new ImageIcon(DWDraw.loadImage("resources/MoveLeft.png")));
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				SelectionManager.moveLeft();
 			}
 		});
 		toolBar.add(button);

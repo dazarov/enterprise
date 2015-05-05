@@ -451,9 +451,6 @@ public class DWLauncher implements KeyListener, MouseListener, MouseMotionListen
 			startY--;
 		}
 		startY++;
-		while(Land.getLand(startX, startY) == oldCode){
-			startX--;
-		}
 		startX++;
 		int xx = startX;
 		int yy = startY;
@@ -462,7 +459,13 @@ public class DWLauncher implements KeyListener, MouseListener, MouseMotionListen
 				Land.setLand(xx, yy, newCode);
 				xx++;
 			}
+			xx = startX-1;
+			while(Land.getLand(xx, yy) == oldCode){
+				Land.setLand(xx, yy, newCode);
+				xx--;
+			}
 			xx = startX;
+			
 			yy++;
 			if(Land.getLand(xx, yy) != oldCode){
 				return;
