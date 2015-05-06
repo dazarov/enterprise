@@ -4,6 +4,8 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 
+import com.dworld.DWLauncher;
+
 public class SelectionManager {
 	// commands
 	
@@ -132,7 +134,7 @@ public class SelectionManager {
 	}
 
 	public static void paste(){
-		if(copiedArea != null && selectedArea != null){
+		if(copiedArea != null && selectedArea != null && !copiedArea.intersects(selectedArea)){
 			Point copyTo = selectedArea.getLocation();
 			int newX = copyTo.x, newY = copyTo.y;
 			
@@ -145,6 +147,9 @@ public class SelectionManager {
 				newY = copyTo.y;
 				newX++;
 			}
+			selectedArea.width = copiedArea.width;
+			selectedArea.height = copiedArea.height;
+			DWLauncher.getLauncher().setModified();
 		}
 	}
 	
@@ -170,6 +175,10 @@ public class SelectionManager {
 					}
 				}
 			}
+			int width = selectedArea.width;
+			selectedArea.width = selectedArea.height;
+			selectedArea.height = width;
+			DWLauncher.getLauncher().setModified();
 		}
 	}
 	
@@ -195,6 +204,10 @@ public class SelectionManager {
 					}
 				}
 			}
+			int width = selectedArea.width;
+			selectedArea.width = selectedArea.height;
+			selectedArea.height = width;
+			DWLauncher.getLauncher().setModified();
 		}
 	}
 
@@ -209,6 +222,7 @@ public class SelectionManager {
 					Land.setLand(x, y2, code1);
 				}
 			}
+			DWLauncher.getLauncher().setModified();
 		}
 	}
 	
@@ -223,6 +237,7 @@ public class SelectionManager {
 					Land.setLand(x2, y, code1);
 				}
 			}
+			DWLauncher.getLauncher().setModified();
 		}
 	}
 	
@@ -238,6 +253,7 @@ public class SelectionManager {
 				}
 			}
 			selectedArea.y = selectedArea.y - 1;
+			DWLauncher.getLauncher().setModified();
 		}
 	}
 
@@ -253,6 +269,7 @@ public class SelectionManager {
 				}
 			}
 			selectedArea.y = selectedArea.y + 1;
+			DWLauncher.getLauncher().setModified();
 		}
 	}
 	
@@ -268,6 +285,7 @@ public class SelectionManager {
 				}
 			}
 			selectedArea.x = selectedArea.x - 1;
+			DWLauncher.getLauncher().setModified();
 		}
 	}
 	
@@ -283,7 +301,7 @@ public class SelectionManager {
 				}
 			}
 			selectedArea.x = selectedArea.x + 1;
+			DWLauncher.getLauncher().setModified();
 		}
-		
 	}
 }

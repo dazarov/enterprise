@@ -194,6 +194,35 @@ public class DWLauncher implements KeyListener, MouseListener, MouseMotionListen
 		}else if (keyCode == 78) { // n
 			DWMap.switchMinimap();
 		}
+		if(keyModifiers == 0 && isBuildMode()){
+			switch(keyCode){
+			case 37: // Left
+				SelectionManager.moveLeft();
+				return;
+
+			case 38: // Up
+				SelectionManager.moveUp();
+				return;
+
+			case 39: // Right
+				SelectionManager.moveRight();
+				return;
+
+			case 40: // Down
+				SelectionManager.moveDown();
+				return;
+			}
+		}
+		// Ctrl
+		if(keyModifiers == 2){
+			if(keyCode == 67){ // Ctrl+c
+				SelectionManager.copy();
+				return;
+			}else if(keyCode == 86){ // Ctrl+v
+				SelectionManager.paste();
+				return;
+			}
+		}
 		
 		if (controlledUnit != null)
 			controlledUnit.control(keyCode, keyModifiers);
@@ -289,7 +318,7 @@ public class DWLauncher implements KeyListener, MouseListener, MouseMotionListen
 				Land.setLand(location, Land.Empty);
 			}
 	
-			Land.modified(window);
+			setModified();
 		}
 	}
 	
@@ -325,7 +354,7 @@ public class DWLauncher implements KeyListener, MouseListener, MouseMotionListen
 							Land.setLand(new Point(x, y), Land.Empty);
 					}
 				}
-				Land.modified(window);
+				setModified();
 			}else if(isLine()){
 				ArrayList<Point> points = SelectionManager.getSelectedLine();
 				if(points != null){
@@ -337,7 +366,7 @@ public class DWLauncher implements KeyListener, MouseListener, MouseMotionListen
 						}
 					}
 				}
-				Land.modified(window);
+				setModified();
 			}else if(isFill()){
 				Point location = getLocation(e.getX(), e.getY());
 				int oldCode = Land.getLand(location);
@@ -347,13 +376,17 @@ public class DWLauncher implements KeyListener, MouseListener, MouseMotionListen
 					fill(location.x, location.y, oldCode, Land.Empty);
 				}
 				
-				Land.modified(window);
+				setModified();
 			}
 			SelectionManager.clearSelection();
 		}
 		if(!isBuildMode()){
 			SelectionManager.select();
 		}
+	}
+	
+	public void setModified(){
+		Land.modified(window);
 	}
 
 	public void setSelectedElement(int code){
