@@ -194,6 +194,26 @@ public class DWLauncher implements KeyListener, MouseListener, MouseMotionListen
 		}else if (keyCode == 78) { // n
 			DWMap.switchMinimap();
 		}
+		// Alt
+		if(keyModifiers == 8 && !isBuildMode()){
+			switch(keyCode){
+			case 37: // Left
+				SelectionManager.modifySelection(0, 0, -1, 0);
+				return;
+
+			case 38: // Up
+				SelectionManager.modifySelection(0, 0, 0, -1);
+				return;
+
+			case 39: // Right
+				SelectionManager.modifySelection(0, 0, 1, 0);
+				return;
+
+			case 40: // Down
+				SelectionManager.modifySelection(0, 0, 0, 1);
+				return;
+			}
+		}
 		if(keyModifiers == 0 && isBuildMode()){
 			switch(keyCode){
 			case 37: // Left

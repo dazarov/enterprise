@@ -129,6 +129,31 @@ public class SelectionManager {
 		return false;
 	}
 	
+	public static void modifySelection(int deltaX, int deltaY, int deltaWidth, int deltaHeight){
+		if(selectedArea != null){
+			selectedArea.x += deltaX;
+			if(selectedArea.x < 0){
+				selectedArea.x = 0;
+			}
+
+			selectedArea.y += deltaY;
+			if(selectedArea.y < 0){
+				selectedArea.y = 0;
+			}
+			
+			selectedArea.width += deltaWidth;
+			if(selectedArea.width < 0){
+				selectedArea.width = 0;
+			}
+			
+			selectedArea.height += deltaHeight;
+			if(selectedArea.height < 0){
+				selectedArea.height = 0;
+			}
+		}
+	}
+	
+	
 	public static void copy(){
 		copiedArea = selectedArea;
 	}
