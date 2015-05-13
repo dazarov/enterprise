@@ -632,6 +632,27 @@ public class Land {
 		citizenList.add(new Integer(Peasant_Grass));
 		citizenList.add(new Integer(Peasant_Sand));
 	}
+	
+	public static final ArrayList<Integer> gateList = new ArrayList<Integer>();
+	static {
+		gateList.add(new Integer(OpenedHorizontalSteelGate));
+		gateList.add(new Integer(ClosedHorizontalSteelGate));
+		gateList.add(new Integer(OpenedVerticalSteelGate));
+		gateList.add(new Integer(ClosedVerticalSteelGate));
+		gateList.add(new Integer(OpenedHorizontalConcreteGate));
+		gateList.add(new Integer(ClosedHorizontalConcreteGate));
+		gateList.add(new Integer(OpenedVerticalConcreteGate));
+		gateList.add(new Integer(ClosedVerticalConcreteGate));
+
+		gateList.add(new Integer(OpenedHorizontalWoodGate));
+		gateList.add(new Integer(ClosedHorizontalWoodGate));
+		gateList.add(new Integer(OpenedVerticalWoodGate));
+		gateList.add(new Integer(ClosedVerticalWoodGate));
+		gateList.add(new Integer(OpenedHorizontalBrickGate));
+		gateList.add(new Integer(ClosedHorizontalBrickGate));
+		gateList.add(new Integer(OpenedVerticalBrickGate));
+		gateList.add(new Integer(ClosedVerticalBrickGate));
+	}
 
 	public static final ArrayList<Integer> saveList = new ArrayList<Integer>();
 	static {
@@ -640,27 +661,36 @@ public class Land {
 		saveList.add(Mine);
 		saveList.add(Mine_Grass);
 		saveList.add(Mine_Sand);
-		saveList.add(new Integer(OpenedHorizontalSteelGate));
-		saveList.add(new Integer(ClosedHorizontalSteelGate));
-		saveList.add(new Integer(OpenedVerticalSteelGate));
-		saveList.add(new Integer(ClosedVerticalSteelGate));
-		saveList.add(new Integer(OpenedHorizontalConcreteGate));
-		saveList.add(new Integer(ClosedHorizontalConcreteGate));
-		saveList.add(new Integer(OpenedVerticalConcreteGate));
-		saveList.add(new Integer(ClosedVerticalConcreteGate));
-
-		saveList.add(new Integer(OpenedHorizontalWoodGate));
-		saveList.add(new Integer(ClosedHorizontalWoodGate));
-		saveList.add(new Integer(OpenedVerticalWoodGate));
-		saveList.add(new Integer(ClosedVerticalWoodGate));
-		saveList.add(new Integer(OpenedHorizontalBrickGate));
-		saveList.add(new Integer(ClosedHorizontalBrickGate));
-		saveList.add(new Integer(OpenedVerticalBrickGate));
-		saveList.add(new Integer(ClosedVerticalBrickGate));
+		saveList.addAll(gateList);
 	}
 	
 	public static int getLand(Point location) {
 		return getLand(location.x, location.y);
+	}
+
+	public static int getTurnedLand(Point location) {
+		int code = getLand(location.x, location.y);
+		if(gateList.contains(code)){
+			switch(code){
+			case ClosedHorizontalSteelGate:
+				return ClosedVerticalSteelGate;
+			case ClosedVerticalSteelGate:
+				return ClosedHorizontalSteelGate;
+			case ClosedHorizontalConcreteGate:
+				return ClosedVerticalConcreteGate;
+			case ClosedVerticalConcreteGate:
+				return ClosedHorizontalConcreteGate;
+			case ClosedHorizontalWoodGate:
+				return ClosedVerticalWoodGate;
+			case ClosedVerticalWoodGate:
+				return ClosedHorizontalWoodGate;
+			case ClosedHorizontalBrickGate:
+				return ClosedVerticalBrickGate;
+			case ClosedVerticalBrickGate:
+				return ClosedHorizontalBrickGate;
+			}
+		}
+		return code;
 	}
 
 	public static int getLand(int x, int y) {

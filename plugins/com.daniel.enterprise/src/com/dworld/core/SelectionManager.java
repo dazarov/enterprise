@@ -158,6 +158,17 @@ public class SelectionManager {
 		copiedArea = selectedArea;
 	}
 
+	public static void delete(){
+		if(selectedArea != null){
+			for(int x = selectedArea.x; x < selectedArea.x + selectedArea.width; x++){
+				for(int y = selectedArea.y; y < selectedArea.y + selectedArea.height; y++){
+					Land.setLand(x, y, Land.Empty);
+				}
+				
+			}
+		}
+	}
+
 	public static void paste(){
 		if(copiedArea != null && selectedArea != null && !copiedArea.intersects(selectedArea)){
 			Point copyTo = selectedArea.getLocation();
@@ -179,24 +190,22 @@ public class SelectionManager {
 	}
 	
 	public static void turnRight(){
-		ArrayList<String> done = new ArrayList<String>();
 		if(selectedArea != null){
+			ArrayList<Point> doneList = new ArrayList<Point>();
 			for(int x = selectedArea.x; x < selectedArea.x+selectedArea.width; x++){
 				for(int y = selectedArea.y; y < selectedArea.y+selectedArea.height; y++){
-					int code1 = Land.getLand(x, y);
+					Point point1 = new Point(x,y);
+					Point point2 = new Point(
+						selectedArea.x + (selectedArea.height - (y-selectedArea.y))-1,
+						selectedArea.y + (x-selectedArea.x)
+					);
 					
-					int x2 = selectedArea.x + (selectedArea.height - (y-selectedArea.y))-1;
-					
-					int y2 = selectedArea.y + (x-selectedArea.x);
-					
-					String doneString = ""+x+","+y;
-					String doneString2 = ""+x2+","+y2;
-					
-					if(!done.contains(doneString)){
-						done.add(doneString2);
-						int code2 = Land.getLand(x2, y2);
-						Land.setLand(x, y, code2);
-						Land.setLand(x2, y2, code1);
+					if(!doneList.contains(point1)){
+						doneList.add(point2);
+						int code1 = Land.getTurnedLand(point1);
+						int code2 = Land.getTurnedLand(point2);
+						Land.setLand(point1, code2);
+						Land.setLand(point2, code1);
 					}
 				}
 			}
@@ -208,24 +217,22 @@ public class SelectionManager {
 	}
 	
 	public static void turnLeft(){
-		ArrayList<String> done = new ArrayList<String>();
 		if(selectedArea != null){
+			ArrayList<Point> doneList = new ArrayList<Point>();
 			for(int x = selectedArea.x; x < selectedArea.x+selectedArea.width; x++){
 				for(int y = selectedArea.y; y < selectedArea.y+selectedArea.height; y++){
-					int code1 = Land.getLand(x, y);
+					Point point1 = new Point(x,y);
+					Point point2 = new Point(
+						selectedArea.x + (y-selectedArea.y),
+						selectedArea.y + (selectedArea.width - (x-selectedArea.x))-1
+					);
 					
-					int x2 = selectedArea.x + (y-selectedArea.y);
-					
-					int y2 = selectedArea.y + (selectedArea.width - (x-selectedArea.x))-1;
-					
-					String doneString = ""+x+","+y;
-					String doneString2 = ""+x2+","+y2;
-					
-					if(!done.contains(doneString)){
-						done.add(doneString2);
-						int code2 = Land.getLand(x2, y2);
-						Land.setLand(x, y, code2);
-						Land.setLand(x2, y2, code1);
+					if(!doneList.contains(point1)){
+						doneList.add(point2);
+						int code1 = Land.getTurnedLand(point1);
+						int code2 = Land.getTurnedLand(point2);
+						Land.setLand(point1, code2);
+						Land.setLand(point2, code1);
 					}
 				}
 			}

@@ -231,6 +231,10 @@ public class DWLauncher implements KeyListener, MouseListener, MouseMotionListen
 			case 40: // Down
 				SelectionManager.moveDown();
 				return;
+
+			case 127: // Del
+				SelectionManager.delete();
+				return;
 			}
 		}
 		// Ctrl
