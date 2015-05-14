@@ -499,6 +499,18 @@ public class DWLauncher implements KeyListener, MouseListener, MouseMotionListen
 	}
 	
 	private void fill(int x, int y, int oldCode, int newCode){
+		if(SelectionManager.getSelectedArea() != null && SelectionManager.getSelectedArea().contains(new Point(x,y))){
+			for(int x1 = SelectionManager.getSelectedArea().x; x1 < SelectionManager.getSelectedArea().x + SelectionManager.getSelectedArea().width; x1++){
+				for(int y1 = SelectionManager.getSelectedArea().y; y1 < SelectionManager.getSelectedArea().y + SelectionManager.getSelectedArea().height; y1++){
+					int code = Land.getLand(x1, y1);
+					if(code == oldCode){
+						Land.setLand(x1, y1, newCode);
+					}
+				}
+				
+			}
+			return;
+		}
 		if(oldCode == newCode){
 			return;
 		}
