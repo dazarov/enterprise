@@ -28,7 +28,9 @@ public class SelectionManager {
 	
 	private static ArrayList<IUnit> selectedUnits = new ArrayList<IUnit>();
 	
-	private static Rectangle selectedArea = null, copiedArea = null;
+	public static final Rectangle NULL_RECTANGLE = new Rectangle(0,0,0,0);
+	
+	private static Rectangle selectedArea = NULL_RECTANGLE, copiedArea = NULL_RECTANGLE;
 	
 	private static Point startLine = null, endLine = null;
 	
@@ -38,25 +40,33 @@ public class SelectionManager {
 	}
 	
 	public static void clearSelection(){
-		selectedArea = null;
-		selectedUnits.clear();
-		startLine = endLine = null;
+		synchronized(selectedArea){
+			selectedArea = NULL_RECTANGLE;
+			selectedUnits.clear();
+			startLine = endLine = null;
+		}
 	}
 	
 	public static Rectangle getSelectedArea(){
-		return selectedArea;
+		synchronized(selectedArea){
+			return (Rectangle)selectedArea.clone();
+		}
 	}
 	
 	public static void setSelectedArea(Rectangle rectangle){
-		selectedArea = rectangle;
-		startLine = endLine = null;
+		synchronized(selectedArea){
+			selectedArea = rectangle;
+			startLine = endLine = null;
+		}
 	}
 	
 	public static void setSelectedLine(Point start, Point end){
-		selectedArea = null;
-		selectedUnits.clear();
-		startLine = start;
-		endLine = end;
+		synchronized(selectedArea){
+			selectedArea = NULL_RECTANGLE;
+			selectedUnits.clear();
+			startLine = start;
+			endLine = end;
+		}
 	}
 	
 	public static ArrayList<Point> getSelectedLine(){
@@ -105,16 +115,18 @@ public class SelectionManager {
 	}
 	
 	public static void select(){
-		if(selectedArea != null){
-			for(int x = selectedArea.x; x < selectedArea.x + selectedArea.width; x++){
-				for(int y = selectedArea.y; y < selectedArea.y + selectedArea.height; y++){
-					Point point = new Point(x, y);
-					IUnit unit = DWEngine.getEngine().findUnit(point);
-					if(unit != null){
-						addSelection(unit);
+		synchronized(selectedArea){
+			if(selectedArea != NULL_RECTANGLE){
+				for(int x = selectedArea.x; x < selectedArea.x + selectedArea.width; x++){
+					for(int y = selectedArea.y; y < selectedArea.y + selectedArea.height; y++){
+						Point point = new Point(x, y);
+						IUnit unit = DWEngine.getEngine().findUnit(point);
+						if(unit != null){
+							addSelection(unit);
+						}
 					}
+					
 				}
-				
 			}
 		}
 	}
@@ -130,210 +142,234 @@ public class SelectionManager {
 	}
 	
 	public static void modifySelection(int deltaX, int deltaY, int deltaWidth, int deltaHeight){
-		if(selectedArea != null){
-			selectedArea.x += deltaX;
-			if(selectedArea.x < 0){
-				selectedArea.x = 0;
-			}
-
-			selectedArea.y += deltaY;
-			if(selectedArea.y < 0){
-				selectedArea.y = 0;
-			}
-			
-			selectedArea.width += deltaWidth;
-			if(selectedArea.width < 0){
-				selectedArea.width = 0;
-			}
-			
-			selectedArea.height += deltaHeight;
-			if(selectedArea.height < 0){
-				selectedArea.height = 0;
+		synchronized(selectedArea){
+			if(selectedArea != NULL_RECTANGLE){
+				selectedArea.x += deltaX;
+				if(selectedArea.x < 0){
+					selectedArea.x = 0;
+				}
+	
+				selectedArea.y += deltaY;
+				if(selectedArea.y < 0){
+					selectedArea.y = 0;
+				}
+				
+				selectedArea.width += deltaWidth;
+				if(selectedArea.width < 0){
+					selectedArea.width = 0;
+				}
+				
+				selectedArea.height += deltaHeight;
+				if(selectedArea.height < 0){
+					selectedArea.height = 0;
+				}
 			}
 		}
 	}
 	
 	
 	public static void copy(){
-		copiedArea = selectedArea;
+		synchronized(selectedArea){
+			copiedArea = selectedArea;
+		}
 	}
 
 	public static void delete(){
-		if(selectedArea != null){
-			for(int x = selectedArea.x; x < selectedArea.x + selectedArea.width; x++){
-				for(int y = selectedArea.y; y < selectedArea.y + selectedArea.height; y++){
-					Land.setLand(x, y, Land.Empty);
+		synchronized(selectedArea){
+			if(selectedArea != NULL_RECTANGLE){
+				for(int x = selectedArea.x; x < selectedArea.x + selectedArea.width; x++){
+					for(int y = selectedArea.y; y < selectedArea.y + selectedArea.height; y++){
+						Land.setLand(x, y, Land.Empty);
+					}
+					
 				}
-				
 			}
 		}
 	}
 
 	public static void paste(){
-		if(copiedArea != null && selectedArea != null && !copiedArea.intersects(selectedArea)){
-			Point copyTo = selectedArea.getLocation();
-			int newX = copyTo.x, newY = copyTo.y;
-			
-			for(int x = copiedArea.x; x < copiedArea.x+copiedArea.width; x++){
-				for(int y = copiedArea.y; y < copiedArea.y+copiedArea.height; y++){
-					int code = Land.getLand(x, y);
-					Land.setLand(newX, newY, code);
-					newY++;
+		synchronized(selectedArea){
+			if(copiedArea != NULL_RECTANGLE && selectedArea != null && !copiedArea.intersects(selectedArea)){
+				Point copyTo = selectedArea.getLocation();
+				int newX = copyTo.x, newY = copyTo.y;
+				
+				for(int x = copiedArea.x; x < copiedArea.x+copiedArea.width; x++){
+					for(int y = copiedArea.y; y < copiedArea.y+copiedArea.height; y++){
+						int code = Land.getLand(x, y);
+						Land.setLand(newX, newY, code);
+						newY++;
+					}
+					newY = copyTo.y;
+					newX++;
 				}
-				newY = copyTo.y;
-				newX++;
+				selectedArea.width = copiedArea.width;
+				selectedArea.height = copiedArea.height;
+				DWLauncher.getLauncher().setModified();
 			}
-			selectedArea.width = copiedArea.width;
-			selectedArea.height = copiedArea.height;
-			DWLauncher.getLauncher().setModified();
 		}
 	}
 	
 	public static void turnRight(){
-		if(selectedArea != null){
-			ArrayList<Point> doneList = new ArrayList<Point>();
-			for(int x = selectedArea.x; x < selectedArea.x+selectedArea.width; x++){
-				for(int y = selectedArea.y; y < selectedArea.y+selectedArea.height; y++){
-					Point point1 = new Point(x,y);
-					Point point2 = new Point(
-						selectedArea.x + (selectedArea.height - (y-selectedArea.y))-1,
-						selectedArea.y + (x-selectedArea.x)
-					);
-					
-					if(!doneList.contains(point1)){
-						doneList.add(point2);
-						int code1 = Land.getTurnedLand(point1);
-						int code2 = Land.getTurnedLand(point2);
-						Land.setLand(point1, code2);
-						Land.setLand(point2, code1);
+		synchronized(selectedArea){
+			if(selectedArea != NULL_RECTANGLE){
+				ArrayList<Point> doneList = new ArrayList<Point>();
+				for(int x = selectedArea.x; x < selectedArea.x+selectedArea.width; x++){
+					for(int y = selectedArea.y; y < selectedArea.y+selectedArea.height; y++){
+						Point point1 = new Point(x,y);
+						Point point2 = new Point(
+							selectedArea.x + (selectedArea.height - (y-selectedArea.y))-1,
+							selectedArea.y + (x-selectedArea.x)
+						);
+						
+						if(!doneList.contains(point1)){
+							doneList.add(point2);
+							int code1 = Land.getTurnedLand(point1);
+							int code2 = Land.getTurnedLand(point2);
+							Land.setLand(point1, code2);
+							Land.setLand(point2, code1);
+						}
 					}
 				}
+				int width = selectedArea.width;
+				selectedArea.width = selectedArea.height;
+				selectedArea.height = width;
+				DWLauncher.getLauncher().setModified();
 			}
-			int width = selectedArea.width;
-			selectedArea.width = selectedArea.height;
-			selectedArea.height = width;
-			DWLauncher.getLauncher().setModified();
 		}
 	}
 	
 	public static void turnLeft(){
-		if(selectedArea != null){
-			ArrayList<Point> doneList = new ArrayList<Point>();
-			for(int x = selectedArea.x; x < selectedArea.x+selectedArea.width; x++){
-				for(int y = selectedArea.y; y < selectedArea.y+selectedArea.height; y++){
-					Point point1 = new Point(x,y);
-					Point point2 = new Point(
-						selectedArea.x + (y-selectedArea.y),
-						selectedArea.y + (selectedArea.width - (x-selectedArea.x))-1
-					);
-					
-					if(!doneList.contains(point1)){
-						doneList.add(point2);
-						int code1 = Land.getTurnedLand(point1);
-						int code2 = Land.getTurnedLand(point2);
-						Land.setLand(point1, code2);
-						Land.setLand(point2, code1);
+		synchronized(selectedArea){
+			if(selectedArea != NULL_RECTANGLE){
+				ArrayList<Point> doneList = new ArrayList<Point>();
+				for(int x = selectedArea.x; x < selectedArea.x+selectedArea.width; x++){
+					for(int y = selectedArea.y; y < selectedArea.y+selectedArea.height; y++){
+						Point point1 = new Point(x,y);
+						Point point2 = new Point(
+							selectedArea.x + (y-selectedArea.y),
+							selectedArea.y + (selectedArea.width - (x-selectedArea.x))-1
+						);
+						
+						if(!doneList.contains(point1)){
+							doneList.add(point2);
+							int code1 = Land.getTurnedLand(point1);
+							int code2 = Land.getTurnedLand(point2);
+							Land.setLand(point1, code2);
+							Land.setLand(point2, code1);
+						}
 					}
 				}
+				int width = selectedArea.width;
+				selectedArea.width = selectedArea.height;
+				selectedArea.height = width;
+				DWLauncher.getLauncher().setModified();
 			}
-			int width = selectedArea.width;
-			selectedArea.width = selectedArea.height;
-			selectedArea.height = width;
-			DWLauncher.getLauncher().setModified();
 		}
 	}
 
 	public static void flipVertically(){
-		if(selectedArea != null){
-			for(int x = selectedArea.x; x < selectedArea.x+selectedArea.width; x++){
-				for(int y = selectedArea.y; y < (selectedArea.y+selectedArea.height/2); y++){
-					int code1 = Land.getLand(x, y);
-					int y2 = (selectedArea.y + selectedArea.height-1)-(y-selectedArea.y);
-					int code2 = Land.getLand(x, y2);
-					Land.setLand(x, y, code2);
-					Land.setLand(x, y2, code1);
+		synchronized(selectedArea){
+			if(selectedArea != NULL_RECTANGLE){
+				for(int x = selectedArea.x; x < selectedArea.x+selectedArea.width; x++){
+					for(int y = selectedArea.y; y < (selectedArea.y+selectedArea.height/2); y++){
+						int code1 = Land.getLand(x, y);
+						int y2 = (selectedArea.y + selectedArea.height-1)-(y-selectedArea.y);
+						int code2 = Land.getLand(x, y2);
+						Land.setLand(x, y, code2);
+						Land.setLand(x, y2, code1);
+					}
 				}
+				DWLauncher.getLauncher().setModified();
 			}
-			DWLauncher.getLauncher().setModified();
 		}
 	}
 	
 	public static void flipHorizontally(){
-		if(selectedArea != null){
-			for(int x = selectedArea.x; x < (selectedArea.x+selectedArea.width/2); x++){
-				for(int y = selectedArea.y; y < (selectedArea.y+selectedArea.height); y++){
-					int code1 = Land.getLand(x, y);
-					int x2 = (selectedArea.x + selectedArea.width-1)-(x-selectedArea.x);
-					int code2 = Land.getLand(x2, y);
-					Land.setLand(x, y, code2);
-					Land.setLand(x2, y, code1);
+		synchronized(selectedArea){
+			if(selectedArea != NULL_RECTANGLE){
+				for(int x = selectedArea.x; x < (selectedArea.x+selectedArea.width/2); x++){
+					for(int y = selectedArea.y; y < (selectedArea.y+selectedArea.height); y++){
+						int code1 = Land.getLand(x, y);
+						int x2 = (selectedArea.x + selectedArea.width-1)-(x-selectedArea.x);
+						int code2 = Land.getLand(x2, y);
+						Land.setLand(x, y, code2);
+						Land.setLand(x2, y, code1);
+					}
 				}
+				DWLauncher.getLauncher().setModified();
 			}
-			DWLauncher.getLauncher().setModified();
 		}
 	}
 	
 	public static void moveUp(){
-		if(selectedArea != null){
-			for(int y = selectedArea.y; y < selectedArea.y+selectedArea.height; y++){
-				for(int x = selectedArea.x; x < selectedArea.x+selectedArea.width; x++){
-					int code1 = Land.getLand(x, y);
-					int y2 = y - 1;
-					int code2 = Land.getLand(x, y2);
-					Land.setLand(x, y, code2);
-					Land.setLand(x, y2, code1);
+		synchronized(selectedArea){
+			if(selectedArea != NULL_RECTANGLE){
+				for(int y = selectedArea.y; y < selectedArea.y+selectedArea.height; y++){
+					for(int x = selectedArea.x; x < selectedArea.x+selectedArea.width; x++){
+						int code1 = Land.getLand(x, y);
+						int y2 = y - 1;
+						int code2 = Land.getLand(x, y2);
+						Land.setLand(x, y, code2);
+						Land.setLand(x, y2, code1);
+					}
 				}
+				selectedArea.y = selectedArea.y - 1;
+				DWLauncher.getLauncher().setModified();
 			}
-			selectedArea.y = selectedArea.y - 1;
-			DWLauncher.getLauncher().setModified();
 		}
 	}
 
 	public static void moveDown(){
-		if(selectedArea != null){
-			for(int y = selectedArea.y+selectedArea.height-1; y >= selectedArea.y; y--){
-				for(int x = selectedArea.x; x < selectedArea.x+selectedArea.width; x++){
-					int code1 = Land.getLand(x, y);
-					int y2 = y + 1;
-					int code2 = Land.getLand(x, y2);
-					Land.setLand(x, y, code2);
-					Land.setLand(x, y2, code1);
+		synchronized(selectedArea){
+			if(selectedArea != NULL_RECTANGLE){
+				for(int y = selectedArea.y+selectedArea.height-1; y >= selectedArea.y; y--){
+					for(int x = selectedArea.x; x < selectedArea.x+selectedArea.width; x++){
+						int code1 = Land.getLand(x, y);
+						int y2 = y + 1;
+						int code2 = Land.getLand(x, y2);
+						Land.setLand(x, y, code2);
+						Land.setLand(x, y2, code1);
+					}
 				}
+				selectedArea.y = selectedArea.y + 1;
+				DWLauncher.getLauncher().setModified();
 			}
-			selectedArea.y = selectedArea.y + 1;
-			DWLauncher.getLauncher().setModified();
 		}
 	}
 	
 	public static void moveLeft(){
-		if(selectedArea != null){
-			for(int x = selectedArea.x; x < selectedArea.x+selectedArea.width; x++){
-				for(int y = selectedArea.y; y < selectedArea.y+selectedArea.height; y++){
-					int code1 = Land.getLand(x, y);
-					int x2 = x - 1;
-					int code2 = Land.getLand(x2, y);
-					Land.setLand(x, y, code2);
-					Land.setLand(x2, y, code1);
+		synchronized(selectedArea){
+			if(selectedArea != NULL_RECTANGLE){
+				for(int x = selectedArea.x; x < selectedArea.x+selectedArea.width; x++){
+					for(int y = selectedArea.y; y < selectedArea.y+selectedArea.height; y++){
+						int code1 = Land.getLand(x, y);
+						int x2 = x - 1;
+						int code2 = Land.getLand(x2, y);
+						Land.setLand(x, y, code2);
+						Land.setLand(x2, y, code1);
+					}
 				}
+				selectedArea.x = selectedArea.x - 1;
+				DWLauncher.getLauncher().setModified();
 			}
-			selectedArea.x = selectedArea.x - 1;
-			DWLauncher.getLauncher().setModified();
 		}
 	}
 	
 	public static void moveRight(){
-		if(selectedArea != null){
-			for(int x = selectedArea.x+selectedArea.width-1; x >= selectedArea.x; x--){
-				for(int y = selectedArea.y; y < selectedArea.y+selectedArea.height; y++){
-					int code1 = Land.getLand(x, y);
-					int x2 = x + 1;
-					int code2 = Land.getLand(x2, y);
-					Land.setLand(x, y, code2);
-					Land.setLand(x2, y, code1);
+		synchronized(selectedArea){
+			if(selectedArea != NULL_RECTANGLE){
+				for(int x = selectedArea.x+selectedArea.width-1; x >= selectedArea.x; x--){
+					for(int y = selectedArea.y; y < selectedArea.y+selectedArea.height; y++){
+						int code1 = Land.getLand(x, y);
+						int x2 = x + 1;
+						int code2 = Land.getLand(x2, y);
+						Land.setLand(x, y, code2);
+						Land.setLand(x2, y, code1);
+					}
 				}
+				selectedArea.x = selectedArea.x + 1;
+				DWLauncher.getLauncher().setModified();
 			}
-			selectedArea.x = selectedArea.x + 1;
-			DWLauncher.getLauncher().setModified();
 		}
 	}
 }

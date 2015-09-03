@@ -368,7 +368,7 @@ public class DWLauncher implements KeyListener, MouseListener, MouseMotionListen
 		if(isBuildMode()){
 			if(isRect()){
 				Rectangle rectangle = SelectionManager.getSelectedArea();
-				if(rectangle == null)
+				if(rectangle == SelectionManager.NULL_RECTANGLE)
 					return;
 				for(int x = rectangle.x; x < rectangle.x+rectangle.width; x++){
 					for(int y = rectangle.y; y < rectangle.y+rectangle.height; y++){
@@ -499,7 +499,7 @@ public class DWLauncher implements KeyListener, MouseListener, MouseMotionListen
 	}
 	
 	private void fill(int x, int y, int oldCode, int newCode){
-		if(SelectionManager.getSelectedArea() != null && SelectionManager.getSelectedArea().contains(new Point(x,y))){
+		if(SelectionManager.getSelectedArea() != SelectionManager.NULL_RECTANGLE && SelectionManager.getSelectedArea().contains(new Point(x,y))){
 			for(int x1 = SelectionManager.getSelectedArea().x; x1 < SelectionManager.getSelectedArea().x + SelectionManager.getSelectedArea().width; x1++){
 				for(int y1 = SelectionManager.getSelectedArea().y; y1 < SelectionManager.getSelectedArea().y + SelectionManager.getSelectedArea().height; y1++){
 					int code = Land.getLand(x1, y1);

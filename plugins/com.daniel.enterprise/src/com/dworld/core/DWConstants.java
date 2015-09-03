@@ -1,6 +1,8 @@
 package com.dworld.core;
 
 public class DWConstants {
+	public static final int COMMON_TARGET_MAX_NUMBER = 20;
+	
 	// Size
 	
 	public static final int MAX_X = 3500;
@@ -18,6 +20,8 @@ public class DWConstants {
 	public static final int UI_IMAGE_HEIGHT = 16;
 	
 	// Distance
+	
+	public static final int COMMON_TARGET_DISTANCE = 120;
 	
 	public static final int VISIBLE_DISTANCE = 30;
 	

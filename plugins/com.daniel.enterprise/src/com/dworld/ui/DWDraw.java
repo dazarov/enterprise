@@ -646,7 +646,7 @@ public class DWDraw {
 			}
 		}
 		Rectangle area = SelectionManager.getSelectedArea();
-		if(area != null){
+		if(area != SelectionManager.NULL_RECTANGLE){
 			g.setColor(Color.yellow);
 			g.drawRect((area.x-startX)*DWConstants.UI_IMAGE_WIDTH, (area.y-startY)*DWConstants.UI_IMAGE_HEIGHT, area.width*DWConstants.UI_IMAGE_WIDTH-1, area.height*DWConstants.UI_IMAGE_HEIGHT-1);
 		}
