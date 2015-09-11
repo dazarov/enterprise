@@ -25,6 +25,8 @@ public class DWEngine extends Thread{
 	
 	private HashMap<Point, IUnit> allUnits = new HashMap<Point, IUnit>();
 	
+	private long frameID = 0;
+	
 	private boolean run = true;
 	private int maxElements = 0;
 	private long time=0;
@@ -95,6 +97,10 @@ public class DWEngine extends Thread{
 			}
 			refreshMinimap();
 			window.repaint();
+			frameID++;
+			if(frameID == Long.MAX_VALUE){
+				frameID = 0;
+			}
 		}
 	}
 	
@@ -135,6 +141,10 @@ public class DWEngine extends Thread{
 	
 	public long getMaxDelta(){
 		return maxTime;
+	}
+	
+	public long getFrameID(){
+		return frameID;
 	}
 	
 	public void pause(boolean pause){

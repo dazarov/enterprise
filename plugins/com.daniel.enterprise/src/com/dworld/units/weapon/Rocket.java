@@ -5,6 +5,7 @@ import java.util.List;
 import com.dworld.core.DWConstants;
 import com.dworld.core.Direction;
 import com.dworld.core.Land;
+import com.dworld.core.SearchResult;
 
 public class Rocket extends MovableWeapon {
 	public final static int ManFriendly = 1;
@@ -217,7 +218,7 @@ public class Rocket extends MovableWeapon {
 	}
 
 	protected Direction findTarget(List<Integer> list, final int maxDistance) {
-		int distance;
+		SearchResult result;
 		Direction dir = direction;
 		for (int i = 0; i < 5; i++) {
 			switch (i) {
@@ -240,8 +241,8 @@ public class Rocket extends MovableWeapon {
 				dir = dir.getAnticlockwiseDirection();
 				break;
 			}
-			distance = Land.findUnit(getLocation(), dir, list, maxDistance);
-			if (distance >= 0) {
+			result = Land.search(getLocation(), dir, list, maxDistance);
+			if (result != null) {
 				return dir;
 			}
 		}

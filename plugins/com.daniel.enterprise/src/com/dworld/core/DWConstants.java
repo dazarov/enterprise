@@ -2,6 +2,8 @@ package com.dworld.core;
 
 public class DWConstants {
 	public static final int COMMON_TARGET_MAX_NUMBER = 20;
+	public static final int COMMON_TARGET_FRAME_NUMBER = 5;
+	public static final int COMMON_TARGET_FRAME_CLEAR = 50;
 	
 	// Size
 	

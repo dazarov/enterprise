@@ -9,14 +9,17 @@ import java.util.List;
 
 import com.dworld.core.DWConstants;
 import com.dworld.core.Direction;
+import com.dworld.core.IMovableUnit;
 import com.dworld.core.Land;
+import com.dworld.core.SearchResult;
 import com.dworld.core.SelectionManager;
+import com.dworld.units.logic.UnitLogic;
 import com.dworld.units.weapon.Bomb;
 import com.dworld.units.weapon.Bullet;
 import com.dworld.units.weapon.CannonBall;
 import com.dworld.units.weapon.Rocket;
 
-public abstract class MovableUnit extends ActiveUnit {
+public abstract class MovableUnit extends ActiveUnit implements IMovableUnit{
 	public static final int STAY_MODE			= 1;
 	public static final int MOVE_AROUND_MODE	= 2;
 	public static final int MOVE_TO_MODE		= 3;
@@ -51,10 +54,12 @@ public abstract class MovableUnit extends ActiveUnit {
 			Land.setLand(getLocation(), Land.Empty);
 	}
 
+	@Override
 	public int getBeneath() {
 		return beneath;
 	}
 
+	@Override
 	public void setBeneath(int beneath) {
 		this.beneath = beneath;
 	}
@@ -118,8 +123,12 @@ public abstract class MovableUnit extends ActiveUnit {
 		direction = direction.getClockwiseDirection();
 		return true;
 	}
-
+	
 	protected abstract boolean lookAround();
+
+//	protected final boolean lookAround(){
+//		return getLogic().looked();
+//	}
 	
 	protected boolean checkLand(){
 		if (Land.getLand(getLocation()) != getCode(beneath)) {
@@ -137,8 +146,10 @@ public abstract class MovableUnit extends ActiveUnit {
 		if(selfDefense){
 			selfDefense = false;
 		}
+		getLogic().walked();
 	}
 	
+	@Override
 	public int getCode(int beneath){
 		return code;
 	}
@@ -204,18 +215,22 @@ public abstract class MovableUnit extends ActiveUnit {
 		speed = defaultSpeed;
 	}
 
+	@Override
 	public Direction getDirection() {
 		return direction;
 	}
 
+	@Override
 	public void setDirection(Direction direction) {
 		this.direction = direction;
 	}
 	
+	@Override
 	public void save(OutputStream stream) throws IOException{
 		//stream.write(direction);
 	}
 	
+	@Override
 	public void load(InputStream stream) throws IOException{
 		//direction = stream.read();
 	}
@@ -224,20 +239,20 @@ public abstract class MovableUnit extends ActiveUnit {
 	protected int[] sources = new int[]{-1,-1,-1,-1,-1,-1,-1,-1};
 	
 	protected boolean lightDefenseComplex(){
-		int distance = -1;
+		SearchResult result;
 		Direction dir = Direction.north;
 		
 		ArrayList<Integer> list = new ArrayList<Integer>();
 		
 		for (int i = 0; i < 8; i++) {
-			distance = Land.findUnit(getLocation(), dir, Land.bulletList);
-			if (distance >= 2) {
-				if(sources[i] >= 0 && sources[i] > distance){
+			result = Land.search(getLocation(), dir, Land.bulletList);
+			if (result != null && result.getDistance() >= 2) {
+				if(sources[i] >= 0 && sources[i] > result.getDistance()){
 					list.add(new Integer(dir.value));
 					Direction opposite = dir.getOppositeDirection();
 					list.add(new Integer(opposite.value));
 				}else
-					sources[i] = distance;
+					sources[i] = result.getDistance();
 			}else
 				sources[i] = -1;
 			dir = dir.getClockwiseDirection();
@@ -259,78 +274,79 @@ public abstract class MovableUnit extends ActiveUnit {
 		return false;
 	}
 	
-	private class Danger{
-		//private Point location;
-		//private Direction direction = Direction.nowhere;
-		//private Point probable = null;
-		long lastModification = 0;
-		
-		public Danger(Point point, long modification){
-			//this.location = point;
-			this.lastModification = modification;
-		}
-		
-		public void setLocation(Point location, long time){
-			//this.location = location;
-			this.lastModification = time;
-		}
-	}
+//	private class Danger{
+//		//private Point location;
+//		//private Direction direction = Direction.nowhere;
+//		//private Point probable = null;
+//		long lastModification = 0;
+//		
+//		public Danger(Point point, long modification){
+//			//this.location = point;
+//			this.lastModification = modification;
+//		}
+//		
+//		public void setLocation(Point location, long time){
+//			//this.location = location;
+//			this.lastModification = time;
+//		}
+//	}
+//	
+//	private ArrayList<Danger> dangers = new ArrayList<Danger>();
+//	private long time = 0;
 	
-	private ArrayList<Danger> dangers = new ArrayList<Danger>();
-	private long time = 0;
+	//private static final int AREA_SIZE = 40;
+	//private static final int CLEAN_DELTA = 3;
 	
-	private static final int AREA_SIZE = 40;
-	private static final int CLEAN_DELTA = 3;
+//	protected boolean heavyDefenseComplex(){
+//		time++;
+//		int startX = getLocation().x - AREA_SIZE/2;
+//		if(startX < 0) startX = 0;
+//		int startY = getLocation().y - AREA_SIZE/2;
+//		if(startY < 0) startY = 0;
+//		
+//		// searching
+//		for(int x = startX; x < startX+AREA_SIZE; x++){
+//			for(int y = startY; y < startY+AREA_SIZE; y++){
+//				Point point = new Point(x,y);
+//				int code = Land.getLand(point);
+//				if(code == Land.Bullet){
+//					Danger danger = findDanger(point);
+//					if(danger == null)
+//						createDanger(point);
+//					else
+//						operateDanger(danger, point);
+//				}
+//			}
+//		}
+//		clean();
+//		
+//		// processing
+//		
+//		return false;
+//	}
 	
-	protected boolean heavyDefenseComplex(){
-		time++;
-		int startX = getLocation().x - AREA_SIZE/2;
-		if(startX < 0) startX = 0;
-		int startY = getLocation().y - AREA_SIZE/2;
-		if(startY < 0) startY = 0;
-		
-		// searching
-		for(int x = startX; x < startX+AREA_SIZE; x++){
-			for(int y = startY; y < startY+AREA_SIZE; y++){
-				Point point = new Point(x,y);
-				int code = Land.getLand(point);
-				if(code == Land.Bullet){
-					Danger danger = findDanger(point);
-					if(danger == null)
-						createDanger(point);
-					else
-						operateDanger(danger, point);
-				}
-			}
-		}
-		clean();
-		
-		// processing
-		
-		return false;
-	}
+//	private Danger findDanger(Point point){
+//		return null;
+//	}
+//	
+//	private void createDanger(Point point){
+//		Danger danger = new Danger(point, time);
+//		dangers.add(danger);
+//	}
+//	
+//	private void operateDanger(Danger danger, Point point){
+//		danger.setLocation(point, time);
+//	}
 	
-	private Danger findDanger(Point point){
-		return null;
-	}
+//	private void clean(){
+//		for(int i = dangers.size()-1; i <= 0; i--){
+//			Danger danger = dangers.get(i);
+//			if(time-danger.lastModification > CLEAN_DELTA)
+//				dangers.remove(i);
+//		}
+//	}
 	
-	private void createDanger(Point point){
-		Danger danger = new Danger(point, time);
-		dangers.add(danger);
-	}
-	
-	private void operateDanger(Danger danger, Point point){
-		danger.setLocation(point, time);
-	}
-	
-	private void clean(){
-		for(int i = dangers.size()-1; i <= 0; i--){
-			Danger danger = dangers.get(i);
-			if(time-danger.lastModification > CLEAN_DELTA)
-				dangers.remove(i);
-		}
-	}
-	
+	@Override
 	public <T> void command(int commandId, T arg){
 		super.command(commandId, arg);
 

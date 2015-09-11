@@ -5,21 +5,23 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class CommonTargetManager {
-	private static HashMap<IUnit, CommonTarget>friends = new HashMap<IUnit, CommonTarget>();
-	private static HashMap<IUnit, CommonTarget>enemies = new HashMap<IUnit, CommonTarget>();
+	private static HashMap<IMovableUnit, CommonTarget>friends = new HashMap<IMovableUnit, CommonTarget>();
+	private static HashMap<IMovableUnit, CommonTarget>enemies = new HashMap<IMovableUnit, CommonTarget>();
 	
-	public static void reportTarget(IUnit sourceUnit, Point targetLocation){
+	public static void reportTarget(Point targetLocation){
 		IUnit targetUnit = DWEngine.getEngine().findUnit(targetLocation);
 		
-		addTarget(targetUnit, targetLocation);
-		
-		addTarget(sourceUnit, sourceUnit.getLocation());
+		if(targetUnit instanceof IMovableUnit){
+			addTarget((IMovableUnit)targetUnit, targetLocation);
+		}
 	}
 	
-	public static Point getTargetLocation(IUnit sourceUnit, Point sourceLocation){
-		cleanUpTargets();
+	public static Point getTargetLocation(IUnit sourceUnit){
+		cleanUpTargets(DWEngine.getEngine().getFrameID());
 		
-		HashMap<IUnit, CommonTarget> targets = getTargets(!isFriend(sourceUnit));
+		Point sourceLocation = sourceUnit.getLocation();
+		
+		HashMap<IMovableUnit, CommonTarget> targets = getTargets(!isFriend(sourceUnit));
 		
 		double minDistance = DWConstants.COMMON_TARGET_DISTANCE;
 		CommonTarget closestTarget = null;
@@ -34,19 +36,21 @@ public class CommonTargetManager {
 			}
 		}
 		if(closestTarget != null){
+			closestTarget.lastSeenFrame = DWEngine.getEngine().getFrameID();
 			return closestTarget.lastSeenLocation;
 		}
 		return null;
 	}
 	
-	private static void addTarget(IUnit targetUnit, Point targetLocation){
-		HashMap<IUnit, CommonTarget> targets = getTargets(isFriend(targetUnit));
+	private static void addTarget(IMovableUnit targetUnit, Point targetLocation){
+		HashMap<IMovableUnit, CommonTarget> targets = getTargets(isFriend(targetUnit));
 		
 		CommonTarget target = targets.get(targetUnit);
 		if(target != null){
 			target.lastSeenLocation = targetLocation;
+			target.lastSeenFrame = DWEngine.getEngine().getFrameID();
 		}else if(targets.size() < DWConstants.COMMON_TARGET_MAX_NUMBER){
-			targets.put(targetUnit, new CommonTarget(targetUnit, targetLocation));
+			targets.put(targetUnit, new CommonTarget(targetUnit, targetLocation, DWEngine.getEngine().getFrameID()));
 		}
 	}
 	
@@ -54,7 +58,7 @@ public class CommonTargetManager {
 		return Land.citizenList.contains(Land.getLand(unit.getLocation()));
 	}
 	
-	private static HashMap<IUnit, CommonTarget> getTargets(boolean friend){
+	private static HashMap<IMovableUnit, CommonTarget> getTargets(boolean friend){
 		if(friend){
 			return friends;
 		}else{
@@ -62,22 +66,19 @@ public class CommonTargetManager {
 		}
 	}
 	
-	private static void cleanUpTargets(){
-		cleanUp(friends);
-		cleanUp(enemies);
-		
-		if(friends.size() == 0){
-			enemies.clear();
-		}
-		if(enemies.size() == 0){
-			friends.clear();
+	private static void cleanUpTargets(long frame){
+		if(frame%DWConstants.COMMON_TARGET_FRAME_CLEAR == 0){
+			cleanUp(friends, frame);
+			cleanUp(enemies, frame);
 		}
 	}
 	
-	private static void cleanUp(HashMap<IUnit, CommonTarget> targets){
+	private static void cleanUp(HashMap<IMovableUnit, CommonTarget> targets, long frame){
 		ArrayList<CommonTarget> targetsToDelete = new ArrayList<CommonTarget>();
 		for(CommonTarget target : targets.values()){
 			if(!target.unit.isAlive() || (target.unit instanceof IActive && !((IActive)target.unit).isActive())){
+				targetsToDelete.add(target);
+			}else if(frame - target.lastSeenFrame > DWConstants.COMMON_TARGET_FRAME_NUMBER){
 				targetsToDelete.add(target);
 			}
 		}
@@ -88,12 +89,14 @@ public class CommonTargetManager {
 	}
 	
 	static class CommonTarget{
-		IUnit unit;
+		IMovableUnit unit;
 		Point lastSeenLocation;
+		long lastSeenFrame;
 		
-		public CommonTarget(IUnit unit, Point location){
+		public CommonTarget(IMovableUnit unit, Point location, long frame){
 			this.unit = unit;
 			this.lastSeenLocation = location;
+			this.lastSeenFrame = frame;
 		}
 	}
 }

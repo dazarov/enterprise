@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.dworld.core.IActive;
+import com.dworld.core.CommonTargetManager;
 import com.dworld.core.DWConstants;
 import com.dworld.core.Direction;
 import com.dworld.core.DWEngine;
@@ -12,6 +13,7 @@ import com.dworld.core.Land;
 import com.dworld.core.SearchResult;
 import com.dworld.core.SelectionManager;
 import com.dworld.core.Target;
+import com.dworld.units.logic.UnitLogic;
 import com.dworld.units.weapon.Bomb;
 import com.dworld.units.weapon.Bullet;
 import com.dworld.units.weapon.CannonBall;
@@ -21,10 +23,13 @@ public abstract class ActiveUnit extends Unit implements IActive {
 	private boolean active = true;
 	
 	protected int code;
+	
+	private UnitLogic logic;
 
 	// Special constructor for MovableUnit only
 	public ActiveUnit(int x, int y) {
 		super(x, y);
+		logic = new UnitLogic(this);
 		//if(DWorldLauncher.launcher.isBuildMode()) active = false;
 	}
 
@@ -34,6 +39,10 @@ public abstract class ActiveUnit extends Unit implements IActive {
 		this.code = code;
 		Land.setLand(getLocation(), code);
 		//if(DWorldLauncher.launcher.isBuildMode()) active = false;
+	}
+	
+	protected UnitLogic getLogic(){
+		return logic;
 	}
 
 	@Override
@@ -74,12 +83,13 @@ public abstract class ActiveUnit extends Unit implements IActive {
 			throw new IllegalArgumentException("Illegal argument list, make sure you defined methods getListToFightWith() and getArmoredListToFightWith() !");
 		}
 		ArrayList<Direction> directions = new ArrayList<Direction>();
-		int distance;
+		SearchResult result;
 		Direction dir = Direction.north;
 		for (int i = 0; i < 8; i++) {
-			distance = Land.findUnit(getLocation(), dir, list, maxDistance);
-			if (distance >= 0) {
+			result = Land.search(getLocation(), dir, list, maxDistance);
+			if (result != null) {
 				directions.add(dir);
+				CommonTargetManager.reportTarget(result.getLocation());
 			}
 			dir = dir.getClockwiseDirection();
 		}

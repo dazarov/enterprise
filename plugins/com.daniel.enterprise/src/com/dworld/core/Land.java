@@ -801,31 +801,35 @@ public class Land {
 		return unsaveList.contains(new Integer(code));
 	}
 	
-	public static int findUnit(Point location, Direction direction, List<Integer> list) {
-		return findUnit(location, direction, list, DWConstants.VISIBLE_DISTANCE);
-	}
-
-	public static int findUnit(final Point location, final Direction direction, final List<Integer> list, final int maxDistance) {
-		Point point = getNewLocation((Point) location, direction);
-
-		int land = Vacuum;
-		int distance = 1;
-		while (true) {
-			land = getLand(point);
-			if (list.contains(new Integer(land)))
-				return distance;
-			if (land == Vacuum)
-				return -1;
-			if (!flyAndFindList.contains(new Integer(land)))
-				return -1;
-			distance++;
-			if (distance > maxDistance)
-				return -1;
-			point = getNewLocation(point, direction);
-		}
-	}
+//	public static int findUnit(Point location, Direction direction, List<Integer> list) {
+//		return findUnit(location, direction, list, DWConstants.VISIBLE_DISTANCE);
+//	}
+//
+//	public static int findUnit(final Point location, final Direction direction, final List<Integer> list, final int maxDistance) {
+//		Point point = getNewLocation((Point) location, direction);
+//
+//		int land = Vacuum;
+//		int distance = 1;
+//		while (true) {
+//			land = getLand(point);
+//			if (list.contains(new Integer(land)))
+//				return distance;
+//			if (land == Vacuum)
+//				return -1;
+//			if (!flyAndFindList.contains(new Integer(land)))
+//				return -1;
+//			distance++;
+//			if (distance > maxDistance)
+//				return -1;
+//			point = getNewLocation(point, direction);
+//		}
+//	}
 	
 	public static SearchResult search(final Point location, final Direction direction, final List<Integer> list) {
+		return search(location, direction, list, DWConstants.VISIBLE_DISTANCE);
+	}
+	
+	public static SearchResult search(final Point location, final Direction direction, final List<Integer> list, final int maxDistance) {
 		Point point = getNewLocation((Point) location, direction);
 
 		int land = Vacuum;
@@ -833,13 +837,13 @@ public class Land {
 		while (true) {
 			land = getLand(point);
 			if (list.contains(new Integer(land)))
-				return new SearchResult(land, distance, direction);
+				return new SearchResult(land, distance, direction, point);
 			if (land == Vacuum)
 				return null;
 			if (!flyAndFindList.contains(new Integer(land)))
 				return null;
 			distance++;
-			if (distance > DWConstants.VISIBLE_DISTANCE)
+			if (distance > maxDistance)
 				return null;
 			point = getNewLocation(point, direction);
 		}
