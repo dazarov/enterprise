@@ -38,7 +38,6 @@ public class DanielUIImages extends CommonUIImages {
 			INSTANCE = new DanielUIImages(new URL(DanielTestPlugin.getDefault().getBundle().getEntry("/"), "icons/")); //$NON-NLS-1$ //$NON-NLS-2$
 		} catch (MalformedURLException e) {
 			// do nothing
-			DanielTestPlugin.getDefault().logError(e);
 		}
 	}
 	
@@ -67,6 +66,6 @@ public class DanielUIImages extends CommonUIImages {
 	}
 
 	protected ImageRegistry getImageRegistry() {
-		return DanielTestPlugin.getDefault().getImageRegistry();
+		return null;//DanielTestPlugin.getDefault().getImageRegistry();
 	}
 }

@@ -11,7 +11,6 @@ Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Eclipse-BundleShape: dir
 Require-Bundle: org.eclipse.core.commands,
- org.jboss.tools.common,
  org.eclipse.core.runtime,
  org.eclipse.ui,
  org.jboss.tools.common.ui,

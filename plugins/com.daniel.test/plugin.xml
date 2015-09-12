@@ -7,6 +7,10 @@
              commandId="com.daniel.command.test">
        </handler>
        <handler
+             class="com.daniel.test.handlers.TestHandler2"
+             commandId="com.daniel.command.test2">
+       </handler>
+       <handler
              class="com.daniel.test.handlers.CreateJIRAIssueHandler"
              commandId="com.daniel.command.createIssue">
        </handler>
@@ -18,6 +22,12 @@
             	description="%Daniel_Test"
             	id="com.daniel.command.test"
             	name="%Daniel_Test">
+      	</command>
+      	<command
+            	categoryId="org.eclipse.ui.category.help"
+            	description="%Daniel_Test2"
+            	id="com.daniel.command.test2"
+            	name="%Daniel_Test2">
       	</command>
       	<command
             	categoryId="org.eclipse.ui.category.help"
@@ -54,6 +64,15 @@
                 id="com.daniel.test"
                 label="%Daniel_Test"
                 tooltip="%Daniel_Test">
+              <visibleWhen checkEnabled="false" />
+          </command>
+          <command
+                commandId="com.daniel.command.test2"
+                disabledIcon="$nl$/icons/daniel_test.png"
+                icon="$nl$/icons/daniel_test.png"
+                id="com.daniel.test2"
+                label="%Daniel_Test2"
+                tooltip="%Daniel_Test2">
               <visibleWhen checkEnabled="false" />
           </command>
           <command
@@ -102,6 +121,16 @@
              label="%Daniel_Test"
              style="push"
              tooltip="%Daniel_Test">
+           <visibleWhen checkEnabled="false" />
+       </command>
+       <command
+			commandId="com.daniel.command.test2"
+             disabledIcon="$nl$/icons/daniel_test.png"
+             icon="$nl$/icons/daniel_test.png"
+             id="com.daniel.test2"
+             label="%Daniel_Test2"
+             style="push"
+             tooltip="%Daniel_Test2">
            <visibleWhen checkEnabled="false" />
        </command>
 		<command

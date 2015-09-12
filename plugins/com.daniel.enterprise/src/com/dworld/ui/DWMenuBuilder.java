@@ -162,6 +162,52 @@ public class DWMenuBuilder {
 		menu.add(cbMenuItem);
 		menu.addSeparator();
 		
+//		ButtonGroup buildGroup = new ButtonGroup();
+		
+//		JRadioButtonMenuItem rbMenuItem = new JRadioButtonMenuItem("Brush");
+//		//rbMenuItem.setIcon(new ImageIcon(DrawWorld.getImage(code)));
+//		rbMenuItem.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent e) {
+//				DWorldLauncher.setDrawMode(DWorldLauncher.DRAW_BRUSH);
+//			}
+//		});
+//		rbMenuItem.setSelected(true);
+//		buildGroup.add(rbMenuItem);
+//		menu.add(rbMenuItem);
+//		
+//		rbMenuItem = new JRadioButtonMenuItem("Line");
+//		//rbMenuItem.setIcon(new ImageIcon(DrawWorld.getImage(code)));
+//		rbMenuItem.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent e) {
+//				DWorldLauncher.setDrawMode(DWorldLauncher.DRAW_LINE);
+//			}
+//		});
+//		rbMenuItem.setSelected(true);
+//		buildGroup.add(rbMenuItem);
+//		menu.add(rbMenuItem);
+//		
+//		rbMenuItem = new JRadioButtonMenuItem("Rectangle");
+//		//rbMenuItem.setIcon(new ImageIcon(DrawWorld.getImage(code)));
+//		rbMenuItem.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent e) {
+//				DWorldLauncher.setDrawMode(DWorldLauncher.DRAW_RECTANGLE);
+//			}
+//		});
+//		rbMenuItem.setSelected(true);
+//		buildGroup.add(rbMenuItem);
+//		menu.add(rbMenuItem);
+		
+//		rbMenuItem = new JRadioButtonMenuItem("Fill");
+//		//rbMenuItem.setIcon(new ImageIcon(DrawWorld.getImage(code)));
+//		rbMenuItem.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent e) {
+//				DWorldLauncher.setDrawMode(DWorldLauncher.DRAW_FILL);
+//			}
+//		});
+//		rbMenuItem.setSelected(true);
+//		buildGroup.add(rbMenuItem);
+//		menu.add(rbMenuItem);
+		
 		menuItem = new JMenuItem("Copy");
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

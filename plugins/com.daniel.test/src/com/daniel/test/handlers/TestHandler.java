@@ -13,6 +13,7 @@ import org.eclipse.jface.action.ICoolBarManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.ToolBarManager;
 import org.eclipse.jface.window.ApplicationWindow;
+import org.eclipse.osgi.internal.messages.Msg;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
@@ -23,6 +24,7 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.internal.WorkbenchWindow;
 import org.eclipse.ui.progress.UIJob;
+import org.osgi.framework.BundleException;
 
 import com.daniel.test.DanielTestPlugin;
 
@@ -116,14 +118,14 @@ public class TestHandler extends AbstractHandler {
 			System.out.println("WORKBENCH - NULL"); //$NON-NLS-1$
 		}
 		//try {
-			IViewPart part = workbench.getActiveWorkbenchWindow().getActivePage().findView("org.eclipse.pde.runtime.LogView");
-			ToolBarManager manager = (ToolBarManager)part.getViewSite().getActionBars().getToolBarManager();
-			System.out.println("ToolBarManager - "+manager.getClass());
+			//IViewPart part = workbench.getActiveWorkbenchWindow().getActivePage().findView("org.eclipse.pde.runtime.LogView");
+			//ToolBarManager manager = (ToolBarManager)part.getViewSite().getActionBars().getToolBarManager();
+			//System.out.println("ToolBarManager - "+manager.getClass());
 			//manager.
 
-			for(IContributionItem item : manager.getItems()){
-				System.out.println("222 1 item id - "+item.getId()+" class - "+item.getClass()); //$NON-NLS-1$
-			}
+			//for(IContributionItem item : manager.getItems()){
+			//	System.out.println("222 1 item id - "+item.getId()+" class - "+item.getClass()); //$NON-NLS-1$
+			//}
 //			ToolBar toolBar = part.getSite().getShell().getToolBar();
 //			if(toolBar != null){
 //				for(Control control : toolBar.getChildren()){
@@ -141,15 +143,30 @@ public class TestHandler extends AbstractHandler {
 //
 //			@Override
 //			public void run() {
-				Exception base = new Exception("This is very serious reason!!!!");
-				base.setStackTrace(Thread.currentThread().getStackTrace());
-				
-				Status status = new Status(Status.ERROR, "com.daniel.test", "VERY SERIOUS ERROR!!!!!!!!!", base);
-				CoreException ex = new CoreException(status);
-				
-				
-				DanielTestPlugin.getDefault().logError(ex);
-//			}});
+//				Exception base = new Exception("This is very serious reason!!!!");
+//				base.setStackTrace(Thread.currentThread().getStackTrace());
+//				
+//				Status status = new Status(Status.ERROR, "com.daniel.test", "VERY SERIOUS ERROR!!!!!!!!!", base);
+//				CoreException ex = new CoreException(status);
+//				
+//				
+//				DanielTestPlugin.getDefault().logError(ex);
+			String reportMessage = "org.osgi.framework.BundleException: Could not resolve module: org.jboss.tools.c.c.core [1089]\n"+
+"  Unresolved requirement: Require-Bundle: org.jboss.tools.b.b\n"+
+"    -> Bundle-SymbolicName: org.jboss.tools.b.b; bundle-version=\"1.7.0.qualifier\"; singleton:=\"true\"\n"+
+"       org.jboss.tools.b.b [1329]\n"+
+"         Unresolved requirement: Require-Bundle: org.jboss.tools.a.a; visibility:=\"reexport\"\n"+
+"           -> Bundle-SymbolicName: org.jboss.tools.a.a; bundle-version=\"1.7.0.qualifier\"; singleton:=\"true\"\n"+
+"              org.jboss.tools.a.a [1359]\n"+
+"                Unresolved requirement: Require-Capability: osgi.ee; filter:=\"(&(osgi.ee=JavaSE)(version=1.8))\"";
+       		Exception base =  new BundleException(reportMessage, BundleException.RESOLVE_ERROR);
+           base.setStackTrace(Thread.currentThread().getStackTrace());
+			
+			Status status = new Status(Status.ERROR, "com.daniel.test", "FrameworkEvent ERROR", base);
+			//CoreException ex = new CoreException(status);
+			
+			
+			DanielTestPlugin.logError(base);
 		
 		
 		//LoggingJob job = new LoggingJob("a");

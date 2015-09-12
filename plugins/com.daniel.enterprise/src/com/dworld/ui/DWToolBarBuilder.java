@@ -337,5 +337,23 @@ public class DWToolBarBuilder {
 			}
 		});
 		toolBar.add(button);
+		
+//		button = new JButton("Copy");
+//		//button.setIcon(new ImageIcon(DrawWorld.loadImage("resources/fill.png")));
+//		button.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent e) {
+//				SelectionManager.copy();
+//			}
+//		});
+//		toolBar.add(button);
+//		
+//		button = new JButton("Paste");
+//		//button.setIcon(new ImageIcon(DrawWorld.loadImage("resources/fill.png")));
+//		button.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent e) {
+//				SelectionManager.paste();
+//			}
+//		});
+//		toolBar.add(button);
 	}
 }
