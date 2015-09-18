@@ -16,9 +16,11 @@ public abstract class Rule<T extends IActive> {
 		return unit;
 	}
 	
-	abstract public boolean isActive();
+	//abstract public boolean isActive();
 	
 	abstract public int getPriority();
+	
+	abstract public boolean test();
 	
 	/**
 	 * if returns false 

@@ -5,13 +5,14 @@ import com.dworld.core.IActive;
 public class FireBulletRule extends Rule<IActive> {
 
 	@Override
-	public boolean isActive() {
-		return false;
+	public int getPriority() {
+		return HIGHT_PRIORITY;
 	}
 
 	@Override
-	public int getPriority() {
-		return HIGHT_PRIORITY;
+	public boolean test() {
+		//getUnit().fireBullets();
+		return true;
 	}
 
 	@Override

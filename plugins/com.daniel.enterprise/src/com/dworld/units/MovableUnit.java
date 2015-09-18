@@ -9,7 +9,7 @@ import java.util.List;
 
 import com.dworld.core.DWConstants;
 import com.dworld.core.Direction;
-import com.dworld.core.IMovableUnit;
+import com.dworld.core.IMovable;
 import com.dworld.core.Land;
 import com.dworld.core.SearchResult;
 import com.dworld.core.SelectionManager;
@@ -18,7 +18,7 @@ import com.dworld.units.weapon.Bullet;
 import com.dworld.units.weapon.CannonBall;
 import com.dworld.units.weapon.Rocket;
 
-public abstract class MovableUnit extends ActiveUnit implements IMovableUnit{
+public abstract class MovableUnit extends ActiveUnit implements IMovable {
 	public static final int STAY_MODE			= 1;
 	public static final int MOVE_AROUND_MODE	= 2;
 	public static final int MOVE_TO_MODE		= 3;
@@ -426,21 +426,21 @@ public abstract class MovableUnit extends ActiveUnit implements IMovableUnit{
 		return ld;
 	}
 	
-	protected Direction fireAgainstRocket(){
-		Direction d = super.fireAgainstRocket();
-		if(!d.equals(Direction.nowhere)){
-			direction = d;
-		}
-		return d;
-	}
+//	protected void fireAgainstRocket(){
+//		Direction d = super.fireAgainstRocket();
+//		if(!d.equals(Direction.nowhere)){
+//			direction = d;
+//		}
+//		return d;
+//	}
 	
 	protected void fireCannonBalls(){
 		fireCannonBalls(DWConstants.VISIBLE_DISTANCE);
 	}
 	
-	protected Bullet fireBullet(){
-		return fireBullet(direction);
-	}
+//	protected Bullet fireBullet(){
+//		return fireBullet(direction);
+//	}
 	
 	protected Bomb fireBomb(int distance){
 		return fireBomb(direction, distance);
@@ -453,4 +453,11 @@ public abstract class MovableUnit extends ActiveUnit implements IMovableUnit{
 	protected CannonBall fireCannon(){
 		return fireCannon(direction);
 	}
+	
+	@Override
+	public void move(Direction direction) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

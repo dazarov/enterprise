@@ -5,14 +5,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class CommonTargetManager {
-	private static HashMap<IMovableUnit, CommonTarget>friends = new HashMap<IMovableUnit, CommonTarget>();
-	private static HashMap<IMovableUnit, CommonTarget>enemies = new HashMap<IMovableUnit, CommonTarget>();
+	private static HashMap<IMovable, CommonTarget>friends = new HashMap<IMovable, CommonTarget>();
+	private static HashMap<IMovable, CommonTarget>enemies = new HashMap<IMovable, CommonTarget>();
 	
 	public static void reportTarget(Point targetLocation){
 		IUnit targetUnit = DWEngine.getEngine().findUnit(targetLocation);
 		
-		if(targetUnit instanceof IMovableUnit){
-			addTarget((IMovableUnit)targetUnit, targetLocation);
+		if(targetUnit instanceof IMovable){
+			addTarget((IMovable)targetUnit, targetLocation);
 		}
 	}
 	
@@ -21,7 +21,7 @@ public class CommonTargetManager {
 		
 		Point sourceLocation = sourceUnit.getLocation();
 		
-		HashMap<IMovableUnit, CommonTarget> targets = getTargets(!isFriend(sourceUnit));
+		HashMap<IMovable, CommonTarget> targets = getTargets(!isFriend(sourceUnit));
 		
 		double minDistance = DWConstants.COMMON_TARGET_DISTANCE;
 		CommonTarget closestTarget = null;
@@ -42,8 +42,8 @@ public class CommonTargetManager {
 		return null;
 	}
 	
-	private static void addTarget(IMovableUnit targetUnit, Point targetLocation){
-		HashMap<IMovableUnit, CommonTarget> targets = getTargets(isFriend(targetUnit));
+	private static void addTarget(IMovable targetUnit, Point targetLocation){
+		HashMap<IMovable, CommonTarget> targets = getTargets(isFriend(targetUnit));
 		
 		CommonTarget target = targets.get(targetUnit);
 		if(target != null){
@@ -58,7 +58,7 @@ public class CommonTargetManager {
 		return Land.citizenList.contains(Land.getLand(unit.getLocation()));
 	}
 	
-	private static HashMap<IMovableUnit, CommonTarget> getTargets(boolean friend){
+	private static HashMap<IMovable, CommonTarget> getTargets(boolean friend){
 		if(friend){
 			return friends;
 		}else{
@@ -73,7 +73,7 @@ public class CommonTargetManager {
 		}
 	}
 	
-	private static void cleanUp(HashMap<IMovableUnit, CommonTarget> targets, long frame){
+	private static void cleanUp(HashMap<IMovable, CommonTarget> targets, long frame){
 		ArrayList<CommonTarget> targetsToDelete = new ArrayList<CommonTarget>();
 		for(CommonTarget target : targets.values()){
 			if(!target.unit.isAlive() || (target.unit instanceof IActive && !((IActive)target.unit).isActive())){
@@ -89,11 +89,11 @@ public class CommonTargetManager {
 	}
 	
 	static class CommonTarget{
-		IMovableUnit unit;
+		IMovable unit;
 		Point lastSeenLocation;
 		long lastSeenFrame;
 		
-		public CommonTarget(IMovableUnit unit, Point location, long frame){
+		public CommonTarget(IMovable unit, Point location, long frame){
 			this.unit = unit;
 			this.lastSeenLocation = location;
 			this.lastSeenFrame = frame;

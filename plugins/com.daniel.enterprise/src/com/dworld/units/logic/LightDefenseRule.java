@@ -3,13 +3,14 @@ package com.dworld.units.logic;
 public class LightDefenseRule extends MovementRule {
 
 	@Override
-	public boolean isActive() {
-		return true;
+	public int getPriority() {
+		return HIGHT_PRIORITY;
 	}
 
 	@Override
-	public int getPriority() {
-		return HIGHT_PRIORITY;
+	public boolean test() {
+		//getUnit().lightDefenseComplex();
+		return true;
 	}
 
 	@Override

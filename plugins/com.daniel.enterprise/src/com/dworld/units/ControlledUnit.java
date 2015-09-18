@@ -295,7 +295,7 @@ public class ControlledUnit extends MovableUnit {
 				break;
 
 			case 82: // r
-				fireRocket();
+				fireRocket(direction);
 				break;
 				
 			case 84: // t
@@ -309,7 +309,7 @@ public class ControlledUnit extends MovableUnit {
 				break;
 
 			case 32: // Space bar
-				fireBullet();
+				fireBullet(direction);
 				break;
 
 			case 37: // Left
@@ -368,9 +368,9 @@ public class ControlledUnit extends MovableUnit {
 		}
 	}
 	
-	protected Rocket fireRocket(){
-		return fireRocket(getRocketType());
-	}
+//	protected Rocket fireRocket(){
+//		return fireRocket(getRocketType());
+//	}
 
 	@Override
 	protected int getGrave(int beneath){

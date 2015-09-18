@@ -25,6 +25,14 @@ public abstract class ActiveUnit extends Unit implements IActive {
 	protected int code;
 	
 	private UnitLogic logic;
+	
+	private Bullet[] bullets = new Bullet[8];
+	
+	private Bomb[] grenades = new Bomb[8];
+	
+	private Rocket[] rockets = new Rocket[8];
+	
+	private CannonBall[] cannonBalls = new CannonBall[8];
 
 	// Special constructor for MovableUnit only
 	public ActiveUnit(int x, int y) {
@@ -195,15 +203,13 @@ public abstract class ActiveUnit extends Unit implements IActive {
 		return null;
 	}
 	
-	private Bullet[] bullet = new Bullet[8];
+	
 	
 	
 	protected void fireBullets(final int distance){
 		Direction[] dirs = findUnit(getListToFightWith(), distance);
 		for(Direction dir : dirs) {
-			if(bullet[dir.value] == null || !bullet[dir.value].isAlive()){
-				bullet[dir.value] = fireBullet(dir);
-			}
+			fireBullet(dir);
 		}
 	}
 	
@@ -211,7 +217,7 @@ public abstract class ActiveUnit extends Unit implements IActive {
 		fireBullets(DWConstants.VISIBLE_DISTANCE);
 	}
 	
-	protected Direction fireAgainstRocket(){
+	protected void fireAgainstRocket(){
 		SearchResult result;
 		Direction dir = Direction.north;
 		for (int i = 0; i < 8; i++) {
@@ -219,22 +225,23 @@ public abstract class ActiveUnit extends Unit implements IActive {
 			if (result != null) {
 				Direction rocketDirection = Rocket.getDirection(result.getResultCode());
 				if(rocketDirection.getOppositeDirection() == dir){
-					if(bullet[dir.value] == null || !bullet[dir.value].isAlive()){
-						bullet[dir.value] = fireBullet(dir);
-						return dir;
-					}
+					fireBullet(dir);
+//					if(bullets[dir.value] == null || !bullets[dir.value].isAlive()){
+//						bullets[dir.value] = fireBullet(dir);
+//						return dir;
+//					}
 				}
 			}
 			dir = dir.getClockwiseDirection();
 		}
-		return Direction.nowhere;
+		//return Direction.nowhere;
 	}
 	
 	protected int getRocketType(){
 		return -1;
 	}
 	
-	private Rocket[] rocket = new Rocket[8];
+	
 	
 	protected void fireRockets(){
 		fireRockets(DWConstants.VISIBLE_DISTANCE);
@@ -243,8 +250,8 @@ public abstract class ActiveUnit extends Unit implements IActive {
 	protected void fireRockets(final int distance){
 		Direction[] dirs = findUnit(getListToFightWith(), distance);
 		for(Direction dir : dirs) {
-			if(rocket[dir.value] == null || !rocket[dir.value].isAlive()){
-				rocket[dir.value] = fireRocket(dir, getRocketType());
+			if(rockets[dir.value] == null || !rockets[dir.value].isAlive()){
+				rockets[dir.value] = fireRocket(dir, getRocketType());
 			}
 		}
 	}
@@ -255,9 +262,9 @@ public abstract class ActiveUnit extends Unit implements IActive {
 			Direction targetDirection = target.getDirection();
 			int targetDistance = target.getDistance();
 			if(targetDistance > DWConstants.MIN_RANGE){
-				if(rocket[targetDirection.value] == null || !rocket[targetDirection.value].isAlive()){
+				if(rockets[targetDirection.value] == null || !rockets[targetDirection.value].isAlive()){
 					if(checkDistance(targetDirection, targetDistance)){
-						rocket[targetDirection.value] = fireRocket(targetDirection, getRocketType());
+						rockets[targetDirection.value] = fireRocket(targetDirection, getRocketType());
 					}
 				}
 			}
@@ -268,7 +275,7 @@ public abstract class ActiveUnit extends Unit implements IActive {
 		return null;
 	}
 	
-	private CannonBall[] cannonBalls = new CannonBall[8];
+	
 	
 	protected void fireCannonBalls(int distance){
 		Direction[] dirs = findUnit(getArmoredListToFightWith(), distance);
@@ -307,8 +314,36 @@ public abstract class ActiveUnit extends Unit implements IActive {
 		return true;
 	}
 	
-	protected Bullet fireBullet(Direction bulletDirection){
-		return new Bullet(getLocation().x, getLocation().y, bulletDirection);
+	@Override
+	public void fireBullet(Direction direction){
+		Bullet bullet = bullets[direction.value];
+		if(bullet == null || !bullet.isAlive()){
+			bullets[direction.value] = new Bullet(getLocation().x, getLocation().y, direction);
+		}
+	}
+	
+	@Override
+	public void fireGrenade(Direction direction, int distance){
+		Bomb grenade = grenades[direction.value];
+		if(grenade == null || !grenade.isAlive()){
+			grenades[direction.value] = new Bomb(getLocation().x, getLocation().y, direction, distance);
+		}
+	}
+
+	@Override
+	public void fireRocket(Direction direction){
+		Rocket rocket = rockets[direction.value];
+		if(rocket == null || !rocket.isAlive()){
+			rockets[direction.value] = new Rocket(getLocation().x, getLocation().y, direction, getRocketType());
+		}
+	}
+
+	@Override
+	public void fireCannonBall(Direction direction){
+		CannonBall cannonBall = cannonBalls[direction.value];
+		if(cannonBall == null || !cannonBall.isAlive()){
+			cannonBalls[direction.value] = new CannonBall(getLocation().x, getLocation().y, direction);
+		}
 	}
 	
 	protected Bomb fireBomb(Direction bombDirection, int distance){
