@@ -4,14 +4,13 @@ import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.dworld.core.IActive;
 import com.dworld.core.CommonTargetManager;
 import com.dworld.core.DWConstants;
-import com.dworld.core.Direction;
 import com.dworld.core.DWEngine;
+import com.dworld.core.Direction;
+import com.dworld.core.IActive;
 import com.dworld.core.Land;
 import com.dworld.core.SearchResult;
-import com.dworld.core.SelectionManager;
 import com.dworld.core.Target;
 import com.dworld.units.logic.UnitLogic;
 import com.dworld.units.weapon.Bomb;
@@ -188,14 +187,33 @@ public abstract class ActiveUnit extends Unit implements IActive {
 		}
 	}
 	
-	public <T> void command(int commandId, T arg){
+	@Override
+	public void command(int commandId, Object[] args){
 		System.out.println(" "+getClass()+" command "+commandId);
-		if(commandId == SelectionManager.DEFAULT_COMMAND){
+		if(commandId == Unit.EXTERNAL_COMMAND_DEFAULT){
 			doDefaultCommand();
-		}else if(commandId == SelectionManager.ACTIVATE_COMMAND){
+		}else if(commandId == EXTERNAL_COMMAND_ACTIVATE){
 			activate();
-		}else if(commandId == SelectionManager.DEACTIVATE_COMMAND){
+		}else if(commandId == EXTERNAL_COMMAND_DEACTIVATE){
 			deactivate();
+		}else if(commandId == INTERNAL_COMMAND_FIRE_BULLET){
+			Direction d = (Direction)args[0];
+			fireBullet(d);
+		}else if(commandId == INTERNAL_COMMAND_FIRE_ROCKET){
+			Direction d = (Direction)args[0];
+			fireRocket(d);
+		}else if(commandId == INTERNAL_COMMAND_FIRE_CANNON){
+			Direction d = (Direction)args[0];
+			if(args.length > 1){
+				Integer distance = (Integer)args[1];
+				fireCannon(d, distance);
+			}else{
+				fireCannon(d);
+			}
+		}else if(commandId == INTERNAL_COMMAND_FIRE_BOMB){
+			Direction d = (Direction)args[0];
+			Integer distance = (Integer)args[1];
+			fireBomb(d, distance);
 		}
 	}
 	
@@ -314,50 +332,32 @@ public abstract class ActiveUnit extends Unit implements IActive {
 		return true;
 	}
 	
-	@Override
-	public void fireBullet(Direction direction){
+	private void fireBullet(Direction direction){
 		Bullet bullet = bullets[direction.value];
 		if(bullet == null || !bullet.isAlive()){
 			bullets[direction.value] = new Bullet(getLocation().x, getLocation().y, direction);
 		}
 	}
 	
-	@Override
-	public void fireGrenade(Direction direction, int distance){
-		Bomb grenade = grenades[direction.value];
-		if(grenade == null || !grenade.isAlive()){
-			grenades[direction.value] = new Bomb(getLocation().x, getLocation().y, direction, distance);
-		}
-	}
-
-	@Override
-	public void fireRocket(Direction direction){
+	private void fireRocket(Direction direction){
 		Rocket rocket = rockets[direction.value];
 		if(rocket == null || !rocket.isAlive()){
 			rockets[direction.value] = new Rocket(getLocation().x, getLocation().y, direction, getRocketType());
 		}
 	}
 
-	@Override
-	public void fireCannonBall(Direction direction){
-		CannonBall cannonBall = cannonBalls[direction.value];
-		if(cannonBall == null || !cannonBall.isAlive()){
-			cannonBalls[direction.value] = new CannonBall(getLocation().x, getLocation().y, direction);
-		}
-	}
-	
-	protected Bomb fireBomb(Direction bombDirection, int distance){
+	private Bomb fireBomb(Direction bombDirection, int distance){
 		return new Bomb(getLocation().x, getLocation().y, bombDirection, distance);
 	}
 	
-	protected Rocket fireRocket(Direction rocketDirection, int rocketType){
+	private Rocket fireRocket(Direction rocketDirection, int rocketType){
 		if(rocketType == -1){
 			throw new IllegalArgumentException("Illegal argument rocketType, define method getRocketType()!");
 		}
 		return new Rocket(getLocation().x, getLocation().y, rocketDirection, rocketType);
 	}
 	
-	protected CannonBall fireCannon(Direction cannonDirection){
+	private CannonBall fireCannon(Direction cannonDirection){
 		return new CannonBall(getLocation().x, getLocation().y, cannonDirection);
 	}
 

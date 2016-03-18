@@ -18,6 +18,7 @@ import com.dworld.core.Land;
 import com.dworld.core.SelectionManager;
 import com.dworld.ui.actions.ChangeManCodeAction;
 import com.dworld.ui.actions.SelectElementAction;
+import com.dworld.units.Unit;
 
 public class DWMenuBuilder {
 	private JFrame window;
@@ -477,7 +478,7 @@ public class DWMenuBuilder {
 		menuItem = new JMenuItem("Default Command");
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				SelectionManager.sendCommand(SelectionManager.DEFAULT_COMMAND, null);
+				SelectionManager.sendCommand(Unit.EXTERNAL_COMMAND_DEFAULT, null);
 			}
 		});
 		menu.add(menuItem);
@@ -485,7 +486,7 @@ public class DWMenuBuilder {
 		menuItem = new JMenuItem("Activate");
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				SelectionManager.sendCommand(SelectionManager.ACTIVATE_COMMAND, null);
+				SelectionManager.sendCommand(Unit.EXTERNAL_COMMAND_ACTIVATE, null);
 			}
 		});
 		menu.add(menuItem);
@@ -493,7 +494,7 @@ public class DWMenuBuilder {
 		menuItem = new JMenuItem("Deactivate");
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				SelectionManager.sendCommand(SelectionManager.DEACTIVATE_COMMAND, null);
+				SelectionManager.sendCommand(Unit.EXTERNAL_COMMAND_DEACTIVATE, null);
 			}
 		});
 		menu.add(menuItem);
@@ -501,7 +502,7 @@ public class DWMenuBuilder {
 		menuItem = new JMenuItem("Stay");
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				SelectionManager.sendCommand(SelectionManager.STAY_COMMAND, null);
+				SelectionManager.sendCommand(Unit.EXTERNAL_COMMAND_STAY, null);
 			}
 		});
 		menu.add(menuItem);
@@ -509,7 +510,7 @@ public class DWMenuBuilder {
 		menuItem = new JMenuItem("Move Around");
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				SelectionManager.sendCommand(SelectionManager.MOVE_AROUND_COMMAND, null);
+				SelectionManager.sendCommand(Unit.EXTERNAL_COMMAND_MOVE_AROUND, null);
 			}
 		});
 		menu.add(menuItem);
@@ -517,7 +518,7 @@ public class DWMenuBuilder {
 		menuItem = new JMenuItem("Patrol");
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				SelectionManager.sendCommand(SelectionManager.PATROL_COMMAND, null);
+				SelectionManager.sendCommand(Unit.EXTERNAL_COMMAND_PATROL, null);
 			}
 		});
 		menu.add(menuItem);
@@ -525,7 +526,7 @@ public class DWMenuBuilder {
 		menuItem = new JMenuItem("Defense");
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				SelectionManager.sendCommand(SelectionManager.DEFENSE_COMMAND, null);
+				SelectionManager.sendCommand(Unit.EXTERNAL_COMMAND_DEFENSE, null);
 			}
 		});
 		menu.add(menuItem);
@@ -535,7 +536,7 @@ public class DWMenuBuilder {
 		menuItem = new JMenuItem("Open");
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				SelectionManager.sendCommand(SelectionManager.OPEN_COMMAND, null);
+				SelectionManager.sendCommand(Unit.EXTERNAL_COMMAND_OPEN_GATE, null);
 			}
 		});
 		menu.add(menuItem);
@@ -543,7 +544,7 @@ public class DWMenuBuilder {
 		menuItem = new JMenuItem("Close");
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				SelectionManager.sendCommand(SelectionManager.CLOSE_COMMAND, null);
+				SelectionManager.sendCommand(Unit.EXTERNAL_COMMAND_CLOSE_GATE, null);
 			}
 		});
 		menu.add(menuItem);

@@ -181,14 +181,14 @@ public class Gate extends ActiveUnit implements ISlow{
 	}
 	
 	@Override
-	public <T> void command(int commandId, T arg){
-		super.command(commandId, arg);
+	public void command(int commandId, Object[] args){
+		super.command(commandId, args);
 		
-		if(commandId == SelectionManager.OPEN_COMMAND){
+		if(commandId == EXTERNAL_COMMAND_OPEN_GATE){
 			state = Opened;
 			Land.setLand(getLocation(), getCode());
 			deactivate();
-		}else if(commandId == SelectionManager.CLOSE_COMMAND){
+		}else if(commandId == EXTERNAL_COMMAND_CLOSE_GATE){
 			state = Closed;
 			Land.setLand(getLocation(), getCode());
 			deactivate();

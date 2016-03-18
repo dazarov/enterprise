@@ -9,6 +9,34 @@ import com.dworld.core.DWEngine;
 import com.dworld.core.IUnit;
 
 public abstract class Unit implements IUnit{
+	
+	// External Commands (from the user)
+	public static final int EXTERNAL_COMMAND_DEFAULT		= 0;
+	public static final int EXTERNAL_COMMAND_ACTIVATE		= 1;
+	public static final int EXTERNAL_COMMAND_DEACTIVATE		= 2;
+	
+	public static final int EXTERNAL_COMMAND_STAY			= 3;
+	public static final int EXTERNAL_COMMAND_MOVE_AROUND 	= 4;
+	public static final int EXTERNAL_COMMAND_MOVE_TO		= 5; // Point should be used as an argument
+	public static final int EXTERNAL_COMMAND_ATTACK			= 6; // Point should be used as an argument
+	public static final int EXTERNAL_COMMAND_PATROL			= 7;
+	public static final int EXTERNAL_COMMAND_DEFENSE		= 8;
+	
+	// open then deactivate
+	public static final int EXTERNAL_COMMAND_OPEN_GATE		= 9;
+	
+	// close then deactivate
+	public static final int EXTERNAL_COMMAND_CLOSE_GATE		= 10;
+	
+	// Internal Commands (from the rules)
+	public static final int INTERNAL_COMMAND_FIRE_BULLET 	= 11; // Direction should be used as an argument
+	public static final int INTERNAL_COMMAND_FIRE_CANNON 	= 12; // Direction should be used as an argument
+	public static final int INTERNAL_COMMAND_FIRE_ROCKET 	= 13; // Direction should be used as an argument
+	public static final int INTERNAL_COMMAND_FIRE_BOMB 		= 14; // Direction should be used as an argument
+	
+	public static final int INTERNAL_COMMAND_START 			= 15; // Direction should be used as an argument
+	public static final int INTERNAL_COMMAND_STOP 			= 16;
+	
 	private boolean alive = true;
 	
 	private Point location;
@@ -71,5 +99,5 @@ public abstract class Unit implements IUnit{
 		
 	}
 	
-	abstract public <T> void command(int commandId, T arg);
+	abstract public void command(int commandId, Object[] args);
 }

@@ -12,11 +12,6 @@ import com.dworld.core.Direction;
 import com.dworld.core.IMovable;
 import com.dworld.core.Land;
 import com.dworld.core.SearchResult;
-import com.dworld.core.SelectionManager;
-import com.dworld.units.weapon.Bomb;
-import com.dworld.units.weapon.Bullet;
-import com.dworld.units.weapon.CannonBall;
-import com.dworld.units.weapon.Rocket;
 
 public abstract class MovableUnit extends ActiveUnit implements IMovable {
 	public static final int STAY_MODE			= 1;
@@ -346,15 +341,15 @@ public abstract class MovableUnit extends ActiveUnit implements IMovable {
 //	}
 	
 	@Override
-	public <T> void command(int commandId, T arg){
-		super.command(commandId, arg);
+	public void command(int commandId, Object[] args){
+		super.command(commandId, args);
 
-		if(commandId == SelectionManager.STAY_COMMAND){
+		if(commandId == EXTERNAL_COMMAND_STAY){
 			mode = STAY_MODE;
-		}else if(commandId == SelectionManager.MOVE_AROUND_COMMAND){
+		}else if(commandId == EXTERNAL_COMMAND_MOVE_AROUND){
 			mode = MOVE_AROUND_MODE;
-		}else if(commandId == SelectionManager.MOVE_TO_COMMAND){
-			destination = (Point)arg;
+		}else if(commandId == EXTERNAL_COMMAND_MOVE_TO){
+			destination = (Point)args[0];
 			status = INIT_STATUS;
 			mode = MOVE_TO_MODE;
 		}
@@ -424,34 +419,6 @@ public abstract class MovableUnit extends ActiveUnit implements IMovable {
 		}
 		ld = Direction.nowhere;
 		return ld;
-	}
-	
-//	protected void fireAgainstRocket(){
-//		Direction d = super.fireAgainstRocket();
-//		if(!d.equals(Direction.nowhere)){
-//			direction = d;
-//		}
-//		return d;
-//	}
-	
-	protected void fireCannonBalls(){
-		fireCannonBalls(DWConstants.VISIBLE_DISTANCE);
-	}
-	
-//	protected Bullet fireBullet(){
-//		return fireBullet(direction);
-//	}
-	
-	protected Bomb fireBomb(int distance){
-		return fireBomb(direction, distance);
-	}
-	
-	protected Rocket fireRocket(int rocketType){
-		return fireRocket(direction, rocketType);
-	}
-	
-	protected CannonBall fireCannon(){
-		return fireCannon(direction);
 	}
 	
 	@Override

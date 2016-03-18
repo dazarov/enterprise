@@ -22,6 +22,7 @@ public class ShowGraphics{
 			static final long serialVersionUID = 12;
 
 			public void paint(Graphics g) {
+				//for(int x )
 				//g.draw
 			}
 		};

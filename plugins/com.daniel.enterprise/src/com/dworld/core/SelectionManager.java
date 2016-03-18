@@ -5,26 +5,10 @@ import java.awt.Rectangle;
 import java.util.ArrayList;
 
 import com.dworld.DWLauncher;
+import com.dworld.units.Unit;
 
 public class SelectionManager {
-	// commands
 	
-	public static final int DEFAULT_COMMAND		= 0;
-	public static final int ACTIVATE_COMMAND	= 1;
-	public static final int DEACTIVATE_COMMAND	= 2;
-	
-	public static final int STAY_COMMAND		= 3;
-	public static final int MOVE_AROUND_COMMAND = 4;
-	public static final int MOVE_TO_COMMAND		= 5;
-	public static final int ATTACK_COMMAND		= 6;
-	public static final int PATROL_COMMAND		= 7;
-	public static final int DEFENSE_COMMAND		= 8;
-	
-	// open then deactivate
-	public static final int OPEN_COMMAND		= 9;
-	
-	// close then deactivate
-	public static final int CLOSE_COMMAND		= 10;
 	
 	private static ArrayList<IUnit> selectedUnits = new ArrayList<IUnit>();
 	
@@ -108,9 +92,9 @@ public class SelectionManager {
 		return null;
 	}
 	
-	public static <T> void sendCommand(int commandId, T arg){
+	public static void sendCommand(int commandId, Object[] args){
 		for(IUnit selected: selectedUnits){
-			selected.command(commandId, arg);
+			selected.command(commandId, args);
 		}
 	}
 	
@@ -134,7 +118,7 @@ public class SelectionManager {
 	public static boolean sendDefaultCommand(Point location){
 		IUnit unit = DWEngine.getEngine().findUnit(location);
 		if(unit != null){
-			unit.command(DEFAULT_COMMAND, null);
+			unit.command(Unit.EXTERNAL_COMMAND_DEFAULT, null);
 			clearSelection();
 			return true;
 		}

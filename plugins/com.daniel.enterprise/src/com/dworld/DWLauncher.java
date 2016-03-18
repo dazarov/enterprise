@@ -33,6 +33,7 @@ import com.dworld.ui.DWMenuBuilder;
 import com.dworld.ui.DWToolBarBuilder;
 import com.dworld.ui.DWWindowListener;
 import com.dworld.units.ControlledUnit;
+import com.dworld.units.Unit;
 
 public class DWLauncher implements KeyListener, MouseListener, MouseMotionListener {
 	public static final String SAVE_FILE = "/save.dat";
@@ -311,9 +312,9 @@ public class DWLauncher implements KeyListener, MouseListener, MouseMotionListen
 			} else {
 				if(!SelectionManager.sendDefaultCommand(location)){
 					if(attack_mode){
-						SelectionManager.<Point>sendCommand(SelectionManager.ATTACK_COMMAND, location);
+						SelectionManager.sendCommand(Unit.EXTERNAL_COMMAND_ATTACK, new Object[]{location});
 					}else{
-						SelectionManager.<Point>sendCommand(SelectionManager.MOVE_TO_COMMAND, location);
+						SelectionManager.sendCommand(Unit.EXTERNAL_COMMAND_MOVE_TO, new Object[]{location});
 					}
 				}
 				

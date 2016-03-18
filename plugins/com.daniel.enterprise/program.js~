@@ -1,0 +1,61 @@
+
+var empty_object = {};
+
+var stoge = {
+"first-name": "Jerome",
+"last-name": "Howard"
+};
+
+var flight = {
+	airline: "Oceanic",
+	number: 815,
+	departure: {
+		IATA: "SYD",
+		time: "2004-09-22 14:55",
+		city: "Sydney"
+	},
+	arrival: {
+		IATA: "LAX",
+		time: "2004-09-23 10:42",
+		city: "Los Angeles"
+	}
+};
+
+var middle = stooge["midle-name"] || "(none)";
+var status = flight.status || "Unknown";
+
+document.title = "<-JavaScript->"
+
+document.writeln('Hello, world!\n\n');
+document.writeln('First Name: '+stooge["first-name"]);
+document.writeln('Last Name: '+stooge["last-name"]);
+
+document.writeln('Flight Status: '+status);
+
+stooge['middle-name'] = 'Lester';
+stooge.nickname = 'Curly';
+
+flight.equipment = {
+	model: 'Boing 777'
+};
+flight.status = "overdue";
+
+document.writeln('\nFlight Status: '+flight.status);
+
+if(typeof Object.create !== 'function'){
+	Object.create = function (o){
+		var F = function (){};
+		F.prototype = o;
+		return new F();
+	};
+};
+
+var another_stooge = Object.create(stooge);
+
+another_stooge['first-name'] = 'Harry';
+another_stooge['middle-name'] = 'Moses';
+another_stooge.nickname = 'Moe';
+
+stooge.profession = 'actor';
+
+document.writeln('Another Stooge Profession - '+another_stooge.profession);

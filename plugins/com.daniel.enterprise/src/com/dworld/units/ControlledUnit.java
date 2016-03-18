@@ -234,34 +234,44 @@ public class ControlledUnit extends MovableUnit {
 		if (key != -1) {
 			switch (key) {
 			case '0':
-				fireBomb(10);
+				//fireBomb(10);
+				command(INTERNAL_COMMAND_FIRE_BOMB, new Object[]{direction, 10});
 				break;
 			case '1':
-				fireBomb(1);
+				//fireBomb(1);
+				command(INTERNAL_COMMAND_FIRE_BOMB, new Object[]{direction, 1});
 				break;
 			case '2':
-				fireBomb(2);
+				//fireBomb(2);
+				command(INTERNAL_COMMAND_FIRE_BOMB, new Object[]{direction, 2});
 				break;
 			case '3':
-				fireBomb(3);
+				//fireBomb(3);
+				command(INTERNAL_COMMAND_FIRE_BOMB, new Object[]{direction, 3});
 				break;
 			case '4':
-				fireBomb(4);
+				//fireBomb(4);
+				command(INTERNAL_COMMAND_FIRE_BOMB, new Object[]{direction, 4});
 				break;
 			case '5':
-				fireBomb(5);
+				//fireBomb(5);
+				command(INTERNAL_COMMAND_FIRE_BOMB, new Object[]{direction, 5});
 				break;
 			case '6':
-				fireBomb(6);
+				//fireBomb(6);
+				command(INTERNAL_COMMAND_FIRE_BOMB, new Object[]{direction, 6});
 				break;
 			case '7':
-				fireBomb(7);
+				//fireBomb(7);
+				command(INTERNAL_COMMAND_FIRE_BOMB, new Object[]{direction, 7});
 				break;
 			case '8':
-				fireBomb(8);
+				//fireBomb(8);
+				command(INTERNAL_COMMAND_FIRE_BOMB, new Object[]{direction, 8});
 				break;
 			case '9':
-				fireBomb(9);
+				//fireBomb(9);
+				command(INTERNAL_COMMAND_FIRE_BOMB, new Object[]{direction, 9});
 				break;
 				
 			case 68: // d
@@ -295,7 +305,8 @@ public class ControlledUnit extends MovableUnit {
 				break;
 
 			case 82: // r
-				fireRocket(direction);
+				//fireRocket(direction);
+				command(INTERNAL_COMMAND_FIRE_ROCKET, new Object[]{direction});
 				break;
 				
 			case 84: // t
@@ -305,11 +316,13 @@ public class ControlledUnit extends MovableUnit {
 				break;
 
 			case 67: // c
-				fireCannon();
+				//fireCannon();
+				command(INTERNAL_COMMAND_FIRE_CANNON, new Object[]{direction});
 				break;
 
 			case 32: // Space bar
-				fireBullet(direction);
+				//fireBullet(direction);
+				command(INTERNAL_COMMAND_FIRE_BULLET, new Object[]{direction});
 				break;
 
 			case 37: // Left
@@ -396,7 +409,10 @@ public class ControlledUnit extends MovableUnit {
 	}
 	
 	@Override
-	public <T> void command(int commandId, T arg){
-		System.out.println(" "+getClass()+" command - "+commandId);
+	public void command(int commandId, Object[] args){
+		//System.out.println(" "+getClass()+" command - "+commandId);
+		if(commandId > 10){
+			super.command(commandId, args);
+		}
 	}
 }

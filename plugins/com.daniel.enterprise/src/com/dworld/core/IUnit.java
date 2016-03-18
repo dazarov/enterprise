@@ -22,5 +22,5 @@ public interface IUnit {
 	
 	public void load(InputStream stream) throws IOException;
 	
-	public <T> void command(int commandId, T arg);
+	public void command(int commandId, Object[] args);
 }
