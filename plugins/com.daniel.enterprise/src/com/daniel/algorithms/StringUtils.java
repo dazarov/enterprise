@@ -1,107 +1,63 @@
 package com.daniel.algorithms;
 
+import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
-import java.util.LinkedList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class StringUtils {
-	public static String swapReverse(String input) {
-		char[] temparray = input.toCharArray();
-		int left, right = 0;
-		right = temparray.length - 1;
-		for (left = 0; left < right; left++, right--) {
-			char temp = temparray[left];
-			temparray[left] = temparray[right];
-			temparray[right] = temp;
-		}
-		return new String(temparray);
-	}
-
-	public static String simpleReverse(String input) {
-		char[] array = input.toCharArray();
-		char[] temparray = new char[array.length];
-
-		int index = 0;
-		for (int i = array.length - 1; i >= 0; i--) {
-			temparray[index++] = array[i];
-		}
-
-		return new String(temparray);
-	}
-
-	public static String stringBuilderReverse(String input) {
-		StringBuilder builder = new StringBuilder();
-
-		builder.append(input);
-		builder.reverse();
-
-		return builder.toString();
-	}
-
-	public static String collectionsReverse(String input) {
-		char[] hello = input.toCharArray();
-		List<Character> list = new LinkedList<Character>();
-		for (char c : hello) {
-			list.add(c);
-		}
-		Collections.reverse(list);
+	public static List<String> getMostPopularStrings(List<String> strings, int number){
+		HashMap<String, Integer> counters = new HashMap<String, Integer>();
 		
-		StringBuilder builder = new StringBuilder();
-		
-		Iterator<Character> it = list.iterator();
-		while(it.hasNext()){
-			builder.append(it.next().charValue());
+		for(String str : strings){
+			Integer counter = counters.get(str);
+			if(counter == null){
+				counters.put(str, 1);
+			}else{
+				counters.replace(str, counter+1);
+			}
 		}
 		
-		return builder.toString();
+		ArrayList<String> result = new ArrayList<String>();
+		
+		List<Map.Entry<String, Integer>> entries = counters
+				.entrySet()
+				.stream()
+				.sorted(Collections.reverseOrder(Map.Entry.comparingByValue()))
+				.limit(number)
+				.collect(Collectors.toList());
+		
+		for(Map.Entry<String, Integer> entry : entries){
+			result.add(entry.getKey());
+		}
+		
+		
+		return result;
 	}
-
-	public static void main(String[] args) {
-		final String input = "Convert the input string into character!";
-
-		System.out.println("+++++++++++ SWAP REVERSE +++++++++++++++++++++");
-		System.out.println("Original String - " + input);
-
-		String reversedString = swapReverse(input);
-
-		System.out.println("Reversed string - " + reversedString);
-
-		String againString = swapReverse(reversedString);
-
-		System.out.println("Reversed again string - " + againString);
+	
+	public static void main(String[] args){
+		ArrayList<String> text = new ArrayList<String>();
 		
-		System.out.println("+++++++++++ SIMPLE REVERSE +++++++++++++++++++++");
-		System.out.println("Original String - " + input);
-
-		reversedString = simpleReverse(input);
-
-		System.out.println("Reversed string - " + reversedString);
-
-		againString = simpleReverse(reversedString);
-
-		System.out.println("Reversed again string - " + againString);
+		text.add("Second");
+		text.add("Third");
+		text.add("Most");
+		text.add("Some");
+		text.add("Second");
+		text.add("Most");
+		text.add("Third");
+		text.add("Second");
+		text.add("Ame");
+		text.add("Most");
+		text.add("More");
+		text.add("Bla bla");
+		text.add("Most");
 		
-		System.out.println("+++++++++++ STRING BUILDER REVERSE +++++++++++++++++++++");
-		System.out.println("Original String - " + input);
-
-		reversedString = stringBuilderReverse(input);
-
-		System.out.println("Reversed string - " + reversedString);
-
-		againString = stringBuilderReverse(reversedString);
-
-		System.out.println("Reversed again string - " + againString);
-
-		System.out.println("+++++++++++ COLLECTIONS REVERSE +++++++++++++++++++++");
-		System.out.println("Original String - " + input);
-
-		reversedString = collectionsReverse(input);
-
-		System.out.println("Reversed string - " + reversedString);
-
-		againString = collectionsReverse(reversedString);
-
-		System.out.println("Reversed again string - " + againString);
+		List<String> result = getMostPopularStrings(text, 3);
+		
+		for(String str : result){
+			System.out.println(str);
+		}
 	}
 }
