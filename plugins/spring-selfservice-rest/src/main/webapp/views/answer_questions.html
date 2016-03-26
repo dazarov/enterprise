@@ -1,0 +1,57 @@
+<div id="resetMessages"></div>
+<form name="selfServiceCheckAnswers" class="basic-form password-reset" novalidate ng-submit="checkAnswers(answers)">
+    <!-- hidden field used to help with password validation -->
+    <input type="hidden" name="_id">
+    <fieldset>
+        <div class="fields">
+            <div id="step2">
+                <h1>Forgot your password?</h1>
+                <p class="paragraph">In order to reset your password you will need to answer challenge questions you have configured for your account.</p>
+
+                <div class="sub-content">
+                    <h2 class="bordered">
+                        User ID: <b id="userName">{{uid}}</b>
+                    </h2>
+                    <div id="fgtnAnswersDivMessage">
+                        <input type="hidden" name="fgtnAnswersValidatingControl">
+                        <div class="action-status fail validation-message" for='fgtnAnswersValidatingControl'></div>
+                    </div>
+                    <div class="form-wrapper">
+                        <div class="basic-form password-reset-challenge">
+                            <div class="field" id="fgtnAnswerDiv1">
+                                <label class="label" id="fgtnSecurityQuestion1">{{questions[0]}}</label>
+                                
+                                <input type="password" class="middle fgtnSecurityAnswerMask" required ng-model="answers[0]" />
+<!--                                 <input type="text" class="middle fgtnSecurityAnswer" name="fgtnSecurityAnswer" style="display: none;" tabindex="-1" autocomplete="off" /> -->
+                                <div class="validation-message"></div>
+                            </div>
+                            <div class="field" id="fgtnAnswerDiv2">
+                                <label class="label" id="fgtnSecurityQuestion2">{{questions[1]}}</label>
+                                
+                                <input type="password" class="middle fgtnSecurityAnswerMask" required ng-model="answers[1]" />
+<!--                                 <input type="text" class="middle fgtnSecurityAnswer" name="fgtnSecurityAnswer" style="display: none;" tabindex="-1" autocomplete="off" /> -->
+                                <div class="validation-message"></div>
+                            </div>
+                            <div class="field" id="fgtnAnswerDiv3">
+                                <label class="label" id="fgtnSecurityQuestion3">{{questions[2]}}</label>
+                                
+                                <input type="password" class="middle fgtnSecurityAnswerMask" required ng-model="answers[2]" />
+<!--                                 <input type="text" class="middle fgtnSecurityAnswer" name="fgtnSecurityAnswer" style="display: none;" tabindex="-1" autocomplete="off" /> -->
+                                <div class="validation-message"></div>
+                            </div>
+                            
+                            <div class="buttons" id="fgtnButtonDiv">
+                                <button class="secondary" name="cancel" ng-click="$back()">Cancel</button>
+                                <button name="submitAnswer" type="submit" ng-disabled="selfServiceCheckAnswers.$invalid">Change password</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <ul class="links">
+                    <li><a target="McKessonInformation" href="#/">termsAndConditions</a></li>
+                    <li><a target="McKessonInformation" href="#/">privacyStatement</a></li>
+                </ul>
+            </div>
+        </div>
+    </fieldset>
+</form>

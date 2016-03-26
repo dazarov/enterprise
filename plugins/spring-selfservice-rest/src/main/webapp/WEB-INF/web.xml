@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app id="Tiink-preview" xmlns="http://java.sun.com/xml/ns/j2ee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
+	version="2.4">
+
+	<display-name>Spring LDAP Basic Example</display-name>
+	<listener>
+		<listener-class>
+			org.springframework.web.context.ContextLoaderListener
+		</listener-class>
+	</listener>
+
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>classpath:/application-config.xml</param-value>
+    </context-param>
+
+    <filter>
+        <filter-name>HiddenMethod</filter-name>
+        <filter-class>org.springframework.web.filter.HiddenHttpMethodFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>HiddenMethod</filter-name>
+        <servlet-name>basic</servlet-name>
+    </filter-mapping>
+	<welcome-file-list>
+		<welcome-file>index.html</welcome-file>
+	</welcome-file-list>
+    
+
+	<servlet-mapping>
+		<servlet-name>basic</servlet-name>
+		<url-pattern>/</url-pattern>
+	</servlet-mapping>
+	<resource-ref>
+  <description>
+  </description>
+  <res-ref-name>
+    jdbc/tomcatDataSource
+  </res-ref-name>
+  <res-type>
+    javax.sql.DataSource
+  </res-type>
+  <res-auth>
+    Container
+  </res-auth>
+</resource-ref>
+</web-app>

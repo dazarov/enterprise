@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html ng-app="selfService">
+<head>
+
+<title>MHS User Access Portal - Login</title>
+<script type="text/javascript" src="js/angular.js"></script>
+<link rel="stylesheet" type="text/css" href="css/styles.css">
+
+<script type="text/javascript" src="js/angular-route.js"></script>
+<script type="text/javascript" src="index.js"></script>
+
+</head>
+<body ng-controller="AppCtrl">
+
+    <div id="messages"></div>
+    <div id="dialogs"></div>
+    <div id="wrapper">
+    	<div class="header-wrapper">
+    		<div class="header">
+        		<div class="logo">
+            		<a href="#/" title="McKesson">
+            			<img src="img/logo.png" alt="McKesson" width="118" height="16">
+            		</a>
+            		<span class="application-name">MHS User Access Portal</span>
+        		</div>
+
+    		</div>
+		</div>
+		<div class="content-wrapper">
+			<div id="content" class="content">
+				<ng-view />
+			</div>
+		</div>
+		
+		<div class="footer-wrapper" ng-show="showFooter">
+    		<div class="footer">
+        		<ul class="square">
+            <li>
+                <p>Get answers to commonly asked questions, submit and track support cases and link to key resources in one easy-to-use site:</p>
+                <p>
+                    <a target="MHSCustomerHUB" href="http://mhscustomerhub.mckesson.com/">Self-register for MHS Customer Hub</a>
+                    <span class="smaller">(click "Need a User ID and Password")</span>
+                </p>
+            </li>
+            <li>
+                <p>For other questions about MHS Customer Hub, contact:</p>
+                <p>
+                    <a href="mailto:MHScustomerhub@mckesson.com">MHScustomerhub@mckesson.com</a>
+                </p>
+            </li>
+            <li>
+                <p>The MHS Customer Hub is available 24x7 via your web browser. For immediate assistance, please contact Support:</p>
+                <p>
+                    <b>1-888-474-4262</b> or <a href="mailto:cacd.support@mckesson.com">cacd.support@mckesson.com</a>
+                </p>
+            </li>
+        </ul>
+    </div>
+</div>
+		
+	</div>
+
+</body>
+</html>

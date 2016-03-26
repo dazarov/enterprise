@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright 2005-2013 the original author or authors.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:ldap="http://www.springframework.org/schema/ldap"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       	http://www.springframework.org/schema/beans/spring-beans.xsd
+       	http://www.springframework.org/schema/context
+       	http://www.springframework.org/schema/context/spring-context.xsd
+       	http://www.springframework.org/schema/ldap
+       	http://www.springframework.org/schema/ldap/spring-ldap.xsd">
+       	
+       <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+	    	<property name="host" value="smtp.gmail.com" />  
+	    	<property name="port" value="587" />
+    		<property name="username" value="testJavaMail2000@gmail.com" />  
+    		<property name="password" value="tSup4445" />  
+    		<property name="javaMailProperties">  
+        		<props>  
+            		<prop key="mail.smtp.auth">true</prop>
+            		<prop key="mail.smtp.starttls.enable">true</prop>  
+        		</props>  
+    		</property>
+		</bean>
+		
+       	<bean id="mailService" class="com.utils.MailService">
+	    	<constructor-arg name="mailSender" ref="mailSender"/>
+		</bean>
+		
+		<bean id="mySQLService" class="com.mckesson.selfservice.SecurityQuestionsAccess">
+	    	<constructor-arg name="dbName" value="UsersDB"/>
+	    	<constructor-arg name="dbUser" value="testuser"/>
+	    	<constructor-arg name="dbPassword" value="password"/>
+		</bean>
+		
+    <context:property-placeholder location="classpath:/ldap.properties" />
+
+    <ldap:context-source id="contextSource"
+                         password="${sample.ldap.password}"
+                         url="${sample.ldap.url}"
+                         username="${sample.ldap.userDn}"
+                         base="${sample.ldap.base}" />
+
+    <ldap:ldap-template id="ldapTemplate" context-source-ref="contextSource"/>
+    
+	<bean id="personDao"
+		class="com.mckesson.ldap.OdmPersonDaoImpl">
+		<constructor-arg name="ldapTemplate" ref="ldapTemplate" />
+	</bean>
+	
+	<bean id="selfServiceController" class="com.mckesson.selfservice.SelfServiceController">
+		<constructor-arg name="mailService" ref="mailService"/>
+		<constructor-arg name="userService" ref="personDao"/>
+		<constructor-arg name="mySQLAccess" ref="mySQLService"/>
+	</bean>
+
+    <beans profile="default">
+        <!-- Populates the LDAP server with initial data -->
+        <bean class="org.springframework.ldap.test.LdifPopulator" depends-on="embeddedLdapServer">
+            <property name="contextSource" ref="contextSource" />
+            <property name="resource" value="classpath:/setup_data.ldif" />
+            <property name="base" value="${sample.ldap.base}" />
+            <property name="clean" value="${sample.ldap.clean}" />
+            <property name="defaultBase" value="dc=jayway,dc=se" />
+        </bean>
+
+        <!--
+            This is for test and demo purposes only - EmbeddedLdapServerFactoryBean launches an in-process
+            LDAP server.
+        -->
+        <bean id="embeddedLdapServer" class="org.springframework.ldap.test.EmbeddedLdapServerFactoryBean">
+            <property name="partitionName" value="example"/>
+            <property name="partitionSuffix" value="${sample.ldap.base}" />
+            <property name="port" value="18880" />
+        </bean>
+    </beans>
+
+    <beans profile="no-apacheds">
+        <!-- Populates the LDAP server with initial data -->
+        <bean class="org.springframework.ldap.test.LdifPopulator">
+            <property name="contextSource" ref="contextSource" />
+            <property name="resource" value="classpath:/setup_data.ldif" />
+            <property name="base" value="${sample.ldap.base}" />
+            <property name="clean" value="${sample.ldap.clean}" />
+            <property name="defaultBase" value="dc=jayway,dc=se" />
+        </bean>
+    </beans>
+    
+</beans>

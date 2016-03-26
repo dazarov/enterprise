@@ -1,0 +1,27 @@
+<div id="resetMessages"></div>
+    <div class="fields">
+        <div id="step1">
+            <h1>Forgot your User ID?</h1>
+            <p class="paragraph">Enrolled users can receive their User ID by providing the unique e-mail address & first name which was set in the user profile.</p>
+            <div class="action-status fail validation-message" for="userEmail"></div>
+            <div class="action-status fail validation-message" for="givenName"></div>
+
+             <div class="form-wrapper"> 
+                <form name="selfServiceRestoreUserId" class="userid-restore basic-form"  novalidate ng-submit="restoreUserID(email, givenname)">
+                    <div class="field required">
+                        <label class="label">Email address</label>
+                        <input type="text" class="middle" name="userEmail"  required ng-model="email"  />
+                    </div>
+                    <div class="field required">
+                        <label class="label">First Name</label>
+                        <input type="text" class="middle" name="givenName"  required ng-model="givenname"  />
+                    </div>
+                    <div class="buttons">
+                        <button class="secondary" name="cancel" ng-click="$back()">Cancel</button>
+                        <button name="submitUserEmail" type="submit" ng-disabled="selfServiceRestoreUserId.$invalid">Send User ID</button>
+                    </div>
+                </form>
+             </div>
+        </div>
+    </div>
+</div>
