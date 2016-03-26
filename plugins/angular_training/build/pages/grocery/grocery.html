@@ -1,0 +1,81 @@
+<div class="panel" ng-controller="groceryCtrl">
+    <div  class="well">
+        <h3>Grocery List</h3>
+        <h4>{{getDate() | date: "fullDate"}}</h4>
+    </div>
+    
+    <form class="form-inline">
+        <div class="form-group">
+            <label>Category:</label>
+            <select ng-model="selectedCategory" class="form-control">
+                <option value="all">All Categories</option>
+                <option ng-repeat="item in grocery.items | orderBy: 'category' | unique: 'category'">{{item.category}}</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Store:</label>
+            <select ng-model="selectedStore" class="form-control">
+                <option value="all">All Stores</option>
+                <option ng-repeat="item in grocery.items | orderBy: 'store' | unique: 'store'">{{item.store}}</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Page size:</label>
+            <select ng-model="pageSize" class="form-control" convert-to-number>
+                <option ng-repeat="size in grocery.pageSizeRange">{{size}}</option>
+            </select>
+        </div>
+    </form>
+    
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>
+                    <a href="#" ng-click="selectSortType('name')">
+                    Name
+                    <span ng-show="sortType == 'name' && sortReverse" class="fa fa-caret-down"></span>
+                    <span ng-show="sortType == 'name' && !sortReverse" class="fa fa-caret-up"></span>
+                    </a>
+                </th>
+                <th>
+                    <a href="#" ng-click="selectSortType('category')">
+                    Category
+                    <span ng-show="sortType == 'category' && sortReverse" class="fa fa-caret-down"></span>
+                    <span ng-show="sortType == 'category' && !sortReverse" class="fa fa-caret-up"></span>
+                    </a>
+                </th>
+                <th>
+                    <a href="#" ng-click="selectSortType('store')">
+                    Store
+                    <span ng-show="sortType == 'store' && sortReverse" class="fa fa-caret-down"></span>
+                    <span ng-show="sortType == 'store' && !sortReverse" class="fa fa-caret-up"></span>
+                    </a>
+                </th>
+                <th>Unit</th>
+                <th>
+                    <a href="#" ng-click="selectSortType('price')">
+                    Price
+                    <span ng-show="sortType == 'price' && sortReverse" class="fa fa-caret-down"></span>
+                    <span ng-show="sortType == 'price' && !sortReverse" class="fa fa-caret-up"></span>
+                    </a>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="item in grocery.items  | filter:itemFilterFn | orderBy:sortType:sortReverse | range:selectedPage:pageSize">
+                <td title="{{item.description}}">{{item.name}}</td>
+                <td>{{item.category}}</td>
+                <td>{{item.store}}</td>
+                <td>{{item.unit}}</td>
+                <td>{{item.price | currency}}</td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="pull-right btn-group">
+        <a ng-repeat="page in grocery.items | filter:itemFilterFn | pageCount:pageSize"
+            ng-click="selectPage($index + 1)" class="btn btn-default" ng-class="getPageClass($index+1)">
+            {{$index + 1}}
+        </a>
+    </div>
+
+</div>

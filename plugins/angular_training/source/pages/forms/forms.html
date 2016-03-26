@@ -1,0 +1,175 @@
+<div class="panel" ng-controller="formCtrl">
+    <div  class="well">
+        <h3>Forms & Validation</h3>
+        <h2>Registration form</h2>
+    </div>
+    <form class="form-horizontal" name="registerForm" novalidate ng-submit="addUser(newUser)">
+
+    <!-- Username -->
+    <div class="form-group"
+        ng-class="getValidationClass(registerForm.username.$valid, registerForm.username.$dirty)">
+        <label class="control-label col-sm-2" for="username">Username:</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" id="username" name="username" aria-describedby="usernameStatus" placeholder="Username" required ng-model="newUser.username">
+            <span ng-show="registerForm.username.$dirty"
+                ng-class="registerForm.username.$valid ? 'glyphicon glyphicon-ok form-control-feedback' : 'glyphicon glyphicon-remove form-control-feedback'" aria-hidden="true"></span>
+            <span ng-show="registerForm.username.$dirty" id="usernameStatus"
+                class="sr-only">{{registerForm.username.$valid ? '(success)' : '(error)'}}</span>
+        </div>
+    </div>
+
+    <!-- Full Name -->
+    <div class="form-group"
+        ng-class="getValidationClass(registerForm.fullName.$valid, registerForm.fullName.$dirty)">
+        <label class="control-label col-sm-2" for="fullName">Full name:</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" id="fullName" name="fullName" aria-describedby="fullNameStatus" placeholder="Full name" required ng-model="newUser.fullName">
+            <span ng-show="registerForm.fullName.$dirty"
+                ng-class="registerForm.fullName.$valid ? 'glyphicon glyphicon-ok form-control-feedback' : 'glyphicon glyphicon-remove form-control-feedback'" aria-hidden="true"></span>
+            <span ng-show="registerForm.fullName.$dirty" id="fullNameStatus"
+                class="sr-only">{{registerForm.fullName.$valid ? '(success)' : '(error)'}}</span>
+        </div>
+    </div>
+
+    <!-- Address -->
+    <div class="form-group"
+        ng-class="getValidationClass(registerForm.address.$valid, registerForm.address.$dirty)">
+        <label class="control-label col-sm-2" for="address">Address:</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" id="address" name="address" aria-describedby="addressStatus"
+                placeholder="Address" required ng-model="newUser.address">
+            <span ng-show="registerForm.address.$dirty"
+                ng-class="registerForm.address.$valid ? 'glyphicon glyphicon-ok form-control-feedback' : 'glyphicon glyphicon-remove form-control-feedback'" aria-hidden="true"></span>
+            <span ng-show="registerForm.address.$dirty" id="addressStatus"
+                class="sr-only">{{registerForm.address.$valid ? '(success)' : '(error)'}}</span>
+        </div>
+    </div>
+
+    <!-- City -->
+    <div class="form-group"
+        ng-class="getValidationClass(registerForm.city.$valid, registerForm.city.$dirty)">
+        <label class="control-label col-sm-2" for="city">City:</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" id="city" name="city" aria-describedby="cityStatus"
+                placeholder="City" required ng-model="newUser.city">
+            <span ng-show="registerForm.city.$dirty"
+                ng-class="registerForm.city.$valid ? 'glyphicon glyphicon-ok form-control-feedback' : 'glyphicon glyphicon-remove form-control-feedback'" aria-hidden="true"></span>
+            <span ng-show="registerForm.city.$dirty" id="cityStatus"
+                class="sr-only">{{registerForm.city.$valid ? '(success)' : '(error)'}}</span>
+        </div>
+    </div>
+
+    <!-- State -->
+    <div class="form-group"
+        ng-class="getValidationClass(registerForm.state.$valid, registerForm.state.$dirty)">
+        <label class="control-label col-sm-2" for="state">State:</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" id="state" name="state" aria-describedby="stateStatus"
+                placeholder="State/Province/Region" required ng-model="newUser.state">
+            <span ng-show="registerForm.state.$dirty"
+                ng-class="registerForm.state.$valid ? 'glyphicon glyphicon-ok form-control-feedback' : 'glyphicon glyphicon-remove form-control-feedback'" aria-hidden="true"></span>
+            <span ng-show="registerForm.state.$dirty" id="stateStatus"
+                class="sr-only">{{registerForm.state.$valid ? '(success)' : '(error)'}}</span>
+        </div>
+    </div>
+
+    <!-- Zip -->
+    <div class="form-group"
+        ng-class="getValidationClass(registerForm.zip.$valid, registerForm.zip.$dirty)">
+        <label class="control-label col-sm-2" for="zip">ZIP:</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" id="zip" name="zip" aria-describedby="zipStatus"
+                placeholder="Zip" required ng-model="newUser.zip" ng-pattern="/^(\d{5}-\d{4}|\d{5})$/">
+            <span ng-show="registerForm.zip.$dirty"
+                ng-class="registerForm.zip.$valid ? 'glyphicon glyphicon-ok form-control-feedback' : 'glyphicon glyphicon-remove form-control-feedback'" aria-hidden="true"></span>
+            <span ng-show="registerForm.zip.$dirty" id="zipStatus"
+                class="sr-only">{{registerForm.zip.$valid ? '(success)' : '(error)'}}</span>
+        </div>
+    </div>
+
+    <!-- Country -->
+    <div class="form-group"
+        ng-class="getValidationClass(registerForm.country.$valid, registerForm.country.$dirty)">
+        <label class="control-label col-sm-2" for="country">Country:</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" id="country" name="country" aria-describedby="countryStatus"
+                placeholder="Country" required ng-model="newUser.country">
+            <span ng-show="registerForm.country.$dirty"
+                ng-class="registerForm.country.$valid ? 'glyphicon glyphicon-ok form-control-feedback' : 'glyphicon glyphicon-remove form-control-feedback'" aria-hidden="true"></span>
+            <span ng-show="registerForm.country.$dirty" id="countryStatus"
+                class="sr-only">{{registerForm.country.$valid ? '(success)' : '(error)'}}</span>
+        </div>
+    </div>
+
+    <!-- Phone Number -->
+    <div class="form-group"
+        ng-class="getValidationClass(registerForm.phoneNumber.$valid, registerForm.phoneNumber.$dirty)">
+        <label class="control-label col-sm-2" for="phoneNumber">Phone number:</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" id="phoneNumber" name="phoneNumber" aria-describedby="phoneNumberStatus"
+                placeholder="Phone number" required ng-model="newUser.phoneNumber" ng-pattern="/^\(?(\d{3})\)?[ .-]?(\d{3})[ .-]?(\d{4})$/">
+            <span ng-show="registerForm.phoneNumber.$dirty"
+                ng-class="registerForm.phoneNumber.$valid ? 'glyphicon glyphicon-ok form-control-feedback' : 'glyphicon glyphicon-remove form-control-feedback'" aria-hidden="true"></span>
+            <span ng-show="registerForm.phoneNumber.$dirty" id="phoneNumberStatus"
+                class="sr-only">{{registerForm.phoneNumber.$valid ? '(success)' : '(error)'}}</span>
+        </div>
+    </div>
+
+    <!-- Email -->
+    <div class="form-group"
+        ng-class="getValidationClass(registerForm.email.$valid, registerForm.email.$dirty)">
+        <label class="control-label col-sm-2" for="email">Email:</label>
+        <div class="col-sm-10">
+            <input type="email" class="form-control" id="email" name="email" aria-describedby="emailStatus"
+                placeholder="Email" required ng-model="newUser.email">
+            <span ng-show="registerForm.email.$dirty"
+                ng-class="registerForm.email.$valid ? 'glyphicon glyphicon-ok form-control-feedback' : 'glyphicon glyphicon-remove form-control-feedback'" aria-hidden="true"></span>
+            <span ng-show="registerForm.email.$dirty" id="emailStatus"
+                class="sr-only">{{registerForm.email.$valid ? '(success)' : '(error)'}}</span>
+        </div>
+    </div>
+
+    <!-- Password -->
+    <div class="form-group"
+        ng-class="getValidationClass(registerForm.password.$valid, registerForm.password.$dirty)">
+        <label class="control-label col-sm-2" for="password">Password:</label>
+        <div class="col-sm-10">
+            <input type="password" class="form-control" id="password" name="password" aria-describedby="passwordStatus"
+                placeholder="Password" required ng-model="newUser.password" ng-minlength=8>
+            <span ng-show="registerForm.password.$dirty"
+                ng-class="registerForm.password.$valid ? 'glyphicon glyphicon-ok form-control-feedback' : 'glyphicon glyphicon-remove form-control-feedback'" aria-hidden="true"></span>
+            <span ng-show="registerForm.password.$dirty" id="passwordStatus"
+                class="sr-only">{{registerForm.password.$valid ? '(success)' : '(error)'}}</span>
+        </div>
+    </div>
+
+    <!-- Verify Password -->
+    <div class="form-group"
+        ng-class="getValidationClass(registerForm.password2.$valid, registerForm.password2.$dirty)">
+        <label class="control-label col-sm-2" for="password2">Verify password:</label>
+        <div class="col-sm-10">
+            <input type="password" class="form-control" id="password2" name="password2" aria-describedby="password2Status"
+                placeholder="Verify password" required ng-model="newUser.password2" ng-minlength=8 compare-to="newUser.password">
+            <span ng-show="registerForm.password2.$dirty"
+                ng-class="registerForm.password2.$valid ? 'glyphicon glyphicon-ok form-control-feedback' : 'glyphicon glyphicon-remove form-control-feedback'" aria-hidden="true"></span>
+            <span ng-show="registerForm.password2.$dirty" id="password2Status"
+                class="sr-only">{{registerForm.password2.$valid ? '(success)' : '(error)'}}</span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+          <div class="checkbox">
+            <label>
+              <input type="checkbox" required>Accept terms and conditions
+            </label>
+          </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+          <button type="submit" class="btn btn-default" ng-disabled="registerForm.$invalid">Register</button>
+        </div>
+      </div>
+    </form>
+</div>
