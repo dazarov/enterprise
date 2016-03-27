@@ -1,4 +1,4 @@
-Structure
+Music-Box
 
 Front - AngularJS
 Back - Spring (Java)
@@ -9,3 +9,12 @@ Back - Spring (Java)
 4. Wish list
 4. Tag editing
 5. 
+
+REST API
+
+// GET /melodies       - Retrieves a list of melodies
+// GET /melodies/12    - Retrieves a specific melody
+// POST /melodies      - Creates/Upload a new melody
+// PUT /melodies/12    - Updates a specific melody (more then one field)
+// PATCH /melodies/12  - Partially updates a specific melody (one field)
+// DELETE /melodies/12 - Deletes a specific melody

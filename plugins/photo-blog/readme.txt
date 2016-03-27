@@ -1,3 +1,5 @@
+Photo-Blog
+
 Front - AngularJS
 Back - Node.js
 
@@ -40,4 +42,19 @@ Body
 Link
 2. File Structure
 3. Rest API
+
+// GET /posts       - Retrieves a list of posts
+// GET /posts/12    - Retrieves a specific post
+// POST /posts      - Creates a new post
+// PUT /posts/12    - Updates a specific post (more then one field)
+// PATCH /posts/12  - Partially updates a specific post (one field)
+// DELETE /posts/12 - Deletes a specific post
+
+// GET /photos      - Retrieves a list of photos
+// GET /photos/12   - Retrieves a specific photo
+// POST /photos     - Creates/Upload a new photo
+// PUT /photos/12   - Updates a specific photo
+// PATCH /photos/12 - Partially updates (one field) a specific photo
+// DELETE /photos/12- Deletes a specific photo
+
 4. 
