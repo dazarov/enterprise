@@ -18,3 +18,7 @@ REST API
 // PUT /melodies/12    - Updates a specific melody (more then one field)
 // PATCH /melodies/12  - Partially updates a specific melody (one field)
 // DELETE /melodies/12 - Deletes a specific melody
+
+Libs:
+
+Jaudiotagger - http://www.jthink.net/jaudiotagger
