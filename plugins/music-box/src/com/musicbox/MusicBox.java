@@ -30,9 +30,7 @@ public class MusicBox {
 		
 		System.out.println("-------------------- END --------------------------");
 		System.out.println("Files processed - "+fileNumbers);
-		//Time time = new Time(totalLength);
 		long hours = totalLength/(60*60);
-		//totalLength = totalLength%(60*60);
 		long min = (totalLength%(60*60))/60;
 		long sec = (totalLength%(60*60))%60;
 		
@@ -40,7 +38,6 @@ public class MusicBox {
 	}
 	
 	private static void processDirectory(File directory){
-		//System.out.println("Process directory - "+directory.getName());
 		String artistFolder = null;
 		if(!"All".equals(directory.getName())){
 			artistFolder = directory.getName();
@@ -51,6 +48,8 @@ public class MusicBox {
 				processDirectory(file);
 			}else if(file.getName().endsWith(".mp3")){
 				processFile(file, artistFolder);
+			}else{
+				System.out.println(file.getName()+" ############################## Non mp3 file!");
 			}
 		}
 	}
@@ -64,8 +63,6 @@ public class MusicBox {
 			System.out.println(fileName+" ################# File is read-only!");
 		}
 		
-		//System.out.println("Process file - "+fileName);
-		
 		int delimeter = fileName.indexOf(" - ");
 		int mp3Position = fileName.indexOf(".mp3");
 		
@@ -75,6 +72,7 @@ public class MusicBox {
 		}
 		
 		String fileArtist = fileName.substring(0, delimeter);
+		boolean multiArtist = fileArtist.indexOf(" & ") >= 0 || fileArtist.indexOf(" и ") >= 0; 
 		String fileTitle = fileName.substring(delimeter+3, mp3Position);
 		if(fileArtist.isEmpty()){
 			System.out.println(fileName+" ################### Artist is empty!");
@@ -84,9 +82,6 @@ public class MusicBox {
 			System.out.println(fileName+" ################### Title is empty!");
 			return;
 		}
-		
-		//System.out.println("File Name Artist - "+fileArtist);
-		//System.out.println("File Name Song title - "+fileTitle);
 		
 		try {
 			AudioFile audioFile = AudioFileIO.read(file);
@@ -98,12 +93,9 @@ public class MusicBox {
 				tag.setField(FieldKey.ARTIST,fileArtist.trim());
 				tag.setField(FieldKey.TITLE,fileTitle.trim());
 				
-				
 				try {
-					//audioFile.commit();
 					AudioFileIO.write(audioFile);
 				} catch (CannotWriteException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				return;
@@ -112,27 +104,18 @@ public class MusicBox {
 			AudioHeader header = audioFile.getAudioHeader();
 			if(header == null){
 				System.out.println(fileName+" +++++++++++++++++++ HEADER is null!");
-				//return;
 			}else{
 				int trackLength = header.getTrackLength();
-				//int min = trackLength/60;
-				//int sec = trackLength%60;
 				totalLength += trackLength;
 			}
-			
-			//System.out.println("Length - "+min+":"+sec);
-			//System.out.println("BitRate - "+header.getBitRate());
 			
 			String tagArtist = tag.getFirst(FieldKey.ARTIST);
 			String tagTitle = tag.getFirst(FieldKey.TITLE);
 			
-			//System.out.println("Tag Name Artist - "+tagArtist);
-			//System.out.println("Tag Name Song title - "+tagTitle);
 			
-			
-			if(!tagArtist.equals(fileArtist) || !tagTitle.equals(fileTitle) || (folderArtist != null && !folderArtist.equals(fileArtist))){
+			if(!tagArtist.equals(fileArtist) || !tagTitle.equals(fileTitle) || (folderArtist != null && ((multiArtist && fileArtist.indexOf(folderArtist) < 0) || (!multiArtist && !fileArtist.equals(folderArtist)) ))){
 				System.out.println("Which one is correct?");
-				if(folderArtist != null){
+				if((folderArtist != null && ((multiArtist && fileArtist.indexOf(folderArtist) < 0) || (!multiArtist && !fileArtist.equals(folderArtist)) ))){
 					System.out.println("1. Folder name - "+folderArtist);
 				}
 				System.out.println("2. File name - "+fileName);
@@ -141,13 +124,29 @@ public class MusicBox {
 				System.out.println("0. Exit");
 				System.out.print("Enter:");
 				
-				int input = waitForInput();
+				int input = -1;
+				int ch;
+				while ((ch = System.in.read ()) != '\n'){
+					if((char)ch == '1'){
+						input = 1;
+					}else if((char)ch == '2'){
+						input = 2;
+					}else if((char)ch == '3'){
+						input = 3;
+					}else if((char)ch == '4'){
+						input = 4;
+					}else if((char)ch == '5'){
+						input = 5;
+					}else if((char)ch == '0'){
+						input = 0;
+					}
+				}
 				System.out.println("Input - "+input);
 				
 				if(input == 1){
 					fileArtist = folderArtist;
 					tagArtist = folderArtist;
-					
+					//tag.deleteField(FieldKey.ARTIST);
 					tag.setField(FieldKey.ARTIST,fileArtist.trim());
 					try {
 						AudioFileIO.write(audioFile);
@@ -157,6 +156,10 @@ public class MusicBox {
 					File newFile = new File(file.getParent(), tagArtist.trim()+" - "+tagTitle.trim()+".mp3");
 					file.renameTo(newFile);
 				}else if(input == 2){
+					//tag.deleteField(FieldKey.ARTIST);
+					//tag.deleteField(FieldKey.TITLE);
+					//tag = audioFile.createDefaultTag();
+					//audioFile.setTag(tag);
 					tag.setField(FieldKey.ARTIST,fileArtist.trim());
 					tag.setField(FieldKey.TITLE,fileTitle.trim());
 					
@@ -178,25 +181,5 @@ public class MusicBox {
 				| InvalidAudioFrameException e) {
 			e.printStackTrace();
 		}
-	}
-	
-	private static int waitForInput() throws IOException{
-		int ch;
-		while ((ch = System.in.read ()) != '\n'){
-			if((char)ch == '1'){
-				return 1;
-			}else if((char)ch == '2'){
-				return 2;
-			}else if((char)ch == '3'){
-				return 3;
-			}else if((char)ch == '4'){
-				return 4;
-			}else if((char)ch == '5'){
-				return 5;
-			}else if((char)ch == '0'){
-				return 0;
-			}
-		}
-		return 0;
 	}
 }
