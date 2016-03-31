@@ -2,6 +2,8 @@ package com.musicbox;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.jaudiotagger.audio.AudioFile;
 import org.jaudiotagger.audio.AudioFileIO;
@@ -17,6 +19,8 @@ import org.jaudiotagger.tag.TagException;
 public class MusicBox {
 	static int fileNumbers = 0;
 	static long totalLength = 0;
+	static ArrayList<String> artistFolders = new ArrayList<String>();
+	static HashMap<String, Integer> nonFolderArtists = new HashMap<String, Integer>();
 	
 	public static void main(String[] args){
 		String path = "/home/daniel/Music/Music";
@@ -25,6 +29,8 @@ public class MusicBox {
 		
 		File file = new File(path);
 		if(file.isDirectory()){
+			scanDirectory(file);
+			
 			processDirectory(file);
 		}
 		
@@ -36,6 +42,23 @@ public class MusicBox {
 		
 		System.out.println(hours+":"+min+":"+sec);
 	}
+	
+	private static void scanDirectory(File directory){
+		String artistFolder = null;
+		if(!"All".equals(directory.getName())){
+			artistFolder = directory.getName();
+			if(!artistFolders.contains(artistFolder)){
+				artistFolders.add(artistFolder);
+			}
+		}
+		File[] files = directory.listFiles();
+		for(File file : files){
+			if(file.isDirectory()){
+				scanDirectory(file);
+			}
+		}
+	}
+	
 	
 	private static void processDirectory(File directory){
 		String artistFolder = null;
@@ -111,6 +134,22 @@ public class MusicBox {
 			
 			String tagArtist = tag.getFirst(FieldKey.ARTIST);
 			String tagTitle = tag.getFirst(FieldKey.TITLE);
+			
+			if(folderArtist == null){
+				if(artistFolders.contains(fileArtist)){
+					System.out.println(fileName+" ##################### song in All forder, but there is a specific folder for this artist!");
+				}
+				if(nonFolderArtists.containsKey(fileArtist)){
+					Integer counter = nonFolderArtists.get(fileArtist);
+					nonFolderArtists.replace(fileArtist, counter+1);
+					if(counter > 4){
+						System.out.println(fileName+" ##################### song in All forder, but there are more then 4 songs of this artist!");
+					}
+				}else{
+					nonFolderArtists.put(fileArtist, 1);
+				}
+				
+			}
 			
 			
 			if(!tagArtist.equals(fileArtist) || !tagTitle.equals(fileTitle) || (folderArtist != null && ((multiArtist && fileArtist.indexOf(folderArtist) < 0) || (!multiArtist && !fileArtist.equals(folderArtist)) ))){
