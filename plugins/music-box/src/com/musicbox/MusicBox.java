@@ -47,8 +47,8 @@ public class MusicBox {
 		String artistFolder = null;
 		if(!"All".equals(directory.getName())){
 			artistFolder = directory.getName();
-			if(!artistFolders.contains(artistFolder)){
-				artistFolders.add(artistFolder);
+			if(!artistFolders.contains(artistFolder.toLowerCase())){
+				artistFolders.add(artistFolder.toLowerCase());
 			}
 		}
 		File[] files = directory.listFiles();
@@ -136,17 +136,18 @@ public class MusicBox {
 			String tagTitle = tag.getFirst(FieldKey.TITLE);
 			
 			if(folderArtist == null){
-				if(artistFolders.contains(fileArtist)){
+				if(artistFolders.contains(fileArtist.toLowerCase())){
 					System.out.println(fileName+" ##################### song in All forder, but there is a specific folder for this artist!");
 				}
-				if(nonFolderArtists.containsKey(fileArtist)){
-					Integer counter = nonFolderArtists.get(fileArtist);
-					nonFolderArtists.replace(fileArtist, counter+1);
+				if(nonFolderArtists.containsKey(fileArtist.toLowerCase())){
+					Integer counter = nonFolderArtists.get(fileArtist.toLowerCase());
+					counter++;
+					nonFolderArtists.replace(fileArtist.toLowerCase(), counter);
 					if(counter > 4){
 						System.out.println(fileName+" ##################### song in All forder, but there are more then 4 songs of this artist!");
 					}
 				}else{
-					nonFolderArtists.put(fileArtist, 1);
+					nonFolderArtists.put(fileArtist.toLowerCase(), 1);
 				}
 				
 			}
