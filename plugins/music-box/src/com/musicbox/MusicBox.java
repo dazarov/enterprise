@@ -21,6 +21,7 @@ public class MusicBox {
 	static long totalLength = 0;
 	static ArrayList<String> artistFolders = new ArrayList<String>();
 	static HashMap<String, Integer> nonFolderArtists = new HashMap<String, Integer>();
+	static MusicCollection collection = new MusicCollection();
 	
 	public static void main(String[] args){
 		String path = "/home/daniel/Music/Music";
@@ -41,6 +42,8 @@ public class MusicBox {
 		long sec = (totalLength%(60*60))%60;
 		
 		System.out.println(hours+":"+min+":"+sec);
+		
+		System.out.println("Artists: "+collection.getNumberOFArtists());
 	}
 	
 	private static void scanDirectory(File directory){
@@ -151,6 +154,8 @@ public class MusicBox {
 				}
 				
 			}
+			
+			collection.addSong(fileName, fileArtist, fileTitle);
 			
 			
 			if(!tagArtist.equals(fileArtist) || !tagTitle.equals(fileTitle) || (folderArtist != null && ((multiArtist && fileArtist.indexOf(folderArtist) < 0) || (!multiArtist && !fileArtist.equals(folderArtist)) ))){
