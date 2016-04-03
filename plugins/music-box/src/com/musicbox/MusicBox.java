@@ -25,10 +25,14 @@ public class MusicBox {
 	
 	public static void main(String[] args){
 		String path = "/home/daniel/Music/Music";
+		String winPath = "C:\\Users\\Daniil\\Music";
 		
 		System.out.println("-------------------- BEGIN --------------------------");
 		
 		File file = new File(path);
+		if(!file.exists()){
+			file = new File(winPath);
+		}
 		if(file.isDirectory()){
 			scanDirectory(file);
 			
@@ -48,7 +52,7 @@ public class MusicBox {
 	
 	private static void scanDirectory(File directory){
 		String artistFolder = null;
-		if(!"All".equals(directory.getName())){
+		if(!directory.getName().startsWith("All")){
 			artistFolder = directory.getName();
 			if(!artistFolders.contains(artistFolder.toLowerCase())){
 				artistFolders.add(artistFolder.toLowerCase());
@@ -65,7 +69,7 @@ public class MusicBox {
 	
 	private static void processDirectory(File directory){
 		String artistFolder = null;
-		if(!"All".equals(directory.getName())){
+		if(!directory.getName().startsWith("All")){
 			artistFolder = directory.getName();
 		}
 		File[] files = directory.listFiles();
