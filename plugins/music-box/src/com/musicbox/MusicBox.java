@@ -19,6 +19,10 @@ import org.jaudiotagger.tag.Tag;
 import org.jaudiotagger.tag.TagException;
 
 public class MusicBox {
+	private static final int MAX_NUMBER_OF_FILES_IN_COMMON_FOLDER = 4;
+	private static final String LINUX_PATH = "/home/daniel/Music/Music";
+	private static final String WINDOWS_PATH = "C:/Users/Daniil/Music";
+	
 	private int fileNumbers = 0;
 	private long totalLength = 0;
 	private ArrayList<String> artistFolders = new ArrayList<String>();
@@ -33,14 +37,11 @@ public class MusicBox {
 	}
 	
 	public void performe(){
-		String path = "/home/daniel/Music/Music";
-		String winPath = "C:/Users/Daniil/Music";
-		
 		System.out.println("-------------------- BEGIN --------------------------");
 		
-		root = new File(path);
+		root = new File(LINUX_PATH);
 		if(!root.exists()){
-			root = new File(winPath);
+			root = new File(WINDOWS_PATH);
 		}
 		if(root.isDirectory()){
 			scanDirectory(root);
@@ -64,7 +65,7 @@ public class MusicBox {
 	private void moveToSeparateFolder(){
 		Collection<List<File>> collection = nonFolderArtists.values();
 		for(List<File> list : collection){
-			if(list.size() >= 5){
+			if(list.size() > MAX_NUMBER_OF_FILES_IN_COMMON_FOLDER){
 				File firstFile = list.get(0);
 				Information fileNameInfo = parseFromFileName(firstFile.getName());
 				String newFolderName = fileNameInfo.artist;
@@ -216,7 +217,7 @@ public class MusicBox {
 					List<File> files = nonFolderArtists.get(fileNameInfo.artist.toLowerCase());
 					files.add(file);
 					//nonFolderArtists.replace(fileArtist.toLowerCase(), counter);
-					if(files.size() > 4){
+					if(files.size() > MAX_NUMBER_OF_FILES_IN_COMMON_FOLDER){
 						System.out.println(fileName+" Song in All forder, but there are more then 4 songs of this artist!");
 					}
 				}else{
