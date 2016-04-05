@@ -16,7 +16,7 @@ public class MusicCollection {
 			}
 			//Song song = new Song(fullPath, artist, title, albom, year, length, bitRate);
 			if(songList.contains(title.toLowerCase())){
-				System.out.println(fileName+" #################### There is alreade song with this name!");
+				System.out.println(fileName+" Song with this name already exist!");
 			}else{
 				songList.add(title.toLowerCase());
 			}

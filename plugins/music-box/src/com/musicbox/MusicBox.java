@@ -3,7 +3,9 @@ package com.musicbox;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 
 import org.jaudiotagger.audio.AudioFile;
 import org.jaudiotagger.audio.AudioFileIO;
@@ -17,27 +19,36 @@ import org.jaudiotagger.tag.Tag;
 import org.jaudiotagger.tag.TagException;
 
 public class MusicBox {
-	static int fileNumbers = 0;
-	static long totalLength = 0;
-	static ArrayList<String> artistFolders = new ArrayList<String>();
-	static HashMap<String, Integer> nonFolderArtists = new HashMap<String, Integer>();
-	static MusicCollection collection = new MusicCollection();
+	private int fileNumbers = 0;
+	private long totalLength = 0;
+	private ArrayList<String> artistFolders = new ArrayList<String>();
+	private HashMap<String, List<File>> nonFolderArtists = new HashMap<String, List<File>>();
+	private MusicCollection collection = new MusicCollection();
+	
+	private File root;
 	
 	public static void main(String[] args){
+		MusicBox mb = new MusicBox();
+		mb.performe();
+	}
+	
+	public void performe(){
 		String path = "/home/daniel/Music/Music";
-		String winPath = "C:\\Users\\Daniil\\Music";
+		String winPath = "C:/Users/Daniil/Music";
 		
 		System.out.println("-------------------- BEGIN --------------------------");
 		
-		File file = new File(path);
-		if(!file.exists()){
-			file = new File(winPath);
+		root = new File(path);
+		if(!root.exists()){
+			root = new File(winPath);
 		}
-		if(file.isDirectory()){
-			scanDirectory(file);
+		if(root.isDirectory()){
+			scanDirectory(root);
 			
-			processDirectory(file);
+			processDirectory(root);
 		}
+		
+		moveToSeparateFolder();
 		
 		System.out.println("-------------------- END --------------------------");
 		System.out.println("Files processed - "+fileNumbers);
@@ -50,7 +61,26 @@ public class MusicBox {
 		System.out.println("Artists: "+collection.getNumberOFArtists());
 	}
 	
-	private static void scanDirectory(File directory){
+	private void moveToSeparateFolder(){
+		Collection<List<File>> collection = nonFolderArtists.values();
+		for(List<File> list : collection){
+			if(list.size() >= 5){
+				File firstFile = list.get(0);
+				Information fileNameInfo = parseFromFileName(firstFile.getName());
+				String newFolderName = fileNameInfo.artist;
+				File dir = firstFile.getParentFile().getParentFile();
+				File newDir = new File(dir.getPath()+"/"+newFolderName);
+				if(newDir.mkdir()){
+					for(File file : list){
+						File newFile = new File(newDir, fileNameInfo.artist.trim()+" - "+fileNameInfo.title.trim()+".mp3");
+						file.renameTo(newFile);
+					}
+				}
+			}
+		}
+	}
+	
+	private void scanDirectory(File directory){
 		String artistFolder = null;
 		if(!directory.getName().startsWith("All")){
 			artistFolder = directory.getName();
@@ -66,8 +96,36 @@ public class MusicBox {
 		}
 	}
 	
+	private Information parseFromFileName(String fileName){
+		Information info = new Information();
+		
+		int delimeter = fileName.indexOf(" - ");
+		int mp3Position = fileName.indexOf(".mp3");
+		
+		if(delimeter < 0 || mp3Position < 0){
+			System.out.println(fileName+" Delimiter or .mp3 not found!");
+			return null;
+		}
+		
+		info.artist = fileName.substring(0, delimeter);
+		info.multiArtist = info.artist.indexOf(" & ") >= 0 || info.artist.indexOf(" и ") >= 0; 
+		info.title = fileName.substring(delimeter+3, mp3Position);
+		
+		if(info.artist.isEmpty()){
+			System.out.println(fileName+" Artist is empty!");
+			return null;
+		}
+		
+		if(info.title.isEmpty()){
+			System.out.println(fileName+" Title is empty!");
+			return null;
+		}
+		
+		return info;
+	}
 	
-	private static void processDirectory(File directory){
+	
+	private void processDirectory(File directory){
 		String artistFolder = null;
 		if(!directory.getName().startsWith("All")){
 			artistFolder = directory.getName();
@@ -79,37 +137,39 @@ public class MusicBox {
 			}else if(file.getName().endsWith(".mp3")){
 				processFile(file, artistFolder);
 			}else{
-				System.out.println(file.getName()+" ############################## Non mp3 file!");
+				System.out.println(file.getName()+" Non mp3 file!");
 			}
 		}
 	}
 	
-	private static void processFile(File file, String folderArtist){
+	private File findArtistFilder(File rootDir, String folderName){
+		File[] subDirs = rootDir.listFiles();
+		for(File dir : subDirs){
+			if(dir.isDirectory()){
+				if(dir.getName().toLowerCase().equals(folderName.toLowerCase())){
+					return dir;
+				}
+				File result = findArtistFilder(dir, folderName);
+				if(result != null){
+					return result;
+				}
+			}
+		}
+		return null;
+	}
+	
+	private void processFile(File file, String folderArtist){
 		fileNumbers++;
 		
 		String fileName = file.getName();
 		
 		if(!file.canWrite()){
-			System.out.println(fileName+" ################# File is read-only!");
-		}
-		
-		int delimeter = fileName.indexOf(" - ");
-		int mp3Position = fileName.indexOf(".mp3");
-		
-		if(delimeter < 0 || mp3Position < 0){
-			System.out.println(fileName+" ################### Delimiter or .mp3 not found!");
+			System.out.println(fileName+" File is read-only!");
 			return;
 		}
 		
-		String fileArtist = fileName.substring(0, delimeter);
-		boolean multiArtist = fileArtist.indexOf(" & ") >= 0 || fileArtist.indexOf(" и ") >= 0; 
-		String fileTitle = fileName.substring(delimeter+3, mp3Position);
-		if(fileArtist.isEmpty()){
-			System.out.println(fileName+" ################### Artist is empty!");
-			return;
-		}
-		if(fileTitle.isEmpty()){
-			System.out.println(fileName+" ################### Title is empty!");
+		Information fileNameInfo = parseFromFileName(fileName);
+		if(fileNameInfo == null){
 			return;
 		}
 		
@@ -117,11 +177,11 @@ public class MusicBox {
 			AudioFile audioFile = AudioFileIO.read(file);
 			Tag tag = audioFile.getTag();
 			if(tag == null){
-				System.out.println(fileName+" ################### TAG is null!");
+				System.out.println(fileName+" TAG is null! Creating a new one...");
 				tag = audioFile.createDefaultTag();
 				audioFile.setTag(tag);
-				tag.setField(FieldKey.ARTIST,fileArtist.trim());
-				tag.setField(FieldKey.TITLE,fileTitle.trim());
+				tag.setField(FieldKey.ARTIST, fileNameInfo.artist.trim());
+				tag.setField(FieldKey.TITLE, fileNameInfo.title.trim());
 				
 				try {
 					AudioFileIO.write(audioFile);
@@ -133,42 +193,50 @@ public class MusicBox {
 			
 			AudioHeader header = audioFile.getAudioHeader();
 			if(header == null){
-				System.out.println(fileName+" +++++++++++++++++++ HEADER is null!");
+				System.out.println(fileName+" HEADER is null!");
 			}else{
 				int trackLength = header.getTrackLength();
 				totalLength += trackLength;
 			}
 			
-			String tagArtist = tag.getFirst(FieldKey.ARTIST);
-			String tagTitle = tag.getFirst(FieldKey.TITLE);
+			Information tagInfo = new Information(tag.getFirst(FieldKey.ARTIST), tag.getFirst(FieldKey.TITLE));
 			
 			if(folderArtist == null){
-				if(artistFolders.contains(fileArtist.toLowerCase())){
-					System.out.println(fileName+" ##################### song in All forder, but there is a specific folder for this artist!");
+				if(artistFolders.contains(fileNameInfo.artist.toLowerCase())){
+					System.out.println(fileName+" Song in All forder, but there is a specific folder for this artist! Moving...");
+					File dir = findArtistFilder(root, fileNameInfo.artist.toLowerCase());
+					if(dir != null){
+						File newFile = new File(dir, fileNameInfo.artist.trim()+" - "+fileNameInfo.title.trim()+".mp3");
+						file.renameTo(newFile);
+					}else{
+						System.out.println("Internal error - folder not found!!!!");
+					}
 				}
-				if(nonFolderArtists.containsKey(fileArtist.toLowerCase())){
-					Integer counter = nonFolderArtists.get(fileArtist.toLowerCase());
-					counter++;
-					nonFolderArtists.replace(fileArtist.toLowerCase(), counter);
-					if(counter > 4){
-						System.out.println(fileName+" ##################### song in All forder, but there are more then 4 songs of this artist!");
+				if(nonFolderArtists.containsKey(fileNameInfo.artist.toLowerCase())){
+					List<File> files = nonFolderArtists.get(fileNameInfo.artist.toLowerCase());
+					files.add(file);
+					//nonFolderArtists.replace(fileArtist.toLowerCase(), counter);
+					if(files.size() > 4){
+						System.out.println(fileName+" Song in All forder, but there are more then 4 songs of this artist!");
 					}
 				}else{
-					nonFolderArtists.put(fileArtist.toLowerCase(), 1);
+					List<File> files = new ArrayList<File>();
+					files.add(file);
+					nonFolderArtists.put(fileNameInfo.artist.toLowerCase(), files);
 				}
 				
 			}
 			
-			collection.addSong(fileName, fileArtist, fileTitle);
+			collection.addSong(fileName, fileNameInfo.artist, fileNameInfo.title);
 			
 			
-			if(!tagArtist.equals(fileArtist) || !tagTitle.equals(fileTitle) || (folderArtist != null && ((multiArtist && fileArtist.indexOf(folderArtist) < 0) || (!multiArtist && !fileArtist.equals(folderArtist)) ))){
+			if(!tagInfo.artist.equals(fileNameInfo.artist) || !tagInfo.title.equals(fileNameInfo.title) || (folderArtist != null && ((fileNameInfo.multiArtist && fileNameInfo.artist.indexOf(folderArtist) < 0) || (!fileNameInfo.multiArtist && !fileNameInfo.artist.equals(folderArtist)) ))){
 				System.out.println("Which one is correct?");
-				if((folderArtist != null && ((multiArtist && fileArtist.indexOf(folderArtist) < 0) || (!multiArtist && !fileArtist.equals(folderArtist)) ))){
+				if((folderArtist != null && ((fileNameInfo.multiArtist && fileNameInfo.artist.indexOf(folderArtist) < 0) || (!fileNameInfo.multiArtist && !fileNameInfo.artist.equals(folderArtist)) ))){
 					System.out.println("1. Folder name - "+folderArtist);
 				}
 				System.out.println("2. File name - "+fileName);
-				System.out.println("3. Tags name - "+tagArtist+" - "+tagTitle+".mp3");
+				System.out.println("3. Tags name - "+tagInfo.artist+" - "+tagInfo.title+".mp3");
 				System.out.println("4. Skip");
 				System.out.println("0. Exit");
 				System.out.print("Enter:");
@@ -193,24 +261,25 @@ public class MusicBox {
 				System.out.println("Input - "+input);
 				
 				if(input == 1){
-					fileArtist = folderArtist;
-					tagArtist = folderArtist;
+					fileNameInfo.artist = folderArtist;
+					tagInfo.artist = folderArtist;
 					//tag.deleteField(FieldKey.ARTIST);
-					tag.setField(FieldKey.ARTIST,fileArtist.trim());
+					tag.setField(FieldKey.ARTIST,fileNameInfo.artist.trim());
 					try {
 						AudioFileIO.write(audioFile);
 					} catch (CannotWriteException e) {
 						e.printStackTrace();
 					}
-					File newFile = new File(file.getParent(), tagArtist.trim()+" - "+tagTitle.trim()+".mp3");
+					File newFile = new File(file.getParent(), tagInfo.artist.trim()+" - "+tagInfo.title.trim()+".mp3");
 					file.renameTo(newFile);
 				}else if(input == 2){
 					//tag.deleteField(FieldKey.ARTIST);
 					//tag.deleteField(FieldKey.TITLE);
+					
 					//tag = audioFile.createDefaultTag();
 					//audioFile.setTag(tag);
-					tag.setField(FieldKey.ARTIST,fileArtist.trim());
-					tag.setField(FieldKey.TITLE,fileTitle.trim());
+					tag.setField(FieldKey.ARTIST,fileNameInfo.artist.trim());
+					tag.setField(FieldKey.TITLE,fileNameInfo.title.trim());
 					
 					try {
 						AudioFileIO.write(audioFile);
@@ -218,7 +287,7 @@ public class MusicBox {
 						e.printStackTrace();
 					}
 				}else if(input == 3){
-					File newFile = new File(file.getParent(), tagArtist.trim()+" - "+tagTitle.trim()+".mp3");
+					File newFile = new File(file.getParent(), tagInfo.artist.trim()+" - "+tagInfo.title.trim()+".mp3");
 					file.renameTo(newFile);
 				}else if(input == 0){
 					System.exit(0);
@@ -229,6 +298,21 @@ public class MusicBox {
 		} catch (CannotReadException | IOException | TagException | ReadOnlyFileException
 				| InvalidAudioFrameException e) {
 			e.printStackTrace();
+		}
+	}
+	
+	static class Information{
+		String artist;
+		String title;
+		boolean multiArtist;
+		
+		public Information(String artist, String title){
+			this.artist = artist;
+			this.title = title;
+		}
+		
+		public Information(){
+			
 		}
 	}
 }
