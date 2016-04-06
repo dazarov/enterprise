@@ -69,13 +69,23 @@ public class MusicBox {
 				File firstFile = list.get(0);
 				Information fileNameInfo = parseFromFileName(firstFile.getName());
 				String newFolderName = fileNameInfo.artist;
+				System.out.println("Creating folder for new artist - "+newFolderName);
 				File dir = firstFile.getParentFile().getParentFile();
 				File newDir = new File(dir.getPath()+"/"+newFolderName);
+				System.out.println("Path for new folder - "+newDir.getPath());
 				if(newDir.mkdir()){
+					System.out.println("Folder successfully created!");
 					for(File file : list){
 						File newFile = new File(newDir, fileNameInfo.artist.trim()+" - "+fileNameInfo.title.trim()+".mp3");
-						file.renameTo(newFile);
+						System.out.println("Moving file into new filder - "+file.getName());
+						if(file.renameTo(newFile)){
+							System.out.println("File successfully moved!");
+						}else{
+							System.out.println("Error while moving the file!");
+						}
 					}
+				}else{
+					System.out.println("Error while creating a folder!");
 				}
 			}
 		}
@@ -208,7 +218,11 @@ public class MusicBox {
 					File dir = findArtistFilder(root, fileNameInfo.artist.toLowerCase());
 					if(dir != null){
 						File newFile = new File(dir, fileNameInfo.artist.trim()+" - "+fileNameInfo.title.trim()+".mp3");
-						file.renameTo(newFile);
+						if(file.renameTo(newFile)){
+							System.out.println("File successfully moved!");
+						}else{
+							System.out.println("Error while moving the file!");
+						}
 					}else{
 						System.out.println("Internal error - folder not found!!!!");
 					}
