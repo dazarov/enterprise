@@ -21,6 +21,7 @@ import org.jaudiotagger.tag.TagException;
 public class MusicBox {
 	private static final int MAX_NUMBER_OF_FILES_IN_COMMON_FOLDER = 4;
 	private static final String LINUX_PATH = "/home/daniel/Music/Music";
+	private static final String TEST_PATH = "/home/daniel/Music/Test";
 	private static final String WINDOWS_PATH = "C:/Users/Daniil/Music";
 	
 	private int fileNumbers = 0;
@@ -40,6 +41,7 @@ public class MusicBox {
 		System.out.println("-------------------- BEGIN --------------------------");
 		
 		root = new File(LINUX_PATH);
+		//root = new File(TEST_PATH);
 		if(!root.exists()){
 			root = new File(WINDOWS_PATH);
 		}
@@ -76,7 +78,7 @@ public class MusicBox {
 				if(newDir.mkdir()){
 					System.out.println("Folder successfully created!");
 					for(File file : list){
-						File newFile = new File(newDir, fileNameInfo.artist.trim()+" - "+fileNameInfo.title.trim()+".mp3");
+						File newFile = new File(newDir, file.getName());
 						System.out.println("Moving file into new filder - "+file.getName());
 						if(file.renameTo(newFile)){
 							System.out.println("File successfully moved!");
