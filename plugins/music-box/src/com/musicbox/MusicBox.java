@@ -186,6 +186,8 @@ public class MusicBox {
 			return;
 		}
 		
+		collection.addSong(fileName, fileNameInfo.artist, fileNameInfo.title);
+		
 		try {
 			AudioFile audioFile = AudioFileIO.read(file);
 			Tag tag = audioFile.getTag();
@@ -232,7 +234,6 @@ public class MusicBox {
 				if(nonFolderArtists.containsKey(fileNameInfo.artist.toLowerCase())){
 					List<File> files = nonFolderArtists.get(fileNameInfo.artist.toLowerCase());
 					files.add(file);
-					//nonFolderArtists.replace(fileArtist.toLowerCase(), counter);
 					if(files.size() > MAX_NUMBER_OF_FILES_IN_COMMON_FOLDER){
 						System.out.println(fileName+" Song in All forder, but there are more then 4 songs of this artist!");
 					}
@@ -243,9 +244,6 @@ public class MusicBox {
 				}
 				
 			}
-			
-			collection.addSong(fileName, fileNameInfo.artist, fileNameInfo.title);
-			
 			
 			if(!tagInfo.artist.equals(fileNameInfo.artist) || !tagInfo.title.equals(fileNameInfo.title) || (folderArtist != null && ((fileNameInfo.multiArtist && fileNameInfo.artist.indexOf(folderArtist) < 0) || (!fileNameInfo.multiArtist && !fileNameInfo.artist.equals(folderArtist)) ))){
 				System.out.println("Which one is correct?");
@@ -280,7 +278,6 @@ public class MusicBox {
 				if(input == 1){
 					fileNameInfo.artist = folderArtist;
 					tagInfo.artist = folderArtist;
-					//tag.deleteField(FieldKey.ARTIST);
 					tag.setField(FieldKey.ARTIST,fileNameInfo.artist.trim());
 					try {
 						AudioFileIO.write(audioFile);
@@ -290,9 +287,6 @@ public class MusicBox {
 					File newFile = new File(file.getParent(), tagInfo.artist.trim()+" - "+tagInfo.title.trim()+".mp3");
 					file.renameTo(newFile);
 				}else if(input == 2){
-					//tag.deleteField(FieldKey.ARTIST);
-					//tag.deleteField(FieldKey.TITLE);
-					
 					//tag = audioFile.createDefaultTag();
 					//audioFile.setTag(tag);
 					tag.setField(FieldKey.ARTIST,fileNameInfo.artist.trim());
