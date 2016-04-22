@@ -27,7 +27,7 @@ public abstract class ActiveUnit extends Unit implements IActive {
 	
 	private Bullet[] bullets = new Bullet[8];
 	
-	private Bomb[] grenades = new Bomb[8];
+	//private Bomb[] grenades = new Bomb[8];
 	
 	private Rocket[] rockets = new Rocket[8];
 	
@@ -91,7 +91,7 @@ public abstract class ActiveUnit extends Unit implements IActive {
 		}
 		ArrayList<Direction> directions = new ArrayList<Direction>();
 		SearchResult result;
-		Direction dir = Direction.north;
+		Direction dir = Direction.NORTH;
 		for (int i = 0; i < 8; i++) {
 			result = Land.search(getLocation(), dir, list, maxDistance);
 			if (result != null) {
@@ -124,37 +124,37 @@ public abstract class ActiveUnit extends Unit implements IActive {
 		if(dX > 0){ // west
 			if(dY > 0){ // north
 				if(angle < (0.125*Math.PI)){
-					return new Target(Direction.north, distance);
+					return new Target(Direction.NORTH, distance);
 				}else if(angle >= (0.125*Math.PI) && angle < (0.375*Math.PI)){
-					return new Target(Direction.northwest, distance);
+					return new Target(Direction.NORTHWEST, distance);
 				}else{
-					return new Target(Direction.west, distance);
+					return new Target(Direction.WEST, distance);
 				}
 			}else{ // south
 				if(angle < (0.125*Math.PI)){
-					return new Target(Direction.south, distance);
+					return new Target(Direction.SOUTH, distance);
 				}else if(angle >= (0.125*Math.PI) && angle < (0.375*Math.PI)){
-					return new Target(Direction.southwest, distance);
+					return new Target(Direction.SOUTHWEST, distance);
 				}else{
-					return new Target(Direction.west, distance);
+					return new Target(Direction.WEST, distance);
 				}
 			}
 		}else{ // east
 			if(dY > 0){ // north
 				if(angle < (0.125*Math.PI)){
-					return new Target(Direction.north, distance);
+					return new Target(Direction.NORTH, distance);
 				}else if(angle >= (0.125*Math.PI) && angle < (0.375*Math.PI)){
-					return new Target(Direction.northeast, distance);
+					return new Target(Direction.NORTHEAST, distance);
 				}else{
-					return new Target(Direction.east, distance);
+					return new Target(Direction.EAST, distance);
 				}
 			}else{ // south
 				if(angle < (0.125*Math.PI)){
-					return new Target(Direction.south, distance);
+					return new Target(Direction.SOUTH, distance);
 				}else if(angle >= (0.125*Math.PI) && angle < (0.375*Math.PI)){
-					return new Target(Direction.southeast, distance);
+					return new Target(Direction.SOUTHEAST, distance);
 				}else{
-					return new Target(Direction.east, distance);
+					return new Target(Direction.EAST, distance);
 				}
 			}
 		}
@@ -237,7 +237,7 @@ public abstract class ActiveUnit extends Unit implements IActive {
 	
 	protected void fireAgainstRocket(){
 		SearchResult result;
-		Direction dir = Direction.north;
+		Direction dir = Direction.NORTH;
 		for (int i = 0; i < 8; i++) {
 			result = Land.search(getLocation(), dir, Land.rocketList);
 			if (result != null) {
@@ -268,8 +268,8 @@ public abstract class ActiveUnit extends Unit implements IActive {
 	protected void fireRockets(final int distance){
 		Direction[] dirs = findUnit(getListToFightWith(), distance);
 		for(Direction dir : dirs) {
-			if(rockets[dir.value] == null || !rockets[dir.value].isAlive()){
-				rockets[dir.value] = fireRocket(dir, getRocketType());
+			if(rockets[dir.ordinal()] == null || !rockets[dir.ordinal()].isAlive()){
+				rockets[dir.ordinal()] = fireRocket(dir, getRocketType());
 			}
 		}
 	}
@@ -280,9 +280,9 @@ public abstract class ActiveUnit extends Unit implements IActive {
 			Direction targetDirection = target.getDirection();
 			int targetDistance = target.getDistance();
 			if(targetDistance > DWConstants.MIN_RANGE){
-				if(rockets[targetDirection.value] == null || !rockets[targetDirection.value].isAlive()){
+				if(rockets[targetDirection.ordinal()] == null || !rockets[targetDirection.ordinal()].isAlive()){
 					if(checkDistance(targetDirection, targetDistance)){
-						rockets[targetDirection.value] = fireRocket(targetDirection, getRocketType());
+						rockets[targetDirection.ordinal()] = fireRocket(targetDirection, getRocketType());
 					}
 				}
 			}
@@ -298,8 +298,8 @@ public abstract class ActiveUnit extends Unit implements IActive {
 	protected void fireCannonBalls(int distance){
 		Direction[] dirs = findUnit(getArmoredListToFightWith(), distance);
 		for(Direction dir : dirs) {
-			if(cannonBalls[dir.value] == null || !cannonBalls[dir.value].isAlive()){
-				cannonBalls[dir.value] = fireCannon(dir);
+			if(cannonBalls[dir.ordinal()] == null || !cannonBalls[dir.ordinal()].isAlive()){
+				cannonBalls[dir.ordinal()] = fireCannon(dir);
 			}
 		}
 	}
@@ -310,9 +310,9 @@ public abstract class ActiveUnit extends Unit implements IActive {
 			Direction targetDirection = target.getDirection();
 			int targetDistance = target.getDistance();
 			if(targetDistance > DWConstants.MIN_RANGE){
-				if(cannonBalls[targetDirection.value] == null || !cannonBalls[targetDirection.value].isAlive()){
+				if(cannonBalls[targetDirection.ordinal()] == null || !cannonBalls[targetDirection.ordinal()].isAlive()){
 					if(checkDistance(targetDirection, targetDistance)){
-						cannonBalls[targetDirection.value] = fireCannon(targetDirection, targetDistance);
+						cannonBalls[targetDirection.ordinal()] = fireCannon(targetDirection, targetDistance);
 					}
 				}
 			}
@@ -333,16 +333,16 @@ public abstract class ActiveUnit extends Unit implements IActive {
 	}
 	
 	private void fireBullet(Direction direction){
-		Bullet bullet = bullets[direction.value];
+		Bullet bullet = bullets[direction.ordinal()];
 		if(bullet == null || !bullet.isAlive()){
-			bullets[direction.value] = new Bullet(getLocation().x, getLocation().y, direction);
+			bullets[direction.ordinal()] = new Bullet(getLocation().x, getLocation().y, direction);
 		}
 	}
 	
 	private void fireRocket(Direction direction){
-		Rocket rocket = rockets[direction.value];
+		Rocket rocket = rockets[direction.ordinal()];
 		if(rocket == null || !rocket.isAlive()){
-			rockets[direction.value] = new Rocket(getLocation().x, getLocation().y, direction, getRocketType());
+			rockets[direction.ordinal()] = new Rocket(getLocation().x, getLocation().y, direction, getRocketType());
 		}
 	}
 

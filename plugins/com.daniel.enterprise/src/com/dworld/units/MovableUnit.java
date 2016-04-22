@@ -27,7 +27,7 @@ public abstract class MovableUnit extends ActiveUnit implements IMovable {
 	
 	protected int beneath;
 	protected double speed, defaultSpeed;
-	protected Direction direction = Direction.north;
+	protected Direction direction = Direction.NORTH;
 	
 	protected Point destination = null;
 
@@ -229,12 +229,12 @@ public abstract class MovableUnit extends ActiveUnit implements IMovable {
 		//direction = stream.read();
 	}
 	
-	protected Direction lastDefenseMove = Direction.northwest;
+	protected Direction lastDefenseMove = Direction.NORTHWEST;
 	protected int[] sources = new int[]{-1,-1,-1,-1,-1,-1,-1,-1};
 	
 	protected boolean lightDefenseComplex(){
 		SearchResult result;
-		Direction dir = Direction.north;
+		Direction dir = Direction.NORTH;
 		
 		ArrayList<Integer> list = new ArrayList<Integer>();
 		
@@ -242,9 +242,9 @@ public abstract class MovableUnit extends ActiveUnit implements IMovable {
 			result = Land.search(getLocation(), dir, Land.bulletList);
 			if (result != null && result.getDistance() >= 2) {
 				if(sources[i] >= 0 && sources[i] > result.getDistance()){
-					list.add(new Integer(dir.value));
+					list.add(new Integer(dir.ordinal()));
 					Direction opposite = dir.getOppositeDirection();
-					list.add(new Integer(opposite.value));
+					list.add(new Integer(opposite.ordinal()));
 				}else
 					sources[i] = result.getDistance();
 			}else
@@ -256,7 +256,7 @@ public abstract class MovableUnit extends ActiveUnit implements IMovable {
 			dir = lastDefenseMove.getClockwiseDirection();
 			lastDefenseMove = dir;
 			for (int i = 0; i < 8; i++) {
-				if(list.contains(new Integer(dir.value))) continue;
+				if(list.contains(new Integer(dir.ordinal()))) continue;
 				if(Land.canIWalk(getLocation(), dir, getWalkList())){
 					direction = dir;
 					selfDefense = true;
@@ -363,7 +363,7 @@ public abstract class MovableUnit extends ActiveUnit implements IMovable {
 	
 	protected int status = INIT_STATUS;
 	
-	private Direction ld = Direction.nowhere;
+	private Direction ld = Direction.NOWHERE;
 	
 	protected Direction findDestination(){
 		if(status == INIT_STATUS){
@@ -392,7 +392,7 @@ public abstract class MovableUnit extends ActiveUnit implements IMovable {
 				}
 				d = d.getLeft();
 			}
-			ld = Direction.nowhere;
+			ld = Direction.NOWHERE;
 			return ld;
 		}
 		
@@ -408,7 +408,7 @@ public abstract class MovableUnit extends ActiveUnit implements IMovable {
 					}
 					d = d.getLeft();
 				}
-				ld = Direction.nowhere;
+				ld = Direction.NOWHERE;
 				return ld;
 			}
 		}
@@ -417,7 +417,7 @@ public abstract class MovableUnit extends ActiveUnit implements IMovable {
 			ld = Direction.findDirection(getLocation(), destination);
 			return ld;
 		}
-		ld = Direction.nowhere;
+		ld = Direction.NOWHERE;
 		return ld;
 	}
 	

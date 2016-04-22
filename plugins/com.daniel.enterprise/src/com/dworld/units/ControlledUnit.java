@@ -326,22 +326,22 @@ public class ControlledUnit extends MovableUnit {
 				break;
 
 			case 37: // Left
-				direction = Direction.west;
+				direction = Direction.WEST;
 				speed = DWConstants.MAX_SPEED;
 				break;
 
 			case 38: // Up
-				direction = Direction.north;
+				direction = Direction.NORTH;
 				speed = DWConstants.MAX_SPEED;
 				break;
 
 			case 39: // Right
-				direction = Direction.east;
+				direction = Direction.EAST;
 				speed = DWConstants.MAX_SPEED;
 				break;
 
 			case 40: // Down
-				direction = Direction.south;
+				direction = Direction.SOUTH;
 				speed = DWConstants.MAX_SPEED;
 				break;
 			}

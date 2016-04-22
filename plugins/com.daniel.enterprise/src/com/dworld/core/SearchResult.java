@@ -5,7 +5,7 @@ import java.awt.Point;
 public class SearchResult {
 	private int distance = -1;
 	private int resultCode = Land.Vacuum;
-	private Direction direction = Direction.nowhere;
+	private Direction direction = Direction.NOWHERE;
 	private Point location;
 	
 	public SearchResult(int code, int dist, Direction dir, Point location){

@@ -738,24 +738,24 @@ public class Land {
 
 	public static Point getNewLocation(Point location, Direction direction) {
 		Point point = (Point) location.clone();
-		if(direction == Direction.north){
+		if(direction == Direction.NORTH){
 			point.y--;
-		}else if(direction == Direction.northeast){
+		}else if(direction == Direction.NORTHEAST){
 			point.x++;
 			point.y--;
-		}else if(direction == Direction.east){
+		}else if(direction == Direction.EAST){
 			point.x++;
-		}else if(direction == Direction.southeast){
+		}else if(direction == Direction.SOUTHEAST){
 			point.x++;
 			point.y++;
-		}else if(direction == Direction.south){
+		}else if(direction == Direction.SOUTH){
 			point.y++;
-		}else if(direction == Direction.southwest){
+		}else if(direction == Direction.SOUTHWEST){
 			point.x--;
 			point.y++;
-		}else if(direction == Direction.west){
+		}else if(direction == Direction.WEST){
 			point.x--;
-		}else if(direction == Direction.northwest){
+		}else if(direction == Direction.NORTHWEST){
 			point.x--;
 			point.y--;
 		}
@@ -871,7 +871,7 @@ public class Land {
 				}
 			}
 		}
-		Direction dir = Direction.north;
+		Direction dir = Direction.NORTH;
 		for (int i = 0; i < 8; i++) {
 			new Bullet(location.x, location.y, dir);
 			dir = dir.getClockwiseDirection();

@@ -26,72 +26,72 @@ public class RailUtils {
 		case Land.Rail_Up_Right:
 		case Land.Train_Up_Right:
 		case Land.WarTrain_Up_Right:
-			if(direction == Direction.north){
-				return Direction.northeast;
+			if(direction == Direction.NORTH){
+				return Direction.NORTHEAST;
 			}else{
-				return Direction.south;
+				return Direction.SOUTH;
 			}
 			
 		case Land.Rail_Up_Left:
 		case Land.Train_Up_Left:
 		case Land.WarTrain_Up_Left:
-			if(direction == Direction.north){
-				return Direction.northwest;
+			if(direction == Direction.NORTH){
+				return Direction.NORTHWEST;
 			}else{
-				return Direction.south;
+				return Direction.SOUTH;
 			}
 			
 		case Land.Rail_Down_Right:
 		case Land.Train_Down_Right:
-			if(direction == Direction.south){
-				return Direction.southwest;
+			if(direction == Direction.SOUTH){
+				return Direction.SOUTHWEST;
 			}else{
-				return Direction.north;
+				return Direction.NORTH;
 			}
 			
 		case Land.Rail_Down_Left:
 		case Land.Train_Down_Left:
 		case Land.WarTrain_Down_Left:
-			if(direction == Direction.south){
-				return Direction.southeast;
+			if(direction == Direction.SOUTH){
+				return Direction.SOUTHEAST;
 			}else{
-				return Direction.north;
+				return Direction.NORTH;
 			}
 			
 		case Land.Rail_Right_Up:
 		case Land.Train_Right_Up:
 		case Land.WarTrain_Right_Up:
-			if(direction == Direction.east){
-				return Direction.northeast;
+			if(direction == Direction.EAST){
+				return Direction.NORTHEAST;
 			}else{
-				return Direction.west;
+				return Direction.WEST;
 			}
 			
 		case Land.Rail_Right_Down:
 		case Land.Train_Right_Down:
 		case Land.WarTrain_Right_Down:
-			if(direction == Direction.east){
-				return Direction.southeast;
+			if(direction == Direction.EAST){
+				return Direction.SOUTHEAST;
 			}else{
-				return Direction.west;
+				return Direction.WEST;
 			}
 			
 		case Land.Rail_Left_Up:
 		case Land.Train_Left_Up:
 		case Land.WarTrain_Left_Up:
-			if(direction == Direction.west){
-				return Direction.northwest;
+			if(direction == Direction.WEST){
+				return Direction.NORTHWEST;
 			}else{
-				return Direction.east;
+				return Direction.EAST;
 			}
 			
 		case Land.Rail_Left_Down:
 		case Land.Train_Left_Down:
 		case Land.WarTrain_Left_Down:
-			if(direction == Direction.west){
-				return Direction.southwest;
+			if(direction == Direction.WEST){
+				return Direction.SOUTHWEST;
 			}else{
-				return Direction.east;
+				return Direction.EAST;
 			}
 		}
 		return direction;
@@ -130,7 +130,7 @@ public class RailUtils {
 			}
 			if(location.equals(startLocation)){
 				reversable = false;
-				if(northDirection == Direction.west){
+				if(northDirection == Direction.WEST){
 					direction = nonCircleDirection;
 				}else{
 					direction = nonCircleDirection.getOppositeDirection();
@@ -145,54 +145,54 @@ public class RailUtils {
 	private static Direction getNonCircleInitialDirection(int code, int beneath) {
 		switch(beneath){
 		case Land.Rail_Vertical:
-			return Direction.north;
+			return Direction.NORTH;
 			
 		case Land.Rail_Horizontal:
-			return Direction.east;
+			return Direction.EAST;
 			
 		case Land.Rail_Diagonal_Up:
-			return  Direction.northeast;
+			return  Direction.NORTHEAST;
 			
 		case Land.Rail_Diagonal_Down:
-			return Direction.southeast;
+			return Direction.SOUTHEAST;
 			
 		case Land.Rail_Up_Right:
-			return Direction.north;
+			return Direction.NORTH;
 			
 		case Land.Rail_Up_Left:
-			return Direction.north;
+			return Direction.NORTH;
 			
 		case Land.Rail_Down_Right:
-			return Direction.south;
+			return Direction.SOUTH;
 			
 		case Land.Rail_Down_Left:
-			return Direction.south;
+			return Direction.SOUTH;
 			
 		case Land.Rail_Right_Up:
-			return Direction.east;
+			return Direction.EAST;
 			
 		case Land.Rail_Right_Down:
-			return Direction.east;
+			return Direction.EAST;
 			
 		case Land.Rail_Left_Up:
-			return Direction.west;
+			return Direction.WEST;
 			
 		case Land.Rail_Left_Down:
-			return Direction.west;
+			return Direction.WEST;
 			
 		case Land.Rail_Vertical_Cross:
 			if(code == Land.Train_Vertical_Cross || code == Land.WarTrain_Vertical_Cross){
-				return Direction.north;
+				return Direction.NORTH;
 			}else{
-				return Direction.east;
+				return Direction.EAST;
 			}
 		case Land.Rail_Diagonal_Cross:
 			if(code == Land.Train_Diagonal_Up_Cross || code == Land.WarTrain_Diagonal_Up_Cross){
-				return Direction.northeast;
+				return Direction.NORTHEAST;
 			}else{
-				return Direction.southeast;
+				return Direction.SOUTHEAST;
 			}
 		}
-		return Direction.north;
+		return Direction.NORTH;
 	}
 }

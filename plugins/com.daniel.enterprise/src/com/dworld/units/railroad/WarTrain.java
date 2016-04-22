@@ -107,14 +107,14 @@ public class WarTrain extends Train {
 			return Land.WarTrain_Left_Down;
 			
 		case Land.Rail_Vertical_Cross:
-			if(direction == Direction.north || direction == Direction.south){
+			if(direction == Direction.NORTH || direction == Direction.SOUTH){
 				return Land.WarTrain_Vertical_Cross;
 			}else{
 				return Land.WarTrain_Horizontal_Cross;
 			}
 			
 		case Land.Rail_Diagonal_Cross:
-			if(direction == Direction.northeast || direction == Direction.southwest){
+			if(direction == Direction.NORTHEAST || direction == Direction.SOUTHWEST){
 				return Land.WarTrain_Diagonal_Up_Cross;
 			}else{
 				return Land.WarTrain_Diagonal_Down_Cross;

@@ -2,51 +2,35 @@ package com.dworld.core;
 
 import java.awt.Point;
 
-public class Direction {
-	private static final int NoWhere = -1;
-	private static final int North = 0;
-	private static final int South = 1;
-	private static final int West = 2;
-	private static final int East = 3;
-	private static final int NorthWest = 4;
-	private static final int SouthWest = 5;
-	private static final int NorthEast = 6;
-	private static final int SouthEast = 7;
-	
-	public static final Direction nowhere = new Direction(NoWhere);
-	public static final Direction north = new Direction(North);
-	public static final Direction south = new Direction(South);
-	public static final Direction west = new Direction(West);
-	public static final Direction east = new Direction(East);
-	public static final Direction northwest = new Direction(NorthWest);
-	public static final Direction southwest = new Direction(SouthWest);
-	public static final Direction northeast = new Direction(NorthEast);
-	public static final Direction southeast = new Direction(SouthEast);
-	
-	public int value;
-	
-	Direction(int value){
-		this.value = value;
-	}
+public enum Direction {
+	NORTH,
+	SOUTH,
+	WEST,
+	EAST,
+	NORTHWEST,
+	SOUTHWEST,
+	NORTHEAST,
+	SOUTHEAST,
+	NOWHERE;
 	
 	public String toString(){
-		if (value == North)
-			return "North";
-		else if (value == NorthEast)
-			return "NorthEast";
-		else if (value == East)
-			return "East";
-		else if (value == SouthEast)
-			return "SouthEast";
-		else if (value == South)
-			return "South";
-		else if (value == SouthWest)
-			return "SouthWest";
-		else if (value == West)
-			return "West";
-		else if (value == NorthWest)
-			return "NorthWest";
-		else return "NoWhere";
+		if (this == NORTH)
+			return "NORTH";
+		else if (this == NORTHEAST)
+			return "NORTHEAST";
+		else if (this == EAST)
+			return "EAST";
+		else if (this == SOUTHEAST)
+			return "SOUTHEAST";
+		else if (this == SOUTH)
+			return "SOUTH";
+		else if (this == SOUTHWEST)
+			return "SOUTHWEST";
+		else if (this == WEST)
+			return "WEST";
+		else if (this == NORTHWEST)
+			return "NORTHWEST";
+		else return "NOWHERE";
 	}
 	
 	public Direction getRight(int times) {
@@ -66,23 +50,23 @@ public class Direction {
 	}
 
 	public Direction getClockwiseDirection() {
-		if (value == North)
-			return northeast;
-		else if (value == NorthEast)
-			return east;
-		else if (value == East)
-			return southeast;
-		else if (value == SouthEast)
-			return south;
-		else if (value == South)
-			return southwest;
-		else if (value == SouthWest)
-			return west;
-		else if (value == West)
-			return northwest;
-		else if (value == NorthWest)
-			return north;
-		else return nowhere;
+		if (this == NORTH)
+			return NORTHEAST;
+		else if (this == NORTHEAST)
+			return EAST;
+		else if (this == EAST)
+			return SOUTHEAST;
+		else if (this == SOUTHEAST)
+			return SOUTH;
+		else if (this == SOUTH)
+			return SOUTHWEST;
+		else if (this == SOUTHWEST)
+			return WEST;
+		else if (this == WEST)
+			return NORTHWEST;
+		else if (this == NORTHWEST)
+			return NORTH;
+		else return NOWHERE;
 	}
 	
 	public Direction getLeft(int times) {
@@ -102,67 +86,67 @@ public class Direction {
 	}
 	
 	public Direction getAnticlockwiseDirection() {
-		if (value == North)
-			return northwest;
-		else if (value == NorthWest)
-			return west;
-		else if (value == West)
-			return southwest;
-		else if (value == SouthWest)
-			return south;
-		else if (value == South)
-			return southeast;
-		else if (value == SouthEast)
-			return east;
-		else if (value == East)
-			return northeast;
-		else if (value == NorthEast)
-			return north;
-		else return nowhere;
+		if (this == NORTH)
+			return NORTHWEST;
+		else if (this == NORTHWEST)
+			return WEST;
+		else if (this == WEST)
+			return SOUTHWEST;
+		else if (this == SOUTHWEST)
+			return SOUTH;
+		else if (this == SOUTH)
+			return SOUTHEAST;
+		else if (this == SOUTHEAST)
+			return EAST;
+		else if (this == EAST)
+			return NORTHEAST;
+		else if (this == NORTHEAST)
+			return NORTH;
+		else return NOWHERE;
 	}
 	
 	public Direction getOppositeDirection() {
-		if (value == North)
-			return south;
-		else if (value == NorthEast)
-			return southwest;
-		else if (value == East)
-			return west;
-		else if (value == SouthEast)
-			return northwest;
-		else if (value == South)
-			return north;
-		else if (value == SouthWest)
-			return northeast;
-		else if (value == West)
-			return east;
-		else if (value == NorthWest)
-			return southeast;
-		else return nowhere;
+		if (this == NORTH)
+			return SOUTH;
+		else if (this == NORTHEAST)
+			return SOUTHWEST;
+		else if (this == EAST)
+			return WEST;
+		else if (this == SOUTHEAST)
+			return NORTHWEST;
+		else if (this == SOUTH)
+			return NORTH;
+		else if (this == SOUTHWEST)
+			return NORTHEAST;
+		else if (this == WEST)
+			return EAST;
+		else if (this == NORTHWEST)
+			return SOUTHEAST;
+		else return NOWHERE;
 	}
 	
 	public static Direction findDirection(Point source, Point destination){
-		if(source.x > destination.x){ // west
-			if(source.y > destination.y) // north
-				return northwest;
+		if(source.x > destination.x){ // WEST
+			if(source.y > destination.y) // NORTH
+				return NORTHWEST;
 			else if(source.y == destination.y)
-				return west;
-			else // south
-				return southwest;
+				return WEST;
+			else // SOUTH
+				return SOUTHWEST;
 		}else if(source.x == destination.x){
-			if(source.y > destination.y) // north
-				return north;
+			if(source.y > destination.y) // NORTH
+				return NORTH;
 			else if(source.y == destination.y)
-				return nowhere;
-			else // south
-				return south;
-		}else{ // east
-			if(source.y > destination.y) // north
-				return northeast;
+				return NOWHERE;
+			else // SOUTH
+				return SOUTH;
+		}else{ // EAST
+			if(source.y > destination.y) // NORTH
+				return NORTHEAST;
 			else if(source.y == destination.y)
-				return east;
-			else // south
-				return southeast;
+				return EAST;
+			else // SOUTH
+				return SOUTHEAST;
 		}
 	}
 	

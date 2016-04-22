@@ -31,78 +31,78 @@ public class Rocket extends MovableWeapon {
 	@Override
 	public int getCode(int beneath) {
 		if(beneath == Land.Grass || beneath == Land.Mine_Grass){
-			if(direction == Direction.north)
+			if(direction == Direction.NORTH)
 				return Land.RocketNorth_Grass;
-			else if(direction == Direction.south)
+			else if(direction == Direction.SOUTH)
 				return Land.RocketSouth_Grass;
-			else if(direction == Direction.east)
+			else if(direction == Direction.EAST)
 				return Land.RocketEast_Grass;
-			else if(direction == Direction.west)
+			else if(direction == Direction.WEST)
 				return Land.RocketWest_Grass;
-			else if(direction == Direction.northwest)
+			else if(direction == Direction.NORTHWEST)
 				return Land.RocketNorthWest_Grass;
-			else if(direction == Direction.northeast)
+			else if(direction == Direction.NORTHEAST)
 				return Land.RocketNorthEast_Grass;
-			else if(direction == Direction.southwest)
+			else if(direction == Direction.SOUTHWEST)
 				return Land.RocketSouthWest_Grass;
-			else if(direction == Direction.southeast)
+			else if(direction == Direction.SOUTHEAST)
 				return Land.RocketSouthEast_Grass;
 			
 			return Land.Rocket;
 		}else if(beneath == Land.Water){
-			if(direction == Direction.north)
+			if(direction == Direction.NORTH)
 				return Land.RocketNorth_Water;
-			else if(direction == Direction.south)
+			else if(direction == Direction.SOUTH)
 				return Land.RocketSouth_Water;
-			else if(direction == Direction.east)
+			else if(direction == Direction.EAST)
 				return Land.RocketEast_Water;
-			else if(direction == Direction.west)
+			else if(direction == Direction.WEST)
 				return Land.RocketWest_Water;
-			else if(direction == Direction.northwest)
+			else if(direction == Direction.NORTHWEST)
 				return Land.RocketNorthWest_Water;
-			else if(direction == Direction.northeast)
+			else if(direction == Direction.NORTHEAST)
 				return Land.RocketNorthEast_Water;
-			else if(direction == Direction.southwest)
+			else if(direction == Direction.SOUTHWEST)
 				return Land.RocketSouthWest_Water;
-			else if(direction == Direction.southeast)
+			else if(direction == Direction.SOUTHEAST)
 				return Land.RocketSouthEast_Water;
 			
 			return Land.Rocket;
 		}else if(beneath == Land.Sand || beneath == Land.Mine_Sand){
-			if(direction == Direction.north)
+			if(direction == Direction.NORTH)
 				return Land.RocketNorth_Sand;
-			else if(direction == Direction.south)
+			else if(direction == Direction.SOUTH)
 				return Land.RocketSouth_Sand;
-			else if(direction == Direction.east)
+			else if(direction == Direction.EAST)
 				return Land.RocketEast_Sand;
-			else if(direction == Direction.west)
+			else if(direction == Direction.WEST)
 				return Land.RocketWest_Sand;
-			else if(direction == Direction.northwest)
+			else if(direction == Direction.NORTHWEST)
 				return Land.RocketNorthWest_Sand;
-			else if(direction == Direction.northeast)
+			else if(direction == Direction.NORTHEAST)
 				return Land.RocketNorthEast_Sand;
-			else if(direction == Direction.southwest)
+			else if(direction == Direction.SOUTHWEST)
 				return Land.RocketSouthWest_Sand;
-			else if(direction == Direction.southeast)
+			else if(direction == Direction.SOUTHEAST)
 				return Land.RocketSouthEast_Sand;
 			
 			return Land.Rocket;
 		}else{
-			if(direction == Direction.north)
+			if(direction == Direction.NORTH)
 				return Land.RocketNorth;
-			else if(direction == Direction.south)
+			else if(direction == Direction.SOUTH)
 				return Land.RocketSouth;
-			else if(direction == Direction.east)
+			else if(direction == Direction.EAST)
 				return Land.RocketEast;
-			else if(direction == Direction.west)
+			else if(direction == Direction.WEST)
 				return Land.RocketWest;
-			else if(direction == Direction.northwest)
+			else if(direction == Direction.NORTHWEST)
 				return Land.RocketNorthWest;
-			else if(direction == Direction.northeast)
+			else if(direction == Direction.NORTHEAST)
 				return Land.RocketNorthEast;
-			else if(direction == Direction.southwest)
+			else if(direction == Direction.SOUTHWEST)
 				return Land.RocketSouthWest;
-			else if(direction == Direction.southeast)
+			else if(direction == Direction.SOUTHEAST)
 				return Land.RocketSouthEast;
 			
 			return Land.Rocket;
@@ -115,45 +115,45 @@ public class Rocket extends MovableWeapon {
 		case Land.RocketNorth_Grass:
 		case Land.RocketNorth_Sand:
 		case Land.RocketNorth_Water:
-			return Direction.north;
+			return Direction.NORTH;
 		case Land.RocketSouth:
 		case Land.RocketSouth_Grass:
 		case Land.RocketSouth_Sand:
 		case Land.RocketSouth_Water:
-			return Direction.south;
+			return Direction.SOUTH;
 		case Land.RocketEast:
 		case Land.RocketEast_Grass:
 		case Land.RocketEast_Sand:
 		case Land.RocketEast_Water:
-			return Direction.east;
+			return Direction.EAST;
 		case Land.RocketWest:
 		case Land.RocketWest_Grass:
 		case Land.RocketWest_Sand:
 		case Land.RocketWest_Water:
-			return Direction.west;
+			return Direction.WEST;
 		case Land.RocketNorthWest:
 		case Land.RocketNorthWest_Grass:
 		case Land.RocketNorthWest_Sand:
 		case Land.RocketNorthWest_Water:
-			return Direction.northwest;
+			return Direction.NORTHWEST;
 		case Land.RocketNorthEast:
 		case Land.RocketNorthEast_Grass:
 		case Land.RocketNorthEast_Sand:
 		case Land.RocketNorthEast_Water:
-			return Direction.northeast;
+			return Direction.NORTHEAST;
 		case Land.RocketSouthWest:
 		case Land.RocketSouthWest_Grass:
 		case Land.RocketSouthWest_Sand:
 		case Land.RocketSouthWest_Water:
-			return Direction.southwest;
+			return Direction.SOUTHWEST;
 		case Land.RocketSouthEast:
 		case Land.RocketSouthEast_Grass:
 		case Land.RocketSouthEast_Sand:
 		case Land.RocketSouthEast_Water:
-			return Direction.southeast;
+			return Direction.SOUTHEAST;
 		}
 		
-		return Direction.nowhere;	
+		return Direction.NOWHERE;	
 			
 	}
 	
@@ -171,13 +171,13 @@ public class Rocket extends MovableWeapon {
 			return false;
 		}
 
-		Direction dir = Direction.nowhere;
+		Direction dir = Direction.NOWHERE;
 		if (type == EnemyFriendly){
 			dir = findTarget(Land.citizenList, DWConstants.ROCKET_VISIBLE_DISTANCE);
 		}else{
 			dir = findTarget(Land.enemyList, DWConstants.ROCKET_VISIBLE_DISTANCE);
 		}
-		if (dir != Direction.nowhere && direction != dir) {
+		if (dir != Direction.NOWHERE && direction != dir) {
 			direction = dir;
 			code = getCode(beneath);
 			Land.setLand(getLocation(), code);
@@ -246,7 +246,7 @@ public class Rocket extends MovableWeapon {
 				return dir;
 			}
 		}
-		return Direction.nowhere;
+		return Direction.NOWHERE;
 	}
 
 	@Override

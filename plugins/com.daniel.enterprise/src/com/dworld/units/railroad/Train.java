@@ -121,14 +121,14 @@ public class Train extends MovableUnit {
 			return Land.Train_Left_Down;
 			
 		case Land.Rail_Vertical_Cross:
-			if(direction == Direction.north || direction == Direction.south){
+			if(direction == Direction.NORTH || direction == Direction.SOUTH){
 				return Land.Train_Vertical_Cross;
 			}else{
 				return Land.Train_Horizontal_Cross;
 			}
 			
 		case Land.Rail_Diagonal_Cross:
-			if(direction == Direction.northeast || direction == Direction.southwest){
+			if(direction == Direction.NORTHEAST || direction == Direction.SOUTHWEST){
 				return Land.Train_Diagonal_Up_Cross;
 			}else{
 				return Land.Train_Diagonal_Down_Cross;
@@ -216,7 +216,7 @@ public class Train extends MovableUnit {
 			return;
 		}
 		int try1 = Land.Vacuum, try2 = Land.Vacuum;
-		if(direction == Direction.north || direction == Direction.south){
+		if(direction == Direction.NORTH || direction == Direction.SOUTH){
 			try1 = Land.getLand(getLocation().x-1, getLocation().y);
 			try2 = Land.getLand(getLocation().x+1, getLocation().y);
 			if(try1 == Land.Station_Vertical || try2 == Land.Station_Vertical){
@@ -224,7 +224,7 @@ public class Train extends MovableUnit {
 				localStop(false);
 				return;
 			}
-		}else if(direction == Direction.east || direction == Direction.west){
+		}else if(direction == Direction.EAST || direction == Direction.WEST){
 			try1 = Land.getLand(getLocation().x, getLocation().y-1);
 			try2 = Land.getLand(getLocation().x, getLocation().y+1);
 			if(try1 == Land.Station_Horizontal || try2 == Land.Station_Horizontal){
