@@ -42,6 +42,9 @@ public class Chapter1 {
 		System.out.println("i - "+chapter.i);
 		
 		String[] array = new String[]{"First", "Second", "Third"};
+		String[] array222 = {"First", "Second", "Third"};
+		
+		int[] iArray = {1,2,3,4};
 		
 		chapter.m1(array);
 		chapter.m2(array);

@@ -8,8 +8,11 @@ import java.time.Month;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
 public class Chapter3 {
 	void date(){
@@ -17,6 +20,8 @@ public class Chapter3 {
 		LocalDate date = LocalDate.now();
 		LocalTime time = LocalTime.now();
 		LocalDateTime dateTime = LocalDateTime.now();
+		
+		//LocalDate d = LocalDate.of(2015, 5);
 		
 		date.minusMonths(4);
 		
@@ -35,10 +40,24 @@ public class Chapter3 {
 
 		
 		DateTimeFormatter dateFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT);
+		
+		// shows time only
 		DateTimeFormatter timeFormatter = DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT);
+		
 		DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT);
 		
 		//date.p
+	}
+	
+	void stringWork(){
+		String a = "";
+		
+		a += 2;
+		a += 'd';
+		a += false;
+		
+		String[] names = {"aaa", "bbb", "ccc"};
+		//names.asList();
 	}
 	
 	void old_way(){
@@ -59,5 +78,15 @@ public class Chapter3 {
 		Chapter3 chapter = new Chapter3();
 		
 		chapter.date();
+		
+		List<String> hex = Arrays.asList("30", "8", "3A", "FF");
+		Collections.sort(hex);
+		int x = Collections.binarySearch(hex, "8");
+		int y = Collections.binarySearch(hex, "3A");
+		int z = Collections.binarySearch(hex, "4F");
+		
+		System.out.println(hex);
+		
+		System.out.println(x + " "+ y + " " + z);
 	}
 }
