@@ -3,35 +3,193 @@ package com.dworld.core;
 import java.awt.Point;
 
 public enum Direction {
-	NORTH,
-	SOUTH,
-	WEST,
-	EAST,
-	NORTHWEST,
-	SOUTHWEST,
-	NORTHEAST,
-	SOUTHEAST,
-	NOWHERE;
-	
-	public String toString(){
-		if (this == NORTH)
+	NORTH{
+		@Override
+		public String toString(){
 			return "NORTH";
-		else if (this == NORTHEAST)
-			return "NORTHEAST";
-		else if (this == EAST)
-			return "EAST";
-		else if (this == SOUTHEAST)
-			return "SOUTHEAST";
-		else if (this == SOUTH)
+		}
+		
+		@Override
+		public Direction getClockwiseDirection() {
+			return NORTHEAST;
+		}
+		
+		@Override
+		public Direction getAnticlockwiseDirection() {
+			return NORTHWEST;
+		}
+		
+		@Override
+		public Direction getOppositeDirection() {
+			return SOUTH;
+		}
+	},
+	SOUTH{
+		@Override
+		public String toString(){
 			return "SOUTH";
-		else if (this == SOUTHWEST)
-			return "SOUTHWEST";
-		else if (this == WEST)
+		}
+
+		@Override
+		public Direction getClockwiseDirection() {
+			return SOUTHWEST;
+		}
+		
+		@Override
+		public Direction getAnticlockwiseDirection() {
+			return SOUTHEAST;
+		}
+		@Override
+		public Direction getOppositeDirection() {
+			return NORTH;
+		}
+	},
+	WEST{
+		@Override
+		public String toString(){
 			return "WEST";
-		else if (this == NORTHWEST)
+		}
+
+		@Override
+		public Direction getClockwiseDirection() {
+			return NORTHWEST;
+		}
+		
+		@Override
+		public Direction getAnticlockwiseDirection() {
+			return SOUTHWEST;
+		}
+		
+		@Override
+		public Direction getOppositeDirection() {
+			return EAST;
+		}
+	},
+	EAST{
+		@Override
+		public String toString(){
+			return "EAST";
+		}
+
+		@Override
+		public Direction getClockwiseDirection() {
+			return SOUTHEAST;
+		}
+		
+		@Override
+		public Direction getAnticlockwiseDirection() {
+			return NORTHEAST;
+		}
+		
+		@Override
+		public Direction getOppositeDirection() {
+			return WEST;
+		}
+	},
+	NORTHWEST{
+		@Override
+		public String toString(){
 			return "NORTHWEST";
-		else return "NOWHERE";
-	}
+		}
+
+		@Override
+		public Direction getClockwiseDirection() {
+			return NORTH;
+		}
+		
+		@Override
+		public Direction getAnticlockwiseDirection() {
+			return WEST;
+		}
+		@Override
+		public Direction getOppositeDirection() {
+			return SOUTHEAST;
+		}
+	},
+	SOUTHWEST{
+		@Override
+		public String toString(){
+			return "SOUTHWEST";
+		}
+		
+		@Override
+		public Direction getClockwiseDirection() {
+			return WEST;
+		}
+		
+		@Override
+		public Direction getAnticlockwiseDirection() {
+			return SOUTH;
+		}
+		
+		@Override
+		public Direction getOppositeDirection() {
+			return NORTHEAST;
+		}
+	},
+	NORTHEAST{
+		@Override
+		public String toString(){
+			return "NORTHEAST";
+		}
+
+		@Override
+		public Direction getClockwiseDirection() {
+			return EAST;
+		}
+		
+		@Override
+		public Direction getAnticlockwiseDirection() {
+			return NORTH;
+		}
+
+		@Override
+		public Direction getOppositeDirection() {
+			return SOUTHWEST;
+		}
+	},
+	SOUTHEAST{
+		@Override
+		public String toString(){
+			return "SOUTHEAST";
+		}
+		
+		@Override
+		public Direction getClockwiseDirection() {
+			return SOUTH;
+		}
+		
+		@Override
+		public Direction getAnticlockwiseDirection() {
+			return EAST;
+		}
+
+		@Override
+		public Direction getOppositeDirection() {
+			return NORTHWEST;
+		}
+	},
+	NOWHERE{
+		@Override
+		public String toString(){
+			return "NOWHERE";
+		}
+		
+		@Override
+		public Direction getClockwiseDirection() {
+			return NOWHERE;
+		}
+		
+		@Override
+		public Direction getAnticlockwiseDirection() {
+			return NOWHERE;
+		}
+		
+		@Override
+		public Direction getOppositeDirection() {
+			return NOWHERE;
+		}
+	};
 	
 	public Direction getRight(int times) {
 		return getClockwiseDirection(times);
@@ -48,27 +206,9 @@ public enum Direction {
 	public Direction getRight() {
 		return getClockwiseDirection();
 	}
-
-	public Direction getClockwiseDirection() {
-		if (this == NORTH)
-			return NORTHEAST;
-		else if (this == NORTHEAST)
-			return EAST;
-		else if (this == EAST)
-			return SOUTHEAST;
-		else if (this == SOUTHEAST)
-			return SOUTH;
-		else if (this == SOUTH)
-			return SOUTHWEST;
-		else if (this == SOUTHWEST)
-			return WEST;
-		else if (this == WEST)
-			return NORTHWEST;
-		else if (this == NORTHWEST)
-			return NORTH;
-		else return NOWHERE;
-	}
 	
+	public abstract Direction getClockwiseDirection();
+
 	public Direction getLeft(int times) {
 		return getAnticlockwiseDirection(times);
 	}
@@ -85,45 +225,9 @@ public enum Direction {
 		return getAnticlockwiseDirection();
 	}
 	
-	public Direction getAnticlockwiseDirection() {
-		if (this == NORTH)
-			return NORTHWEST;
-		else if (this == NORTHWEST)
-			return WEST;
-		else if (this == WEST)
-			return SOUTHWEST;
-		else if (this == SOUTHWEST)
-			return SOUTH;
-		else if (this == SOUTH)
-			return SOUTHEAST;
-		else if (this == SOUTHEAST)
-			return EAST;
-		else if (this == EAST)
-			return NORTHEAST;
-		else if (this == NORTHEAST)
-			return NORTH;
-		else return NOWHERE;
-	}
+	public abstract Direction getAnticlockwiseDirection();
 	
-	public Direction getOppositeDirection() {
-		if (this == NORTH)
-			return SOUTH;
-		else if (this == NORTHEAST)
-			return SOUTHWEST;
-		else if (this == EAST)
-			return WEST;
-		else if (this == SOUTHEAST)
-			return NORTHWEST;
-		else if (this == SOUTH)
-			return NORTH;
-		else if (this == SOUTHWEST)
-			return NORTHEAST;
-		else if (this == WEST)
-			return EAST;
-		else if (this == NORTHWEST)
-			return SOUTHEAST;
-		else return NOWHERE;
-	}
+	public abstract Direction getOppositeDirection();
 	
 	public static Direction findDirection(Point source, Point destination){
 		if(source.x > destination.x){ // WEST
