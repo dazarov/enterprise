@@ -1,8 +1,5 @@
 package com.dworld.units;
 
-import java.awt.Point;
-
-import com.dworld.core.CommonTargetManager;
 import com.dworld.core.DWConstants;
 
 public abstract class Soldier extends MovableUnit {

@@ -4,7 +4,6 @@ import java.awt.Point;
 
 import com.dworld.core.ISlow;
 import com.dworld.core.Land;
-import com.dworld.core.SelectionManager;
 
 public class Gate extends ActiveUnit implements ISlow{
 	// orientation
