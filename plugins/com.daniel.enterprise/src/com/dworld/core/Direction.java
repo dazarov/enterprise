@@ -3,7 +3,7 @@ package com.dworld.core;
 import java.awt.Point;
 
 public enum Direction {
-	NORTH{
+	NORTH {
 		@Override
 		public String toString(){
 			return "NORTH";
@@ -24,7 +24,7 @@ public enum Direction {
 			return SOUTH;
 		}
 	},
-	SOUTH{
+	SOUTH {
 		@Override
 		public String toString(){
 			return "SOUTH";
@@ -44,7 +44,7 @@ public enum Direction {
 			return NORTH;
 		}
 	},
-	WEST{
+	WEST {
 		@Override
 		public String toString(){
 			return "WEST";
@@ -65,7 +65,7 @@ public enum Direction {
 			return EAST;
 		}
 	},
-	EAST{
+	EAST {
 		@Override
 		public String toString(){
 			return "EAST";
@@ -86,7 +86,7 @@ public enum Direction {
 			return WEST;
 		}
 	},
-	NORTHWEST{
+	NORTHWEST {
 		@Override
 		public String toString(){
 			return "NORTHWEST";
@@ -106,7 +106,7 @@ public enum Direction {
 			return SOUTHEAST;
 		}
 	},
-	SOUTHWEST{
+	SOUTHWEST {
 		@Override
 		public String toString(){
 			return "SOUTHWEST";
@@ -127,7 +127,7 @@ public enum Direction {
 			return NORTHEAST;
 		}
 	},
-	NORTHEAST{
+	NORTHEAST {
 		@Override
 		public String toString(){
 			return "NORTHEAST";
@@ -148,7 +148,7 @@ public enum Direction {
 			return SOUTHWEST;
 		}
 	},
-	SOUTHEAST{
+	SOUTHEAST {
 		@Override
 		public String toString(){
 			return "SOUTHEAST";
@@ -169,7 +169,7 @@ public enum Direction {
 			return NORTHWEST;
 		}
 	},
-	NOWHERE{
+	NOWHERE {
 		@Override
 		public String toString(){
 			return "NOWHERE";
@@ -191,6 +191,12 @@ public enum Direction {
 		}
 	};
 	
+	public abstract Direction getClockwiseDirection();
+	
+	public abstract Direction getAnticlockwiseDirection();
+	
+	public abstract Direction getOppositeDirection();
+	
 	public Direction getRight(int times) {
 		return getClockwiseDirection(times);
 	}
@@ -206,8 +212,6 @@ public enum Direction {
 	public Direction getRight() {
 		return getClockwiseDirection();
 	}
-	
-	public abstract Direction getClockwiseDirection();
 
 	public Direction getLeft(int times) {
 		return getAnticlockwiseDirection(times);
@@ -224,10 +228,6 @@ public enum Direction {
 	public Direction getLeft() {
 		return getAnticlockwiseDirection();
 	}
-	
-	public abstract Direction getAnticlockwiseDirection();
-	
-	public abstract Direction getOppositeDirection();
 	
 	public static Direction findDirection(Point source, Point destination){
 		if(source.x > destination.x){ // WEST

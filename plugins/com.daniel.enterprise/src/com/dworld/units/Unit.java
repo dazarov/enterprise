@@ -41,17 +41,33 @@ public abstract class Unit implements IUnit{
 	
 	private Point location;
 	
-	static private long units = 0;
+	static private int units = 0;
 	
-	public static long getUnits(){
+	public static int getUnits(){
 		return units;
 	}
+	
+	private final int id;
 	
 	public Unit(int x, int y){
 		alive = true;
 		this.location = new Point(x, y);
 		units++;
+		id = units;
 		DWEngine.getEngine().addUnit(this);
+	}
+	
+	@Override
+	public int hashCode(){
+		return id;
+	}
+	
+	@Override
+	public boolean equals(Object other){
+		if(!(other instanceof Unit)){
+			return false;
+		}
+		return this.id == ((Unit)other).id;
 	}
 	
 	@Override

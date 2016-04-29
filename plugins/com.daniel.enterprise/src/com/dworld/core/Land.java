@@ -10,6 +10,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import com.dworld.DWLauncher;
@@ -277,12 +279,7 @@ public class Land {
 	 * Land lists section start
 	 */
 	
-	public static ArrayList<Integer> heroList = new ArrayList<Integer>();
-	static {
-		heroList.add(new Integer(Hero));
-		heroList.add(new Integer(Hero_Grass));
-		heroList.add(new Integer(Hero_Sand));
-	}
+	public static final List<Integer> heroList = Collections.unmodifiableList(Arrays.asList(Hero, Hero_Grass, Hero_Sand));
 
 	public static ArrayList<Integer> rocketList = new ArrayList<Integer>();
 	static {
