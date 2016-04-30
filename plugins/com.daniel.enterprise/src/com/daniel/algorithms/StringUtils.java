@@ -56,7 +56,7 @@ public class StringUtils {
 		return result;
 	}
 	
-	public static List<String> getMostPopularStringsJava8(List<String> strings, int number){
+	public static List<String> getMostPopularStringsJava8_old(List<String> strings, int number){
 		ArrayList<String> result = new ArrayList<String>(number);
 		
 		Set<String> set = strings.stream()
@@ -76,6 +76,21 @@ public class StringUtils {
 		return result;
 	}
 	
+	public static List<String> getMostPopularStringsJava8(List<String> strings, int number){
+		ArrayList<String> result = new ArrayList<String>(number);
+		
+		//ArrayList<String> result = 
+		strings.stream()
+	        .collect(Collectors.toMap(str -> str, str -> Collections.frequency(strings, str), (s1, s2) -> s1))
+			.entrySet()
+			.stream()
+			.sorted(Collections.reverseOrder(Map.Entry.comparingByValue()))
+			.limit(number)
+			//.collect(ArrayList::new, ArrayList::add, ArrayList::addAll);
+			.forEach(s -> result.add(s.getKey()));
+		
+		return result;
+	}
 	public static void main(String[] args){
 		ArrayList<String> text = new ArrayList<String>();
 		// Most - 4
