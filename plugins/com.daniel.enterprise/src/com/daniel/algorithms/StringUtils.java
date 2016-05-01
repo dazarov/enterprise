@@ -76,12 +76,27 @@ public class StringUtils {
 		return result;
 	}
 	
+	public static List<String> getMostPopularStringsJava8_old2(List<String> strings, int number){
+		ArrayList<String> result = new ArrayList<String>(number);
+		
+		strings.stream()
+	        .collect(Collectors.toMap(str -> str, str -> Collections.frequency(strings, str), (s1, s2) -> s1))
+			.entrySet()
+			.stream()
+			.sorted(Collections.reverseOrder(Map.Entry.comparingByValue()))
+			.limit(number)
+			.forEach(s -> result.add(s.getKey()));
+		
+		return result;
+	}
+	
 	public static List<String> getMostPopularStringsJava8(List<String> strings, int number){
 		ArrayList<String> result = new ArrayList<String>(number);
 		
 		//ArrayList<String> result = 
 		strings.stream()
-	        .collect(Collectors.toMap(str -> str, str -> Collections.frequency(strings, str), (s1, s2) -> s1))
+			.distinct()
+	        .collect(Collectors.toMap(str -> str, str -> Collections.frequency(strings, str)))
 			.entrySet()
 			.stream()
 			.sorted(Collections.reverseOrder(Map.Entry.comparingByValue()))

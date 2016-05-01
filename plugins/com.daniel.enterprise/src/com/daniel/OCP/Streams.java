@@ -6,10 +6,38 @@ import java.util.List;
 import java.util.Optional;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
 public class Streams {
 	public static void main(String[] args){
+		Streams instance = new Streams();
+		
+		instance.creatingStreams();
+		
+		instance.commonOperations();
+		
+		instance.primitiveStreams();
+		
+		
+		//Stream<String> stream = Stream.of("Cccc", "Slon", "aaa", "Aaaa", "Bbbb",  "vvv");
+		//stream.filter(x -> Character.isUpperCase(x.charAt(0))).forEach(System.out::println);
+		
+		// sorted
+		
+		List<String> list = Stream.of("34", "67hn", "Ccccccccc", "Slon", "aaa", "Aaaa", "Bbbb",  "vvv", "567")
+				.distinct() // remove duplicated elements
+				//.filter(s -> Character.isUpperCase(s.charAt(0)))
+				.filter(s -> Character.isLetter(s.charAt(0)))
+				//.sorted()
+				.sorted((s1, s2) -> s2.length() - s1.length())
+				.collect(Collectors.toList());
+		
+		System.out.println(list);
+	}
+	
+	void creatingStreams(){
 		// Creating stream source
 		//-----------------------
 		Stream<String> empty = Stream.empty();
@@ -30,7 +58,9 @@ public class Streams {
 		System.out.println("\nEven number stream:");
 		//Stream<Integer> evenNumbers = 
 		Stream.iterate(2, n -> n+2).skip(3).limit(10).forEach(System.out::println);
-		
+	}
+
+	void commonOperations(){
 		// Using common terminal operations
 		
 		// long count()
@@ -68,7 +98,7 @@ public class Streams {
 		System.out.println("Reduce str - "+concatString);
 
 		int sum = Stream.of(2, 4, 6, 8, 4, 0)
-				.reduce(1, (s1, s2) -> s1 + s2 );
+				.reduce(0, (s1, s2) -> s1 + s2 );
 		System.out.println("Reduce int - "+sum);
 		
 		// <R> R collect(Supplier<R> supplier, BiConsumer<R ? super T> accumulator, BiConsumer<R, R> combiner)
@@ -113,19 +143,21 @@ public class Streams {
 		listStream.flatMap(l -> l.stream())
 			.distinct() // remove duplicates
 			.forEach(System.out::println);
+
+	}
+	
+	void primitiveStreams(){
+		IntStream intStream = IntStream.of(1,3,7,8,7,8);
+		System.out.println("Int average - ");
+		intStream.distinct().average().ifPresent(System.out::println);
 		
-		//Stream<String> stream = Stream.of("Cccc", "Slon", "aaa", "Aaaa", "Bbbb",  "vvv");
-		//stream.filter(x -> Character.isUpperCase(x.charAt(0))).forEach(System.out::println);
+		IntStream rangeStream = IntStream.range(3, 11); // same as IntStream.rangeClosed(3,10);
 		
-		// sorted
+		//System.out.println("Range int stream sum - "+range.sum());
 		
-		List<String> list = Stream.of("34", "67hn", "Ccccccccc", "Slon", "aaa", "Aaaa", "Bbbb",  "vvv", "567")
-				//.filter(s -> Character.isUpperCase(s.charAt(0)))
-				.filter(s -> Character.isLetter(s.charAt(0)))
-				//.sorted()
-				.sorted((s1, s2) -> s2.length() - s1.length())
-				.collect(Collectors.toList());
+		LongStream longStream = rangeStream.mapToLong(i -> i);
 		
-		System.out.println(list);
+		System.out.println("Long range average - ");
+		longStream.average().ifPresent(System.out::print);
 	}
 }
