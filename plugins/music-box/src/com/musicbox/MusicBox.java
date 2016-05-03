@@ -54,6 +54,10 @@ public class MusicBox {
 		moveToSeparateFolder();
 		
 		System.out.println("-------------------- END --------------------------");
+		
+		collection.printAll();
+		
+		
 		System.out.println("Files processed - "+fileNumbers);
 		long hours = totalLength/(60*60);
 		long min = (totalLength%(60*60))/60;
@@ -183,6 +187,7 @@ public class MusicBox {
 		
 		Information fileNameInfo = parseFromFileName(fileName);
 		if(fileNameInfo == null){
+			collection.addSong(fileName, null, null);
 			return;
 		}
 		
