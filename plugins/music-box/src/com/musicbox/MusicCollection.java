@@ -1,33 +1,40 @@
 package com.musicbox;
 
+import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
 public class MusicCollection {
-	private TreeMap<String, TreeSet<String>> songs = new TreeMap<>();
-	private TreeSet<String> nonArtists = new TreeSet<>();
+	private Map<String, Map<String, Song>> artists = new TreeMap<>();
+	private Set<String> nonArtists = new TreeSet<>();
 	
 	public void addSong(String fileName, String artist, String title){
-		if(artist == null && title == null){
+		if(artist == null || title == null || artist.isEmpty() || title.isEmpty()){
 			nonArtists.add(fileName);
-		} else if(artist != null && !artist.isEmpty()){
-			TreeSet<String> songList = songs.get(artist.toLowerCase());
-			if(songList == null){
-				songList = new TreeSet<String>();
-				songs.put(artist.toLowerCase(), songList);
-			}
-			title = processTitle(title);
-			//Song song = new Song(fullPath, artist, title, albom, year, length, bitRate);
-			if(songList.contains(title)){
-				System.out.println(fileName+" Song with this name already exist!");
+		} else {
+			Song song = new Song(fileName, artist, title);
+			
+			String artistId = getId(artist);
+			String titleId = getId(title);
+			
+			Map<String, Song> songs = artists.get(artistId);
+			if(songs == null){
+				songs = new TreeMap<String, Song>();
+				songs.put(titleId, song);
+				artists.put(artistId, songs);
 			}else{
-				songList.add(title);
+				if(songs.containsKey(titleId)){
+					System.out.println(fileName+" Song with this name already exist!");
+				}else{
+					songs.put(titleId, song);
+				}
 			}
 		}
 	}
 	
-	private String processTitle(String title){
-		return title.toLowerCase()
+	private String getId(String name){
+		return name.toLowerCase()
 				.replace(".", "")
 				.replace(",", "")
 				.replace("'", "")
@@ -39,16 +46,21 @@ public class MusicCollection {
 	public void printAll(){
 		int total = 1;
 		int artCount = 1;
-		for(String artist : songs.keySet()){
-			System.out.println("-------   "+artCount+". "+artist.toUpperCase()+"   --------");
-			artCount++;
-			TreeSet<String> list = songs.get(artist);
+		for(String artist : artists.keySet()){
+			Map<String, Song> map = artists.get(artist);
 			int count = 1;
-			for(String song : list){
-				System.out.println(total+". "+count+". "+song);
+			boolean firstSong = true;
+			for(String title : map.keySet()){
+				Song song = map.get(title);
+				if(firstSong){
+					System.out.println("-------   "+artCount+". "+song.artist.toUpperCase()+"   --------");
+					firstSong = false;
+				}
+				System.out.println(total+". "+count+". "+song.title);
 				count++;
 				total++;
 			}
+			artCount++;
 		}
 		System.out.println("-------   Non Artists Songs   --------");
 		for(String song : nonArtists){
@@ -60,54 +72,19 @@ public class MusicCollection {
 	}
 	
 	public int getNumberOFArtists(){
-		return songs.size();
+		return artists.size();
 	}
 	
-//	static class Song{
-//		private String fullPath;
-//		private String artist;
-//		private String title;
-//		private String albom;
-//		private String year;
-//		private int length;
-//		private int bitRate;
-//		
-//		public Song(String fullPath, String artist, String title, String albom, String year, int length, int bitRate){
-//			this.fullPath = fullPath;
-//			this.artist = artist;
-//			this.title = title;
-//			this.albom = albom;
-//			this.year = year;
-//			this.length = length;
-//			this.bitRate = bitRate;
-//		}
-//		
-//		public String getFullPath(){
-//			return fullPath;
-//		}
-//		
-//		public String getArtist(){
-//			return artist;
-//		}
-//		
-//		public String getTitle(){
-//			return title;
-//		}
-//		
-//		public String getAlbom(){
-//			return albom;
-//		}
-//		
-//		public String getYear(){
-//			return year;
-//		}
-//		
-//		public int getLength(){
-//			return length;
-//		}
-//		
-//		public int getBitRate(){
-//			return bitRate;
-//		}
-//	}
+}
+
+class Song{
+	String fileName;
+	String artist;
+	String title;
+	
+	public Song(String fileName, String artist, String title){
+		this.fileName = fileName;
+		this.artist = artist;
+		this.title = title;
+	}
 }
