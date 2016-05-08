@@ -1,11 +1,17 @@
 package com.musicbox;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 
 import org.jaudiotagger.audio.AudioFile;
 import org.jaudiotagger.audio.AudioFileIO;
@@ -29,8 +35,9 @@ public class MusicBox {
 	private ArrayList<String> artistFolders = new ArrayList<String>();
 	private HashMap<String, List<File>> nonFolderArtists = new HashMap<String, List<File>>();
 	private MusicCollection collection = new MusicCollection();
+	//private Console console;
 	
-	private File root;
+	private Path root;
 	
 	public static void main(String[] args){
 		MusicBox mb = new MusicBox();
@@ -40,15 +47,28 @@ public class MusicBox {
 	public void performe(){
 		System.out.println("-------------------- BEGIN --------------------------");
 		
-		root = new File(LINUX_PATH);
+		//console = System.console();
+		//if(console == null){
+		//	throw new RuntimeException("Console not available");
+		//}
+		
+		root = Paths.get(LINUX_PATH);
 		//root = new File(TEST_PATH);
-		if(!root.exists()){
-			root = new File(WINDOWS_PATH);
+		if(!Files.exists(root)){
+			root = Paths.get(WINDOWS_PATH);
 		}
-		if(root.isDirectory()){
-			scanDirectory(root);
-			
-			processDirectory(root);
+		if(Files.isDirectory(root)){
+			try {
+				Files.walk(root).filter(p -> Files.isDirectory(p)).forEach(this::scanDirectory);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
+			try {
+				Files.walk(root).filter(p -> Files.isRegularFile(p) && p.toString().endsWith(".mp3")).forEach(this::processFile);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 		
 		moveToSeparateFolder();
@@ -97,18 +117,12 @@ public class MusicBox {
 		}
 	}
 	
-	private void scanDirectory(File directory){
+	private void scanDirectory(Path directory){
 		String artistFolder = null;
-		if(!directory.getName().startsWith("All")){
-			artistFolder = directory.getName();
+		if(!directory.getFileName().startsWith("All")){
+			artistFolder = directory.getFileName().toString();
 			if(!artistFolders.contains(artistFolder.toLowerCase())){
 				artistFolders.add(artistFolder.toLowerCase());
-			}
-		}
-		File[] files = directory.listFiles();
-		for(File file : files){
-			if(file.isDirectory()){
-				scanDirectory(file);
 			}
 		}
 	}
@@ -141,46 +155,30 @@ public class MusicBox {
 		return info;
 	}
 	
-	
-	private void processDirectory(File directory){
-		String artistFolder = null;
-		if(!directory.getName().startsWith("All")){
-			artistFolder = directory.getName();
-		}
-		File[] files = directory.listFiles();
-		for(File file : files){
-			if(file.isDirectory()){
-				processDirectory(file);
-			}else if(file.getName().endsWith(".mp3")){
-				processFile(file, artistFolder);
-			}else{
-				System.out.println(file.getName()+" Non mp3 file!");
+	private Path findArtistFilder(Path rootDir, String folderName){
+		//Path result;
+		try {
+			Optional<Path> result = Files.find(rootDir, 10, (p,a)->p.toString().toLowerCase().equals(folderName)).findFirst();
+			if(result.isPresent()){
+				return result.get();
 			}
-		}
-	}
-	
-	private File findArtistFilder(File rootDir, String folderName){
-		File[] subDirs = rootDir.listFiles();
-		for(File dir : subDirs){
-			if(dir.isDirectory()){
-				if(dir.getName().toLowerCase().equals(folderName.toLowerCase())){
-					return dir;
-				}
-				File result = findArtistFilder(dir, folderName);
-				if(result != null){
-					return result;
-				}
-			}
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 		return null;
 	}
 	
-	private void processFile(File file, String folderArtist){
+	private void processFile(Path file){
 		fileNumbers++;
 		
-		String fileName = file.getName();
+		String folderArtist = file.getParent().getFileName().toString();
+		if(folderArtist.startsWith("All")){
+			folderArtist = null;
+		}
 		
-		if(!file.canWrite()){
+		String fileName = file.getFileName().toString();
+		
+		if(!Files.isWritable(file)){
 			System.out.println(fileName+" File is read-only!");
 			return;
 		}
@@ -194,7 +192,7 @@ public class MusicBox {
 		collection.addSong(fileName, fileNameInfo.artist, fileNameInfo.title);
 		
 		try {
-			AudioFile audioFile = AudioFileIO.read(file);
+			AudioFile audioFile = AudioFileIO.read(file.toFile());
 			Tag tag = audioFile.getTag();
 			if(tag == null){
 				System.out.println(fileName+" TAG is null! Creating a new one...");
@@ -224,10 +222,10 @@ public class MusicBox {
 			if(folderArtist == null){
 				if(artistFolders.contains(fileNameInfo.artist.toLowerCase())){
 					System.out.println(fileName+" Song in All forder, but there is a specific folder for this artist! Moving...");
-					File dir = findArtistFilder(root, fileNameInfo.artist.toLowerCase());
+					Path dir = findArtistFilder(root, fileNameInfo.artist.toLowerCase());
 					if(dir != null){
-						File newFile = new File(dir, fileNameInfo.artist.trim()+" - "+fileNameInfo.title.trim()+".mp3");
-						if(file.renameTo(newFile)){
+						File newFile = new File(dir.toFile(), fileNameInfo.artist.trim()+" - "+fileNameInfo.title.trim()+".mp3");
+						if(file.toFile().renameTo(newFile)){
 							System.out.println("File successfully moved!");
 						}else{
 							System.out.println("Error while moving the file!");
@@ -238,13 +236,13 @@ public class MusicBox {
 				}
 				if(nonFolderArtists.containsKey(fileNameInfo.artist.toLowerCase())){
 					List<File> files = nonFolderArtists.get(fileNameInfo.artist.toLowerCase());
-					files.add(file);
+					files.add(file.toFile());
 					if(files.size() > MAX_NUMBER_OF_FILES_IN_COMMON_FOLDER){
 						System.out.println(fileName+" Song in All forder, but there are more then 4 songs of this artist!");
 					}
 				}else{
 					List<File> files = new ArrayList<File>();
-					files.add(file);
+					files.add(file.toFile());
 					nonFolderArtists.put(fileNameInfo.artist.toLowerCase(), files);
 				}
 				
@@ -259,25 +257,17 @@ public class MusicBox {
 				System.out.println("3. Tags name - "+tagInfo.artist+" - "+tagInfo.title+".mp3");
 				System.out.println("4. Skip");
 				System.out.println("0. Exit");
-				System.out.print("Enter:");
+				String value = readLine("Enter:");
 				
-				int input = -1;
-				int ch;
-				while ((ch = System.in.read ()) != '\n'){
-					if((char)ch == '1'){
-						input = 1;
-					}else if((char)ch == '2'){
-						input = 2;
-					}else if((char)ch == '3'){
-						input = 3;
-					}else if((char)ch == '4'){
-						input = 4;
-					}else if((char)ch == '5'){
-						input = 5;
-					}else if((char)ch == '0'){
-						input = 0;
+				for(char ch : value.toCharArray()){
+					if(!Character.isDigit(ch)){
+						value = "0";
+						break;
 					}
 				}
+				
+				int input = Integer.parseInt(value);
+
 				System.out.println("Input - "+input);
 				
 				if(input == 1){
@@ -289,8 +279,8 @@ public class MusicBox {
 					} catch (CannotWriteException e) {
 						e.printStackTrace();
 					}
-					File newFile = new File(file.getParent(), tagInfo.artist.trim()+" - "+tagInfo.title.trim()+".mp3");
-					file.renameTo(newFile);
+					File newFile = new File(file.toFile().getParent(), tagInfo.artist.trim()+" - "+tagInfo.title.trim()+".mp3");
+					file.toFile().renameTo(newFile);
 				}else if(input == 2){
 					//tag = audioFile.createDefaultTag();
 					//audioFile.setTag(tag);
@@ -303,8 +293,8 @@ public class MusicBox {
 						e.printStackTrace();
 					}
 				}else if(input == 3){
-					File newFile = new File(file.getParent(), tagInfo.artist.trim()+" - "+tagInfo.title.trim()+".mp3");
-					file.renameTo(newFile);
+					File newFile = new File(file.toFile().getParent(), tagInfo.artist.trim()+" - "+tagInfo.title.trim()+".mp3");
+					file.toFile().renameTo(newFile);
 				}else if(input == 0){
 					System.exit(0);
 				}
@@ -315,6 +305,17 @@ public class MusicBox {
 				| InvalidAudioFrameException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	private String readLine(String format, Object... args) throws IOException {
+	    if (System.console() != null) {
+	    	System.console().flush();
+	        return System.console().readLine(format, args);
+	    }
+	    System.out.print(String.format(format, args));
+	    BufferedReader reader = new BufferedReader(new InputStreamReader(
+	            System.in));
+	    return reader.readLine();
 	}
 	
 	static class Information{
