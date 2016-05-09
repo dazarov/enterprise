@@ -1,15 +1,18 @@
 package com.musicbox;
 
+import java.io.BufferedWriter;
+import java.io.IOException;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
+import static com.musicbox.MusicBox.out;
 
 public class MusicCollection {
 	private Map<String, Map<String, Song>> artists = new TreeMap<>();
 	private Set<String> nonArtists = new TreeSet<>();
 	
-	public void addSong(String fileName, String artist, String title){
+	public void addSong(BufferedWriter logFile, String fileName, String artist, String title) throws IOException{
 		if(artist == null || title == null || artist.isEmpty() || title.isEmpty()){
 			nonArtists.add(fileName);
 		} else {
@@ -25,7 +28,7 @@ public class MusicCollection {
 				artists.put(artistId, songs);
 			}else{
 				if(songs.containsKey(titleId)){
-					System.out.println(fileName+" Song with this name already exist!");
+					out(logFile, fileName+" Song with this name already exist!");
 				}else{
 					songs.put(titleId, song);
 				}
@@ -39,11 +42,13 @@ public class MusicCollection {
 				.replace(",", "")
 				.replace("'", "")
 				.replace("-", "")
+				.replace("(", "")
+				.replace(")", "")
 				.replace("  ", " ")
 				.replace("  ", " ");
 	}
 	
-	public void printAll(){
+	public void printAll(BufferedWriter songList) throws IOException{
 		int total = 1;
 		int artCount = 1;
 		for(String artist : artists.keySet()){
@@ -53,18 +58,18 @@ public class MusicCollection {
 			for(String title : map.keySet()){
 				Song song = map.get(title);
 				if(firstSong){
-					System.out.println("-------   "+artCount+". "+song.artist.toUpperCase()+"   --------");
+					out(songList, "-------   "+artCount+". "+song.artist.toUpperCase()+"   --------");
 					firstSong = false;
 				}
-				System.out.println(total+". "+count+". "+song.title);
+				out(songList, total+". "+count+". "+song.title);
 				count++;
 				total++;
 			}
 			artCount++;
 		}
-		System.out.println("-------   Non Artists Songs   --------");
+		out(songList, "-------   Non Artists Songs   --------");
 		for(String song : nonArtists){
-			System.out.println(total+". "+song);
+			out(songList, total+". "+song);
 			total++;
 		}
 		
