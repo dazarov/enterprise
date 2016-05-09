@@ -1,7 +1,6 @@
 package com.musicbox;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.file.Files;
@@ -32,8 +31,8 @@ public class MusicBox {
 	
 	private int fileNumbers = 0;
 	private long totalLength = 0;
-	private ArrayList<String> artistFolders = new ArrayList<String>();
-	private HashMap<String, List<File>> nonFolderArtists = new HashMap<String, List<File>>();
+	private ArrayList<String> artistFolders = new ArrayList<>();
+	private HashMap<String, List<Path>> nonFolderArtists = new HashMap<>();
 	private MusicCollection collection = new MusicCollection();
 	//private Console console;
 	
@@ -89,29 +88,36 @@ public class MusicBox {
 	}
 	
 	private void moveToSeparateFolder(){
-		Collection<List<File>> collection = nonFolderArtists.values();
-		for(List<File> list : collection){
+		Collection<List<Path>> collection = nonFolderArtists.values();
+		for(List<Path> list : collection){
 			if(list.size() > MAX_NUMBER_OF_FILES_IN_COMMON_FOLDER){
-				File firstFile = list.get(0);
-				Information fileNameInfo = parseFromFileName(firstFile.getName());
+				Path firstFile = list.get(0);
+				Information fileNameInfo = parseFromFileName(firstFile.getFileName().toString());
 				String newFolderName = fileNameInfo.artist;
 				System.out.println("Creating folder for new artist - "+newFolderName);
-				File dir = firstFile.getParentFile().getParentFile();
-				File newDir = new File(dir.getPath()+"/"+newFolderName);
-				System.out.println("Path for new folder - "+newDir.getPath());
-				if(newDir.mkdir()){
-					System.out.println("Folder successfully created!");
-					for(File file : list){
-						File newFile = new File(newDir, file.getName());
-						System.out.println("Moving file into new filder - "+file.getName());
-						if(file.renameTo(newFile)){
+				Path dir = firstFile.getParent().getParent();
+				Path newDir = Paths.get(dir.toString(), newFolderName);
+				System.out.println("Path for new folder - "+newDir.toString());
+				if(!Files.exists(newDir)){
+					try {
+						Files.createDirectory(newDir);
+						System.out.println("Folder successfully created!");
+					} catch (IOException e1) {
+						System.out.println("Error while creating a folder!");
+						e1.printStackTrace();
+					}
+					
+					for(Path file : list){
+						Path newFile = Paths.get(newDir.toString(), file.getFileName().toString());
+						System.out.println("Moving file into new filder - "+file.getFileName());
+						try {
+							Files.move(file, newFile);
 							System.out.println("File successfully moved!");
-						}else{
+						} catch (IOException e) {
 							System.out.println("Error while moving the file!");
+							e.printStackTrace();
 						}
 					}
-				}else{
-					System.out.println("Error while creating a folder!");
 				}
 			}
 		}
@@ -156,7 +162,6 @@ public class MusicBox {
 	}
 	
 	private Path findArtistFilder(Path rootDir, String folderName){
-		//Path result;
 		try {
 			Optional<Path> result = Files.find(rootDir, 10, (p,a)->p.toString().toLowerCase().equals(folderName)).findFirst();
 			if(result.isPresent()){
@@ -224,25 +229,23 @@ public class MusicBox {
 					System.out.println(fileName+" Song in All forder, but there is a specific folder for this artist! Moving...");
 					Path dir = findArtistFilder(root, fileNameInfo.artist.toLowerCase());
 					if(dir != null){
-						File newFile = new File(dir.toFile(), fileNameInfo.artist.trim()+" - "+fileNameInfo.title.trim()+".mp3");
-						if(file.toFile().renameTo(newFile)){
-							System.out.println("File successfully moved!");
-						}else{
-							System.out.println("Error while moving the file!");
-						}
+						Path newFile = Paths.get(dir.toString(), fileNameInfo.artist.trim()+" - "+fileNameInfo.title.trim()+".mp3");
+						Files.move(file, newFile);
+						System.out.println("File successfully moved!");
+						//System.out.println("Error while moving the file!");
 					}else{
 						System.out.println("Internal error - folder not found!!!!");
 					}
 				}
 				if(nonFolderArtists.containsKey(fileNameInfo.artist.toLowerCase())){
-					List<File> files = nonFolderArtists.get(fileNameInfo.artist.toLowerCase());
-					files.add(file.toFile());
+					List<Path> files = nonFolderArtists.get(fileNameInfo.artist.toLowerCase());
+					files.add(file);
 					if(files.size() > MAX_NUMBER_OF_FILES_IN_COMMON_FOLDER){
 						System.out.println(fileName+" Song in All forder, but there are more then 4 songs of this artist!");
 					}
 				}else{
-					List<File> files = new ArrayList<File>();
-					files.add(file.toFile());
+					List<Path> files = new ArrayList<>();
+					files.add(file);
 					nonFolderArtists.put(fileNameInfo.artist.toLowerCase(), files);
 				}
 				
@@ -279,8 +282,8 @@ public class MusicBox {
 					} catch (CannotWriteException e) {
 						e.printStackTrace();
 					}
-					File newFile = new File(file.toFile().getParent(), tagInfo.artist.trim()+" - "+tagInfo.title.trim()+".mp3");
-					file.toFile().renameTo(newFile);
+					Path newFile = Paths.get(file.getParent().toString(), tagInfo.artist.trim()+" - "+tagInfo.title.trim()+".mp3");
+					Files.move(file, newFile);
 				}else if(input == 2){
 					//tag = audioFile.createDefaultTag();
 					//audioFile.setTag(tag);
@@ -293,8 +296,8 @@ public class MusicBox {
 						e.printStackTrace();
 					}
 				}else if(input == 3){
-					File newFile = new File(file.toFile().getParent(), tagInfo.artist.trim()+" - "+tagInfo.title.trim()+".mp3");
-					file.toFile().renameTo(newFile);
+					Path newFile = Paths.get(file.getParent().toString(), tagInfo.artist.trim()+" - "+tagInfo.title.trim()+".mp3");
+					Files.move(file, newFile);
 				}else if(input == 0){
 					System.exit(0);
 				}
