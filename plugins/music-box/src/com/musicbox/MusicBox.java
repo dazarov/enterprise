@@ -163,7 +163,7 @@ public class MusicBox {
 	
 	private Path findArtistFilder(Path rootDir, String folderName){
 		try {
-			Optional<Path> result = Files.find(rootDir, 10, (p,a)->p.toString().toLowerCase().equals(folderName)).findFirst();
+			Optional<Path> result = Files.find(rootDir, 10, (p,a)->p.getFileName().toString().toLowerCase().equals(folderName)).findFirst();
 			if(result.isPresent()){
 				return result.get();
 			}
