@@ -54,8 +54,8 @@ public class MusicBox {
 		//}
 		
 		try(
-				BufferedWriter log = Files.newBufferedWriter(Paths.get(LOG_FILE));
-				BufferedWriter song_list = Files.newBufferedWriter(Paths.get(SONG_LIST_FILE));
+			BufferedWriter log = Files.newBufferedWriter(Paths.get(LOG_FILE));
+			BufferedWriter song_list = Files.newBufferedWriter(Paths.get(SONG_LIST_FILE));
 		){
 		
 			root = Paths.get(LINUX_PATH);
@@ -64,9 +64,11 @@ public class MusicBox {
 				root = Paths.get(WINDOWS_PATH);
 			}
 			if(Files.isDirectory(root)){
-				Files.walk(root).filter(p -> Files.isDirectory(p)).forEach(this::scanDirectory);
+				//Files.walk(root).filter(p -> Files.isDirectory(p)).forEach(this::scanDirectory);
+				Files.find(root, 20, (p,a)-> a.isDirectory()).forEach(this::scanDirectory);
 	
-				Files.walk(root).filter(p -> Files.isRegularFile(p) && p.toString().endsWith(".mp3")).forEach(p -> processFile(log, p));
+				//Files.walk(root).filter(p -> Files.isRegularFile(p) && p.toString().endsWith(".mp3")).forEach(p -> processFile(log, p));
+				Files.find(root, 20, (p,a)-> a.isRegularFile() && p.toString().endsWith(".mp3")).forEach(p -> processFile(log, p));
 			}
 			
 			moveToSeparateFolder(log);
@@ -153,7 +155,7 @@ public class MusicBox {
 	
 	private Path findArtistFilder(Path rootDir, String folderName){
 		try {
-			Optional<Path> result = Files.find(rootDir, 10, (p,a)->p.getFileName().toString().toLowerCase().equals(folderName)).findFirst();
+			Optional<Path> result = Files.find(rootDir, 20, (p,a)->p.getFileName().toString().toLowerCase().equals(folderName)).findFirst();
 			if(result.isPresent()){
 				return result.get();
 			}
