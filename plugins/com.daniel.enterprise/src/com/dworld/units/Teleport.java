@@ -60,6 +60,6 @@ public class Teleport extends ActiveUnit implements ISlow {
 	}
 
 	private Location getPoint() {
-		return new Location(getLocation().getX(), getLocation().getY() + 1);
+		return getLocation().move(0, 1);
 	}
 }

@@ -1,17 +1,17 @@
 package com.daniel.algorithms;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 public class StringUtils {
 	public static List<String> getMostPopularStringsJava7(List<String> strings, int number){
-		HashMap<String, Integer> stringMap = new HashMap<String, Integer>();
+		Map<String, Integer> stringMap = new HashMap<>();
 		
 		for(String str : strings){
 			Integer counter = stringMap.get(str);
@@ -22,7 +22,7 @@ public class StringUtils {
 			}
 		}
 		
-		HashMap<Integer, List<String>> countMap = new HashMap<Integer, List<String>>();
+		Map<Integer, List<String>> countMap = new TreeMap<>(Collections.reverseOrder());
 		
 		for(String str : stringMap.keySet()){
 			Integer count = stringMap.get(str);
@@ -37,14 +37,10 @@ public class StringUtils {
 			}
 		}
 		
-		Integer[] counts = countMap.keySet().toArray(new Integer[]{});
+		List<String> result = new ArrayList<>();
 		
-		Arrays.sort(counts);
-		
-		ArrayList<String> result = new ArrayList<String>();
-		
-		for(int i = counts.length - 1; i >= 0; i--){
-			List<String> list = countMap.get(counts[i]);
+		for(Integer count : countMap.keySet()){
+			List<String> list = countMap.get(count);
 			for(String str : list){
 				result.add(str);
 				if(result.size() == number){
@@ -57,7 +53,7 @@ public class StringUtils {
 	}
 	
 	public static List<String> getMostPopularStringsJava8_old(List<String> strings, int number){
-		ArrayList<String> result = new ArrayList<String>(number);
+		List<String> result = new ArrayList<>(number);
 		
 		Set<String> set = strings.stream()
 	            .collect(Collectors.toSet());
@@ -77,7 +73,7 @@ public class StringUtils {
 	}
 	
 	public static List<String> getMostPopularStringsJava8_old2(List<String> strings, int number){
-		ArrayList<String> result = new ArrayList<String>(number);
+		List<String> result = new ArrayList<String>(number);
 		
 		strings.stream()
 	        .collect(Collectors.toMap(str -> str, str -> Collections.frequency(strings, str), (s1, s2) -> s1))
@@ -91,7 +87,7 @@ public class StringUtils {
 	}
 	
 	public static List<String> getMostPopularStringsJava8_old3(List<String> strings, int number){
-		ArrayList<String> result = new ArrayList<String>(number);
+		List<String> result = new ArrayList<String>(number);
 		
 		strings.stream()
 			.distinct()
