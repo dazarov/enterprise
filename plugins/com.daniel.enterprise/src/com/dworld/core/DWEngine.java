@@ -3,11 +3,13 @@ package com.dworld.core;
 import java.awt.Frame;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import com.dworld.DWLauncher;
 import com.dworld.ui.DWMap;
 
-public class DWEngine extends Thread{
+public class DWEngine {
 	private static final long MAIN_DELAY = 60;
 	private static final long SLEEP_DELAY = 100;
 	private static final int minimapRefreshRate = 10;
@@ -18,11 +20,11 @@ public class DWEngine extends Thread{
 		return instance;
 	}
 	
-	private ArrayList<ISlow> slowUnits = new ArrayList<ISlow>();
-	private ArrayList<IActive> activeUnits = new ArrayList<IActive>();
-	private ArrayList<IActive> toDelete = new ArrayList<IActive>();
+	private List<ISlow> slowUnits = new ArrayList<>();
+	private List<IActive> activeUnits = new ArrayList<>();
+	private List<IActive> toDelete = new ArrayList<>();
 	
-	private HashMap<Location, IUnit> allUnits = new HashMap<>();
+	private Map<Location, IUnit> allUnits = new HashMap<>();
 	
 	private long frameID = 0;
 	
@@ -77,7 +79,7 @@ public class DWEngine extends Thread{
 				
 				if(delay > 0){
 					try {
-						sleep(delay);
+						Thread.sleep(delay);
 					} catch (Exception ex) {
 						ex.printStackTrace();
 						return;
@@ -88,7 +90,7 @@ public class DWEngine extends Thread{
 				current = 0;
 				time = 0;
 				try {
-					sleep(SLEEP_DELAY);
+					Thread.sleep(SLEEP_DELAY);
 				} catch (Exception ex) {
 					ex.printStackTrace();
 					return;

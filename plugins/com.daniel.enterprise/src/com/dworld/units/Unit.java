@@ -1,6 +1,5 @@
 package com.dworld.units;
 
-import java.awt.Point;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -114,6 +113,11 @@ public abstract class Unit implements IUnit{
 	@Override
 	public void init(){
 		
+	}
+	
+	@Override
+	public String toString(){
+		return "Unit "+this.getClass()+" at "+location;
 	}
 	
 	abstract public void command(int commandId, Object[] args);

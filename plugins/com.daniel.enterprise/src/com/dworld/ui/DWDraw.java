@@ -3,11 +3,11 @@ package com.dworld.ui;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.Point;
 import java.awt.Rectangle;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.ImageIcon;
 
@@ -20,7 +20,7 @@ import com.dworld.units.ControlledUnit;
 
 public class DWDraw {
 	private static int startX = 0, startY = 0;
-	private static HashMap<Integer, Image> images = new HashMap<Integer, Image>();
+	private static Map<Integer, Image> images = new HashMap<>();
 	private static ControlledUnit unit = null;
 
 	static {

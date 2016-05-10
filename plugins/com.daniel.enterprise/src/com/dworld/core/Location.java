@@ -2,7 +2,6 @@ package com.dworld.core;
 
 /**
  * Immutable location
- * @author daniel
  *
  */
 public final class Location {
@@ -48,5 +47,10 @@ public final class Location {
         bits ^= java.lang.Double.doubleToLongBits(getY()) * 31;
         return (((int) bits) ^ ((int) (bits >> 32)));
     }
+	
+	@Override
+	public String toString(){
+		return "Location ["+x+", "+y+"]";
+	}
 	
 }
