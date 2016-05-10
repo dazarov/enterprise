@@ -17,8 +17,8 @@ public abstract class Unit implements IUnit{
 	
 	public static final int EXTERNAL_COMMAND_STAY			= 3;
 	public static final int EXTERNAL_COMMAND_MOVE_AROUND 	= 4;
-	public static final int EXTERNAL_COMMAND_MOVE_TO		= 5; // Point should be used as an argument
-	public static final int EXTERNAL_COMMAND_ATTACK			= 6; // Point should be used as an argument
+	public static final int EXTERNAL_COMMAND_MOVE_TO		= 5; // Location should be used as an argument
+	public static final int EXTERNAL_COMMAND_ATTACK			= 6; // Location should be used as an argument
 	public static final int EXTERNAL_COMMAND_PATROL			= 7;
 	public static final int EXTERNAL_COMMAND_DEFENSE		= 8;
 	

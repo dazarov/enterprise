@@ -2,6 +2,7 @@ package com.dworld.core;
 
 import java.lang.reflect.Constructor;
 import java.util.HashMap;
+import java.util.Map;
 
 import com.dworld.units.Gate;
 import com.dworld.units.Teleport;
@@ -24,7 +25,7 @@ import com.dworld.units.railroad.WarTrain;
 import com.dworld.units.weapon.Mine;
 
 public class DWUnitFactory {
-	private static HashMap<Integer, Class<? extends Unit>> unitMap = new HashMap<Integer, Class<? extends Unit>>();
+	private static Map<Integer, Class<? extends Unit>> unitMap = new HashMap<>();
 	static{
 		unitMap.put(Land.BadSoldier, BadSoldier.class);
 		unitMap.put(Land.BadSoldier_Grass, BadSoldier.class);
@@ -165,6 +166,7 @@ public class DWUnitFactory {
 				unit = constructor.newInstance(new Object[]{x, y, code});
 			} catch (Exception e) {
 				System.out.println("Could not create instance of "+unitClass.toString());
+				e.printStackTrace();
 			}
 		}
 		

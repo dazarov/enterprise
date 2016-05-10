@@ -23,7 +23,7 @@ public class SelectionManager {
 	}
 	
 	public static void clearSelection(){
-		synchronized(selectedArea){
+		synchronized(SelectionManager.class){
 			selectedArea = NULL_RECTANGLE;
 			selectedUnits.clear();
 			startLine = endLine = null;
@@ -31,20 +31,23 @@ public class SelectionManager {
 	}
 	
 	public static Rectangle getSelectedArea(){
-		synchronized(selectedArea){
+		synchronized(SelectionManager.class){
 			return (Rectangle)selectedArea.clone();
 		}
 	}
 	
 	public static void setSelectedArea(Rectangle rectangle){
-		synchronized(selectedArea){
+		if(rectangle == null){
+			throw new IllegalArgumentException("Rectangle must not be null");
+		}
+		synchronized(SelectionManager.class){
 			selectedArea = rectangle;
 			startLine = endLine = null;
 		}
 	}
 	
 	public static void setSelectedLine(Location start, Location end){
-		synchronized(selectedArea){
+		synchronized(SelectionManager.class){
 			selectedArea = NULL_RECTANGLE;
 			selectedUnits.clear();
 			startLine = start;
@@ -98,7 +101,7 @@ public class SelectionManager {
 	}
 	
 	public static void select(){
-		synchronized(selectedArea){
+		synchronized(SelectionManager.class){
 			if(selectedArea != NULL_RECTANGLE){
 				for(int x = selectedArea.x; x < selectedArea.x + selectedArea.width; x++){
 					for(int y = selectedArea.y; y < selectedArea.y + selectedArea.height; y++){
@@ -125,7 +128,7 @@ public class SelectionManager {
 	}
 	
 	public static void modifySelection(int deltaX, int deltaY, int deltaWidth, int deltaHeight){
-		synchronized(selectedArea){
+		synchronized(SelectionManager.class){
 			if(selectedArea != NULL_RECTANGLE){
 				selectedArea.x += deltaX;
 				if(selectedArea.x < 0){
@@ -152,13 +155,13 @@ public class SelectionManager {
 	
 	
 	public static void copy(){
-		synchronized(selectedArea){
+		synchronized(SelectionManager.class){
 			copiedArea = selectedArea;
 		}
 	}
 
 	public static void delete(){
-		synchronized(selectedArea){
+		synchronized(SelectionManager.class){
 			if(selectedArea != NULL_RECTANGLE){
 				for(int x = selectedArea.x; x < selectedArea.x + selectedArea.width; x++){
 					for(int y = selectedArea.y; y < selectedArea.y + selectedArea.height; y++){
@@ -171,7 +174,7 @@ public class SelectionManager {
 	}
 
 	public static void paste(){
-		synchronized(selectedArea){
+		synchronized(SelectionManager.class){
 			if(copiedArea != NULL_RECTANGLE && selectedArea != null && !copiedArea.intersects(selectedArea)){
 				Location copyTo = new Location(selectedArea.x, selectedArea.y);
 				int newX = copyTo.getX(), newY = copyTo.getY();
@@ -193,7 +196,7 @@ public class SelectionManager {
 	}
 	
 	public static void turnRight(){
-		synchronized(selectedArea){
+		synchronized(SelectionManager.class){
 			if(selectedArea != NULL_RECTANGLE){
 				ArrayList<Location> doneList = new ArrayList<Location>();
 				for(int x = selectedArea.x; x < selectedArea.x+selectedArea.width; x++){
@@ -222,7 +225,7 @@ public class SelectionManager {
 	}
 	
 	public static void turnLeft(){
-		synchronized(selectedArea){
+		synchronized(SelectionManager.class){
 			if(selectedArea != NULL_RECTANGLE){
 				ArrayList<Location> doneList = new ArrayList<Location>();
 				for(int x = selectedArea.x; x < selectedArea.x+selectedArea.width; x++){
@@ -251,7 +254,7 @@ public class SelectionManager {
 	}
 
 	public static void flipVertically(){
-		synchronized(selectedArea){
+		synchronized(SelectionManager.class){
 			if(selectedArea != NULL_RECTANGLE){
 				for(int x = selectedArea.x; x < selectedArea.x+selectedArea.width; x++){
 					for(int y = selectedArea.y; y < (selectedArea.y+selectedArea.height/2); y++){
@@ -268,7 +271,7 @@ public class SelectionManager {
 	}
 	
 	public static void flipHorizontally(){
-		synchronized(selectedArea){
+		synchronized(SelectionManager.class){
 			if(selectedArea != NULL_RECTANGLE){
 				for(int x = selectedArea.x; x < (selectedArea.x+selectedArea.width/2); x++){
 					for(int y = selectedArea.y; y < (selectedArea.y+selectedArea.height); y++){
@@ -285,7 +288,7 @@ public class SelectionManager {
 	}
 	
 	public static void moveUp(){
-		synchronized(selectedArea){
+		synchronized(SelectionManager.class){
 			if(selectedArea != NULL_RECTANGLE){
 				for(int y = selectedArea.y; y < selectedArea.y+selectedArea.height; y++){
 					for(int x = selectedArea.x; x < selectedArea.x+selectedArea.width; x++){
@@ -303,7 +306,7 @@ public class SelectionManager {
 	}
 
 	public static void moveDown(){
-		synchronized(selectedArea){
+		synchronized(SelectionManager.class){
 			if(selectedArea != NULL_RECTANGLE){
 				for(int y = selectedArea.y+selectedArea.height-1; y >= selectedArea.y; y--){
 					for(int x = selectedArea.x; x < selectedArea.x+selectedArea.width; x++){
@@ -321,7 +324,7 @@ public class SelectionManager {
 	}
 	
 	public static void moveLeft(){
-		synchronized(selectedArea){
+		synchronized(SelectionManager.class){
 			if(selectedArea != NULL_RECTANGLE){
 				for(int x = selectedArea.x; x < selectedArea.x+selectedArea.width; x++){
 					for(int y = selectedArea.y; y < selectedArea.y+selectedArea.height; y++){
@@ -339,7 +342,7 @@ public class SelectionManager {
 	}
 	
 	public static void moveRight(){
-		synchronized(selectedArea){
+		synchronized(SelectionManager.class){
 			if(selectedArea != NULL_RECTANGLE){
 				for(int x = selectedArea.x+selectedArea.width-1; x >= selectedArea.x; x--){
 					for(int y = selectedArea.y; y < selectedArea.y+selectedArea.height; y++){

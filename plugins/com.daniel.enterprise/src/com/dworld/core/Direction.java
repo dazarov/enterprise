@@ -216,22 +216,22 @@ public enum Direction {
 		
 		@Override
 		public Direction getClockwiseDirection() {
-			return NOWHERE;
+			throw new UnsupportedOperationException("Nowhere direction does not support getClockwiseDirection");
 		}
 		
 		@Override
 		public Direction getAnticlockwiseDirection() {
-			return NOWHERE;
+			throw new UnsupportedOperationException("Nowhere direction does not support getAnticlockwiseDirection");
 		}
 		
 		@Override
 		public Direction getOppositeDirection() {
-			return NOWHERE;
+			throw new UnsupportedOperationException("Nowhere direction does not support getOppositeDirection");
 		}
 		
 		@Override
 		public Location getNewLocation(Location location) {
-			return location;
+			throw new UnsupportedOperationException("Nowhere direction does not support getNewLocation");
 		}
 	};
 

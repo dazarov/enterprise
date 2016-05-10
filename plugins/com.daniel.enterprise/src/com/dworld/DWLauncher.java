@@ -323,7 +323,7 @@ public class DWLauncher implements KeyListener, MouseListener, MouseMotionListen
 				}
 				
 				selectedPoint = null;
-				SelectionManager.setSelectedArea(null);
+				SelectionManager.setSelectedArea(SelectionManager.NULL_RECTANGLE);
 			}
 			return;
 		}else if(isRect()){
