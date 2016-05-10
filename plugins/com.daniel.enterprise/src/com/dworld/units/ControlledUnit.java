@@ -1,18 +1,18 @@
 package com.dworld.units;
 
-import java.awt.Point;
 import java.util.List;
 
 import com.dworld.core.DWConstants;
 import com.dworld.core.DWUnitFactory;
 import com.dworld.core.Direction;
 import com.dworld.core.Land;
+import com.dworld.core.Location;
 import com.dworld.units.weapon.Rocket;
 
 public class ControlledUnit extends MovableUnit {
 	protected int key = -1;
 	protected int modifier = 0;
-	protected Point drawPosition = new Point(0,0);
+	protected Location drawPosition = new Location(0,0);
 	protected double currentSpeed = DWConstants.STOP_SPEED;
 	protected boolean fightActive = false;
 	protected boolean defenseActive = true;
@@ -46,38 +46,38 @@ public class ControlledUnit extends MovableUnit {
 		if(modifier == 1){
 			switch(key){
 			case 37: // Left
-				drawPosition.x -= 5;
+				drawPosition = drawPosition.move(-5, 0);//x -= 5;
 				break;
 
 			case 38: // Up
-				drawPosition.y -= 5;
+				drawPosition = drawPosition.move(0, -5);//y -= 5;
 				break;
 
 			case 39: // Right
-				drawPosition.x += 5;
+				drawPosition = drawPosition.move(5, 0);//x += 5;
 				break;
 
 			case 40: // Down
-				drawPosition.y += 5;
+				drawPosition = drawPosition.move(0, 5);//y += 5;
 				break;
 			}
 			return;
 		}else if(modifier == 2){
 				switch(key){
 				case 37: // Left
-					drawPosition.x -= 1;
+					drawPosition = drawPosition.move(-1,0);//x -= 1;
 					break;
 
 				case 38: // Up
-					drawPosition.y -= 1;
+					drawPosition = drawPosition.move(0,-1);//y -= 1;
 					break;
 
 				case 39: // Right
-					drawPosition.x += 1;
+					drawPosition = drawPosition.move(1,0);//x += 1;
 					break;
 
 				case 40: // Down
-					drawPosition.y += 1;
+					drawPosition = drawPosition.move(0,1);//y += 1;
 					break;
 				}
 				return;
@@ -90,9 +90,9 @@ public class ControlledUnit extends MovableUnit {
 			this.key = key;
 	}
 	
-	public Point getDrawPosition(){
+	public Location getDrawPosition(){
 		if(modifier == 0){
-			drawPosition = (Point)getLocation().clone();
+			drawPosition = getLocation();
 			return getLocation();
 		}else{
 			return drawPosition;
@@ -311,8 +311,8 @@ public class ControlledUnit extends MovableUnit {
 				
 			case 84: // t
 				
-				Land.setLand(getLocation().x, getLocation().y-1, Land.Teleport5);
-				DWUnitFactory.createUnit(Land.Teleport5, getLocation().x, getLocation().y-1);
+				Land.setLand(getLocation().getX(), getLocation().getY()-1, Land.Teleport5);
+				DWUnitFactory.createUnit(Land.Teleport5, getLocation().getX(), getLocation().getY()-1);
 				break;
 
 			case 67: // c

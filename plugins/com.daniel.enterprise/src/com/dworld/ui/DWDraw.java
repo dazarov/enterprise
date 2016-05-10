@@ -14,6 +14,7 @@ import javax.swing.ImageIcon;
 import com.dworld.DWLauncher;
 import com.dworld.core.DWConstants;
 import com.dworld.core.Land;
+import com.dworld.core.Location;
 import com.dworld.core.SelectionManager;
 import com.dworld.units.ControlledUnit;
 
@@ -614,20 +615,20 @@ public class DWDraw {
 		}
 	}
 
-	private static void calculateLocation(Point location) {
-		if (location.x < 24)
+	private static void calculateLocation(Location location) {
+		if (location.getX() < 24)
 			startX = 0;
-		else if (location.x > Land.getMaxX() - 26)
+		else if (location.getX() > Land.getMaxX() - 26)
 			startX = Land.getMaxX() - 49;
 		else
-			startX = location.x - 23;
+			startX = location.getX() - 23;
 
-		if (location.y < 24)
+		if (location.getY() < 24)
 			startY = 0;
-		else if (location.y > Land.getMaxY() - 26)
+		else if (location.getY() > Land.getMaxY() - 26)
 			startY = Land.getMaxY() - 49;
 		else
-			startY = location.y - 23;
+			startY = location.getY() - 23;
 	}
 	
 	private static int code;
@@ -650,11 +651,11 @@ public class DWDraw {
 			g.setColor(Color.yellow);
 			g.drawRect((area.x-startX)*DWConstants.UI_IMAGE_WIDTH, (area.y-startY)*DWConstants.UI_IMAGE_HEIGHT, area.width*DWConstants.UI_IMAGE_WIDTH-1, area.height*DWConstants.UI_IMAGE_HEIGHT-1);
 		}
-		ArrayList<Point> elements = SelectionManager.getSelectedLine();
+		ArrayList<Location> elements = SelectionManager.getSelectedLine();
 		if(elements != null){
 			g.setColor(Color.yellow);
-			for(Point point : elements){
-				g.drawRect((point.x-startX)*DWConstants.UI_IMAGE_WIDTH, (point.y-startY)*DWConstants.UI_IMAGE_HEIGHT, DWConstants.UI_IMAGE_WIDTH-1, DWConstants.UI_IMAGE_HEIGHT-1);
+			for(Location point : elements){
+				g.drawRect((point.getX()-startX)*DWConstants.UI_IMAGE_WIDTH, (point.getY()-startY)*DWConstants.UI_IMAGE_HEIGHT, DWConstants.UI_IMAGE_WIDTH-1, DWConstants.UI_IMAGE_HEIGHT-1);
 			}
 		}
 	}

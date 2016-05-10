@@ -1,9 +1,7 @@
 package com.dworld;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -26,6 +24,7 @@ import com.dworld.core.DWEngine;
 import com.dworld.core.DWUnitFactory;
 import com.dworld.core.IUnit;
 import com.dworld.core.Land;
+import com.dworld.core.Location;
 import com.dworld.core.SelectionManager;
 import com.dworld.ui.DWDraw;
 import com.dworld.ui.DWMap;
@@ -77,11 +76,17 @@ public class DWLauncher implements KeyListener, MouseListener, MouseMotionListen
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		launcher = new DWLauncher();
-
-		launcher.init();
+		boolean start = false;
 		
-		launcher.start();
+		assert start = true;
+		
+		if(start){
+			launcher = new DWLauncher();
+	
+			launcher.init();
+			
+			launcher.start();
+		}
 	}
 	
 	public static String getPath(){
@@ -288,10 +293,10 @@ public class DWLauncher implements KeyListener, MouseListener, MouseMotionListen
 
 	int button;
 
-	Point selectedPoint = null;
+	Location selectedPoint = null;
 	
-	private Point getLocation(int mouseX, int mouseY){
-		return new Point(
+	private Location getLocation(int mouseX, int mouseY){
+		return new Location(
 			DWDraw.getX() + (mouseX - 3) / DWConstants.UI_IMAGE_WIDTH,
 			DWDraw.getY() + mouseY / DWConstants.UI_IMAGE_HEIGHT
 		);
@@ -301,14 +306,13 @@ public class DWLauncher implements KeyListener, MouseListener, MouseMotionListen
 	public void mousePressed(MouseEvent e) {
 		button = e.getButton();
 		
-		Point location = getLocation(e.getX(), e.getY());
+		Location location = getLocation(e.getX(), e.getY());
 
 		if (!buildMode) { // selection mode
 			if (e.getButton() == MouseEvent.BUTTON1) {
 				SelectionManager.clearSelection();
 				selectedPoint = location;
-				SelectionManager.setSelectedArea(new Rectangle(selectedPoint,
-						new Dimension(1, 1)));
+				SelectionManager.setSelectedArea(new Rectangle(selectedPoint.getX(), selectedPoint.getY(), 1, 1));
 			} else {
 				if(!SelectionManager.sendDefaultCommand(location)){
 					if(attack_mode){
@@ -325,8 +329,7 @@ public class DWLauncher implements KeyListener, MouseListener, MouseMotionListen
 		}else if(isRect()){
 			SelectionManager.clearSelection();
 			selectedPoint = location;
-			SelectionManager.setSelectedArea(new Rectangle(selectedPoint,
-					new Dimension(1, 1)));
+			SelectionManager.setSelectedArea(new Rectangle(selectedPoint.getX(), selectedPoint.getY(), 1, 1));
 		}else if(isLine()){
 				SelectionManager.clearSelection();
 				selectedPoint = location;
@@ -334,7 +337,7 @@ public class DWLauncher implements KeyListener, MouseListener, MouseMotionListen
 		}else if(isBrush()){
 			if (e.getButton() == MouseEvent.BUTTON1){
 				Land.setLand(location, selectedElement);
-				DWUnitFactory.createUnit(selectedElement, location.x, location.y);
+				DWUnitFactory.createUnit(selectedElement, location.getX(), location.getY());
 			}else{
 				IUnit unit = DWEngine.getEngine().findUnit(location);
 				if(unit != null){
@@ -374,16 +377,16 @@ public class DWLauncher implements KeyListener, MouseListener, MouseMotionListen
 				for(int x = rectangle.x; x < rectangle.x+rectangle.width; x++){
 					for(int y = rectangle.y; y < rectangle.y+rectangle.height; y++){
 						if (e.getButton() == MouseEvent.BUTTON1)
-							Land.setLand(new Point(x, y), selectedElement);
+							Land.setLand(new Location(x, y), selectedElement);
 						else
-							Land.setLand(new Point(x, y), Land.Empty);
+							Land.setLand(new Location(x, y), Land.Empty);
 					}
 				}
 				setModified();
 			}else if(isLine()){
-				ArrayList<Point> points = SelectionManager.getSelectedLine();
+				ArrayList<Location> points = SelectionManager.getSelectedLine();
 				if(points != null){
-					for(Point point : points){
+					for(Location point : points){
 						if (e.getButton() == MouseEvent.BUTTON1){
 							Land.setLand(point, selectedElement);
 						}else{
@@ -393,12 +396,12 @@ public class DWLauncher implements KeyListener, MouseListener, MouseMotionListen
 				}
 				setModified();
 			}else if(isFill()){
-				Point location = getLocation(e.getX(), e.getY());
+				Location location = getLocation(e.getX(), e.getY());
 				int oldCode = Land.getLand(location);
 				if (e.getButton() == MouseEvent.BUTTON1){
-					fill(location.x, location.y, oldCode, selectedElement);
+					fill(location.getX(), location.getY(), oldCode, selectedElement);
 				}else{
-					fill(location.x, location.y, oldCode, Land.Empty);
+					fill(location.getX(), location.getY(), oldCode, Land.Empty);
 				}
 				
 				setModified();
@@ -447,35 +450,35 @@ public class DWLauncher implements KeyListener, MouseListener, MouseMotionListen
 	@Override
 	public void mouseDragged(MouseEvent e) {
 
-		Point location = getLocation(e.getX(), e.getY());
-		if (lastX == location.x && lastY == location.y)
+		Location location = getLocation(e.getX(), e.getY());
+		if (lastX == location.getX() && lastY == location.getY())
 			return;
-		lastX = location.x;
-		lastY = location.y;
+		lastX = location.getX();
+		lastY = location.getY();
 		if (!isBuildMode() || isRect()) {
 			if (selectedPoint != null) {
 				int topX, topY, width, height;
 
-				if (location.x < selectedPoint.x) {
-					topX = location.x;
-					width = selectedPoint.x - location.x + 1;
-				} else if (location.x == selectedPoint.x) {
-					topX = location.x;
+				if (location.getX() < selectedPoint.getX()) {
+					topX = location.getX();
+					width = selectedPoint.getX() - location.getX() + 1;
+				} else if (location.getX() == selectedPoint.getX()) {
+					topX = location.getX();
 					width = 1;
 				} else {
-					topX = selectedPoint.x;
-					width = location.x - selectedPoint.x + 1;
+					topX = selectedPoint.getX();
+					width = location.getX() - selectedPoint.getX() + 1;
 				}
 
-				if (location.y < selectedPoint.y) {
-					topY = location.y;
-					height = selectedPoint.y - location.y + 1;
-				} else if (location.y == selectedPoint.y) {
-					topY = location.y;
+				if (location.getY() < selectedPoint.getY()) {
+					topY = location.getY();
+					height = selectedPoint.getY() - location.getY() + 1;
+				} else if (location.getY() == selectedPoint.getY()) {
+					topY = location.getY();
 					height = 1;
 				} else {
-					topY = selectedPoint.y;
-					height = location.y - selectedPoint.y + 1;
+					topY = selectedPoint.getY();
+					height = location.getY() - selectedPoint.getY() + 1;
 				}
 
 				SelectionManager.setSelectedArea(new Rectangle(topX, topY,
@@ -500,9 +503,9 @@ public class DWLauncher implements KeyListener, MouseListener, MouseMotionListen
 	}
 	
 	private void fill(int x, int y, int oldCode, int newCode){
-		if(SelectionManager.getSelectedArea() != SelectionManager.NULL_RECTANGLE && SelectionManager.getSelectedArea().contains(new Point(x,y))){
+		if(SelectionManager.getSelectedArea() != SelectionManager.NULL_RECTANGLE && SelectionManager.getSelectedArea().contains(x,y)){
 			for(int x1 = SelectionManager.getSelectedArea().x; x1 < SelectionManager.getSelectedArea().x + SelectionManager.getSelectedArea().width; x1++){
-				for(int y1 = SelectionManager.getSelectedArea().y; y1 < SelectionManager.getSelectedArea().y + SelectionManager.getSelectedArea().height; y1++){
+				for(int y1 = SelectionManager.getSelectedArea().y; y1 < SelectionManager.getSelectedArea().getY() + SelectionManager.getSelectedArea().height; y1++){
 					int code = Land.getLand(x1, y1);
 					if(code == oldCode){
 						Land.setLand(x1, y1, newCode);

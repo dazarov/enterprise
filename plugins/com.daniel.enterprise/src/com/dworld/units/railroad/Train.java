@@ -1,11 +1,11 @@
 package com.dworld.units.railroad;
 
-import java.awt.Point;
 import java.util.List;
 
 import com.dworld.core.DWConstants;
 import com.dworld.core.Direction;
 import com.dworld.core.Land;
+import com.dworld.core.Location;
 import com.dworld.units.MovableUnit;
 
 
@@ -207,9 +207,9 @@ public class Train extends MovableUnit {
 		return beneath;
 	}
 	
-	private static final Point defaultPoint = new Point(0,0);
+	private static final Location defaultPoint = new Location(0,0);
 	
-	private Point stationLocation = defaultPoint;
+	private Location stationLocation = defaultPoint;
 	
 	protected void searchForStation(){
 		if(getLocation().equals(stationLocation)){
@@ -217,18 +217,18 @@ public class Train extends MovableUnit {
 		}
 		int try1 = Land.Vacuum, try2 = Land.Vacuum;
 		if(direction == Direction.NORTH || direction == Direction.SOUTH){
-			try1 = Land.getLand(getLocation().x-1, getLocation().y);
-			try2 = Land.getLand(getLocation().x+1, getLocation().y);
+			try1 = Land.getLand(getLocation().getX()-1, getLocation().getY());
+			try2 = Land.getLand(getLocation().getX()+1, getLocation().getY());
 			if(try1 == Land.Station_Vertical || try2 == Land.Station_Vertical){
-				stationLocation = (Point)getLocation().clone();
+				stationLocation = getLocation();
 				localStop(false);
 				return;
 			}
 		}else if(direction == Direction.EAST || direction == Direction.WEST){
-			try1 = Land.getLand(getLocation().x, getLocation().y-1);
-			try2 = Land.getLand(getLocation().x, getLocation().y+1);
+			try1 = Land.getLand(getLocation().getX(), getLocation().getY()-1);
+			try2 = Land.getLand(getLocation().getX(), getLocation().getY()+1);
 			if(try1 == Land.Station_Horizontal || try2 == Land.Station_Horizontal){
-				stationLocation = (Point)getLocation().clone();
+				stationLocation = getLocation();
 				localStop(false);
 				return;
 			}

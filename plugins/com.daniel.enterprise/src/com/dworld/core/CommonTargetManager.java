@@ -1,6 +1,5 @@
 package com.dworld.core;
 
-import java.awt.Point;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -8,7 +7,7 @@ public class CommonTargetManager {
 	private static HashMap<IMovable, CommonTarget>friends = new HashMap<IMovable, CommonTarget>();
 	private static HashMap<IMovable, CommonTarget>enemies = new HashMap<IMovable, CommonTarget>();
 	
-	public static void reportTarget(Point targetLocation){
+	public static void reportTarget(Location targetLocation){
 		IUnit targetUnit = DWEngine.getEngine().findUnit(targetLocation);
 		
 		if(targetUnit instanceof IMovable){
@@ -16,10 +15,10 @@ public class CommonTargetManager {
 		}
 	}
 	
-	public static Point getTargetLocation(IUnit sourceUnit){
+	public static Location getTargetLocation(IUnit sourceUnit){
 		cleanUpTargets(DWEngine.getEngine().getFrameID());
 		
-		Point sourceLocation = sourceUnit.getLocation();
+		Location sourceLocation = sourceUnit.getLocation();
 		
 		HashMap<IMovable, CommonTarget> targets = getTargets(!isFriend(sourceUnit));
 		
@@ -42,7 +41,7 @@ public class CommonTargetManager {
 		return null;
 	}
 	
-	private static void addTarget(IMovable targetUnit, Point targetLocation){
+	private static void addTarget(IMovable targetUnit, Location targetLocation){
 		HashMap<IMovable, CommonTarget> targets = getTargets(isFriend(targetUnit));
 		
 		CommonTarget target = targets.get(targetUnit);
@@ -90,10 +89,10 @@ public class CommonTargetManager {
 	
 	static class CommonTarget{
 		IMovable unit;
-		Point lastSeenLocation;
+		Location lastSeenLocation;
 		long lastSeenFrame;
 		
-		public CommonTarget(IMovable unit, Point location, long frame){
+		public CommonTarget(IMovable unit, Location location, long frame){
 			this.unit = unit;
 			this.lastSeenLocation = location;
 			this.lastSeenFrame = frame;

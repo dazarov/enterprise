@@ -1,11 +1,11 @@
 package com.dworld.units.weapon;
 
-import java.awt.Point;
 import java.util.List;
 
 import com.dworld.core.DWConstants;
 import com.dworld.core.Direction;
 import com.dworld.core.Land;
+import com.dworld.core.Location;
 
 public class Bullet extends MovableWeapon {
 	private int counter=0;
@@ -55,7 +55,7 @@ public class Bullet extends MovableWeapon {
 	protected boolean findNewDirection() {
 		die();
 		int code = Land.getWalkStop(getLocation(), direction);
-		Point point = Land.getNewLocation(getLocation(), direction);
+		Location point = Land.getNewLocation(getLocation(), direction);
 		if (Land.forBulletListContains(code)) {
 			Land.explode(point);
 			return false;

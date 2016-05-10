@@ -1,14 +1,13 @@
 package com.dworld.core;
 
-import java.awt.Point;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
 public interface IUnit {
-	public Point getLocation();
+	public Location getLocation();
 	
-	public void setLocation(Point location);
+	public void setLocation(Location location);
 	
 	public boolean isAlive();
 	

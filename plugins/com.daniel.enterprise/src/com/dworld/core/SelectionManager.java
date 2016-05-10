@@ -1,6 +1,5 @@
 package com.dworld.core;
 
-import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 
@@ -16,7 +15,7 @@ public class SelectionManager {
 	
 	private static Rectangle selectedArea = NULL_RECTANGLE, copiedArea = NULL_RECTANGLE;
 	
-	private static Point startLine = null, endLine = null;
+	private static Location startLine = null, endLine = null;
 	
 	public static void addSelection(IUnit unit){
 		if(!selectedUnits.contains(unit))
@@ -44,7 +43,7 @@ public class SelectionManager {
 		}
 	}
 	
-	public static void setSelectedLine(Point start, Point end){
+	public static void setSelectedLine(Location start, Location end){
 		synchronized(selectedArea){
 			selectedArea = NULL_RECTANGLE;
 			selectedUnits.clear();
@@ -53,37 +52,37 @@ public class SelectionManager {
 		}
 	}
 	
-	public static ArrayList<Point> getSelectedLine(){
+	public static ArrayList<Location> getSelectedLine(){
 		return getSelectedLineInternal(startLine, endLine);
 	}
 	
-	private static ArrayList<Point> getSelectedLineInternal(Point start, Point end){
+	private static ArrayList<Location> getSelectedLineInternal(Location start, Location end){
 		if(start != null){
-			ArrayList<Point> line = new ArrayList<Point>();
+			ArrayList<Location> line = new ArrayList<Location>();
 			line.add(start);
 			line.add(end);
-			if(Math.abs(end.x - start.x) > Math.abs(end.y - start.y)){
-				int steps = Math.abs(end.x - start.x);
+			if(Math.abs(end.getX() - start.getX()) > Math.abs(end.getY() - start.getY())){
+				int steps = Math.abs(end.getX() - start.getX());
 				if(steps > 0){
-					int beginX = start.x;
-					int beginY = start.y;
-					int xStep = (end.x - start.x)/steps;
-					int yStep = (end.y - start.y)/steps;
+					int beginX = start.getX();
+					int beginY = start.getY();
+					int xStep = (end.getX() - start.getX())/steps;
+					int yStep = (end.getY() - start.getY())/steps;
 					
 					for(int index = 0; index < steps; index++){
-						line.add(new Point(beginX+xStep*index, beginY+yStep*index));
+						line.add(new Location(beginX+xStep*index, beginY+yStep*index));
 					}
 				}
 			}else{
-				int steps = Math.abs(end.y - start.y);
+				int steps = Math.abs(end.getY() - start.getY());
 				if(steps > 0){
-					int beginX = start.x;
-					int beginY = start.y;
-					int xStep = (end.x - start.x)/steps;
-					int yStep = (end.y - start.y)/steps;
+					int beginX = start.getX();
+					int beginY = start.getY();
+					int xStep = (end.getX() - start.getX())/steps;
+					int yStep = (end.getY() - start.getY())/steps;
 					
 					for(int index = 0; index < steps; index++){
-						line.add(new Point(beginX+xStep*index, beginY+yStep*index));
+						line.add(new Location(beginX+xStep*index, beginY+yStep*index));
 					}
 				}
 			}
@@ -103,7 +102,7 @@ public class SelectionManager {
 			if(selectedArea != NULL_RECTANGLE){
 				for(int x = selectedArea.x; x < selectedArea.x + selectedArea.width; x++){
 					for(int y = selectedArea.y; y < selectedArea.y + selectedArea.height; y++){
-						Point point = new Point(x, y);
+						Location point = new Location(x, y);
 						IUnit unit = DWEngine.getEngine().findUnit(point);
 						if(unit != null){
 							addSelection(unit);
@@ -115,7 +114,7 @@ public class SelectionManager {
 		}
 	}
 	
-	public static boolean sendDefaultCommand(Point location){
+	public static boolean sendDefaultCommand(Location location){
 		IUnit unit = DWEngine.getEngine().findUnit(location);
 		if(unit != null){
 			unit.command(Unit.EXTERNAL_COMMAND_DEFAULT, null);
@@ -174,8 +173,8 @@ public class SelectionManager {
 	public static void paste(){
 		synchronized(selectedArea){
 			if(copiedArea != NULL_RECTANGLE && selectedArea != null && !copiedArea.intersects(selectedArea)){
-				Point copyTo = selectedArea.getLocation();
-				int newX = copyTo.x, newY = copyTo.y;
+				Location copyTo = new Location(selectedArea.x, selectedArea.y);
+				int newX = copyTo.getX(), newY = copyTo.getY();
 				
 				for(int x = copiedArea.x; x < copiedArea.x+copiedArea.width; x++){
 					for(int y = copiedArea.y; y < copiedArea.y+copiedArea.height; y++){
@@ -183,7 +182,7 @@ public class SelectionManager {
 						Land.setLand(newX, newY, code);
 						newY++;
 					}
-					newY = copyTo.y;
+					newY = copyTo.getY();
 					newX++;
 				}
 				selectedArea.width = copiedArea.width;
@@ -196,11 +195,11 @@ public class SelectionManager {
 	public static void turnRight(){
 		synchronized(selectedArea){
 			if(selectedArea != NULL_RECTANGLE){
-				ArrayList<Point> doneList = new ArrayList<Point>();
+				ArrayList<Location> doneList = new ArrayList<Location>();
 				for(int x = selectedArea.x; x < selectedArea.x+selectedArea.width; x++){
 					for(int y = selectedArea.y; y < selectedArea.y+selectedArea.height; y++){
-						Point point1 = new Point(x,y);
-						Point point2 = new Point(
+						Location point1 = new Location(x,y);
+						Location point2 = new Location(
 							selectedArea.x + (selectedArea.height - (y-selectedArea.y))-1,
 							selectedArea.y + (x-selectedArea.x)
 						);
@@ -225,11 +224,11 @@ public class SelectionManager {
 	public static void turnLeft(){
 		synchronized(selectedArea){
 			if(selectedArea != NULL_RECTANGLE){
-				ArrayList<Point> doneList = new ArrayList<Point>();
+				ArrayList<Location> doneList = new ArrayList<Location>();
 				for(int x = selectedArea.x; x < selectedArea.x+selectedArea.width; x++){
 					for(int y = selectedArea.y; y < selectedArea.y+selectedArea.height; y++){
-						Point point1 = new Point(x,y);
-						Point point2 = new Point(
+						Location point1 = new Location(x,y);
+						Location point2 = new Location(
 							selectedArea.x + (y-selectedArea.y),
 							selectedArea.y + (selectedArea.width - (x-selectedArea.x))-1
 						);

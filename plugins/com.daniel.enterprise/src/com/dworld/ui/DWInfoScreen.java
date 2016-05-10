@@ -79,8 +79,8 @@ public class DWInfoScreen extends JDialog{
 		buffer.append("<center><table border=0 width=300px>");
 		buffer.append("<tr><td><b>Map size:</b></td><td align=\"right\">"+Land.getMaxX()+" x "+Land.getMaxY()+"</td></tr>");
 		buffer.append("<tr><td><b>Screen size:</b></td><td align=\"right\">"+DWConstants.UI_WIDTH+" x "+DWConstants.UI_HEIGHT+"</td></tr>");
-		buffer.append("<tr><td><b>Hero position:</b></td><td align=\"right\">"+controlledUnit.getLocation().x+", "+controlledUnit.getLocation().y+"</td></tr>");
-		buffer.append("<tr><td><b>Viewport position:</b></td><td align=\"right\">"+controlledUnit.getDrawPosition().x+", "+controlledUnit.getDrawPosition().y+"</td></tr>");
+		buffer.append("<tr><td><b>Hero position:</b></td><td align=\"right\">"+controlledUnit.getLocation().getX()+", "+controlledUnit.getLocation().getY()+"</td></tr>");
+		buffer.append("<tr><td><b>Viewport position:</b></td><td align=\"right\">"+controlledUnit.getDrawPosition().getX()+", "+controlledUnit.getDrawPosition().getY()+"</td></tr>");
 		buffer.append("<tr><td><b>Number of active units:</b></td><td align=\"right\">"+DWEngine.getEngine().getNumberOfActiveUnits()+" / "+DWEngine.getEngine().getMaxNumber()+"</td></tr>");
 		buffer.append("<tr><td><b>Number of units:</b></td><td align=\"right\">"+(DWEngine.getEngine().getNumberOfActiveUnits()+DWEngine.getEngine().getNumberOfSlowUnits())+"</td></tr>");
 		buffer.append("<tr><td><b>Total Number of used units:</b></td><td align=\"right\">"+Unit.getUnits()+"</td></tr>");

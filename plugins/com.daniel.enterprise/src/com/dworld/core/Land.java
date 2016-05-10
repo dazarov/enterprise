@@ -1,7 +1,6 @@
 package com.dworld.core;
 
 import java.awt.Frame;
-import java.awt.Point;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -661,12 +660,12 @@ public class Land {
 		saveList.addAll(gateList);
 	}
 	
-	public static int getLand(Point location) {
-		return getLand(location.x, location.y);
+	public static int getLand(Location location) {
+		return getLand(location.getX(), location.getY());
 	}
 
-	public static int getTurnedLand(Point location) {
-		int code = getLand(location.x, location.y);
+	public static int getTurnedLand(Location location) {
+		int code = getLand(location.getX(), location.getY());
 		if(gateList.contains(code)){
 			switch(code){
 			case ClosedHorizontalSteelGate:
@@ -705,8 +704,8 @@ public class Land {
 		return code;
 	}
 
-	public static int setLand(Point location, int code) {
-		return setLand(location.x, location.y, code);
+	public static int setLand(Location location, int code) {
+		return setLand(location.getX(), location.getY(), code);
 	}
 	
 	public static int setLand(int x, int y, int code) {
@@ -717,58 +716,36 @@ public class Land {
 		return oldCode;
 	}
 
-	public static int setLand(Point location, MovableUnit unit) {
+	public static int setLand(Location location, MovableUnit unit) {
 		int oldCode = getLand(location);
 		int newCode = unit.getCode(oldCode);
 		synchronized(landMap){
-			landMap[location.x][location.y] = newCode;
+			landMap[location.getX()][location.getY()] = newCode;
 		}
 		return oldCode;
 	}
 
-	public static void initLand(Point location, int beneath, MovableUnit unit) {
+	public static void initLand(Location location, int beneath, MovableUnit unit) {
 		int newCode = unit.getCode(beneath);
 		synchronized(landMap){
-			landMap[location.x][location.y] = newCode;
+			landMap[location.getX()][location.getY()] = newCode;
 		}
 	}
 
-	public static Point getNewLocation(Point location, Direction direction) {
-		Point point = (Point) location.clone();
-		if(direction == Direction.NORTH){
-			point.y--;
-		}else if(direction == Direction.NORTHEAST){
-			point.x++;
-			point.y--;
-		}else if(direction == Direction.EAST){
-			point.x++;
-		}else if(direction == Direction.SOUTHEAST){
-			point.x++;
-			point.y++;
-		}else if(direction == Direction.SOUTH){
-			point.y++;
-		}else if(direction == Direction.SOUTHWEST){
-			point.x--;
-			point.y++;
-		}else if(direction == Direction.WEST){
-			point.x--;
-		}else if(direction == Direction.NORTHWEST){
-			point.x--;
-			point.y--;
-		}
-		return point;
+	public static Location getNewLocation(Location location, Direction direction) {
+		return direction.getNewLocation(location);
 	}
 
-	public static int getLand(Point location, Direction direction) {
+	public static int getLand(Location location, Direction direction) {
 		location = getNewLocation(location, direction);
-		if (location.x > DWConstants.MAX_X - 1 || location.y > DWConstants.MAX_Y - 1)
+		if (location.getX() > DWConstants.MAX_X - 1 || location.getY() > DWConstants.MAX_Y - 1)
 			return Vacuum;
-		if (location.x < DWConstants.MIN_X || location.y < DWConstants.MIN_Y)
+		if (location.getX() < DWConstants.MIN_X || location.getY() < DWConstants.MIN_Y)
 			return Vacuum;
 		return getLand(location);
 	}
 
-	public static boolean canIWalk(Point location, Direction direction,
+	public static boolean canIWalk(Location location, Direction direction,
 			List<Integer> list) {
 		int land = getLand(location, direction);
 		if (land == Vacuum)
@@ -778,7 +755,7 @@ public class Land {
 		return false;
 	}
 
-	public static int getWalkStop(Point location, Direction direction) {
+	public static int getWalkStop(Location location, Direction direction) {
 		return getLand(location, direction);
 	}
 
@@ -822,12 +799,12 @@ public class Land {
 //		}
 //	}
 	
-	public static SearchResult search(final Point location, final Direction direction, final List<Integer> list) {
+	public static SearchResult search(final Location location, final Direction direction, final List<Integer> list) {
 		return search(location, direction, list, DWConstants.VISIBLE_DISTANCE);
 	}
 	
-	public static SearchResult search(final Point location, final Direction direction, final List<Integer> list, final int maxDistance) {
-		Point point = getNewLocation((Point) location, direction);
+	public static SearchResult search(final Location location, final Direction direction, final List<Integer> list, final int maxDistance) {
+		Location point = getNewLocation((Location) location, direction);
 
 		int land = Vacuum;
 		int distance = 1;
@@ -854,23 +831,23 @@ public class Land {
 		return DWConstants.MAX_Y;
 	}
 
-	public static void explode(final Point location) {
-		for (int x = location.x - 1; x < location.x + 2; x++) {
-			for (int y = location.y - 1; y < location.y + 2; y++) {
+	public static void explode(final Location location) {
+		for (int x = location.getX() - 1; x < location.getX() + 2; x++) {
+			for (int y = location.getY() - 1; y < location.getY() + 2; y++) {
 				int code = getLand(x, y);
 				if (!unexplosiveList.contains(new Integer(code))) {
 					if (waterList.contains(new Integer(code)))
-						setLand(new Point(x, y), Water);
+						setLand(new Location(x, y), Water);
 					else if (sandExplList.contains(new Integer(code)))
-						setLand(new Point(x, y), Sand);
+						setLand(new Location(x, y), Sand);
 					else
-						setLand(new Point(x, y), Empty);
+						setLand(new Location(x, y), Empty);
 				}
 			}
 		}
 		Direction dir = Direction.NORTH;
 		for (int i = 0; i < 8; i++) {
-			new Bullet(location.x, location.y, dir);
+			new Bullet(location.getX(), location.getY(), dir);
 			dir = dir.getClockwiseDirection();
 		}
 	}
@@ -925,9 +902,9 @@ public class Land {
 		
 		DWProgressMonitor progressMonitor = new DWProgressMonitor(panel, "Loading "+fileName+" file...", DWConstants.MAX_X);
 		int progress = 0;
-		try {
-			FileInputStream fs = new FileInputStream(file);
-			BufferedInputStream stream = new BufferedInputStream(fs);
+		try(FileInputStream fs = new FileInputStream(file);
+				BufferedInputStream stream = new BufferedInputStream(fs);) {
+			
 			
 			int heroX = readInt(stream);
 			int heroY = readInt(stream);
@@ -951,8 +928,6 @@ public class Land {
 					landMap[x][y] = code;
 				}
 			}
-			stream.close();
-			fs.close();
 		} catch (IOException ex) {
 			ex.printStackTrace();
 		}
@@ -964,14 +939,13 @@ public class Land {
 		File file = new File(DWLauncher.getPath()+fileName);
 		DWProgressMonitor progressMonitor = new DWProgressMonitor(panel, "Saving "+fileName+" file...", DWConstants.MAX_X);
 		int progress = 0;
-		try {
-			FileOutputStream fs = new FileOutputStream(file);
-			BufferedOutputStream stream = new BufferedOutputStream(fs);
+		try(FileOutputStream fs = new FileOutputStream(file);
+				BufferedOutputStream stream = new BufferedOutputStream(fs);) {
 			
 			ControlledUnit hero = DWLauncher.getControlledUnit();
 			
-			writeInt(stream, hero.getLocation().x);
-			writeInt(stream, hero.getLocation().y);
+			writeInt(stream, hero.getLocation().getX());
+			writeInt(stream, hero.getLocation().getY());
 			
 			for (int x = 0; x < DWConstants.MAX_X; x++) {
 				progress++;
@@ -994,14 +968,12 @@ public class Land {
 					}
 					stream.write(code);
 					if (saveList.contains(code)) {
-						IUnit unit = DWEngine.getEngine().findUnit(new Point(x, y));
+						IUnit unit = DWEngine.getEngine().findUnit(new Location(x, y));
 						if (unit != null)
 							unit.save(stream);
 					}
 				}
 			}
-			stream.close();
-			fs.close();
 		} catch (IOException ex) {
 			ex.printStackTrace();
 		}

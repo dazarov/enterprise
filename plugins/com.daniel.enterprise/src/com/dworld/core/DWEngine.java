@@ -1,7 +1,6 @@
 package com.dworld.core;
 
 import java.awt.Frame;
-import java.awt.Point;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -23,7 +22,7 @@ public class DWEngine extends Thread{
 	private ArrayList<IActive> activeUnits = new ArrayList<IActive>();
 	private ArrayList<IActive> toDelete = new ArrayList<IActive>();
 	
-	private HashMap<Point, IUnit> allUnits = new HashMap<Point, IUnit>();
+	private HashMap<Location, IUnit> allUnits = new HashMap<>();
 	
 	private long frameID = 0;
 	
@@ -275,12 +274,12 @@ public class DWEngine extends Thread{
 		return slowUnits.get(index);
 	}
 	
-	public IUnit findUnit(Point location){
+	public IUnit findUnit(Location location){
 		return allUnits.get(location);
 	}
 	
 	@Deprecated
-	public IUnit[] slowFindUnit(Point location){
+	public IUnit[] slowFindUnit(Location location){
 		ArrayList<IUnit> list = new ArrayList<IUnit>();
 		for(IUnit unit : allUnits.values()){
 			if(unit.getLocation().equals(location)){

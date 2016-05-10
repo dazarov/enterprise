@@ -1,7 +1,5 @@
 package com.dworld.core;
 
-import java.awt.Point;
-
 public enum Direction {
 	NORTH {
 		@Override
@@ -23,6 +21,11 @@ public enum Direction {
 		public Direction getOppositeDirection() {
 			return SOUTH;
 		}
+		
+		@Override
+		public Location getNewLocation(Location location) {
+			return location.move(0, -1);
+		}
 	},
 	SOUTH {
 		@Override
@@ -39,9 +42,15 @@ public enum Direction {
 		public Direction getAnticlockwiseDirection() {
 			return SOUTHEAST;
 		}
+		
 		@Override
 		public Direction getOppositeDirection() {
 			return NORTH;
+		}
+		
+		@Override
+		public Location getNewLocation(Location location) {
+			return location.move(0, 1);
 		}
 	},
 	WEST {
@@ -64,6 +73,11 @@ public enum Direction {
 		public Direction getOppositeDirection() {
 			return EAST;
 		}
+		
+		@Override
+		public Location getNewLocation(Location location) {
+			return location.move(-1, 0);
+		}
 	},
 	EAST {
 		@Override
@@ -85,6 +99,11 @@ public enum Direction {
 		public Direction getOppositeDirection() {
 			return WEST;
 		}
+		
+		@Override
+		public Location getNewLocation(Location location) {
+			return location.move(1, 0);
+		}
 	},
 	NORTHWEST {
 		@Override
@@ -104,6 +123,11 @@ public enum Direction {
 		@Override
 		public Direction getOppositeDirection() {
 			return SOUTHEAST;
+		}
+		
+		@Override
+		public Location getNewLocation(Location location) {
+			return location.move(-1, -1);
 		}
 	},
 	SOUTHWEST {
@@ -126,6 +150,11 @@ public enum Direction {
 		public Direction getOppositeDirection() {
 			return NORTHEAST;
 		}
+		
+		@Override
+		public Location getNewLocation(Location location) {
+			return location.move(-1, 1);
+		}
 	},
 	NORTHEAST {
 		@Override
@@ -146,6 +175,11 @@ public enum Direction {
 		@Override
 		public Direction getOppositeDirection() {
 			return SOUTHWEST;
+		}
+		
+		@Override
+		public Location getNewLocation(Location location) {
+			return location.move(1, -1);
 		}
 	},
 	SOUTHEAST {
@@ -168,6 +202,11 @@ public enum Direction {
 		public Direction getOppositeDirection() {
 			return NORTHWEST;
 		}
+		
+		@Override
+		public Location getNewLocation(Location location) {
+			return location.move(1, 1);
+		}
 	},
 	NOWHERE {
 		@Override
@@ -189,7 +228,14 @@ public enum Direction {
 		public Direction getOppositeDirection() {
 			return NOWHERE;
 		}
+		
+		@Override
+		public Location getNewLocation(Location location) {
+			return location;
+		}
 	};
+
+	public abstract Location getNewLocation(Location location);
 	
 	public abstract Direction getClockwiseDirection();
 	
@@ -229,33 +275,33 @@ public enum Direction {
 		return getAnticlockwiseDirection();
 	}
 	
-	public static Direction findDirection(Point source, Point destination){
-		if(source.x > destination.x){ // WEST
-			if(source.y > destination.y) // NORTH
+	public static Direction findDirection(Location source, Location destination){
+		if(source.getX() > destination.getX()){ // WEST
+			if(source.getY() > destination.getY()) // NORTH
 				return NORTHWEST;
-			else if(source.y == destination.y)
+			else if(source.getY() == destination.getY())
 				return WEST;
 			else // SOUTH
 				return SOUTHWEST;
-		}else if(source.x == destination.x){
-			if(source.y > destination.y) // NORTH
+		}else if(source.getX() == destination.getX()){
+			if(source.getY() > destination.getY()) // NORTH
 				return NORTH;
-			else if(source.y == destination.y)
+			else if(source.getY() == destination.getY())
 				return NOWHERE;
 			else // SOUTH
 				return SOUTH;
 		}else{ // EAST
-			if(source.y > destination.y) // NORTH
+			if(source.getY() > destination.getY()) // NORTH
 				return NORTHEAST;
-			else if(source.y == destination.y)
+			else if(source.getY() == destination.getY())
 				return EAST;
 			else // SOUTH
 				return SOUTHEAST;
 		}
 	}
 	
-	public static boolean isShortcutAvalable(Point source, Point destination) {
-		Point location = (Point) source.clone();
+	public static boolean isShortcutAvalable(Location source, Location destination) {
+		Location location = source;
 		Direction direction;
 		while (!location.equals(destination)) {
 			direction = findDirection(location, destination);

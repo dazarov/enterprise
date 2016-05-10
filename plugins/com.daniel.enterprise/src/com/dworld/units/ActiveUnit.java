@@ -1,6 +1,5 @@
 package com.dworld.units;
 
-import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,6 +9,7 @@ import com.dworld.core.DWEngine;
 import com.dworld.core.Direction;
 import com.dworld.core.IActive;
 import com.dworld.core.Land;
+import com.dworld.core.Location;
 import com.dworld.core.SearchResult;
 import com.dworld.core.Target;
 import com.dworld.units.logic.UnitLogic;
@@ -104,9 +104,9 @@ public abstract class ActiveUnit extends Unit implements IActive {
 	}
 	
 	protected Target findTarget(final int x, final int y){
-		int dX = getLocation().x - x;
+		int dX = getLocation().getX() - x;
 		int aX = Math.abs(dX);
-		int dY = getLocation().y - y;
+		int dY = getLocation().getY() - y;
 		int aY = Math.abs(dY);
 		
 		int distance = (int)Math.hypot(aX, aY); 
@@ -166,8 +166,8 @@ public abstract class ActiveUnit extends Unit implements IActive {
 			throw new IllegalArgumentException("Illegal argument list, make sure you defined methods getListToFightWith() and getArmoredListToFightWith() !");
 		}
 		
-		for(int x = getLocation().x - maxDistance; x < getLocation().x + maxDistance; x++){
-			for(int y = getLocation().y - maxDistance; y < getLocation().y + maxDistance; y++){
+		for(int x = getLocation().getX() - maxDistance; x < getLocation().getX() + maxDistance; x++){
+			for(int y = getLocation().getY() - maxDistance; y < getLocation().getY() + maxDistance; y++){
 				int code = Land.getLand(x, y);
 				if(list.contains(code)){
 					targets.add(findTarget(x, y));
@@ -320,7 +320,7 @@ public abstract class ActiveUnit extends Unit implements IActive {
 	}
 	
 	protected boolean checkDistance(final Direction direction, final int distance){
-		Point point = Land.getNewLocation(getLocation(), direction);
+		Location point = Land.getNewLocation(getLocation(), direction);
 		int range = 1;
 		while(range <= distance){
 			if(!Land.canIWalk(point, direction, Land.flyAndFindList)){
@@ -335,34 +335,34 @@ public abstract class ActiveUnit extends Unit implements IActive {
 	private void fireBullet(Direction direction){
 		Bullet bullet = bullets[direction.ordinal()];
 		if(bullet == null || !bullet.isAlive()){
-			bullets[direction.ordinal()] = new Bullet(getLocation().x, getLocation().y, direction);
+			bullets[direction.ordinal()] = new Bullet(getLocation().getX(), getLocation().getY(), direction);
 		}
 	}
 	
 	private void fireRocket(Direction direction){
 		Rocket rocket = rockets[direction.ordinal()];
 		if(rocket == null || !rocket.isAlive()){
-			rockets[direction.ordinal()] = new Rocket(getLocation().x, getLocation().y, direction, getRocketType());
+			rockets[direction.ordinal()] = new Rocket(getLocation().getX(), getLocation().getY(), direction, getRocketType());
 		}
 	}
 
 	private Bomb fireBomb(Direction bombDirection, int distance){
-		return new Bomb(getLocation().x, getLocation().y, bombDirection, distance);
+		return new Bomb(getLocation().getX(), getLocation().getY(), bombDirection, distance);
 	}
 	
 	private Rocket fireRocket(Direction rocketDirection, int rocketType){
 		if(rocketType == -1){
 			throw new IllegalArgumentException("Illegal argument rocketType, define method getRocketType()!");
 		}
-		return new Rocket(getLocation().x, getLocation().y, rocketDirection, rocketType);
+		return new Rocket(getLocation().getX(), getLocation().getY(), rocketDirection, rocketType);
 	}
 	
 	private CannonBall fireCannon(Direction cannonDirection){
-		return new CannonBall(getLocation().x, getLocation().y, cannonDirection);
+		return new CannonBall(getLocation().getX(), getLocation().getY(), cannonDirection);
 	}
 
 	protected CannonBall fireCannon(Direction cannonDirection, int distance){
-		return new CannonBall(getLocation().x, getLocation().y, cannonDirection, distance);
+		return new CannonBall(getLocation().getX(), getLocation().getY(), cannonDirection, distance);
 	}
 	
 	protected boolean checkLand(){

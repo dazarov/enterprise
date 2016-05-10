@@ -1,9 +1,8 @@
 package com.dworld.units.railroad;
 
-import java.awt.Point;
-
 import com.dworld.core.Direction;
 import com.dworld.core.Land;
+import com.dworld.core.Location;
 
 public class RailUtils {
 	
@@ -103,13 +102,13 @@ public class RailUtils {
 		boolean reversable = true;
 		Direction nonCircleDirection = getNonCircleInitialDirection(code, train.getDefaultBeneath(code));
 		
-		Point startLocation = (Point)train.getLocation().clone();
+		Location startLocation = train.getLocation();
 		
-		Point location = (Point)startLocation.clone();
+		Location location = startLocation;
 		int cc = code;
 		Direction dd = nonCircleDirection;
 		
-		Point northLocation = (Point)location.clone();
+		Location northLocation = location;
 		Direction northDirection = dd;
 		
 		while(true){
@@ -124,8 +123,8 @@ public class RailUtils {
 				break;
 			}
 			
-			if(location.y <= northLocation.y && (cc == Land.Rail_Horizontal || cc == Land.Train_Horizontal|| cc == Land.WarTrain_Horizontal)){
-				northLocation = (Point)location.clone();
+			if(location.getY() <= northLocation.getY() && (cc == Land.Rail_Horizontal || cc == Land.Train_Horizontal|| cc == Land.WarTrain_Horizontal)){
+				northLocation = location;
 				northDirection = dd;
 			}
 			if(location.equals(startLocation)){

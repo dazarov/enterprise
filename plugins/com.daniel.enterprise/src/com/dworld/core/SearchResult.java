@@ -1,14 +1,13 @@
 package com.dworld.core;
 
-import java.awt.Point;
 
 public class SearchResult {
 	private int distance = -1;
 	private int resultCode = Land.Vacuum;
 	private Direction direction = Direction.NOWHERE;
-	private Point location;
+	private Location location;
 	
-	public SearchResult(int code, int dist, Direction dir, Point location){
+	public SearchResult(int code, int dist, Direction dir, Location location){
 		resultCode = code;
 		distance = dist;
 		direction = dir;
@@ -27,7 +26,7 @@ public class SearchResult {
 		return direction;
 	}
 	
-	public Point getLocation(){
+	public Location getLocation(){
 		return location;
 	}
 	

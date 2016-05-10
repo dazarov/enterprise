@@ -1,6 +1,5 @@
 package com.dworld.units;
 
-import java.awt.Point;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -11,6 +10,7 @@ import com.dworld.core.DWConstants;
 import com.dworld.core.Direction;
 import com.dworld.core.IMovable;
 import com.dworld.core.Land;
+import com.dworld.core.Location;
 import com.dworld.core.SearchResult;
 
 public abstract class MovableUnit extends ActiveUnit implements IMovable {
@@ -29,7 +29,7 @@ public abstract class MovableUnit extends ActiveUnit implements IMovable {
 	protected double speed, defaultSpeed;
 	protected Direction direction = Direction.NORTH;
 	
-	protected Point destination = null;
+	protected Location destination = null;
 
 	public MovableUnit(int x, int y, int code, double speed) {
 		super(x, y);
@@ -349,7 +349,7 @@ public abstract class MovableUnit extends ActiveUnit implements IMovable {
 		}else if(commandId == EXTERNAL_COMMAND_MOVE_AROUND){
 			mode = MOVE_AROUND_MODE;
 		}else if(commandId == EXTERNAL_COMMAND_MOVE_TO){
-			destination = (Point)args[0];
+			destination = (Location)args[0];
 			status = INIT_STATUS;
 			mode = MOVE_TO_MODE;
 		}

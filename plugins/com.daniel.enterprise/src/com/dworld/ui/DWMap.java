@@ -3,7 +3,6 @@ package com.dworld.ui;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.GridLayout;
-import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -15,6 +14,7 @@ import javax.swing.ScrollPaneLayout;
 
 import com.dworld.DWLauncher;
 import com.dworld.core.Land;
+import com.dworld.core.Location;
 
 public class DWMap {
 	public static void showMap(){
@@ -63,16 +63,16 @@ public class DWMap {
 	}
 	
 	static DWWindow minimap = null;
-	static Point drawPoint = null;
+	static Location drawPoint = null;
 	
 	public static void refreshMinimap(){
 		if(minimap != null){
 			if(drawPoint == null)
-				drawPoint = new Point(DWLauncher.getControlledUnit().getDrawPosition());
+				drawPoint = DWLauncher.getControlledUnit().getDrawPosition();
 			else{
 				if(!DWLauncher.getControlledUnit().getDrawPosition().equals(drawPoint)){
 					minimap.repaint();
-					drawPoint = new Point(DWLauncher.getControlledUnit().getDrawPosition());
+					drawPoint = DWLauncher.getControlledUnit().getDrawPosition();
 				}
 			}
 			
@@ -103,7 +103,7 @@ public class DWMap {
 			public void paint(Graphics g) {
 				super.paint(g);
 				if(DWLauncher.getControlledUnit() != null)
-					drawRegion(g, DWLauncher.getControlledUnit().getDrawPosition().x-150, DWLauncher.getControlledUnit().getDrawPosition().y-150, 300, 300);
+					drawRegion(g, DWLauncher.getControlledUnit().getDrawPosition().getX()-150, DWLauncher.getControlledUnit().getDrawPosition().getY()-150, 300, 300);
 			}
 		};
 		panel.setBackground(Color.black);

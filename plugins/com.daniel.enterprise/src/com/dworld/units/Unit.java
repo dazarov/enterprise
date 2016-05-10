@@ -7,6 +7,7 @@ import java.io.OutputStream;
 
 import com.dworld.core.DWEngine;
 import com.dworld.core.IUnit;
+import com.dworld.core.Location;
 
 public abstract class Unit implements IUnit{
 	
@@ -39,7 +40,7 @@ public abstract class Unit implements IUnit{
 	
 	private boolean alive = true;
 	
-	private Point location;
+	private Location location;
 	
 	static private int units = 0;
 	
@@ -51,7 +52,7 @@ public abstract class Unit implements IUnit{
 	
 	public Unit(int x, int y){
 		alive = true;
-		this.location = new Point(x, y);
+		this.location = new Location(x, y);
 		units++;
 		id = units;
 		DWEngine.getEngine().addUnit(this);
@@ -87,16 +88,16 @@ public abstract class Unit implements IUnit{
 	}
 
 	@Override
-	public Point getLocation() {
+	public Location getLocation() {
 		return location;
 	}
 
 	@Override
-	public void setLocation(Point location) {
+	public void setLocation(Location location) {
 		if(!(this instanceof MovableUnit)){
 			throw new IllegalStateException("Illegal use of method setLocation, make sure your unit is instance of MovableUnit!");
 		}
-		this.location.setLocation(location);
+		this.location = location;
 		DWEngine.getEngine().moveUnit(this);
 	}
 	

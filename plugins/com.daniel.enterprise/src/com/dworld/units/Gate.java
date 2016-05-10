@@ -1,9 +1,8 @@
 package com.dworld.units;
 
-import java.awt.Point;
-
 import com.dworld.core.ISlow;
 import com.dworld.core.Land;
+import com.dworld.core.Location;
 
 public class Gate extends ActiveUnit implements ISlow{
 	// orientation
@@ -141,7 +140,7 @@ public class Gate extends ActiveUnit implements ISlow{
 		}
 		
 		for (int i = 0; i < 3; i++) {
-			Point point = getPoint(i);
+			Location point = getPoint(i);
 			int land = Land.getLand(point);
 			if (Land.citizenList.contains(new Integer(land))) {
 				if (state == Closed) {
@@ -160,22 +159,22 @@ public class Gate extends ActiveUnit implements ISlow{
 		}
 	}
 
-	private Point getPoint(int first) {
-		Point location = getLocation();
+	private Location getPoint(int first) {
+		Location location = getLocation();
 		if (orientation == Vertical) {
 			if (first == 0)
 				return location;
 			else if (first == 1)
-				return new Point(location.x + 1, location.y);
+				return location.move(1, 0);//new Location(location.x + 1, location.y);
 			else
-				return new Point(location.x - 1, location.y);
+				return location.move(-1, 0);//new Location(location.x - 1, location.y);
 		} else { // horizontal
 			if (first == 0)
 				return location;
 			else if (first == 1)
-				return new Point(location.x, location.y + 1);
+				return location.move(0, 1);//new Location(location.x, location.y + 1);
 			else
-				return new Point(location.x, location.y - 1);
+				return location.move(0, -1);//new Location(location.x, location.y - 1);
 		}
 	}
 	
