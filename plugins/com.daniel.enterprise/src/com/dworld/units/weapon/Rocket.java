@@ -1,6 +1,6 @@
 package com.dworld.units.weapon;
 
-import java.util.List;
+import java.util.Set;
 
 import com.dworld.core.DWConstants;
 import com.dworld.core.Direction;
@@ -158,7 +158,7 @@ public class Rocket extends MovableWeapon {
 	}
 	
 	@Override
-	protected List<Integer> getWalkList(){
+	protected Set<Integer> getWalkList(){
 		return Land.flyAndFindList;
 	}
 
@@ -217,7 +217,7 @@ public class Rocket extends MovableWeapon {
 		this.type = type;
 	}
 
-	protected Direction findTarget(List<Integer> list, final int maxDistance) {
+	protected Direction findTarget(Set<Integer> list, final int maxDistance) {
 		SearchResult result;
 		Direction dir = direction;
 		for (int i = 0; i < 5; i++) {

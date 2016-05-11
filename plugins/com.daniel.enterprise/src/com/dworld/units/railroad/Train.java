@@ -1,6 +1,6 @@
 package com.dworld.units.railroad;
 
-import java.util.List;
+import java.util.Set;
 
 import com.dworld.core.DWConstants;
 import com.dworld.core.Direction;
@@ -197,7 +197,7 @@ public class Train extends MovableUnit {
 	}
 	
 	@Override
-	protected List<Integer> getWalkList() {
+	protected Set<Integer> getWalkList() {
 		return Land.railList;
 	}
 

@@ -1,6 +1,6 @@
 package com.dworld.units.enemies;
 
-import java.util.List;
+import java.util.Set;
 
 import com.dworld.core.Land;
 import com.dworld.units.Tank;
@@ -30,12 +30,12 @@ public class BadTank extends Tank {
 	}
 	
 	@Override
-	protected List<Integer> getListToFightWith(){
+	protected Set<Integer> getListToFightWith(){
 		return Land.citizenList;
 	}
 	
 	@Override
-	protected List<Integer> getArmoredListToFightWith(){
+	protected Set<Integer> getArmoredListToFightWith(){
 		return Land.armoredCitizenList;
 	}
 	

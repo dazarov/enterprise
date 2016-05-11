@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Set;
 
 import com.dworld.core.DWConstants;
 import com.dworld.core.Direction;
@@ -87,7 +87,7 @@ public abstract class MovableUnit extends ActiveUnit implements IMovable {
 		}
 	}
 	
-	protected List<Integer> getWalkList(){
+	protected Set<Integer> getWalkList(){
 		return Land.walkList;
 	}
 	

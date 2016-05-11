@@ -1,6 +1,6 @@
 package com.dworld.units.enemies;
 
-import java.util.List;
+import java.util.Set;
 
 import com.dworld.core.Land;
 import com.dworld.units.Soldier;
@@ -37,7 +37,7 @@ public class BadSoldier extends Soldier {
 	}
 	
 	@Override
-	protected List<Integer> getListToFightWith(){
+	protected Set<Integer> getListToFightWith(){
 		return Land.citizenList;
 	}
 }

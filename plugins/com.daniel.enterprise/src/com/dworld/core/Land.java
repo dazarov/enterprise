@@ -8,15 +8,13 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import com.dworld.DWLauncher;
-import com.dworld.ui.DWProgressMonitor;
 import com.dworld.ui.DWDraw;
 import com.dworld.ui.DWMessageDialog;
+import com.dworld.ui.DWProgressMonitor;
 import com.dworld.units.ControlledUnit;
 import com.dworld.units.MovableUnit;
 import com.dworld.units.weapon.Bullet;
@@ -278,13 +276,18 @@ public class Land {
 	 * Land lists section start
 	 */
 	
-	public static final List<Integer> heroList = Collections.unmodifiableList(Arrays.asList(Hero, Hero_Grass, Hero_Sand));
+	public static final Set<Integer> heroList = new HashSet<>();//Collections.unmodifiableList(Arrays.asList(Hero, Hero_Grass, Hero_Sand));
+	static{
+		heroList.add(Hero);
+		heroList.add(Hero_Grass);
+		heroList.add(Hero_Sand);
+	}
 
-	public static ArrayList<Integer> rocketList = new ArrayList<Integer>();
+	public static Set<Integer> rocketList = new HashSet<>();
 	static {
-		rocketList.add(new Integer(RocketNorth));
-		rocketList.add(new Integer(RocketSouth));
-		rocketList.add(new Integer(RocketEast));
+		rocketList.add(RocketNorth);
+		rocketList.add(RocketSouth);
+		rocketList.add(RocketEast);
 		rocketList.add(new Integer(RocketWest));
 		rocketList.add(new Integer(RocketNorthEast));
 		rocketList.add(new Integer(RocketNorthWest));
@@ -319,7 +322,7 @@ public class Land {
 		rocketList.add(new Integer(RocketSouthWest_Sand));
 	}
 
-	public static ArrayList<Integer> bulletList = new ArrayList<Integer>();
+	public static Set<Integer> bulletList = new HashSet<>();
 	static {
 		bulletList.add(new Integer(Bullet));
 		bulletList.add(new Integer(Bullet_Sand));
@@ -331,7 +334,7 @@ public class Land {
 		bulletList.add(new Integer(CannonBall_Water));
 	}
 
-	private static ArrayList<Integer> bombList = new ArrayList<Integer>();
+	private static Set<Integer> bombList = new HashSet<>();
 	static {
 		bombList.add(new Integer(Bomb));
 		bombList.add(new Integer(Bomb_Sand));
@@ -339,7 +342,7 @@ public class Land {
 		bombList.add(new Integer(Bomb_Water));
 	}
 	
-	public static ArrayList<Integer> railList = new ArrayList<Integer>();
+	public static Set<Integer> railList = new HashSet<>();
 	static {
 		railList.add(new Integer(Rail_Diagonal_Down));
 		railList.add(new Integer(Rail_Diagonal_Up));
@@ -357,7 +360,7 @@ public class Land {
 		railList.add(new Integer(Rail_Diagonal_Cross));
 	}
 
-	public static ArrayList<Integer> wartrainList = new ArrayList<Integer>();
+	public static Set<Integer> wartrainList = new HashSet<>();
 	static {
 		wartrainList.add(new Integer(WarTrain_Diagonal_Down));
 		wartrainList.add(new Integer(WarTrain_Diagonal_Up));
@@ -377,7 +380,7 @@ public class Land {
 		wartrainList.add(new Integer(WarTrain_Diagonal_Down_Cross));
 	}
 
-	public static ArrayList<Integer> trainList = new ArrayList<Integer>();
+	public static Set<Integer> trainList = new HashSet<>();
 	static {
 		trainList.add(new Integer(Train_Diagonal_Down));
 		trainList.add(new Integer(Train_Diagonal_Up));
@@ -399,7 +402,7 @@ public class Land {
 	}
 	
 
-	public static ArrayList<Integer> walkList = new ArrayList<Integer>();
+	public static Set<Integer> walkList = new HashSet<>();
 	static {
 		walkList.add(new Integer(Empty));
 		walkList.add(new Integer(Grenada));
@@ -433,7 +436,7 @@ public class Land {
 		walkList.addAll(railList);
 	}
 
-	public static ArrayList<Integer> flyAndFindList = new ArrayList<Integer>();
+	public static Set<Integer> flyAndFindList = new HashSet<>();
 	static {
 		flyAndFindList.addAll(walkList);
 		flyAndFindList.add(new Integer(Water));
@@ -442,7 +445,7 @@ public class Land {
 		flyAndFindList.add(new Integer(Bomb_Water));
 	}
 
-	private static ArrayList<Integer> unexplosiveList = new ArrayList<Integer>();
+	private static Set<Integer> unexplosiveList = new HashSet<>();
 	static {
 		unexplosiveList.add(new Integer(Vacuum));
 		unexplosiveList.add(new Integer(Wall));
@@ -462,7 +465,7 @@ public class Land {
 	 * list of codes which should be replaced by grass code during the save procedure
 	 * they are codes of flying objects above the grass
 	 */
-	private static ArrayList<Integer> grassList = new ArrayList<Integer>();
+	private static Set<Integer> grassList = new HashSet<>();
 	static {
 		grassList.add(new Integer(Bullet_Grass));
 		grassList.add(new Integer(CannonBall_Grass));
@@ -481,7 +484,7 @@ public class Land {
 	 * list of codes which should be replaced by water code during the save procedure
 	 * they are codes of flying objects above the water
 	 */
-	private static ArrayList<Integer> waterList = new ArrayList<Integer>();
+	private static Set<Integer> waterList = new HashSet<>();
 	static {
 		waterList.add(new Integer(Bullet_Water));
 		waterList.add(new Integer(CannonBall_Water));
@@ -500,7 +503,7 @@ public class Land {
 	 * list of codes which should be replaced by Sand code during the save procedure
 	 * they are codes of flying objects above the sand
 	 */
-	private static ArrayList<Integer> sandList = new ArrayList<Integer>();
+	private static Set<Integer> sandList = new HashSet<>();
 	static {
 		sandList.add(new Integer(Sand));
 		sandList.add(new Integer(Bullet_Sand));
@@ -516,7 +519,7 @@ public class Land {
 		sandList.add(new Integer(RocketSouthWest_Sand));
 	}
 	
-	private static ArrayList<Integer> sandExplList = new ArrayList<Integer>();
+	private static Set<Integer> sandExplList = new HashSet<>();
 	static {
 		sandExplList.add(new Integer(Hero_Sand));
 		sandExplList.add(new Integer(Mine_Sand));
@@ -536,7 +539,7 @@ public class Land {
 		sandExplList.add(new Integer(Peasant_Sand));
 	}
 
-	private static ArrayList<Integer> unsaveList = new ArrayList<Integer>();
+	private static Set<Integer> unsaveList = new HashSet<>();
 	static {
 		unsaveList.addAll(bulletList);
 
@@ -545,19 +548,19 @@ public class Land {
 		unsaveList.addAll(rocketList);
 	}
 
-	private static ArrayList<Integer> forBulletList = new ArrayList<Integer>();
+	private static Set<Integer> forBulletList = new HashSet<>();
 	static {
 		forBulletList.addAll(rocketList);
 		forBulletList.add(new Integer(Grenada));
 	}
 
-	private static ArrayList<Integer> forRocketList = new ArrayList<Integer>();
+	private static Set<Integer> forRocketList = new HashSet<>();
 	static {
 		forRocketList.addAll(forBulletList);
 		forRocketList.addAll(bulletList);
 	}
 	
-	public final static ArrayList<Integer> armoredEnemyList = new ArrayList<Integer>();
+	public final static Set<Integer> armoredEnemyList = new HashSet<>();
 	static {
 		armoredEnemyList.add(new Integer(BadTank));
 		armoredEnemyList.add(new Integer(BadTank_Grass));
@@ -572,7 +575,7 @@ public class Land {
 		armoredEnemyList.add(new Integer(BadRadar_Sand));
 	}
 
-	public final static ArrayList<Integer> enemyList = new ArrayList<Integer>();
+	public final static Set<Integer> enemyList = new HashSet<>();
 	static {
 		enemyList.addAll(armoredEnemyList);
 		enemyList.add(new Integer(BadSoldier));
@@ -589,7 +592,7 @@ public class Land {
 		enemyList.add(new Integer(Dark_Knight_Sand));
 	}
 	
-	public static final ArrayList<Integer> armoredCitizenList = new ArrayList<Integer>();
+	public static final Set<Integer> armoredCitizenList = new HashSet<>();
 	static {
 		armoredCitizenList.add(new Integer(GoodTank));
 		armoredCitizenList.add(new Integer(GoodTank_Grass));
@@ -606,7 +609,7 @@ public class Land {
 		armoredCitizenList.addAll(trainList);
 	}
 
-	public static final ArrayList<Integer> citizenList = new ArrayList<Integer>();
+	public static final Set<Integer> citizenList = new HashSet<>();
 	static {
 		citizenList.addAll(armoredCitizenList);
 		
@@ -629,7 +632,7 @@ public class Land {
 		citizenList.add(new Integer(Peasant_Sand));
 	}
 	
-	public static final ArrayList<Integer> gateList = new ArrayList<Integer>();
+	public static final Set<Integer> gateList = new HashSet<>();
 	static {
 		gateList.add(new Integer(OpenedHorizontalSteelGate));
 		gateList.add(new Integer(ClosedHorizontalSteelGate));
@@ -650,7 +653,7 @@ public class Land {
 		gateList.add(new Integer(ClosedVerticalBrickGate));
 	}
 
-	public static final ArrayList<Integer> saveList = new ArrayList<Integer>();
+	public static final Set<Integer> saveList = new HashSet<>();
 	static {
 		saveList.addAll(enemyList);
 		saveList.addAll(citizenList);
@@ -746,7 +749,7 @@ public class Land {
 	}
 
 	public static boolean canIWalk(Location location, Direction direction,
-			List<Integer> list) {
+			Set<Integer> list) {
 		int land = getLand(location, direction);
 		if (land == Vacuum)
 			return false;
@@ -799,11 +802,11 @@ public class Land {
 //		}
 //	}
 	
-	public static SearchResult search(final Location location, final Direction direction, final List<Integer> list) {
+	public static SearchResult search(final Location location, final Direction direction, final Set<Integer> list) {
 		return search(location, direction, list, DWConstants.VISIBLE_DISTANCE);
 	}
 	
-	public static SearchResult search(final Location location, final Direction direction, final List<Integer> list, final int maxDistance) {
+	public static SearchResult search(final Location location, final Direction direction, final Set<Integer> list, final int maxDistance) {
 		Location point = getNewLocation((Location) location, direction);
 
 		int land = Vacuum;

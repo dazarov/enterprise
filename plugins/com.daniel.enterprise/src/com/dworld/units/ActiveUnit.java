@@ -1,7 +1,7 @@
 package com.dworld.units;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Set;
 
 import com.dworld.core.CommonTargetManager;
 import com.dworld.core.DWConstants;
@@ -78,14 +78,14 @@ public abstract class ActiveUnit extends Unit implements IActive {
 		active = false;
 	}
 	
-	protected Direction[] findUnit(List<Integer> list) {
+	protected Direction[] findUnit(Set<Integer> list) {
 		if(list == null){
 			throw new IllegalArgumentException("Illegal argument list, make sure you defined methods getListToFightWith() and getArmoredListToFightWith() !");
 		}
 		return findUnit(list, DWConstants.VISIBLE_DISTANCE);
 	}
 
-	protected Direction[] findUnit(List<Integer> list, final int maxDistance) {
+	protected Direction[] findUnit(Set<Integer> list, final int maxDistance) {
 		if(list == null){
 			throw new IllegalArgumentException("Illegal argument list, make sure you defined methods getListToFightWith() and getArmoredListToFightWith() !");
 		}
@@ -160,7 +160,7 @@ public abstract class ActiveUnit extends Unit implements IActive {
 		}
 	}
 	
-	protected Target[] extendedFindUnit(List<Integer> list, final int maxDistance) {
+	protected Target[] extendedFindUnit(Set<Integer> list, final int maxDistance) {
 		ArrayList<Target> targets = new ArrayList<Target>();
 		if(list == null){
 			throw new IllegalArgumentException("Illegal argument list, make sure you defined methods getListToFightWith() and getArmoredListToFightWith() !");
@@ -217,7 +217,7 @@ public abstract class ActiveUnit extends Unit implements IActive {
 		}
 	}
 	
-	protected List<Integer> getListToFightWith(){
+	protected Set<Integer> getListToFightWith(){
 		return null;
 	}
 	
@@ -289,7 +289,7 @@ public abstract class ActiveUnit extends Unit implements IActive {
 		}
 	}
 	
-	protected List<Integer> getArmoredListToFightWith(){
+	protected Set<Integer> getArmoredListToFightWith(){
 		return null;
 	}
 	

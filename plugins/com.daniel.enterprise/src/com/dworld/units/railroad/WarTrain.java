@@ -1,6 +1,6 @@
 package com.dworld.units.railroad;
 
-import java.util.List;
+import java.util.Set;
 
 import com.dworld.core.DWConstants;
 import com.dworld.core.Direction;
@@ -139,12 +139,12 @@ public class WarTrain extends Train {
 	}
 	
 	@Override
-	protected List<Integer> getListToFightWith(){
+	protected Set<Integer> getListToFightWith(){
 		return Land.enemyList;
 	}
 	
 	@Override
-	protected List<Integer> getArmoredListToFightWith(){
+	protected Set<Integer> getArmoredListToFightWith(){
 		return Land.armoredEnemyList;
 	}
 	

@@ -1,6 +1,6 @@
 package com.dworld.units;
 
-import java.util.List;
+import java.util.Set;
 
 import com.dworld.core.DWConstants;
 import com.dworld.core.DWUnitFactory;
@@ -29,7 +29,7 @@ public class ControlledUnit extends MovableUnit {
 		Land.setLand(getLocation(), getCode(getBeneath()));
 	}
 	
-	protected List<Integer> getListToFightWith(){
+	protected Set<Integer> getListToFightWith(){
 		if(Land.citizenList.contains(code) || Land.armoredCitizenList.contains(code))
 			return Land.enemyList;
 		else

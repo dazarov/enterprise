@@ -1,6 +1,6 @@
 package com.dworld.units.citizens;
 
-import java.util.List;
+import java.util.Set;
 
 import com.dworld.core.Land;
 import com.dworld.units.Bunker;
@@ -12,7 +12,7 @@ public class GoodBunker extends Bunker {
 	}
 	
 	@Override
-	protected List<Integer> getListToFightWith(){
+	protected Set<Integer> getListToFightWith(){
 		return Land.enemyList;
 	}
 }

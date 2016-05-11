@@ -1,6 +1,6 @@
 package com.dworld.units.weapon;
 
-import java.util.List;
+import java.util.Set;
 
 import com.dworld.core.DWConstants;
 import com.dworld.core.Direction;
@@ -47,7 +47,7 @@ public class Bullet extends MovableWeapon {
 	}
 	
 	@Override
-	protected List<Integer> getWalkList(){
+	protected Set<Integer> getWalkList(){
 		return Land.flyAndFindList;
 	}
 
