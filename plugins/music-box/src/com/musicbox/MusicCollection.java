@@ -1,18 +1,19 @@
 package com.musicbox;
 
+import static com.musicbox.MusicBox.out;
+
 import java.io.BufferedWriter;
-import java.io.IOException;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
-import static com.musicbox.MusicBox.out;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class MusicCollection {
 	private Map<String, Map<String, Song>> artists = new TreeMap<>();
 	private Set<String> nonArtists = new TreeSet<>();
 	
-	public void addSong(BufferedWriter logFile, String fileName, String artist, String title) throws IOException{
+	public void addSong(BufferedWriter logFile, String fileName, String artist, String title){
 		if(artist == null || title == null || artist.isEmpty() || title.isEmpty()){
 			nonArtists.add(fileName);
 		} else {
@@ -48,8 +49,8 @@ public class MusicCollection {
 				.replace("  ", " ");
 	}
 	
-	public void printAll(BufferedWriter songList) throws IOException{
-		int total = 1;
+	public void printAll(BufferedWriter songList){
+		AtomicInteger total = new AtomicInteger(1);
 		int artCount = 1;
 		for(String artist : artists.keySet()){
 			Map<String, Song> map = artists.get(artist);
@@ -63,17 +64,13 @@ public class MusicCollection {
 				}
 				out(songList, total+". "+count+". "+song.title);
 				count++;
-				total++;
+				total.incrementAndGet();
 			}
 			artCount++;
 		}
+		
 		out(songList, "-------   Non Artists Songs   --------");
-		for(String song : nonArtists){
-			out(songList, total+". "+song);
-			total++;
-		}
-		
-		
+		nonArtists.forEach(s -> out(songList, total.getAndIncrement()+". "+s));
 	}
 	
 	public int getNumberOFArtists(){

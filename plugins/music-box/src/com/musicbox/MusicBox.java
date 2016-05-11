@@ -125,7 +125,7 @@ public class MusicBox {
 		}
 	}
 	
-	private Information parseFromFileName(BufferedWriter logFile, String fileName) throws IOException{
+	private Information parseFromFileName(BufferedWriter logFile, String fileName){
 		Information info = new Information();
 		
 		int delimeter = fileName.indexOf(" - ");
@@ -251,17 +251,9 @@ public class MusicBox {
 				System.out.println("3. Tags name - "+tagInfo.artist+" - "+tagInfo.title+".mp3");
 				System.out.println("4. Skip");
 				System.out.println("0. Exit");
-				String value = readLine("Enter:");
 				
-				for(char ch : value.toCharArray()){
-					if(!Character.isDigit(ch)){
-						value = "0";
-						break;
-					}
-				}
+				int input = waitForCommand("Enter:");
 				
-				int input = Integer.parseInt(value);
-
 				System.out.println("Input - "+input);
 				
 				if(input == 1){
@@ -301,9 +293,28 @@ public class MusicBox {
 		}
 	}
 	
-	static void out(BufferedWriter logFile, String message) throws IOException{
+	static void out(BufferedWriter logFile, String message){
 		System.out.println(message);
-		logFile.write(message+"\n");
+		try {
+			logFile.write(message+"\n");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	static int waitForCommand(String prompt) throws IOException {
+		String value;
+		WHILE_LOOP:
+		while(true){
+			value = readLine("Enter:");
+			for(char ch : value.toCharArray()){
+				if(!Character.isDigit(ch)){
+					continue WHILE_LOOP;
+				}
+			}
+			break WHILE_LOOP;
+		}
+		return Integer.parseInt(value);
 	}
 	
 	static String readLine(String format, Object... args) throws IOException {
