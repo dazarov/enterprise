@@ -7,6 +7,9 @@ import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -57,7 +60,11 @@ public class MusicBox {
 			BufferedWriter log = Files.newBufferedWriter(Paths.get(LOG_FILE));
 			BufferedWriter song_list = Files.newBufferedWriter(Paths.get(SONG_LIST_FILE));
 		){
-		
+			LocalDateTime dateTime = LocalDateTime.now();
+			DateTimeFormatter formatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.FULL, FormatStyle.MEDIUM);
+			out(log, formatter.format(dateTime));
+			
+			
 			root = Paths.get(LINUX_PATH);
 			//root = new File(TEST_PATH);
 			if(!Files.exists(root)){
@@ -69,10 +76,13 @@ public class MusicBox {
 	
 				//Files.walk(root).filter(p -> Files.isRegularFile(p) && p.toString().endsWith(".mp3")).forEach(p -> processFile(log, p));
 				Files.find(root, 20, (p,a)-> a.isRegularFile() && p.toString().endsWith(".mp3")).forEach(p -> processFile(log, p));
+			}else{
+				out(log, root+" is not a folder!");
 			}
 			
 			moveToSeparateFolder(log);
 			
+			out(song_list, formatter.format(dateTime));
 			collection.printAll(song_list);
 			
 			
