@@ -41,12 +41,21 @@ public class Duck implements Comparable<Duck>{
 			}
 		};
 		
-		Comparator<Duck> chainig = new Comparator<Duck>(){
+		Comparator<Duck> chainig2 = new Comparator<Duck>(){
 			@Override
 			public int compare(Duck d1, Duck d2){
 				Comparator<Duck> c = Comparator.comparing(d -> d.getName());
 				c = c.thenComparingInt(d -> d.getWeight());
 				return c.compare(d1, d2);
+			}
+		};
+		
+		Comparator<Duck> chainig = new Comparator<Duck>(){
+			@Override
+			public int compare(Duck d1, Duck d2){
+				return Comparator.comparing((Duck d) -> d.getName())
+						.thenComparingInt(d -> d.getWeight())
+						.compare(d1, d2);
 			}
 		};
 		
@@ -61,6 +70,9 @@ public class Duck implements Comparable<Duck>{
 		System.out.println("Ducks - "+ducks);
 		
 		Collections.sort(ducks, chainig);
+		System.out.println("Ducks - "+ducks);
+		
+		Collections.sort(ducks, (d1, d2) -> Comparator.comparing((Duck d) -> d.getName()).thenComparingInt(d -> d.getWeight()).compare(d1, d2));
 		System.out.println("Ducks - "+ducks);
 	}
 
