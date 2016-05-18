@@ -3,11 +3,6 @@ package com.dworld.core;
 public enum Direction {
 	NORTH {
 		@Override
-		public String toString(){
-			return "NORTH";
-		}
-		
-		@Override
 		public Direction getClockwiseDirection() {
 			return NORTHEAST;
 		}
@@ -28,11 +23,6 @@ public enum Direction {
 		}
 	},
 	SOUTH {
-		@Override
-		public String toString(){
-			return "SOUTH";
-		}
-
 		@Override
 		public Direction getClockwiseDirection() {
 			return SOUTHWEST;
@@ -55,11 +45,6 @@ public enum Direction {
 	},
 	WEST {
 		@Override
-		public String toString(){
-			return "WEST";
-		}
-
-		@Override
 		public Direction getClockwiseDirection() {
 			return NORTHWEST;
 		}
@@ -80,11 +65,6 @@ public enum Direction {
 		}
 	},
 	EAST {
-		@Override
-		public String toString(){
-			return "EAST";
-		}
-
 		@Override
 		public Direction getClockwiseDirection() {
 			return SOUTHEAST;
@@ -107,11 +87,6 @@ public enum Direction {
 	},
 	NORTHWEST {
 		@Override
-		public String toString(){
-			return "NORTHWEST";
-		}
-
-		@Override
 		public Direction getClockwiseDirection() {
 			return NORTH;
 		}
@@ -131,11 +106,6 @@ public enum Direction {
 		}
 	},
 	SOUTHWEST {
-		@Override
-		public String toString(){
-			return "SOUTHWEST";
-		}
-		
 		@Override
 		public Direction getClockwiseDirection() {
 			return WEST;
@@ -158,11 +128,6 @@ public enum Direction {
 	},
 	NORTHEAST {
 		@Override
-		public String toString(){
-			return "NORTHEAST";
-		}
-
-		@Override
 		public Direction getClockwiseDirection() {
 			return EAST;
 		}
@@ -184,11 +149,6 @@ public enum Direction {
 	},
 	SOUTHEAST {
 		@Override
-		public String toString(){
-			return "SOUTHEAST";
-		}
-		
-		@Override
 		public Direction getClockwiseDirection() {
 			return SOUTH;
 		}
@@ -209,11 +169,6 @@ public enum Direction {
 		}
 	},
 	NOWHERE {
-		@Override
-		public String toString(){
-			return "NOWHERE";
-		}
-		
 		@Override
 		public Direction getClockwiseDirection() {
 			throw new UnsupportedOperationException("Nowhere direction does not support getClockwiseDirection");
