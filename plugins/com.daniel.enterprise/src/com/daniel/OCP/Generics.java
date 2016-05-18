@@ -38,6 +38,10 @@ public class Generics {
 		
 		List<? extends Number> l = new ArrayList<Integer>();
 		
+		List<? extends Integer> l45 = new ArrayList<Integer>();
+		
+		List<? super Integer> l4 = new ArrayList<Integer>();
+		
 		//l.add(13);
 		
 	}

@@ -5,6 +5,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.TreeSet;
+import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
@@ -159,5 +162,21 @@ public class Streams {
 		
 		System.out.println("Long range average - ");
 		longStream.average().ifPresent(System.out::print);
+	}
+	
+	void more(){
+		Stream<String> primates = Stream.of("gorilla", "lemur", "monkey", "orangutan");
+		Stream<String> turtles = Stream.of("leatherback", "green", "loggerhead");
+		ConcurrentMap<Boolean, List<String>> data = Stream.of(primates, turtles)
+				.flatMap(s -> s).parallel()
+				.collect(Collectors.groupingByConcurrent(s -> s.endsWith("n")));
+		System.out.println(data.get(false).size()+" "+data.get(true).size());
+		
+		
+		ExecutorService service = Executors.newSingleThreadExecutor();
+		IntStream.of(1,4,9,16,25).parallel()
+			.forEachOrdered(c -> service.submit(() -> System.out.println(10*c)));
+		service.submit(() -> System.out.println("Complete!"));
+		service.shutdown();
 	}
 }
