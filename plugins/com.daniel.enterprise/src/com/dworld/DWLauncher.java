@@ -19,6 +19,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JToolBar;
 
+import com.dworld.core.DWConfiguration;
 import com.dworld.core.DWConstants;
 import com.dworld.core.DWEngine;
 import com.dworld.core.DWUnitFactory;
@@ -48,6 +49,7 @@ public class DWLauncher implements KeyListener, MouseListener, MouseMotionListen
 	
 	private static DWLauncher launcher;
 	private static ControlledUnit controlledUnit = null;
+	
 	private JFrame window;
 	private static String path;
 	private JPanel panel = null;
@@ -100,9 +102,9 @@ public class DWLauncher implements KeyListener, MouseListener, MouseMotionListen
 		}else{
 			path = "";
 		}
-		
-		window = new JFrame();
-		engine = new DWEngine(window);
+		DWConfiguration configuration = DWConfiguration.getInstance();
+		window = configuration.getWindow();
+		engine = configuration.getEngine();
 		DWWindowListener.getDefault().addMainWindow(window);
 		initMenu();
 		initWindow();
@@ -339,7 +341,7 @@ public class DWLauncher implements KeyListener, MouseListener, MouseMotionListen
 				Land.setLand(location, selectedElement);
 				DWUnitFactory.createUnit(selectedElement, location.getX(), location.getY());
 			}else{
-				IUnit unit = DWEngine.getEngine().findUnit(location);
+				IUnit unit = engine.findUnit(location);
 				if(unit != null){
 					unit.die();
 				}

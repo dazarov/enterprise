@@ -10,6 +10,7 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
+import com.dworld.core.DWConfiguration;
 import com.dworld.core.DWConstants;
 import com.dworld.core.DWEngine;
 import com.dworld.core.Land;
@@ -73,6 +74,7 @@ public class DWInfoScreen extends JDialog{
 	
 	private String getInfo(){
 		StringBuffer buffer = new StringBuffer();
+		DWEngine engine = DWConfiguration.getInstance().getEngine();
 		
 		buffer.append("<html>");
 		
@@ -81,10 +83,10 @@ public class DWInfoScreen extends JDialog{
 		buffer.append("<tr><td><b>Screen size:</b></td><td align=\"right\">"+DWConstants.UI_WIDTH+" x "+DWConstants.UI_HEIGHT+"</td></tr>");
 		buffer.append("<tr><td><b>Hero position:</b></td><td align=\"right\">"+controlledUnit.getLocation().getX()+", "+controlledUnit.getLocation().getY()+"</td></tr>");
 		buffer.append("<tr><td><b>Viewport position:</b></td><td align=\"right\">"+controlledUnit.getDrawPosition().getX()+", "+controlledUnit.getDrawPosition().getY()+"</td></tr>");
-		buffer.append("<tr><td><b>Number of active units:</b></td><td align=\"right\">"+DWEngine.getEngine().getNumberOfActiveUnits()+" / "+DWEngine.getEngine().getMaxNumber()+"</td></tr>");
-		buffer.append("<tr><td><b>Number of units:</b></td><td align=\"right\">"+(DWEngine.getEngine().getNumberOfActiveUnits()+DWEngine.getEngine().getNumberOfSlowUnits())+"</td></tr>");
+		buffer.append("<tr><td><b>Number of active units:</b></td><td align=\"right\">"+engine.getNumberOfActiveUnits()+" / "+engine.getMaxNumber()+"</td></tr>");
+		buffer.append("<tr><td><b>Number of units:</b></td><td align=\"right\">"+(engine.getNumberOfActiveUnits()+engine.getNumberOfSlowUnits())+"</td></tr>");
 		buffer.append("<tr><td><b>Total Number of used units:</b></td><td align=\"right\">"+Unit.getUnits()+"</td></tr>");
-		buffer.append("<tr><td><b>Loop time:</b></td><td align=\"right\">"+DWEngine.getEngine().getCurrentDelta()+" / "+DWEngine.getEngine().getMaxDelta()+"</td></tr>");
+		buffer.append("<tr><td><b>Loop time:</b></td><td align=\"right\">"+engine.getCurrentDelta()+" / "+engine.getMaxDelta()+"</td></tr>");
 		buffer.append("</table></center>");
 		
 		int trains = 0;
@@ -111,8 +113,8 @@ public class DWInfoScreen extends JDialog{
 		int dots = 0;
 		int patriots = 0;
 		
-		for(int i = 0; i < DWEngine.getEngine().getNumberOfActiveUnits(); i++){
-			IActive element = DWEngine.getEngine().getElement(i);
+		for(int i = 0; i < engine.getNumberOfActiveUnits(); i++){
+			IActive element = engine.getElement(i);
 			if(element instanceof Mine)
 				mines++;
 			else if(element instanceof Bullet)
@@ -147,8 +149,8 @@ public class DWInfoScreen extends JDialog{
 				trains++;
 		}
 		
-		for(int i = 0; i < DWEngine.getEngine().getNumberOfSlowUnits(); i++){
-			IActive element = DWEngine.getEngine().getSlowElement(i);
+		for(int i = 0; i < engine.getNumberOfSlowUnits(); i++){
+			IActive element = engine.getSlowElement(i);
 			if(element instanceof Gate)
 				doors++;
 			else if(element instanceof Teleport)

@@ -2,7 +2,7 @@ package com.dworld.units;
 
 import java.util.HashMap;
 
-import com.dworld.core.DWEngine;
+import com.dworld.core.DWConfiguration;
 import com.dworld.core.ISlow;
 import com.dworld.core.IUnit;
 import com.dworld.core.Land;
@@ -44,7 +44,7 @@ public class Teleport extends ActiveUnit implements ISlow {
 		Location herePoint = getPoint();
 		int hereCode = Land.getLand(herePoint);
 		if (Land.heroList.contains(hereCode)) {
-			IUnit unit = DWEngine.getEngine().findUnit(herePoint);
+			IUnit unit = DWConfiguration.getInstance().getEngine().findUnit(herePoint);
 			if(unit instanceof MovableUnit){
 				int thereCode = Land.getLand(pointToGo);
 				if(thereCode == Land.Empty || thereCode == Land.Grass || thereCode == Land.Sand){

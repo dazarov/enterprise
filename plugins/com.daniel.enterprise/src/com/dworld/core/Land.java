@@ -970,7 +970,7 @@ public class Land {
 					}
 					stream.write(code);
 					if (saveList.contains(code)) {
-						IUnit unit = DWEngine.getEngine().findUnit(new Location(x, y));
+						IUnit unit = DWConfiguration.getInstance().getEngine().findUnit(new Location(x, y));
 						if (unit != null)
 							unit.save(stream);
 					}

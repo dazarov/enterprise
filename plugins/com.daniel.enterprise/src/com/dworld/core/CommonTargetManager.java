@@ -8,7 +8,7 @@ public class CommonTargetManager {
 	private static HashMap<IMovable, CommonTarget>enemies = new HashMap<IMovable, CommonTarget>();
 	
 	public static void reportTarget(Location targetLocation){
-		IUnit targetUnit = DWEngine.getEngine().findUnit(targetLocation);
+		IUnit targetUnit = DWConfiguration.getInstance().getEngine().findUnit(targetLocation);
 		
 		if(targetUnit instanceof IMovable){
 			addTarget((IMovable)targetUnit, targetLocation);
@@ -16,7 +16,7 @@ public class CommonTargetManager {
 	}
 	
 	public static Location getTargetLocation(IUnit sourceUnit){
-		cleanUpTargets(DWEngine.getEngine().getFrameID());
+		cleanUpTargets(DWConfiguration.getInstance().getEngine().getFrameID());
 		
 		Location sourceLocation = sourceUnit.getLocation();
 		
@@ -35,7 +35,7 @@ public class CommonTargetManager {
 			}
 		}
 		if(closestTarget != null){
-			closestTarget.lastSeenFrame = DWEngine.getEngine().getFrameID();
+			closestTarget.lastSeenFrame = DWConfiguration.getInstance().getEngine().getFrameID();
 			return closestTarget.lastSeenLocation;
 		}
 		return null;
@@ -47,9 +47,9 @@ public class CommonTargetManager {
 		CommonTarget target = targets.get(targetUnit);
 		if(target != null){
 			target.lastSeenLocation = targetLocation;
-			target.lastSeenFrame = DWEngine.getEngine().getFrameID();
+			target.lastSeenFrame = DWConfiguration.getInstance().getEngine().getFrameID();
 		}else if(targets.size() < DWConstants.COMMON_TARGET_MAX_NUMBER){
-			targets.put(targetUnit, new CommonTarget(targetUnit, targetLocation, DWEngine.getEngine().getFrameID()));
+			targets.put(targetUnit, new CommonTarget(targetUnit, targetLocation, DWConfiguration.getInstance().getEngine().getFrameID()));
 		}
 	}
 	

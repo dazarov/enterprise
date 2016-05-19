@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Set;
 
 import com.dworld.core.CommonTargetManager;
+import com.dworld.core.DWConfiguration;
 import com.dworld.core.DWConstants;
-import com.dworld.core.DWEngine;
 import com.dworld.core.Direction;
 import com.dworld.core.IActive;
 import com.dworld.core.Land;
@@ -55,7 +55,7 @@ public abstract class ActiveUnit extends Unit implements IActive {
 	@Override
 	public void die() {
 		if (isAlive()) {
-			DWEngine.getEngine().removeElement(this);
+			DWConfiguration.getInstance().getEngine().removeElement(this);
 			super.die();
 		}
 	}

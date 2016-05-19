@@ -13,6 +13,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JRadioButtonMenuItem;
 
 import com.dworld.DWLauncher;
+import com.dworld.core.DWConfiguration;
 import com.dworld.core.DWEngine;
 import com.dworld.core.Land;
 import com.dworld.core.SelectionManager;
@@ -28,6 +29,7 @@ public class DWMenuBuilder {
 	}
 	
 	public JMenuBar buildMenu() {
+		DWEngine engine = DWConfiguration.getInstance().getEngine();
 		JCheckBoxMenuItem cbMenuItem;
 		JMenuItem menuItem;
 
@@ -38,7 +40,7 @@ public class DWMenuBuilder {
 		menuItem = new JMenuItem("Load");
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				DWEngine.getEngine().load(DWLauncher.SAVE_FILE);
+				engine.load(DWLauncher.SAVE_FILE);
 			}
 		});
 		menu.add(menuItem);
@@ -46,7 +48,7 @@ public class DWMenuBuilder {
 		menuItem = new JMenuItem("Save");
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				DWEngine.getEngine().save(DWLauncher.SAVE_FILE);
+				engine.save(DWLauncher.SAVE_FILE);
 			}
 		});
 		menu.add(menuItem);
@@ -56,7 +58,7 @@ public class DWMenuBuilder {
 		menuItem = new JMenuItem("Load Backup");
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				DWEngine.getEngine().load(DWLauncher.BACKUP_FILE);
+				engine.load(DWLauncher.BACKUP_FILE);
 			}
 		});
 		menu.add(menuItem);
@@ -64,7 +66,7 @@ public class DWMenuBuilder {
 		menuItem = new JMenuItem("Save Backup");
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				DWEngine.getEngine().save(DWLauncher.BACKUP_FILE);
+				engine.save(DWLauncher.BACKUP_FILE);
 			}
 		});
 		menu.add(menuItem);
@@ -74,7 +76,7 @@ public class DWMenuBuilder {
 		menuItem = new JMenuItem("Load Test");
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				DWEngine.getEngine().load(DWLauncher.TEST_FILE);
+				engine.load(DWLauncher.TEST_FILE);
 			}
 		});
 		menu.add(menuItem);
@@ -82,7 +84,7 @@ public class DWMenuBuilder {
 		menuItem = new JMenuItem("Save Test");
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				DWEngine.getEngine().save(DWLauncher.TEST_FILE);
+				engine.save(DWLauncher.TEST_FILE);
 			}
 		});
 		menu.add(menuItem);
@@ -124,7 +126,7 @@ public class DWMenuBuilder {
 		menuItem = new JMenuItem("Pause");
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				DWEngine.getEngine().pause(true);
+				engine.pause(true);
 			}
 		});
 		menu.add(menuItem);
@@ -132,7 +134,7 @@ public class DWMenuBuilder {
 		menuItem = new JMenuItem("Go");
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				DWEngine.getEngine().pause(false);
+				engine.pause(false);
 			}
 		});
 		menu.add(menuItem);
@@ -152,7 +154,7 @@ public class DWMenuBuilder {
 		cbMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				DWLauncher.getLauncher().setBuildMode(!DWLauncher.getLauncher().isBuildMode());
-				DWEngine.getEngine().pause(DWLauncher.getLauncher().isBuildMode());
+				engine.pause(DWLauncher.getLauncher().isBuildMode());
 				if(DWLauncher.getLauncher().isBuildMode()){
 					DWToolBarBuilder.showPalette();
 				}else{

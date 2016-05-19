@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.swing.JFrame;
+
 import com.dworld.DWLauncher;
 import com.dworld.ui.DWMap;
 
@@ -13,12 +15,6 @@ public class DWEngine {
 	private static final long MAIN_DELAY = 60;
 	private static final long SLEEP_DELAY = 100;
 	private static final int minimapRefreshRate = 10;
-	
-	private static DWEngine instance;
-	
-	public static DWEngine getEngine(){
-		return instance;
-	}
 	
 	private List<ISlow> slowUnits = new ArrayList<>();
 	private List<IActive> activeUnits = new ArrayList<>();
@@ -39,13 +35,15 @@ public class DWEngine {
 	
 	private static long current=0;
 	private static long delay=0;
+
+	private String fileName;
+	private Frame window;
 	
-	public DWEngine(Frame window){
+	DWEngine(JFrame window){
 		super();
-		DWEngine.window = window;
-		instance = this;
+		this.window = window;
 	}
-	
+
 	public void run(){
 		
 		while (true) {
@@ -105,22 +103,20 @@ public class DWEngine {
 		}
 	}
 	
-	private static String fileName;
-	private static Frame window;
 	
 	public void save(String fileName){
-		DWEngine.fileName = fileName;
+		this.fileName = fileName;
 		save = true;
 	}
 	
 	public void saveAndExit(String fileName){
-		DWEngine.fileName = fileName;
+		this.fileName = fileName;
 		save = true;
 		exit = true;
 	}
 
 	public void load(String fileName){
-		DWEngine.fileName = fileName;
+		this.fileName = fileName;
 		load = true;
 	}
 	

@@ -5,7 +5,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
 
-import com.dworld.core.DWEngine;
+import com.dworld.core.DWConfiguration;
 
 public class ChangeManCodeAction implements ActionListener {
 	private int code;
@@ -17,7 +17,7 @@ public class ChangeManCodeAction implements ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		DWEngine.getEngine().changeManCode(code);
+		DWConfiguration.getInstance().getEngine().changeManCode(code);
 		window.requestFocus();
 	}
 }
