@@ -1,19 +1,7 @@
 package com.daniel.OCP;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.time.LocalDate;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Properties;
-import java.util.function.UnaryOperator;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 public class MapsTraining {
 	public static void main(String...strings){
@@ -28,58 +16,79 @@ public class MapsTraining {
 		
 		System.out.println("Map - "+map);
 		
-		map.compute(3, (k,v) -> v == null ? "_UP_"+k : v.toUpperCase()+k);
-		map.compute(8, (k,v) -> v == null ? "_UP_"+k : v.toUpperCase()+k);
+		map.compute(3, (k,v) -> v == null ? "_UP_"+k : v.toUpperCase()+k);  // changes entry for key 3
+		map.compute(8, (k,v) -> v == null ? "_UP_"+k : v.toUpperCase()+k);  // adds map entry
 		
 		System.out.println("after compute Map - "+map);
 		
-		map.merge(3, "_addition", (s1, s2) -> s1.concat(s2));
-		map.merge(7, "_addition", (s1, s2) -> s1.concat(s2));
+		map.merge(3, "_addition", (s1, s2) -> s1.concat(s2)); // changes entry
+		map.merge(7, "_addition", (s1, s2) -> s1.concat(s2)); // adds entry
 		
 		System.out.println("after merge Map - "+map);
 		
 		map.computeIfPresent(1, (k,v) -> v.toUpperCase()+k);
-		map.computeIfPresent(9, (k,v) -> v.toUpperCase()); // do nothing
+		map.computeIfPresent(9, (k,v) -> v.toUpperCase()); // do nothing with missing key
 		
 		System.out.println("after computeIfPresent Map - "+map);
 		
-		map.computeIfAbsent(2, (v) -> "_UP_"); // do nothing
+		map.computeIfAbsent(2, (v) -> "_UP_"); // do nothing with existing entry
 		map.computeIfAbsent(10, (v) -> "_UP_");
 		
 		System.out.println("after computeIfAbsent Map - "+map);
 		
-		//Properties prop = new Properties();
+		map = new HashMap<>();
 		
-		//prop.keySet().s
+		map.put(1, null);
+		map.put(2, "Bbbb");
+		map.put(3, null);
 		
-		Path path = Paths.get("/aaa");
+		System.out.println("Map (with null) - "+map);
 		
-		try {
-			Files.lines(path)
-			.flatMap(p -> Stream.of(p.split(",")))
-			.map(s -> s.length())
-			.collect(Collectors.toList())
-			.forEach(System.out::print);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		//String a="as";
-		//a.com
+		map.compute(1, (k,v) -> "NOT_NULL"); // changes entry
+		map.compute(2, (k,v) -> null); // removes entry without null
+		map.compute(3, (k,v) -> null); // removes entry with null
 		
-		Arrays.asList(0,1,2)
-		//.stream()
-		.forEach(System.out::print);
+		System.out.println("after compute Map - "+map);
+
+		map = new HashMap<>();
 		
-		Stream<String> sss = Stream.of("1", "2");
+		map.put(1, null);
+		map.put(2, "Bbbb");
+		map.put(3, null);
 		
-		IntStream is = sss.mapToInt(Integer::parseInt);
+		System.out.println("Map (with null) - "+map);
+		
+		map.merge(1, "MERGED", (s1, s2) -> "NOT_NULL");
+		map.merge(2, "MERGED", (s1, s2) -> null); // removes entry
+		map.merge(3, "MERGED", (s1, s2) -> null); // changes entry
+		
+		System.out.println("after merge Map - "+map);
+		
+		map = new HashMap<>();
+		
+		map.put(1, "Aaaa");
+		map.put(2, "Bbbb");
+		map.put(3, "Cccc");
+		map.put(4, "Dddd");
+		
+		System.out.println("+++ Map (with null) - "+map);
+		
+		map.merge(1, "New", (s1, s2) -> s1+s2);
+		map.merge(2, "New", (s1, s2) -> s1);
+		map.merge(3, "New", (s1, s2) -> s2);
+		map.merge(4, "New", (s1, s2) -> "_-_-_-");
+		
+		System.out.println("+++ after merge Map - "+map);
+//		
+//		map.computeIfPresent(1, (k,v) -> v.toUpperCase()+k);
+//		map.computeIfPresent(9, (k,v) -> v.toUpperCase()); // do nothing
+//		
+//		System.out.println("after computeIfPresent Map - "+map);
+//		
+//		map.computeIfAbsent(2, (v) -> "_UP_"); // do nothing
+//		map.computeIfAbsent(10, (v) -> "_UP_");
+//		
+//		System.out.println("after computeIfAbsent Map - "+map);
 	}
 	
-	public static void add(List list){
-		list.add("sd");
-		list.add(.123);
-		
-		//UnaryOperator<LocalDate> u = 1 -> 1;
-	}
 }

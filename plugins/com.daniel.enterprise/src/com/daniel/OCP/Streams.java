@@ -38,6 +38,8 @@ public class Streams {
 				.collect(Collectors.toList());
 		
 		System.out.println(list);
+		
+		instance.more();
 	}
 	
 	void creatingStreams(){
@@ -178,5 +180,13 @@ public class Streams {
 			.forEachOrdered(c -> service.submit(() -> System.out.println(10*c)));
 		service.submit(() -> System.out.println("Complete!"));
 		service.shutdown();
+		
+		System.out.println("Flat Map:");
+		Arrays.asList("aaaaa,bbbbb,ccccccc,dddddddd,eeeeeee","word,another").stream()
+		.flatMap(s -> Stream.of(s.split(","))).forEach(System.out::println);
+		
+		System.out.println("Map:");
+		Arrays.asList("aaaaa,bbbbb,ccccccc,dddddddd,eeeeeee","word,another").stream()
+		.map(s -> s.split(",")).forEach(System.out::println);
 	}
 }
