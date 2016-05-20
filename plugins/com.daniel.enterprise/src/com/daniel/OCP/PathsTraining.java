@@ -1,7 +1,15 @@
 package com.daniel.OCP;
 
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Queue;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class PathsTraining {
 	public static void main(String...strings){
@@ -29,5 +37,27 @@ public class PathsTraining {
 		path3 = path3.toAbsolutePath();
 		
 		System.out.println("Absolute Path 3 -"+path3);
+		
+		// 8
+//		Path path = Paths.get("bear/polar/./evironment").normalize().getRoot();
+//		System.out.println(Files.list(path)
+//				.filter(p -> !Files.isDirectory(p))
+//				.map(p -> p)
+//				.collect(Collectors.toSet()))
+//				.size());
+		
+//		Queue<Integer> q = new LinkedList<>();
+//		q.add(new Integer(6));
+//		q.add(new Integer(6));
+//		System.out.println(q.size()+" "+q.contains(6L));
+//		
+		Stream<String> s = Stream.empty();
+		Stream<String> s2 = Stream.empty();
+		Predicate<String> condition = b -> b.startsWith("c");
+		Map<Boolean, List<String>> p = s.collect(
+				Collectors.partitioningBy(condition));
+		Map<Boolean, List<String>> g = s2.collect(
+				Collectors.groupingBy(b -> b.startsWith("c")));
+		System.out.println("empty partitioningBy - "+p+" empty groupingBy - "+g);
 	}
 }
