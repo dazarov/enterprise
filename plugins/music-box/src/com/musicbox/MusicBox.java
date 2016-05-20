@@ -58,7 +58,7 @@ public class MusicBox {
 		
 		try(
 			BufferedWriter log = Files.newBufferedWriter(Paths.get(LOG_FILE));
-			BufferedWriter song_list = Files.newBufferedWriter(Paths.get(SONG_LIST_FILE));
+			BufferedWriter song_list = Files.newBufferedWriter(Paths.get(SONG_LIST_FILE))
 		){
 			LocalDateTime dateTime = LocalDateTime.now();
 			DateTimeFormatter formatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.FULL, FormatStyle.MEDIUM);
@@ -72,10 +72,10 @@ public class MusicBox {
 			}
 			if(Files.isDirectory(root)){
 				//Files.walk(root).filter(p -> Files.isDirectory(p)).forEach(this::scanDirectory);
-				Files.find(root, 20, (p,a)-> a.isDirectory()).forEach(this::scanDirectory);
+				Files.find(root, 20, (p,a) -> a.isDirectory()).forEach(this::scanDirectory);
 	
 				//Files.walk(root).filter(p -> Files.isRegularFile(p) && p.toString().endsWith(".mp3")).forEach(p -> processFile(log, p));
-				Files.find(root, 20, (p,a)-> a.isRegularFile() && p.toString().endsWith(".mp3")).forEach(p -> processFile(log, p));
+				Files.find(root, 20, (p,a) -> a.isRegularFile() && p.toString().endsWith(".mp3")).forEach(p -> processFile(log, p));
 			}else{
 				out(log, root+" is not a folder!");
 			}
