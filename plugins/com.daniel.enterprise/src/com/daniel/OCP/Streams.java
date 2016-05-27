@@ -203,10 +203,10 @@ public class Streams {
 		.map(x -> x+1)
 		.forEach(System.out::println);
 		
-		Stream<String> stringStream = Stream.of("aaa", "bbbb", "cccc");
-		Map<Boolean, Set<String>> stringMap = stringStream.collect(Collectors.partitioningBy((String s) -> s.startWith("b"), Collectors.toSet()));
+		//Stream<String> stringStream = Stream.of("aaa", "bbbb", "cccc");
+		//Map<Boolean, Set<String>> stringMap = stringStream.collect(Collectors.partitioningBy((String s) -> s.startWith("b"), Collectors.toSet()));
 		
-		Map<Boolean, Set<String>> maaap = Stream.of("aaa", "bbb").collect(Collectors.partitioningBy((String s) -> s.startWith("b"), Collectors.toSet()));
+		//Map<Boolean, Set<String>> maaap = Stream.of("aaa", "bbb").collect(Collectors.partitioningBy((String s) -> s.startWith("b"), Collectors.toSet()));
 		Character[] chars =
 		           new Character[] { 'a', 'b', 'c', 'd', 'e', 'f', 'g' };
 		
