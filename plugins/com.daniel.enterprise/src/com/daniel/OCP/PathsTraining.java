@@ -59,5 +59,10 @@ public class PathsTraining {
 		Map<Boolean, List<String>> g = s2.collect(
 				Collectors.groupingBy(b -> b.startsWith("c")));
 		System.out.println("empty partitioningBy - "+p+" empty groupingBy - "+g);
+		
+		Path p1 = Paths.get("/lemur/habitat/./party.txt");
+		System.out.println("SUB PATH - "+p1.subpath(1, 4));
+		Path p2 = p1.subpath(1, 4).toAbsolutePath();
+		System.out.println("PATH - "+p2);
 	}
 }

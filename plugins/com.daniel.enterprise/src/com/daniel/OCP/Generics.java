@@ -37,6 +37,7 @@ public class Generics {
 		list.add(new Cc());
 		
 		List<? extends Number> l = new ArrayList<Integer>();
+		//l.add(3);
 		
 		List<? extends Integer> l45 = new ArrayList<Integer>();
 		
@@ -44,5 +45,30 @@ public class Generics {
 		
 		//l.add(13);
 		
+	}
+	
+	void printNumbers1(List<? extends Number> list){
+		list.forEach(System.out::println);
+		
+		//list.add(3);
+		
+	}
+	
+	void printNumbers2(List<? super Integer> list){
+		list.forEach(System.out::println);
+		
+		list.add(4);
+	}
+	
+	void printNumbers3(List<? extends Integer> list){
+		list.forEach(System.out::println);
+		
+		//list.add(45);
+	}
+	
+	void printNumbers4(List<?> list){
+		list.forEach(System.out::println);
+		
+		//list.add(45);
 	}
 }

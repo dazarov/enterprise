@@ -3,6 +3,8 @@ package com.daniel.OCP;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
+import java.util.Map;
 import java.util.Optional;
 import java.util.TreeSet;
 import java.util.concurrent.ConcurrentMap;
@@ -175,11 +177,11 @@ public class Streams {
 		System.out.println(data.get(false).size()+" "+data.get(true).size());
 		
 		
-		ExecutorService service = Executors.newSingleThreadExecutor();
-		IntStream.of(1,4,9,16,25).parallel()
-			.forEachOrdered(c -> service.submit(() -> System.out.println(10*c)));
-		service.submit(() -> System.out.println("Complete!"));
-		service.shutdown();
+		//ExecutorService service = Executors.newSingleThreadExecutor();
+		//IntStream.of(1,4,9,16,25).parallel()
+		//	.forEachOrdered(c -> service.submit(() -> System.out.println(10*c)));
+		//service.submit(() -> System.out.println("Complete!"));
+		//service.shutdown();
 		
 		System.out.println("Flat Map:");
 		Arrays.asList("aaaaa,bbbbb,ccccccc,dddddddd,eeeeeee","word,another").stream()
@@ -188,5 +190,26 @@ public class Streams {
 		System.out.println("Map:");
 		Arrays.asList("aaaaa,bbbbb,ccccccc,dddddddd,eeeeeee","word,another").stream()
 		.map(s -> s.split(",")).forEach(System.out::println);
+		
+		
+		List<Integer> l1 = Arrays.asList();
+		List<Integer> l2 = Arrays.asList(1,2,3);
+		List<Integer> l3 = Arrays.asList(4,5,6);
+		Stream.of(l1, l2, l3)
+		.limit(2)
+		.peek(System.out::println)
+		.flatMap(x -> x.stream())
+		.peek(System.out::println)
+		.map(x -> x+1)
+		.forEach(System.out::println);
+		
+		Stream<String> stringStream = Stream.of("aaa", "bbbb", "cccc");
+		Map<Boolean, Set<String>> stringMap = stringStream.collect(Collectors.partitioningBy((String s) -> s.startWith("b"), Collectors.toSet()));
+		
+		Map<Boolean, Set<String>> maaap = Stream.of("aaa", "bbb").collect(Collectors.partitioningBy((String s) -> s.startWith("b"), Collectors.toSet()));
+		Character[] chars =
+		           new Character[] { 'a', 'b', 'c', 'd', 'e', 'f', 'g' };
+		
+		Map<Boolean, Set<Character>> partition2 =  Arrays.stream(chars).collect(Collectors.partitioningBy((Character x) -> x < 'd', Collectors.toSet()));
 	}
 }
