@@ -1,137 +1,143 @@
 "use strict";
-angular.module('MainApp', [])
-.controller('TabsCtrl', function ($scope) {
-    $scope.tabs = [{
-            title: 'Introduction',
-            url: 'pages/introduction/introduction.html'
-        }, {
-            title: 'Grocery List',
-            url: 'pages/grocery/grocery.html'
-        }, {
-            title: 'Grocery List Database',
-            url: 'pages/groceryDB/groceryDB.html'
-        }, {
-            title: 'Forms & Validation',
-            url: 'pages/forms/forms.html'
-        }, {
-            title: 'Photos',
-            url: 'pages/photos/photos.html'
-        }, {
-            title: 'Calendar',
-            url: 'pages/calendar/calendar.html'
-        }, {
-            title: 'Something',
-            url: 'pages/something/something.html'
-    }];
 
-    $scope.currentTab = $scope.tabs[0].url;
-
-    $scope.onClickTab = function (tab) {
-        $scope.currentTab = tab.url;
-    }
-    
-    $scope.isActiveTab = function(tabUrl) {
-        return tabUrl == $scope.currentTab;
-    }
-
-    $scope.getTabClass = function (tabUrl){
-        return tabUrl == $scope.currentTab ? "btn-primary" : "";
-    }
+angular.module("photoBlog", ["ngRoute"])
+.config(function($routeProvider){
+	
+	$routeProvider.when("/", {
+		templateUrl: "/views/home.html"
+	});
+	
+	//$routeProvider.when("/reset_password", {
+	//	templateUrl: "/views/reset_password.html"
+	//});
+	
+	//$routeProvider.when("/answer_questions", {
+	//	templateUrl: "/views/answer_questions.html"
+	//});
+	
+	//$routeProvider.when("/restore_userid", {
+	//	templateUrl: "/views/restore_userid.html"
+	//});
+	
+	//$routeProvider.when("/congrat", {
+	//	templateUrl: "/views/congrat.html"
+	//});
+	
+	$routeProvider.when("/error", {
+		templateUrl: "/views/error.html"
+	});
 })
-.filter("range", function($filter){
-    return function (data, page, size){
-        if(angular.isArray(data) && angular.isNumber(page) && angular.isNumber(size)){
-            var start_index = (page - 1) * size;
-            if(data.length < start_index){
-                return [];
-            }else{
-                return $filter("limitTo")(data.splice(start_index), size);
-            }
-        }else{
-            return data;
-        }
-    }
-})
-.filter("pageCount", function(){
-    return function (data, size) {
-        if(angular.isArray(data)) {
-            var result = [];
+.directive( 'goClick', function ( $location ) {
+  return function ( scope, element, attrs ) {
+    var path;
 
-            for (let i = 0; i < Math.ceil(data.length / size); i++){
-                result.push(i);
-            }
-            return result;
-        }else{
-            return data;
-        }
-    }
-})
-.filter('unique', function () {
+    attrs.$observe( 'goClick', function (val) {
+      path = val;
+    });
 
-  return function (items, filterOn) {
-
-    if (filterOn === false) {
-      return items;
-    }
-
-    if ((filterOn || angular.isUndefined(filterOn)) && angular.isArray(items)) {
-      var hashCheck = {}, newItems = [];
-
-      var extractValueToCompare = function (item) {
-        if (angular.isObject(item) && angular.isString(filterOn)) {
-          return item[filterOn];
-        } else {
-          return item;
-        }
-      };
-
-      angular.forEach(items, function (item) {
-        var valueToCheck, isDuplicate = false;
-
-        for (let i = 0; i < newItems.length; i++) {
-          if (angular.equals(extractValueToCompare(newItems[i]), extractValueToCompare(item))) {
-            isDuplicate = true;
-            break;
-          }
-        }
-        if (!isDuplicate) {
-          newItems.push(item);
-        }
-
+    element.bind( 'click', function () {
+      scope.$apply( function () {
+        $location.path( path );
       });
-      items = newItems;
-    }
-    return items;
+    });
   };
 })
-.directive('convertToNumber', function() {
-  return {
-    require: 'ngModel',
-    link: function(scope, element, attrs, ngModel) {
-      ngModel.$parsers.push(function(val) {
-        return parseInt(val, 10);
-      });
-      ngModel.$formatters.push(function(val) {
-        return '' + val;
-      });
-    }
-  };
-})
-.directive('confirm', [function () {
-     return {
-         priority: 100,
-         restrict: 'A',
-         link: {
-             pre: function (scope, element, attrs) {
-                 var msg = attrs.confirm || "Are you sure?";
-
-                 element.bind('click', function (event) {
-                     if (!confirm(msg)) {
-                         event.stopImmediatePropagation();
-                         event.preventDefault;
-                     }
-                 });
-             }
-         }
-     };
-}]);
+.controller('AppCtrl', function($scope, $http, $route, $rootScope, $location) {
+	$scope.uid;
+	$scope.email;
+	$scope.givenname;
+	$scope.questions;
+	$scope.answers;
+	
+	$scope.showFooter = true;
+	
+	// if false then it is recover User ID
+	$scope.restorePassword = true;
+	
+	$scope.error;
+	
+	$rootScope.$on( "$routeChangeStart", function(event, next, current) {
+		$scope.showFooter = next.templateUrl == "/views/login.html";
+	});
+	
+	$scope.getQuestions = function(uid, email){
+		$scope.restorePassword = true;
+		$scope.uid = uid;
+		$scope.email = email;
+		if(!angular.isUndefined($scope.uid) && !angular.isUndefined($scope.email)){
+			var req = {
+				method: 'POST',
+				url: '/idm/mhs2/endpoint/restore?_action=securityQuestionsForUserName',
+				headers: {
+				   'uid': $scope.uid,
+				   'email': $scope.email
+				},
+				data: { test: 'test' }
+			}
+			$http(req).then(function successCallback(response){
+				$scope.error = '';
+				$scope.questions = response.data;
+				$location.path('/answer_questions/');
+			}, function errorCallback(response){
+				$scope.error = 'Request failed';
+				$location.path('/error/');
+			});
+		}
+	}
+	
+	$scope.checkAnswers = function(answers){
+		$scope.restorePassword = true;
+		$scope.answers = answers;
+		if(!angular.isUndefined($scope.uid) && !angular.isUndefined($scope.email)){
+			var req = {
+				method: 'POST',
+				url: '/idm/mhs2/endpoint/restore?_action=checkSecurityAnswersForUserName',
+				headers: {
+				   'uid': $scope.uid,
+				   'email': $scope.email,
+				   'answer1': $scope.answers[0],
+				   'answer2': $scope.answers[1],
+				   'answer3': $scope.answers[2],
+				},
+				data: { test: 'test' }
+			}
+			$http(req).then(function successCallback(response){
+				$scope.error = '';
+				$location.path('/congrat/');
+			}, function errorCallback(response){
+				$scope.error = 'Request failed';
+				$location.path('/error/');
+			});
+		}
+	}
+	
+	$scope.restoreUserID = function(email, givenname){
+		$scope.restorePassword = false;
+		$scope.email = email;
+		$scope.givenname = givenname;
+		if(!angular.isUndefined($scope.givenname) && !angular.isUndefined($scope.email)){
+			var req = {
+				method: 'POST',
+				url: '/idm/mhs2/endpoint/restore?_action=restoreUserId',
+				headers: {
+				   'email': $scope.email,
+				   'givenname': $scope.givenname
+				},
+				data: { test: 'test' }
+			}
+			$http(req).then(function successCallback(response){
+				$scope.error = '';
+				$location.path('/congrat/');
+			}, function errorCallback(response){
+				$scope.error = 'Request failed';
+				$location.path('/error/');
+			});
+		}
+	}
+	
+	$scope.$back = function() { 
+		window.history.back();
+	};
+  
+  
+});

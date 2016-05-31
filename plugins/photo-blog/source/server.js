@@ -50,7 +50,7 @@ app.get('/items', function(req, res) {
       throw err;
     }
     console.log('+++++++++SELECT * FROM');
-    for(let i=0;i<rows.length; i++){
+    for(let i = 0;i < rows.length; i++){
       console.log('The grocery is: ', rows[i]);
     }
     res.send(rows);
@@ -66,7 +66,7 @@ app.get('/items/:id', function(req, res) {
       throw err;
     }
     console.log('+++++++++SELECT * FROM');
-    for(let i=0;i<rows.length; i++){
+    for(let i = 0;i < rows.length; i++){
       console.log('The grocery is: ', rows[i]);
     }
     res.send(rows);

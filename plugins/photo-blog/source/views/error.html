@@ -1,0 +1,18 @@
+<div id="noQuestions">
+	<h1 ng-hide="restorePassword">User ID cannot be restored!</h1>
+
+    <p class="paragraph" ng-hide="restorePassword">User ID cannot be restored at this time. Try again later.</p>
+
+	<h1 ng-show="restorePassword">Password cannot be reset!</h1>
+
+    <p class="paragraph" ng-show="restorePassword">Password cannot be reset at this time. Try again later.</p>
+    <p>
+    	<b>1-888-474-4262</b> or <a href="mailto:cacd.support@mckesson.com">cacd.support@mckesson.com</a>
+    </p>
+
+    <div class="form-wrapper">
+    	<div class="basic-form">
+        	<button name="backToLogin" go-click="/">Return to Sign In Page</button>
+        </div>
+    </div>
+</div>

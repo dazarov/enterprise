@@ -1,9 +1,0 @@
-[{ "name": "Golden", "description": "", "category": "Fruit", "subcategory": "Apple", "store": "Safeway", "unit": "lb", "price": 2.20 },
- { "name": "Golden", "description": "", "category": "Fruit", "subcategory": "Apple", "store": "Lucky", "unit": "lb", "price": 1.20 },
- { "name": "Peach", "description": "", "category": "Fruit", "subcategory": "", "store": "Safeway", "unit": "each", "price": 3.50 },
- { "name": "Banana", "description": "", "category": "Fruit", "subcategory": "", "store": "Safeway", "unit": "lb", "price": 8.75 },
- { "name": "Water", "description": "", "category": "Beverage", "subcategory": "", "store": "Safeway", "unit": "lb", "price": 12.20 },
- { "name": "Hennesy", "description": "", "category": "Beverage", "subcategory": "", "store": "Costco", "unit": "1.75 l", "price": 59.99 },
- { "name": "Bacon Wrapped Dates Stuffed with Goat Cheese", "description": "", "category": "Frozen", "subcategory": "", "store": "Trader Joe's", "unit": "box", "price": 5.99 },
- { "name": "Chocolate Babka", "description": "", "category": "Bakery", "subcategory": "", "store": "Trader Joe's", "unit": "box", "price": 4.99 },
- { "name": "Grand Blue Blue Cheese", "description": "", "category": "Cheese", "subcategory": "", "store": "Trader Joe's", "unit": "lb", "price": 12.99 }]

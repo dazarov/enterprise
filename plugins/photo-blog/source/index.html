@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="photoBlog">
 <head>
-    <title>AngularJS Training.</title>
+    <title>Photo Blog</title>
     <link rel="stylesheet" href="css/application.css?v=###version###"/>
 
 <!-- bower components starts here-->
@@ -11,59 +11,42 @@
 ###appJS###
 
 </head>
-<body>
-<div ng-app="MainApp">
-	<div class="well">
-		<h1>AngularJS</h1>
-	</div>
-    <div id="tabs" ng-controller="TabsCtrl">
-        <ul class="tabbed_ul btn-group">
-            <li ng-repeat="tab in tabs" 
-                ng-class="getTabClass(tab.url)" 
-                ng-click="onClickTab(tab)" class="btn btn-default btn-lg">{{tab.title}}</li>
+<body ng-controller="AppCtrl">
+
+    <div id="messages"></div>
+    <div id="dialogs"></div>
+    <div id="wrapper">
+    	<div class="header-wrapper">
+    		<div class="header">
+        		<div class="logo">
+            		<a href="#/" title="Photo Blog">
+            			<img src="img/logo.png" alt="Photo Blog" width="1000" height="313">
+            		</a>
+            		
+        		</div>
+
+    		</div>
+		</div>
+		<div class="content-wrapper">
+			<div id="content" class="content">
+				<ng-view />
+			</div>
+		</div>
+		
+		<div class="footer-wrapper" ng-show="showFooter">
+    		<div class="footer">
+        		<ul class="square">
+            <li>
+                <p>Contact:</p>
+                <p>
+                    <a href="mailto:email@gmail.com">email@gmail.com</a>
+                </p>
+            </li>
         </ul>
-        <div id="mainView" class="tabbed_view">
-            <div ng-include="currentTab"></div>
-        </div>
     </div>
-
-    <script type="text/ng-template" id="pages/introduction/introduction.html">
-		<div id="viewOne">
-			<h1>Introduction</h1>
-			<p>Welcome to AngularJS!</p>
-			<h2>Why AngularJS?</h2>
-			<p>
-			HTML is great for declaring static documents, but it falters when we try to use it for declaring dynamic views in web-applications. AngularJS lets you extend HTML vocabulary for your application. The resulting environment is extraordinarily expressive, readable, and quick to develop.
-			</p>
-			<h2>Alternatives</h2>
-			<p>
-			Other frameworks deal with HTML’s shortcomings by either abstracting away HTML, CSS, and/or JavaScript or by providing an imperative way for manipulating the DOM. Neither of these address the root problem that HTML was not designed for dynamic views.
-			</p>
-			<h2>Extensibility</h2>
-			<p>
-			AngularJS is a toolset for building the framework most suited to your application development. It is fully extensible and works well with other libraries. Every feature can be modified or replaced to suit your unique development workflow and feature needs. Read on to find out how.
-			</p>
-
-		</div>
-	</script>
-
-	<script type="text/ng-template" id="pages/calendar/calendar.html">
-		<div id="viewTwo">
-			<h1>Calendar</h1>
-			<p>There is no calendar/calendar.html file yet.</p>
-		</div>
-	</script>
-	
-	<script type="text/ng-template" id="pages/something/something.html">
-		<div id="viewThree">
-			<h1>Something</h1>
-			<p>Something will be here.</p>
-			<ul>
-				<li>First</li>
-				<li>Second</li>
-				<li>Third</li>
-			</ul>
-		</div>
-	</script>
 </div>
+		
+	</div>
+
 </body>
+</html>
