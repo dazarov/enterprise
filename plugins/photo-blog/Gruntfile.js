@@ -18,6 +18,7 @@ module.exports = function (grunt) {
   // bower js libs starts here
   bowerJsComponents = [
     'angular/angular.js',
+    'bower-angular-route-master/angular-route.js',
     'angular-ui-router/release/angular-ui-router.js',
     'angular-resource/angular-resource.js',
     'angular-bootstrap/ui-bootstrap.min.js',
@@ -28,11 +29,11 @@ module.exports = function (grunt) {
 
   // application js files start here
   appJS = [
-    'index.js',
-    'pages/grocery/grocery.js',
-    'pages/photos/photos.js',
-    'pages/forms/forms.js',
-    'pages/groceryDB/groceryDB.js'
+    'index.js'
+    //'views/grocery/grocery.js',
+   // 'pages/photos/photos.js',
+   //'pages/forms/forms.js',
+    //'pages/groceryDB/groceryDB.js'
   ];
   // application js files ends here
 
@@ -51,8 +52,10 @@ module.exports = function (grunt) {
     copy: {
       dev: {
         files: [
-          // pages folder
-          {expand: true, cwd: pkg.directories.source, src: ['pages/**'], dest: pkg.directories.build},
+          // views folder
+          {expand: true, cwd: pkg.directories.source, src: ['views/**'], dest: pkg.directories.build},
+          // js folder
+          {expand: true, cwd: pkg.directories.source, src: ['js/**'], dest: pkg.directories.build},
           // modules folder
           {expand: true, cwd: pkg.directories.source, src: ['modules/**'], dest: pkg.directories.build},
           // less folder
