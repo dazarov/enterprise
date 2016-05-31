@@ -58,3 +58,16 @@ Link
 // DELETE /photos/12- Deletes a specific photo
 
 4. 
+
+The LIMIT clause can be used to constrain the number of rows returned by the SELECT statement. LIMIT takes one or two numeric arguments, which must both be nonnegative integer constants (except when using prepared statements).
+
+With two arguments, the first argument specifies the offset of the first row to return, and the second specifies the maximum number of rows to return. The offset of the initial row is 0 (not 1):
+
+SELECT * FROM tbl LIMIT 5,10;  # Retrieve rows 6-15
+To retrieve all rows from a certain offset up to the end of the result set, you can use some large number for the second parameter. This statement retrieves all rows from the 96th row to the last:
+
+SELECT * FROM tbl LIMIT 95,18446744073709551615;
+With one argument, the value specifies the number of rows to return from the beginning of the result set:
+
+SELECT * FROM tbl LIMIT 5;     # Retrieve first 5 rows
+In other words, LIMIT row_count is equivalent to LIMIT 0, row_count.

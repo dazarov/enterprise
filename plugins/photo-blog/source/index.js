@@ -57,7 +57,7 @@ angular.module("photoBlog", ["ngRoute"])
 	$scope.error;
 	
 	$rootScope.$on( "$routeChangeStart", function(event, next, current) {
-		$scope.showFooter = next.templateUrl == "/views/login.html";
+		$scope.showFooter = next.templateUrl == "/views/home.html";
 	});
 	
 	$scope.getQuestions = function(uid, email){
