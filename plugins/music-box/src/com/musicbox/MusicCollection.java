@@ -2,7 +2,13 @@ package com.musicbox;
 
 import static com.musicbox.MusicBox.out;
 
-import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.Writer;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.attribute.FileTime;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
@@ -12,8 +18,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class MusicCollection {
 	private Map<String, Map<String, Song>> artists = new TreeMap<>();
 	private Set<String> nonArtists = new TreeSet<>();
+	public Map<String, List<Path>> nonFolderArtists = new HashMap<>();
 	
-	public void addSong(BufferedWriter logFile, String fileName, String artist, String title){
+	public void addSong(Writer logFile, String fileName, String artist, String title){
 		if(artist == null || title == null || artist.isEmpty() || title.isEmpty()){
 			nonArtists.add(fileName);
 		} else {
@@ -49,7 +56,7 @@ public class MusicCollection {
 				.replace("  ", " ");
 	}
 	
-	public void printAll(BufferedWriter songList){
+	public void printAll(Writer songList){
 		AtomicInteger total = new AtomicInteger(1);
 		int artCount = 1;
 		for(String artist : artists.keySet()){
@@ -77,6 +84,43 @@ public class MusicCollection {
 		return artists.size();
 	}
 	
+	Map<String, FileInfo> filesInfo = new HashMap<>();
+	
+	public void collectInfo(Writer log, Path filePath) throws IOException{
+		Map<String, Object> attributes = Files.readAttributes(filePath, "creationTime");
+		FileTime creationTime = (FileTime)attributes.get("creationTime");
+		
+		filesInfo.put(filePath.getFileName().toString(),
+				new FileInfo(
+					filePath.getFileName().toString(),
+					filePath.getParent().toString(),
+					creationTime
+				));
+	}
+	
+	public void checkInfo(Writer log, Path root, Path filePath) throws IOException{
+		Map<String, Object> attributes = Files.readAttributes(filePath, "creationTime");
+		FileTime creationTime = (FileTime)attributes.get("creationTime");
+		FileInfo fileInfo = filesInfo.get(filePath.getFileName().toString());
+		if(fileInfo != null){
+			FileTime otherTime = fileInfo.creationTime;
+			if(creationTime.compareTo(otherTime) > 0){
+				// Copy file from mobile device
+				out(log, "Copy file "+filePath.getFileName()+" from mobile device...");
+			}
+			filesInfo.remove(filePath.getFileName().toString());
+		}else{
+			// Copy file from mobile device
+			out(log, "Copy file "+filePath.getFileName()+" from mobile device...");
+		}
+	}
+	
+	public void synchronizeRoots(Writer log, Path root, Path otherRoot) throws IOException{
+		for(String fileName : filesInfo.keySet()){
+			FileInfo info = filesInfo.get(fileName);
+			out(log, "Copy file "+fileName+" to mobile device...");
+		}
+	}
 }
 
 class Song{
@@ -88,5 +132,17 @@ class Song{
 		this.fileName = fileName;
 		this.artist = artist;
 		this.title = title;
+	}
+}
+
+class FileInfo{
+	String fileName;
+	String folderName;
+	FileTime creationTime;
+	
+	public FileInfo(String fileName, String folderName, FileTime creationTime){
+		this.fileName = fileName;
+		this.folderName = folderName;
+		this.creationTime = creationTime;
 	}
 }
