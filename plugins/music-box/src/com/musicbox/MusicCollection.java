@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.io.Writer;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
 import java.nio.file.attribute.FileTime;
 import java.util.HashMap;
 import java.util.List;
@@ -96,33 +95,33 @@ public class MusicCollection {
 			filesInfo.put(filePath.getFileName().toString(),
 				new FileInfo(
 					filePath,
-					Files.getLastModifiedTime(filePath)
+					null//Files.getLastModifiedTime(filePath)
 				));
 		}
 	}
 	
 	void checkInfo(Writer log, Path root, Path otherRoot, Path filePath) throws IOException{
 		//System.out.println("checkInfo "+filePath);
-		FileTime lastModifiedTime = Files.getLastModifiedTime(filePath);
+		//FileTime lastModifiedTime = Files.getLastModifiedTime(filePath);
 		FileInfo fileInfo = filesInfo.get(filePath.getFileName().toString());
 		if(fileInfo != null){
-			if(lastModifiedTime.compareTo(fileInfo.lastModifiedTime) > 0){
-				out(log, "Copy file "+filePath.getFileName()+" <------ to the main repository...");
-				Path copyToPath = root.resolve(otherRoot.relativize(filePath.getParent()));
-				if(!Files.exists(copyToPath)){
-					Files.createDirectories(copyToPath);
-				}
-				Files.copy(filePath, copyToPath.resolve(filePath.getFileName()), StandardCopyOption.COPY_ATTRIBUTES);
-				out(log, "File successfully copied!");
-			}else if(lastModifiedTime.compareTo(fileInfo.lastModifiedTime) < 0){
-				out(log, "Copy file "+filePath.getFileName()+" --------> to mobile device...");
-				Path copyToPath = otherRoot.resolve(root.relativize(fileInfo.filePath.getParent()));
-				if(!Files.exists(copyToPath)){
-					Files.createDirectories(copyToPath);
-				}
-				Files.copy(fileInfo.filePath, copyToPath.resolve(fileInfo.filePath.getFileName()), StandardCopyOption.COPY_ATTRIBUTES);
-				out(log, "File successfully copied!");
-			}
+//			if(lastModifiedTime.compareTo(fileInfo.lastModifiedTime) > 0){
+//				out(log, "Copy file "+filePath.getFileName()+" <------ to the main repository...");
+//				Path copyToPath = root.resolve(otherRoot.relativize(filePath.getParent()));
+//				if(!Files.exists(copyToPath)){
+//					Files.createDirectories(copyToPath);
+//				}
+//				Files.copy(filePath, copyToPath.resolve(filePath.getFileName()), StandardCopyOption.COPY_ATTRIBUTES);
+//				out(log, "File successfully copied!");
+//			}else if(lastModifiedTime.compareTo(fileInfo.lastModifiedTime) < 0){
+//				out(log, "Copy file "+filePath.getFileName()+" --------> to mobile device...");
+//				Path copyToPath = otherRoot.resolve(root.relativize(fileInfo.filePath.getParent()));
+//				if(!Files.exists(copyToPath)){
+//					Files.createDirectories(copyToPath);
+//				}
+//				Files.copy(fileInfo.filePath, copyToPath.resolve(fileInfo.filePath.getFileName()), StandardCopyOption.COPY_ATTRIBUTES);
+//				out(log, "File successfully copied!");
+//			}
 			filesInfo.remove(filePath.getFileName().toString());
 		}else{
 			System.out.println("File: "+filePath);
@@ -138,7 +137,7 @@ public class MusicCollection {
 				if(!Files.exists(copyToPath)){
 					Files.createDirectories(copyToPath);
 				}
-				Files.copy(filePath, copyToPath.resolve(filePath.getFileName()), StandardCopyOption.COPY_ATTRIBUTES);
+				Files.copy(filePath, copyToPath.resolve(filePath.getFileName())/*, StandardCopyOption.COPY_ATTRIBUTES*/); // Operation not supported
 				out(log, "Folder successfully copied!");
 			}else if(command == 2){ // Delete the file
 				out(log, "Deleting the file "+filePath);
@@ -161,7 +160,7 @@ public class MusicCollection {
 			if(!Files.exists(copyToPath)){
 				Files.createDirectories(copyToPath);
 			}
-			Files.copy(info.filePath, copyToPath.resolve(info.filePath.getFileName()), StandardCopyOption.COPY_ATTRIBUTES);
+			Files.copy(info.filePath, copyToPath.resolve(info.filePath.getFileName())/*, StandardCopyOption.COPY_ATTRIBUTES*/); // Operation not supported
 			out(log, "File successfully copied!");
 		}
 	}
