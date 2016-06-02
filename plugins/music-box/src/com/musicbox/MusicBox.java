@@ -5,14 +5,10 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Writer;
-import java.nio.file.DirectoryStream;
-import java.nio.file.FileStore;
-import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
-import java.nio.file.attribute.FileTime;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -20,7 +16,6 @@ import java.time.format.FormatStyle;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 import org.jaudiotagger.audio.AudioFile;
@@ -37,10 +32,9 @@ import org.jaudiotagger.tag.TagException;
 public class MusicBox {
 	private static final int MAX_NUMBER_OF_FILES_IN_COMMON_FOLDER = 4;
 	private static final String LINUX_PATH = "/home/daniel/Music/Music";
-	private static final String TEST_PATH = "/home/daniel/Music/Test";
 	private static final String WINDOWS_PATH = "C:/Users/Daniil/Music";
-	private static final String MOBILE_PATH = "mtp://[usb:001,013]/Internal%20storage/Music";
-	private static final String SD_CARD_PATH = "F:/Music";
+	private static final String MOBILE_ROOT_PATH = "/run/user/1000/gvfs";
+	private static final String SD_CARD_PATH = "/home/daniel/Temp/Music"; //"F:/Music";
 	
 	private static final String LOG_FILE = "MusicBox.log";
 	private static final String SONG_LIST_FILE = "SongList.txt";
@@ -54,110 +48,88 @@ public class MusicBox {
 	private Path root;
 	
 	public static void main(String[] args){
-		for (FileStore store : FileSystems.getDefault().getFileStores()) {
-            System.out.println(store);
-            System.out.println("\t" + store.name());
-            System.out.println("\t" + store.type());
-            System.out.println();
-        }
-		MusicBox mb = new MusicBox();
-		System.out.println("1. Normalize Music Library");
-		System.out.println("2. Sysnchronize Music Library with "+MOBILE_PATH);
-		System.out.println("3. Sysnchronize Music Library with "+SD_CARD_PATH);
-		System.out.println("0. Exit");
-		
-		int input = 0;
-		try{
-			input = waitForCommand("Enter:");
+		try(BufferedWriter log = Files.newBufferedWriter(Paths.get(LOG_FILE), StandardOpenOption.APPEND, StandardOpenOption.CREATE)){
+			
+			Path mobileMath = findMobilePath(log);
+				
+			MusicBox mb = new MusicBox();
+			System.out.println("1. Normalize Music Library");
+			System.out.println("2. Sysnchronize Music Library with "+mobileMath);
+			System.out.println("3. Sysnchronize Music Library with "+SD_CARD_PATH);
+			System.out.println("0. Exit");
+			
+			int input = waitForCommand("Enter:");
+			
+			System.out.println("Input - "+input);
+			if(input == 1){
+				mb.performeNormalization(log);
+			}else if(input == 2){
+				mb.performeSynchronization(log, mobileMath);
+			}else if(input == 3){
+				mb.performeSynchronization(log, Paths.get(SD_CARD_PATH));
+			}
 		}catch(IOException e){
 			e.printStackTrace();
 		}
+	}
+	
+	private static Path findMobilePath(Writer log){
+		try {
+			Path path = Paths.get(MOBILE_ROOT_PATH);
+			Optional<Path> result = Files.find(path, 20, (p, a) -> p.getFileName().toString().equals("Music")).findFirst();
+			if(result.isPresent()){
+				return result.get();
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public void performeSynchronization(Writer log, Path otherRoot) throws IOException{
+		LocalDateTime startDateTime = LocalDateTime.now();
+		DateTimeFormatter formatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.FULL, FormatStyle.MEDIUM);
+		out(log, formatter.format(startDateTime));
+		out(log, "Synchronization...");
 		
-		System.out.println("Input - "+input);
-		if(input == 1){
-			mb.performeNormalization();
-		}else if(input == 2){
-			mb.performeSynchronization(MOBILE_PATH);
-		}else if(input == 3){
-			mb.performeSynchronization(SD_CARD_PATH);
+		root = Paths.get(LINUX_PATH);
+		if(!Files.exists(root)){
+			root = Paths.get(WINDOWS_PATH);
 		}
-	}
-	
-	public Path getRootPath(FileStore fs) throws IOException {
-	    Path media = Paths.get("/media");
-	    if (media.isAbsolute() && Files.exists(media)) { // Linux
-	        try (DirectoryStream<Path> stream = Files.newDirectoryStream(media)) {
-	            for (Path p : stream) {
-	                if (Files.getFileStore(p).equals(fs)) {
-	                    return p;
-	                }
-	            }
-	        }
-	    } else { // Windows
-	        IOException ex = null;
-	        for (Path p : FileSystems.getDefault().getRootDirectories()) {
-	            try {
-	                if (Files.getFileStore(p).equals(fs)) {
-	                    return p;
-	                }
-	            } catch (IOException e) {
-	                ex = e;
-	            }
-	        }
-	        if (ex != null) {
-	            throw ex;
-	        }
-	    }
-	    return null;
-	}
-	
-	public void performeSynchronization(String path){
-		try(
-			BufferedWriter log = Files.newBufferedWriter(Paths.get(LOG_FILE), StandardOpenOption.APPEND)
-		){
-			LocalDateTime startDateTime = LocalDateTime.now();
-			DateTimeFormatter formatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.FULL, FormatStyle.MEDIUM);
-			out(log, formatter.format(startDateTime));
-			out(log, "Synchronization...");
-			
-			root = Paths.get(LINUX_PATH);
-			//root = new File(TEST_PATH);
-			if(!Files.exists(root)){
-				root = Paths.get(WINDOWS_PATH);
-			}
-			
-			Path otherRoot = Paths.get(path);
-			
-			if(Files.isDirectory(root)){
-				Files.find(root, 20, (p,a) -> a.isRegularFile() && p.toString().endsWith(".mp3")).forEach(p -> collectInfo(log, p));
-			}
-			
-			if(Files.isDirectory(otherRoot)){
-				Files.find(otherRoot, 20, (p,a) -> a.isRegularFile() && p.toString().endsWith(".mp3")).forEach(p -> checkInfo(log, root, p));
-			}
-			
-			synchronizeRoots(log, root, otherRoot);
-			
-			Duration duration = Duration.between(startDateTime, LocalDateTime.now());
-			out(log, "Processing time: "+duration.toHours()+":"+duration.toMinutes()+":"+duration.getSeconds());
-		} catch (IOException e1) {
-			e1.printStackTrace();
+		
+		if(!Files.exists(otherRoot)){
+			out(log, "Mobile path does not exist!");
+			return;
 		}
+		
+		if(Files.isDirectory(root)){
+			Files.find(root, 20, (p,a) -> a.isRegularFile() && p.toString().endsWith(".mp3")).forEach(p -> collectInfo(log, p));
+		}
+		
+		if(Files.isDirectory(otherRoot)){
+			Files.find(otherRoot, 20, (p,a) -> a.isRegularFile() && p.toString().endsWith(".mp3")).forEach(p -> checkInfo(log, root, otherRoot, p));
+		}
+		
+		synchronizeRoots(log, root, otherRoot);
+		
+		Duration duration = Duration.between(startDateTime, LocalDateTime.now());
+		out(log, "Processing time: "+duration.toHours()+":"+duration.toMinutes()+":"+duration.getSeconds());
 	}
 	
 	private void collectInfo(Writer log, Path filePath){
 		try {
 			collection.collectInfo(log, filePath);
 		} catch (IOException e) {
+			out(log, e.getMessage());
 			e.printStackTrace();
 		}
-		
 	}
 	
-	private void checkInfo(Writer log, Path root, Path filePath){
+	private void checkInfo(Writer log, Path root, Path otherRoot, Path filePath){
 		try {
-			collection.checkInfo(log, root, filePath);
+			collection.checkInfo(log, root, otherRoot, filePath);
 		} catch (IOException e) {
+			out(log, e.getMessage());
 			e.printStackTrace();
 		}
 	}
@@ -166,58 +138,59 @@ public class MusicBox {
 		try {
 			collection.synchronizeRoots(log, root, otherRoot);
 		} catch (IOException e) {
+			out(log, e.getMessage());
 			e.printStackTrace();
 		}
 	}
 	
-	private void performeNormalization(){
-		try(
-			BufferedWriter log = Files.newBufferedWriter(Paths.get(LOG_FILE), StandardOpenOption.APPEND);
-			BufferedWriter song_list = Files.newBufferedWriter(Paths.get(SONG_LIST_FILE))
-		){
-			LocalDateTime startDateTime = LocalDateTime.now();
-			DateTimeFormatter formatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.FULL, FormatStyle.MEDIUM);
-			out(log, formatter.format(startDateTime));
-			out(log, "Normalization...");
-			
-			
-			root = Paths.get(LINUX_PATH);
-			//root = new File(TEST_PATH);
-			if(!Files.exists(root)){
-				root = Paths.get(WINDOWS_PATH);
-			}
-			if(Files.isDirectory(root)){
-				//Files.walk(root).filter(p -> Files.isDirectory(p)).forEach(this::scanDirectory);
-				Files.find(root, 20, (p,a) -> a.isDirectory()).forEach(this::scanDirectory);
+	private void performeNormalization(Writer log) throws IOException {
+		LocalDateTime startDateTime = LocalDateTime.now();
+		DateTimeFormatter formatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.FULL, FormatStyle.MEDIUM);
+		String dateString = formatter.format(startDateTime); 
+		out(log, dateString);
+		out(log, "Normalization...");
+		
+		root = Paths.get(LINUX_PATH);
+		//root = new File(TEST_PATH);
+		if(!Files.exists(root)){
+			root = Paths.get(WINDOWS_PATH);
+		}
+		if(Files.isDirectory(root)){
+			//Files.walk(root).filter(p -> Files.isDirectory(p)).forEach(this::scanDirectory);
+			Files.find(root, 20, (p,a) -> a.isDirectory()).forEach(this::scanDirectory);
+
+			//Files.walk(root).filter(p -> Files.isRegularFile(p) && p.toString().endsWith(".mp3")).forEach(p -> processFile(log, p));
+			Files.find(root, 20, (p,a) -> a.isRegularFile() && p.toString().endsWith(".mp3")).forEach(p -> processFile(log, p));
+		}else{
+			out(log, root+" is not a folder!");
+		}
+		
+		moveToSeparateFolder(log);
+		
+		createSongListFile(dateString);
+		
+		out(log, "Files processed - "+fileNumbers);
+		long hours = totalLength/(60*60);
+		long min = (totalLength%(60*60))/60;
+		long sec = (totalLength%(60*60))%60;
+		
+		out(log, hours+":"+min+":"+sec);
+		
+		out(log, "Artists: "+collection.getNumberOFArtists());
+		Duration duration = Duration.between(startDateTime, LocalDateTime.now());
+		out(log, "Processing time: "+duration.toHours()+":"+duration.toMinutes()+":"+duration.getSeconds());
+	}
 	
-				//Files.walk(root).filter(p -> Files.isRegularFile(p) && p.toString().endsWith(".mp3")).forEach(p -> processFile(log, p));
-				Files.find(root, 20, (p,a) -> a.isRegularFile() && p.toString().endsWith(".mp3")).forEach(p -> processFile(log, p));
-			}else{
-				out(log, root+" is not a folder!");
-			}
-			
-			moveToSeparateFolder(log);
-			
-			out(song_list, formatter.format(startDateTime));
+	private void createSongListFile(String dateString){
+		try(BufferedWriter song_list = Files.newBufferedWriter(Paths.get(SONG_LIST_FILE))){
+			out(song_list, dateString);
 			collection.printAll(song_list);
-			
-			
-			out(log, "Files processed - "+fileNumbers);
-			long hours = totalLength/(60*60);
-			long min = (totalLength%(60*60))/60;
-			long sec = (totalLength%(60*60))%60;
-			
-			out(log, hours+":"+min+":"+sec);
-			
-			out(log, "Artists: "+collection.getNumberOFArtists());
-			Duration duration = Duration.between(startDateTime, LocalDateTime.now());
-			out(log, "Processing time: "+duration.toHours()+":"+duration.toMinutes()+":"+duration.getSeconds());
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
 	}
 	
-	private void moveToSeparateFolder(BufferedWriter logFile) throws IOException{
+	private void moveToSeparateFolder(Writer logFile) throws IOException{
 		Collection<List<Path>> collection = this.collection.nonFolderArtists.values();
 		for(List<Path> list : collection){
 			if(list.size() > MAX_NUMBER_OF_FILES_IN_COMMON_FOLDER){
@@ -283,7 +256,7 @@ public class MusicBox {
 	
 	private Path findArtistFilder(Path rootDir, String folderName){
 		try {
-			Optional<Path> result = Files.find(rootDir, 20, (p,a)->p.getFileName().toString().toLowerCase().equals(folderName)).findFirst();
+			Optional<Path> result = Files.find(rootDir, 20, (p, a) -> p.getFileName().toString().toLowerCase().equals(folderName)).findFirst();
 			if(result.isPresent()){
 				return result.get();
 			}
@@ -329,6 +302,7 @@ public class MusicBox {
 				try {
 					AudioFileIO.write(audioFile);
 				} catch (CannotWriteException e) {
+					out(logFile, e.getMessage());
 					e.printStackTrace();
 				}
 				return;
@@ -391,6 +365,7 @@ public class MusicBox {
 					try {
 						AudioFileIO.write(audioFile);
 					} catch (CannotWriteException e) {
+						out(logFile, e.getMessage());
 						e.printStackTrace();
 					}
 					Path newFile = Paths.get(file.getParent().toString(), tagInfo.artist.trim()+" - "+tagInfo.title.trim()+".mp3");
@@ -404,6 +379,7 @@ public class MusicBox {
 					try {
 						AudioFileIO.write(audioFile);
 					} catch (CannotWriteException e) {
+						out(logFile, e.getMessage());
 						e.printStackTrace();
 					}
 				}else if(input == 3){
@@ -417,6 +393,7 @@ public class MusicBox {
 			
 		} catch (CannotReadException | IOException | TagException | ReadOnlyFileException
 				| InvalidAudioFrameException e) {
+			out(logFile, e.getMessage());
 			e.printStackTrace();
 		}
 	}

@@ -1,11 +1,13 @@
 package com.musicbox;
 
 import static com.musicbox.MusicBox.out;
+import static com.musicbox.MusicBox.waitForCommand;
 
 import java.io.IOException;
 import java.io.Writer;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.nio.file.attribute.FileTime;
 import java.util.HashMap;
 import java.util.List;
@@ -20,7 +22,7 @@ public class MusicCollection {
 	private Set<String> nonArtists = new TreeSet<>();
 	public Map<String, List<Path>> nonFolderArtists = new HashMap<>();
 	
-	public void addSong(Writer logFile, String fileName, String artist, String title){
+	void addSong(Writer logFile, String fileName, String artist, String title){
 		if(artist == null || title == null || artist.isEmpty() || title.isEmpty()){
 			nonArtists.add(fileName);
 		} else {
@@ -56,7 +58,7 @@ public class MusicCollection {
 				.replace("  ", " ");
 	}
 	
-	public void printAll(Writer songList){
+	void printAll(Writer songList){
 		AtomicInteger total = new AtomicInteger(1);
 		int artCount = 1;
 		for(String artist : artists.keySet()){
@@ -80,45 +82,87 @@ public class MusicCollection {
 		nonArtists.forEach(s -> out(songList, total.getAndIncrement()+". "+s));
 	}
 	
-	public int getNumberOFArtists(){
+	int getNumberOFArtists(){
 		return artists.size();
 	}
 	
-	Map<String, FileInfo> filesInfo = new HashMap<>();
+	private Map<String, FileInfo> filesInfo = new HashMap<>();
 	
-	public void collectInfo(Writer log, Path filePath) throws IOException{
-		Map<String, Object> attributes = Files.readAttributes(filePath, "creationTime");
-		FileTime creationTime = (FileTime)attributes.get("creationTime");
-		
-		filesInfo.put(filePath.getFileName().toString(),
-				new FileInfo(
-					filePath.getFileName().toString(),
-					filePath.getParent().toString(),
-					creationTime
-				));
-	}
-	
-	public void checkInfo(Writer log, Path root, Path filePath) throws IOException{
-		Map<String, Object> attributes = Files.readAttributes(filePath, "creationTime");
-		FileTime creationTime = (FileTime)attributes.get("creationTime");
-		FileInfo fileInfo = filesInfo.get(filePath.getFileName().toString());
-		if(fileInfo != null){
-			FileTime otherTime = fileInfo.creationTime;
-			if(creationTime.compareTo(otherTime) > 0){
-				// Copy file from mobile device
-				out(log, "Copy file "+filePath.getFileName()+" from mobile device...");
-			}
-			filesInfo.remove(filePath.getFileName().toString());
+	void collectInfo(Writer log, Path filePath) throws IOException{
+		//System.out.println("collectInfo "+filePath);
+		if(filesInfo.containsKey(filePath.getFileName().toString())){
+			out(log, "File: "+filePath+" already in the list! You should do normalizarion before synchronizing!");
 		}else{
-			// Copy file from mobile device
-			out(log, "Copy file "+filePath.getFileName()+" from mobile device...");
+			filesInfo.put(filePath.getFileName().toString(),
+				new FileInfo(
+					filePath,
+					Files.getLastModifiedTime(filePath)
+				));
 		}
 	}
 	
-	public void synchronizeRoots(Writer log, Path root, Path otherRoot) throws IOException{
+	void checkInfo(Writer log, Path root, Path otherRoot, Path filePath) throws IOException{
+		//System.out.println("checkInfo "+filePath);
+		FileTime lastModifiedTime = Files.getLastModifiedTime(filePath);
+		FileInfo fileInfo = filesInfo.get(filePath.getFileName().toString());
+		if(fileInfo != null){
+			if(lastModifiedTime.compareTo(fileInfo.lastModifiedTime) > 0){
+				out(log, "Copy file "+filePath.getFileName()+" <------ to the main repository...");
+				Path copyToPath = root.resolve(otherRoot.relativize(filePath.getParent()));
+				if(!Files.exists(copyToPath)){
+					Files.createDirectories(copyToPath);
+				}
+				Files.copy(filePath, copyToPath.resolve(filePath.getFileName()), StandardCopyOption.COPY_ATTRIBUTES);
+				out(log, "File successfully copied!");
+			}else if(lastModifiedTime.compareTo(fileInfo.lastModifiedTime) < 0){
+				out(log, "Copy file "+filePath.getFileName()+" --------> to mobile device...");
+				Path copyToPath = otherRoot.resolve(root.relativize(fileInfo.filePath.getParent()));
+				if(!Files.exists(copyToPath)){
+					Files.createDirectories(copyToPath);
+				}
+				Files.copy(fileInfo.filePath, copyToPath.resolve(fileInfo.filePath.getFileName()), StandardCopyOption.COPY_ATTRIBUTES);
+				out(log, "File successfully copied!");
+			}
+			filesInfo.remove(filePath.getFileName().toString());
+		}else{
+			System.out.println("File: "+filePath);
+			System.out.println("File is not found in the main repository!");
+			System.out.println("1 - Copy file to the main repository");
+			System.out.println("2 - Delete local file");
+			System.out.println("3 - Skip");
+			System.out.println("0 - Exit");
+			int command = waitForCommand("Input:");
+			if(command == 1){  // Copy file from mobile device
+				out(log, "Copy file "+filePath.getFileName()+" <------ to the main repository...");
+				Path copyToPath = root.resolve(otherRoot.relativize(filePath.getParent()));
+				if(!Files.exists(copyToPath)){
+					Files.createDirectories(copyToPath);
+				}
+				Files.copy(filePath, copyToPath.resolve(filePath.getFileName()), StandardCopyOption.COPY_ATTRIBUTES);
+				out(log, "Folder successfully copied!");
+			}else if(command == 2){ // Delete the file
+				out(log, "Deleting the file "+filePath);
+				Files.delete(filePath);
+				out(log, "File successfully deleted!");
+			}else if(command == 0){
+				System.exit(0);
+			}
+			
+		}
+	}
+	
+	void synchronizeRoots(Writer log, Path root, Path otherRoot) throws IOException{
+		System.out.println("synchronizeRoots... ");
 		for(String fileName : filesInfo.keySet()){
 			FileInfo info = filesInfo.get(fileName);
-			out(log, "Copy file "+fileName+" to mobile device...");
+			out(log, "Copy file "+info.filePath+" ------> to mobile device...");
+			Path copyToPath = otherRoot.resolve(root.relativize(info.filePath.getParent()));
+			System.out.println("Copy To Path - "+copyToPath);
+			if(!Files.exists(copyToPath)){
+				Files.createDirectories(copyToPath);
+			}
+			Files.copy(info.filePath, copyToPath.resolve(info.filePath.getFileName()), StandardCopyOption.COPY_ATTRIBUTES);
+			out(log, "File successfully copied!");
 		}
 	}
 }
@@ -136,13 +180,11 @@ class Song{
 }
 
 class FileInfo{
-	String fileName;
-	String folderName;
-	FileTime creationTime;
+	Path filePath;
+	FileTime lastModifiedTime;
 	
-	public FileInfo(String fileName, String folderName, FileTime creationTime){
-		this.fileName = fileName;
-		this.folderName = folderName;
-		this.creationTime = creationTime;
+	public FileInfo(Path filePath, FileTime lastModifiedTime){
+		this.filePath = filePath;
+		this.lastModifiedTime = lastModifiedTime;
 	}
 }
