@@ -113,7 +113,7 @@ public class MusicBox {
 		synchronizeRoots(log, root, otherRoot);
 		
 		Duration duration = Duration.between(startDateTime, LocalDateTime.now());
-		out(log, "Processing time: "+duration.toHours()+":"+duration.toMinutes()+":"+duration.getSeconds());
+		out(log, "Processing time: "+duration);
 	}
 	
 	private void collectInfo(Writer log, Path filePath){
@@ -178,7 +178,7 @@ public class MusicBox {
 		
 		out(log, "Artists: "+collection.getNumberOFArtists());
 		Duration duration = Duration.between(startDateTime, LocalDateTime.now());
-		out(log, "Processing time: "+duration.toHours()+":"+duration.toMinutes()+":"+duration.getSeconds());
+		out(log, "Processing time: "+duration);
 	}
 	
 	private void createSongListFile(String dateString){

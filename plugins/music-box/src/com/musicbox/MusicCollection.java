@@ -45,6 +45,12 @@ public class MusicCollection {
 		}
 	}
 	
+//	byte[] getHash(Path filePath) throws IOException, NoSuchAlgorithmException{
+//		byte[] content = Files.readAllBytes(filePath);
+//		MessageDigest md = MessageDigest.getInstance("MD2"); // MD2, MD5, SHA-1, SHA-256, SHA-384, SHA-512
+//		return md.digest(content);
+//	}
+	
 	private String getId(String name){
 		return name.toLowerCase()
 				.replace(".", "")
