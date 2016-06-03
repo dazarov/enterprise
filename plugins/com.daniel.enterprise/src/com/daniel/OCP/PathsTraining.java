@@ -64,5 +64,13 @@ public class PathsTraining {
 		System.out.println("SUB PATH - "+p1.subpath(1, 4));
 		Path p2 = p1.subpath(1, 4).toAbsolutePath();
 		System.out.println("PATH - "+p2);
+		
+		Path root1 = Paths.get("/usr/var/Root1");
+		Path root2 = Paths.get("/usr/var/Root2");
+		
+		Path file1 = Paths.get("/usr/var/Root1/folder1/folder2/file.ext");
+		
+		Path file2 = root2.resolve(root1.relativize(file1.getParent()));
+		System.out.println("File 2 - "+file2);
 	}
 }
