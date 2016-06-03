@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.io.Writer;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.attribute.FileTime;
+import java.nio.file.StandardCopyOption;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -95,33 +95,42 @@ public class MusicCollection {
 			filesInfo.put(filePath.getFileName().toString(),
 				new FileInfo(
 					filePath,
-					null//Files.getLastModifiedTime(filePath)
+					Files.size(filePath)
 				));
 		}
 	}
 	
 	void checkInfo(Writer log, Path root, Path otherRoot, Path filePath) throws IOException{
 		//System.out.println("checkInfo "+filePath);
-		//FileTime lastModifiedTime = Files.getLastModifiedTime(filePath);
+		long size = Files.size(filePath);
 		FileInfo fileInfo = filesInfo.get(filePath.getFileName().toString());
 		if(fileInfo != null){
-//			if(lastModifiedTime.compareTo(fileInfo.lastModifiedTime) > 0){
-//				out(log, "Copy file "+filePath.getFileName()+" <------ to the main repository...");
-//				Path copyToPath = root.resolve(otherRoot.relativize(filePath.getParent()));
-//				if(!Files.exists(copyToPath)){
-//					Files.createDirectories(copyToPath);
-//				}
-//				Files.copy(filePath, copyToPath.resolve(filePath.getFileName()), StandardCopyOption.COPY_ATTRIBUTES);
-//				out(log, "File successfully copied!");
-//			}else if(lastModifiedTime.compareTo(fileInfo.lastModifiedTime) < 0){
-//				out(log, "Copy file "+filePath.getFileName()+" --------> to mobile device...");
-//				Path copyToPath = otherRoot.resolve(root.relativize(fileInfo.filePath.getParent()));
-//				if(!Files.exists(copyToPath)){
-//					Files.createDirectories(copyToPath);
-//				}
-//				Files.copy(fileInfo.filePath, copyToPath.resolve(fileInfo.filePath.getFileName()), StandardCopyOption.COPY_ATTRIBUTES);
-//				out(log, "File successfully copied!");
-//			}
+			if(size != fileInfo.size){
+				System.out.println("File: "+filePath);
+				System.out.println("File size is different from the file size in the main repository!");
+				System.out.println("1 - Copy file to mobile device");
+				System.out.println("2 - Copy file to the main repository");
+				System.out.println("3 - Skip");
+				System.out.println("0 - Exit");
+				int command = waitForCommand("Input:");
+				if(command == 1){ // Copy file to mobile device
+					out(log, "Copy file "+filePath.getFileName()+" --------> to mobile device...");
+					Path copyToPath = otherRoot.resolve(root.relativize(fileInfo.filePath.getParent()));
+					if(!Files.exists(copyToPath)){
+						Files.createDirectories(copyToPath);
+					}
+					Files.copy(fileInfo.filePath, copyToPath.resolve(fileInfo.filePath.getFileName()), StandardCopyOption.REPLACE_EXISTING);
+					out(log, "File successfully copied!");
+				}else if(command == 2){ // Copy file to the main repository
+					out(log, "Copy file "+filePath.getFileName()+" <------ to the main repository...");
+					Path copyToPath = root.resolve(otherRoot.relativize(filePath.getParent()));
+					if(!Files.exists(copyToPath)){
+						Files.createDirectories(copyToPath);
+					}
+					Files.copy(filePath, copyToPath.resolve(filePath.getFileName()), StandardCopyOption.REPLACE_EXISTING);
+					out(log, "File successfully copied!");
+				}
+			}
 			filesInfo.remove(filePath.getFileName().toString());
 		}else{
 			System.out.println("File: "+filePath);
@@ -180,10 +189,10 @@ class Song{
 
 class FileInfo{
 	Path filePath;
-	FileTime lastModifiedTime;
+	long size;
 	
-	public FileInfo(Path filePath, FileTime lastModifiedTime){
+	public FileInfo(Path filePath, long size){
 		this.filePath = filePath;
-		this.lastModifiedTime = lastModifiedTime;
+		this.size = size;
 	}
 }
