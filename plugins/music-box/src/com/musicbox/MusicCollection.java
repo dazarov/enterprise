@@ -1,7 +1,9 @@
 package com.musicbox;
 
-import static com.musicbox.MusicBox.out;
-import static com.musicbox.MusicBox.waitForCommand;
+import static com.musicbox.Utils.out;
+import static com.musicbox.Utils.waitForCommand;
+import static com.musicbox.Utils.copy;
+import static com.musicbox.Utils.move;
 
 import java.io.IOException;
 import java.io.Writer;
@@ -93,25 +95,65 @@ public class MusicCollection {
 	
 	private Map<String, FileInfo> filesInfo = new HashMap<>();
 	
-	void collectInfo(Writer log, Path filePath) throws IOException{
+	void collectInfo(Writer log, Path root, Path filePath) throws IOException{
 		//System.out.println("collectInfo "+filePath);
+		System.out.print(".");
 		if(filesInfo.containsKey(filePath.getFileName().toString())){
 			out(log, "File: "+filePath+" already in the list! You should do normalizarion before synchronizing!");
 		}else{
 			filesInfo.put(filePath.getFileName().toString(),
 				new FileInfo(
-					filePath,
+					root.relativize(filePath),
 					Files.size(filePath)
 				));
 		}
 	}
 	
-	void checkInfo(Writer log, Path root, Path otherRoot, Path filePath) throws IOException{
+	void checkInfo(Writer log, Path root, Path mobileRoot, Path filePath) throws IOException{
 		//System.out.println("checkInfo "+filePath);
-		long size = Files.size(filePath);
+		System.out.print(".");
+		
 		FileInfo fileInfo = filesInfo.get(filePath.getFileName().toString());
 		if(fileInfo != null){
-			if(size != fileInfo.size){
+			long size = Files.size(filePath);
+			Path relativePath = mobileRoot.relativize(filePath);
+			if(!fileInfo.filePath.equals(relativePath)){
+				if(size != fileInfo.size){
+					// Ask what to do
+					System.out.println("File: "+filePath);
+					System.out.println("File size is different from the file size in the main repository (MR)!");
+					System.out.println("File location is different from the file location in MR!");
+					System.out.println("1 - Correct file in MR - Delete file on MD and Replace file on MD with file from MR");
+					System.out.println("2 - Correct file on Mobile Device (MD) - Move file to correct folder and Replace file in MR with file from MD");
+					System.out.println("4 - Skip");
+					System.out.println("0 - Exit");
+					int command = waitForCommand("Input:");
+					if(command == 1){ // Correct file in MR - Delete local file and Copy file from MR to MD
+						out(log, "Deleting the file "+filePath);
+						Files.delete(filePath);
+						out(log, "File successfully deleted!");
+						
+						out(log, "Copy file "+filePath.getFileName()+" --------> to mobile device...");
+						copy(root, fileInfo.filePath, mobileRoot, false);
+						out(log, "File successfully copied!");
+					}else if(command == 2){ // Correct file on Mobile Device (MD) - Move local file to correct folder and Copy it to MR
+						out(log, "Copy file "+filePath.getFileName()+" <------ to the main repository...");
+						copy(mobileRoot, filePath, root, true);
+						out(log, "File successfully copied!");
+						
+						out(log, "Move file "+filePath.getFileName()+" to the other folder");
+						move(mobileRoot, filePath, fileInfo.filePath.getParent());
+						out(log, "File successfully moved!");
+					}if(command == 0){
+						System.exit(0);
+					}
+				}else{
+					// Automatic move
+					out(log, "Move file "+filePath.getFileName()+" to the other folder");
+					move(mobileRoot, filePath, fileInfo.filePath.getParent());
+					out(log, "File successfully moved!");
+				}
+			}else if(size != fileInfo.size){
 				System.out.println("File: "+filePath);
 				System.out.println("File size is different from the file size in the main repository!");
 				System.out.println("1 - Copy file to mobile device");
@@ -121,22 +163,21 @@ public class MusicCollection {
 				int command = waitForCommand("Input:");
 				if(command == 1){ // Copy file to mobile device
 					out(log, "Copy file "+filePath.getFileName()+" --------> to mobile device...");
-					Path copyToPath = otherRoot.resolve(root.relativize(fileInfo.filePath.getParent()));
-					if(!Files.exists(copyToPath)){
-						Files.createDirectories(copyToPath);
-					}
-					Files.copy(fileInfo.filePath, copyToPath.resolve(fileInfo.filePath.getFileName()), StandardCopyOption.REPLACE_EXISTING);
+					
+					copy(root, fileInfo.filePath, mobileRoot, true);
+					
 					out(log, "File successfully copied!");
 				}else if(command == 2){ // Copy file to the main repository
 					out(log, "Copy file "+filePath.getFileName()+" <------ to the main repository...");
-					Path copyToPath = root.resolve(otherRoot.relativize(filePath.getParent()));
-					if(!Files.exists(copyToPath)){
-						Files.createDirectories(copyToPath);
-					}
-					Files.copy(filePath, copyToPath.resolve(filePath.getFileName()), StandardCopyOption.REPLACE_EXISTING);
+					
+					copy(mobileRoot, filePath, root, true);
+					
 					out(log, "File successfully copied!");
+				}else if(command == 0){
+					System.exit(0);
 				}
 			}
+			
 			filesInfo.remove(filePath.getFileName().toString());
 		}else{
 			System.out.println("File: "+filePath);
@@ -148,11 +189,9 @@ public class MusicCollection {
 			int command = waitForCommand("Input:");
 			if(command == 1){  // Copy file from mobile device
 				out(log, "Copy file "+filePath.getFileName()+" <------ to the main repository...");
-				Path copyToPath = root.resolve(otherRoot.relativize(filePath.getParent()));
-				if(!Files.exists(copyToPath)){
-					Files.createDirectories(copyToPath);
-				}
-				Files.copy(filePath, copyToPath.resolve(filePath.getFileName())/*, StandardCopyOption.COPY_ATTRIBUTES*/); // Operation not supported
+				
+				copy(mobileRoot, filePath, root, false);
+				
 				out(log, "Folder successfully copied!");
 			}else if(command == 2){ // Delete the file
 				out(log, "Deleting the file "+filePath);
@@ -165,17 +204,13 @@ public class MusicCollection {
 		}
 	}
 	
-	void synchronizeRoots(Writer log, Path root, Path otherRoot) throws IOException{
-		System.out.println("synchronizeRoots... ");
+	void synchronizeRoots(Writer log, Path root, Path mobileRoot) throws IOException{
 		for(String fileName : filesInfo.keySet()){
 			FileInfo info = filesInfo.get(fileName);
 			out(log, "Copy file "+info.filePath+" ------> to mobile device...");
-			Path copyToPath = otherRoot.resolve(root.relativize(info.filePath.getParent()));
-			System.out.println("Copy To Path - "+copyToPath);
-			if(!Files.exists(copyToPath)){
-				Files.createDirectories(copyToPath);
-			}
-			Files.copy(info.filePath, copyToPath.resolve(info.filePath.getFileName())/*, StandardCopyOption.COPY_ATTRIBUTES*/); // Operation not supported
+			
+			copy(root, info.filePath, mobileRoot, false);
+			
 			out(log, "File successfully copied!");
 		}
 	}

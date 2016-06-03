@@ -1,9 +1,10 @@
 package com.musicbox;
 
-import java.io.BufferedReader;
+import static com.musicbox.Utils.out;
+import static com.musicbox.Utils.waitForCommand;
+
 import java.io.BufferedWriter;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.Writer;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -104,23 +105,26 @@ public class MusicBox {
 			return;
 		}
 		
+		out(log, "\nReading the main repository...");
 		if(Files.isDirectory(root)){
-			Files.find(root, 20, (p,a) -> a.isRegularFile() && p.toString().endsWith(".mp3")).forEach(p -> collectInfo(log, p));
+			Files.find(root, 20, (p,a) -> a.isRegularFile() && p.toString().endsWith(".mp3")).forEach(p -> collectInfo(log, root, p));
 		}
 		
+		out(log, "\nReading mobile device...");
 		if(Files.isDirectory(otherRoot)){
 			Files.find(otherRoot, 20, (p,a) -> a.isRegularFile() && p.toString().endsWith(".mp3")).forEach(p -> checkInfo(log, root, otherRoot, p));
 		}
 		
+		out(log, "\nSynchronizing Roots...");
 		synchronizeRoots(log, root, otherRoot);
 		
 		Duration duration = Duration.between(startDateTime, LocalDateTime.now());
 		out(log, "Processing time: "+duration);
 	}
 	
-	private void collectInfo(Writer log, Path filePath){
+	private void collectInfo(Writer log, Path root, Path filePath){
 		try {
-			collection.collectInfo(log, filePath);
+			collection.collectInfo(log, root, filePath);
 		} catch (IOException e) {
 			out(log, e.getMessage());
 			e.printStackTrace();
@@ -398,41 +402,6 @@ public class MusicBox {
 			out(logFile, e.getMessage());
 			e.printStackTrace();
 		}
-	}
-	
-	static void out(Writer logFile, String message){
-		System.out.println(message);
-		try {
-			logFile.write(message+"\n");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	static int waitForCommand(String prompt) throws IOException {
-		String value;
-		WHILE_LOOP:
-		while(true){
-			value = readLine("Enter:");
-			for(char ch : value.toCharArray()){
-				if(!Character.isDigit(ch)){
-					continue WHILE_LOOP;
-				}
-			}
-			break WHILE_LOOP;
-		}
-		return Integer.parseInt(value);
-	}
-	
-	static String readLine(String format, Object... args) throws IOException {
-	    if (System.console() != null) {
-	    	System.console().flush();
-	        return System.console().readLine(format, args);
-	    }
-	    System.out.print(String.format(format, args));
-	    BufferedReader reader = new BufferedReader(new InputStreamReader(
-	            System.in));
-	    return reader.readLine();
 	}
 	
 	static class Information{

@@ -69,8 +69,9 @@ public class PathsTraining {
 		Path root2 = Paths.get("/usr/var/Root2");
 		
 		Path file1 = Paths.get("/usr/var/Root1/folder1/folder2/file.ext");
+		System.out.println("File 1 - "+file1);
 		
-		Path file2 = root2.resolve(root1.relativize(file1.getParent()));
+		Path file2 = root2.resolve(root1.relativize(file1));
 		System.out.println("File 2 - "+file2);
 	}
 }
