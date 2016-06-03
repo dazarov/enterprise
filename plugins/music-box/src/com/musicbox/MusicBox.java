@@ -54,7 +54,9 @@ public class MusicBox {
 				
 			MusicBox mb = new MusicBox();
 			System.out.println("1. Normalize Music Library");
-			System.out.println("2. Sysnchronize Music Library with "+mobileMath);
+			if(mobileMath != null){
+				System.out.println("2. Sysnchronize Music Library with "+mobileMath);
+			}
 			System.out.println("3. Sysnchronize Music Library with "+SD_CARD_PATH);
 			System.out.println("0. Exit");
 			
@@ -86,7 +88,7 @@ public class MusicBox {
 		return null;
 	}
 	
-	public void performeSynchronization(Writer log, Path otherRoot) throws IOException{
+	private void performeSynchronization(Writer log, Path otherRoot) throws IOException{
 		LocalDateTime startDateTime = LocalDateTime.now();
 		DateTimeFormatter formatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.FULL, FormatStyle.MEDIUM);
 		out(log, formatter.format(startDateTime));
