@@ -44,6 +44,14 @@ public class Utils {
 	    return reader.readLine();
 	}
 	
+	/**
+	 * Moves file within the same root folder path
+	 * 
+	 * @param root
+	 * @param source
+	 * @param newRelativePath
+	 * @throws IOException
+	 */
 	static void move(Path root, Path source, Path newRelativePath) throws IOException{
 		Path folderPath = root.resolve(newRelativePath);
 		if(!Files.exists(folderPath)){

@@ -1,15 +1,14 @@
 package com.musicbox;
 
-import static com.musicbox.Utils.out;
-import static com.musicbox.Utils.waitForCommand;
 import static com.musicbox.Utils.copy;
 import static com.musicbox.Utils.move;
+import static com.musicbox.Utils.out;
+import static com.musicbox.Utils.waitForCommand;
 
 import java.io.IOException;
 import java.io.Writer;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -124,7 +123,7 @@ public class MusicCollection {
 					System.out.println("File size is different from the file size in the main repository (MR)!");
 					System.out.println("File location is different from the file location in MR!");
 					System.out.println("1 - Correct file in MR - Delete file on MD and Replace file on MD with file from MR");
-					System.out.println("2 - Correct file on Mobile Device (MD) - Move file to correct folder and Replace file in MR with file from MD");
+					System.out.println("2 - Correct file and location on Mobile Device (MD) - Replace file in MR with file from MD");
 					System.out.println("4 - Skip");
 					System.out.println("0 - Exit");
 					int command = waitForCommand("Input:");
@@ -136,22 +135,31 @@ public class MusicCollection {
 						out(log, "Copy file "+filePath.getFileName()+" --------> to mobile device...");
 						copy(root, fileInfo.filePath, mobileRoot, false);
 						out(log, "File successfully copied!");
-					}else if(command == 2){ // Correct file on Mobile Device (MD) - Move local file to correct folder and Copy it to MR
-						out(log, "Copy file "+filePath.getFileName()+" <------ to the main repository...");
-						copy(mobileRoot, filePath, root, true);
-						out(log, "File successfully copied!");
+					}else if(command == 2){ // Correct file and location on Mobile Device (MD) - Replace file in MR with file from MD
+						Path p = root.resolve(fileInfo.filePath);
+						out(log, "Deleting the file "+p);
+						Files.delete(p);
+						out(log, "File successfully deleted!");
 						
-						out(log, "Move file "+filePath.getFileName()+" to the other folder");
-						move(mobileRoot, filePath, fileInfo.filePath.getParent());
-						out(log, "File successfully moved!");
+						out(log, "Copy file "+filePath.getFileName()+" <------ to the main repository...");
+						copy(mobileRoot, filePath, root, false);
+						out(log, "File successfully copied!");
 					}if(command == 0){
 						System.exit(0);
 					}
 				}else{
-					// Automatic move
-					out(log, "Move file "+filePath.getFileName()+" to the other folder");
-					move(mobileRoot, filePath, fileInfo.filePath.getParent());
-					out(log, "File successfully moved!");
+					// Ask to move
+					System.out.println("File: "+filePath);
+					System.out.println("File location is different from the file location in MR!");
+					System.out.println("1 - Move file to the correct location");
+					System.out.println("2 - Skip");
+					System.out.println("0 - Exit");
+					int command = waitForCommand("Input:");
+					if(command == 1){ // Move file to the correct location
+						out(log, "Move file "+filePath.getFileName()+" to the other folder");
+						move(mobileRoot, filePath, fileInfo.filePath.getParent());
+						out(log, "File successfully moved!");
+					}
 				}
 			}else if(size != fileInfo.size){
 				System.out.println("File: "+filePath);

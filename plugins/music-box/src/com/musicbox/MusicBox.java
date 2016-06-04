@@ -35,7 +35,7 @@ public class MusicBox {
 	private static final String LINUX_PATH = "/home/daniel/Music/Music";
 	private static final String WINDOWS_PATH = "C:/Users/Daniil/Music";
 	private static final String MOBILE_ROOT_PATH = "/run/user/1000/gvfs";
-	private static final String SD_CARD_PATH = "/home/daniel/Temp/Music"; //"F:/Music";
+	private static final String SD_CARD_PATH = "E:/Music";
 	
 	private static final String LOG_FILE = "MusicBox.log";
 	private static final String SONG_LIST_FILE = "SongList.txt";
@@ -52,23 +52,35 @@ public class MusicBox {
 		try(BufferedWriter log = Files.newBufferedWriter(Paths.get(LOG_FILE), StandardOpenOption.APPEND, StandardOpenOption.CREATE)){
 			
 			Path mobileMath = findMobilePath(log);
+			
+			Path root = Paths.get(LINUX_PATH);
+			//root = new File(TEST_PATH);
+			if(!Files.exists(root)){
+				root = Paths.get(WINDOWS_PATH);
+			}
 				
 			MusicBox mb = new MusicBox();
-			System.out.println("1. Normalize Music Library");
+			System.out.println("1. Normalize Main Music Ripository "+root);
 			if(mobileMath != null){
-				System.out.println("2. Sysnchronize Music Library with "+mobileMath);
+				System.out.println("2. Normalize Mobile Device Folder "+mobileMath);
+				System.out.println("3. Sysnchronize Main Music Ripository with "+mobileMath);
 			}
-			System.out.println("3. Sysnchronize Music Library with "+SD_CARD_PATH);
+			System.out.println("4. Normalize Mobile Device Folder "+SD_CARD_PATH);
+			System.out.println("5. Sysnchronize Music Library with "+SD_CARD_PATH);
 			System.out.println("0. Exit");
 			
 			int input = waitForCommand("Enter:");
 			
 			System.out.println("Input - "+input);
 			if(input == 1){
-				mb.performeNormalization(log);
+				mb.performeNormalization(log, root);
 			}else if(input == 2){
-				mb.performeSynchronization(log, mobileMath);
+				mb.performeNormalization(log, mobileMath);
 			}else if(input == 3){
+				mb.performeSynchronization(log, mobileMath);
+			}else if(input == 4){
+				mb.performeNormalization(log, Paths.get(SD_CARD_PATH));
+			}else if(input == 5){
 				mb.performeSynchronization(log, Paths.get(SD_CARD_PATH));
 			}
 		}catch(IOException e){
@@ -149,18 +161,15 @@ public class MusicBox {
 		}
 	}
 	
-	private void performeNormalization(Writer log) throws IOException {
+	private void performeNormalization(Writer log, Path root) throws IOException {
 		LocalDateTime startDateTime = LocalDateTime.now();
 		DateTimeFormatter formatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.FULL, FormatStyle.MEDIUM);
 		String dateString = formatter.format(startDateTime); 
 		out(log, dateString);
 		out(log, "Normalization...");
 		
-		root = Paths.get(LINUX_PATH);
-		//root = new File(TEST_PATH);
-		if(!Files.exists(root)){
-			root = Paths.get(WINDOWS_PATH);
-		}
+		this.root = root;
+		
 		if(Files.isDirectory(root)){
 			//Files.walk(root).filter(p -> Files.isDirectory(p)).forEach(this::scanDirectory);
 			Files.find(root, 20, (p,a) -> a.isDirectory()).forEach(this::scanDirectory);
