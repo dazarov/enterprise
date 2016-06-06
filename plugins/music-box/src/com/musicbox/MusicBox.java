@@ -34,7 +34,8 @@ public class MusicBox {
 	private static final int MAX_NUMBER_OF_FILES_IN_COMMON_FOLDER = 4;
 	private static final String LINUX_PATH = "/home/daniel/Music/Music";
 	private static final String WINDOWS_PATH = "C:/Users/Daniil/Music";
-	private static final String MOBILE_ROOT_PATH = "/run/user/1000/gvfs";
+	private static final String UNIX_MOBILE_ROOT_PATH = "/run/user/1000/gvfs";
+	private static final String WINDOWS_MOBILE_ROOT_PATH = "This PC/Nexus 6/Internal storage";
 	private static final String SD_CARD_PATH = "E:/Music";
 	
 	private static final String LOG_FILE = "MusicBox.log";
@@ -51,7 +52,10 @@ public class MusicBox {
 	public static void main(String[] args){
 		try(BufferedWriter log = Files.newBufferedWriter(Paths.get(LOG_FILE), StandardOpenOption.APPEND, StandardOpenOption.CREATE)){
 			
-			Path mobileMath = findMobilePath(log);
+			Path mobilePath = findMobilePath(log, UNIX_MOBILE_ROOT_PATH);
+			if(mobilePath == null){
+				mobilePath = findMobilePath(log, WINDOWS_MOBILE_ROOT_PATH);
+			}
 			
 			Path root = Paths.get(LINUX_PATH);
 			//root = new File(TEST_PATH);
@@ -61,9 +65,9 @@ public class MusicBox {
 				
 			MusicBox mb = new MusicBox();
 			System.out.println("1. Normalize Main Music Ripository "+root);
-			if(mobileMath != null){
-				System.out.println("2. Normalize Mobile Device Folder "+mobileMath);
-				System.out.println("3. Sysnchronize Main Music Ripository with "+mobileMath);
+			if(mobilePath != null){
+				System.out.println("2. Normalize Mobile Device Folder "+mobilePath);
+				System.out.println("3. Sysnchronize Main Music Ripository with "+mobilePath);
 			}
 			System.out.println("4. Normalize Mobile Device Folder "+SD_CARD_PATH);
 			System.out.println("5. Sysnchronize Music Library with "+SD_CARD_PATH);
@@ -75,9 +79,9 @@ public class MusicBox {
 			if(input == 1){
 				mb.performeNormalization(log, root);
 			}else if(input == 2){
-				mb.performeNormalization(log, mobileMath);
+				mb.performeNormalization(log, mobilePath);
 			}else if(input == 3){
-				mb.performeSynchronization(log, mobileMath);
+				mb.performeSynchronization(log, mobilePath);
 			}else if(input == 4){
 				mb.performeNormalization(log, Paths.get(SD_CARD_PATH));
 			}else if(input == 5){
@@ -88,12 +92,14 @@ public class MusicBox {
 		}
 	}
 	
-	private static Path findMobilePath(Writer log){
+	private static Path findMobilePath(Writer log, String pathString){
 		try {
-			Path path = Paths.get(MOBILE_ROOT_PATH);
-			Optional<Path> result = Files.find(path, 20, (p, a) -> p.getFileName().toString().equals("Music")).findFirst();
-			if(result.isPresent()){
-				return result.get();
+			Path path = Paths.get(pathString);
+			if(Files.exists(path)){
+				Optional<Path> result = Files.find(path, 20, (p, a) -> p.getFileName().toString().equals("Music")).findFirst();
+				if(result.isPresent()){
+					return result.get();
+				}
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
