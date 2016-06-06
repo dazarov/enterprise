@@ -2,6 +2,7 @@ package com.musicbox;
 
 import static com.musicbox.Utils.out;
 import static com.musicbox.Utils.waitForCommand;
+import static com.musicbox.Utils.format;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -78,7 +79,7 @@ public class MusicBoxValidator {
 		
 		out(log, "Artists: "+collection.getNumberOFArtists());
 		Duration duration = Duration.between(startDateTime, LocalDateTime.now());
-		out(log, "Processing time: "+duration);
+		out(log, "Processing time: "+format(duration));
 	}
 	
 	private void scanDirectory(Path directory){

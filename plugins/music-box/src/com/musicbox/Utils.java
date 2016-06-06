@@ -7,6 +7,7 @@ import java.io.Writer;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
+import java.time.Duration;
 
 public class Utils {
 	static final int WAITER_ID_SYNCHRONIZE_ROOTS = 1;
@@ -98,6 +99,14 @@ public class Utils {
 			Files.copy(sourceFile, copyToPath);
 		}
 
+	}
+	
+	static String format(Duration duration){
+		long seconds = duration.getSeconds();
+        long hours = seconds / (60 * 60);
+        int minutes = (int) ((seconds % (60 * 60)) / 60);
+        int secs = (int) (seconds % 60);
+        return ""+hours+":"+minutes+":"+secs;
 	}
 
 }
