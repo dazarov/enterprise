@@ -19,7 +19,7 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class MusicCollection {
+public class MusicBoxCollection {
 	private Map<String, Map<String, Song>> artists = new TreeMap<>();
 	private Set<String> nonArtists = new TreeSet<>();
 	public Map<String, List<Path>> nonFolderArtists = new HashMap<>();
