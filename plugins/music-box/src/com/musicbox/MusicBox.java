@@ -35,7 +35,7 @@ public class MusicBox {
 	private static final String LINUX_PATH = "/home/daniel/Music/Music";
 	private static final String WINDOWS_PATH = "C:/Users/Daniil/Music";
 	private static final String UNIX_MOBILE_ROOT_PATH = "/run/user/1000/gvfs";
-	private static final String WINDOWS_MOBILE_ROOT_PATH = "This PC/Nexus 6/Internal storage";
+	//private static final String WINDOWS_MOBILE_ROOT_PATH = "This PC/Nexus 6/Internal storage";
 	private static final String SD_CARD_PATH = "E:/Music";
 	
 	private static final String LOG_FILE = "MusicBox.log";
@@ -53,9 +53,9 @@ public class MusicBox {
 		try(BufferedWriter log = Files.newBufferedWriter(Paths.get(LOG_FILE), StandardOpenOption.APPEND, StandardOpenOption.CREATE)){
 			
 			Path mobilePath = findMobilePath(log, UNIX_MOBILE_ROOT_PATH);
-			if(mobilePath == null){
-				mobilePath = findMobilePath(log, WINDOWS_MOBILE_ROOT_PATH);
-			}
+//			if(mobilePath == null){
+//				mobilePath = findMobilePath(log, WINDOWS_MOBILE_ROOT_PATH);
+//			}
 			
 			Path root = Paths.get(LINUX_PATH);
 			//root = new File(TEST_PATH);

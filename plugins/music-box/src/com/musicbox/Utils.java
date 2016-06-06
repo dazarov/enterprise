@@ -9,6 +9,8 @@ import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 
 public class Utils {
+	static final int WAITER_ID_SYNCHRONIZE_ROOTS = 1;
+	
 	static void out(Writer logFile, String message){
 		System.out.println(message);
 		try {
@@ -18,6 +20,17 @@ public class Utils {
 		}
 	}
 	
+	static String readLine(String format, Object... args) throws IOException {
+	    if (System.console() != null) {
+	    	System.console().flush();
+	        return System.console().readLine(format, args);
+	    }
+	    System.out.print(String.format(format, args));
+	    BufferedReader reader = new BufferedReader(new InputStreamReader(
+	            System.in));
+	    return reader.readLine();
+	}
+
 	static int waitForCommand(String prompt) throws IOException {
 		String value;
 		WHILE_LOOP:
@@ -33,15 +46,24 @@ public class Utils {
 		return Integer.parseInt(value);
 	}
 	
-	static String readLine(String format, Object... args) throws IOException {
-	    if (System.console() != null) {
-	    	System.console().flush();
-	        return System.console().readLine(format, args);
-	    }
-	    System.out.print(String.format(format, args));
-	    BufferedReader reader = new BufferedReader(new InputStreamReader(
-	            System.in));
-	    return reader.readLine();
+	static int lastCommand = -1;
+	static int lastID = -1;
+	
+	static int getCommand(String prompt, int waiterID) throws IOException {
+		if(lastID == waiterID && lastID != -1){
+			return lastCommand;
+		}else{
+			lastCommand = -1;
+			lastID = -1;
+			int command = waitForCommand(prompt);
+			if(command%2 != 0){
+				lastCommand = command-1;
+				lastID = waiterID;
+				return lastCommand;
+			}else{
+				return command;
+			}
+		}
 	}
 	
 	/**
