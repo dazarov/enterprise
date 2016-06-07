@@ -11,6 +11,8 @@ import java.time.Duration;
 
 public class Utils {
 	static final int WAITER_ID_SYNCHRONIZE_ROOTS = 1;
+	static final int WAITER_ID_CHECK_INFO_1 = 2;
+	static final int WAITER_ID_CHECK_INFO_2 = 3;
 	
 	static void out(Writer logFile, String message){
 		System.out.println(message);

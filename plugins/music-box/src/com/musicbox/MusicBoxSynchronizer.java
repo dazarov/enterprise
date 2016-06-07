@@ -3,6 +3,8 @@ package com.musicbox;
 import static com.musicbox.Utils.out;
 import static com.musicbox.Utils.waitForCommand;
 import static com.musicbox.Utils.WAITER_ID_SYNCHRONIZE_ROOTS;
+import static com.musicbox.Utils.WAITER_ID_CHECK_INFO_1;
+import static com.musicbox.Utils.WAITER_ID_CHECK_INFO_2;
 import static com.musicbox.Utils.copy;
 import static com.musicbox.Utils.format;
 import static com.musicbox.Utils.getCommand;
@@ -126,9 +128,11 @@ public class MusicBoxSynchronizer {
 					System.out.println("\nFile: "+filePath);
 					System.out.println("File location is different from the file location in MR!");
 					System.out.println("1 - Move file to the correct location");
-					System.out.println("2 - Skip");
+					System.out.println("2 - Move ALL such files to the correct location");
+					System.out.println("3 - Skip");
+					System.out.println("4 - Skip All");
 					System.out.println("0 - Exit");
-					int command = waitForCommand("Input:");
+					int command = getCommand("Input:", WAITER_ID_CHECK_INFO_1);
 					if(command == 1){ // Move file to the correct location
 						out(log, "Move file "+filePath.getFileName()+" to the other folder");
 						move(mobileRoot, filePath, fileInfo.filePath.getParent());
@@ -165,10 +169,13 @@ public class MusicBoxSynchronizer {
 			System.out.println("\nFile: "+filePath);
 			System.out.println("File is not found in the main repository!");
 			System.out.println("1 - Copy file to the main repository");
-			System.out.println("2 - Delete local file");
-			System.out.println("3 - Skip");
+			System.out.println("2 - Copy ALL such files to the main repository");
+			System.out.println("3 - Delete local file");
+			System.out.println("4 - Delete ALL such files");
+			System.out.println("5 - Skip");
+			System.out.println("6 - Skip ALL");
 			System.out.println("0 - Exit");
-			int command = waitForCommand("Input:");
+			int command = getCommand("Input:", WAITER_ID_CHECK_INFO_2);
 			System.out.println("Command - "+command);
 			if(command == 1){  // Copy file from mobile device
 				out(log, "Copy file "+filePath.getFileName()+" <------ to the main repository...");
@@ -176,7 +183,7 @@ public class MusicBoxSynchronizer {
 				//copy(mobileRoot, filePath, root, false);
 				
 				out(log, "Folder successfully copied!");
-			}else if(command == 2){ // Delete the file
+			}else if(command == 3){ // Delete the file
 				out(log, "Deleting the file "+filePath);
 				//Files.delete(filePath);
 				out(log, "File successfully deleted!");
