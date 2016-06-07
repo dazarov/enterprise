@@ -38,28 +38,34 @@ public class MusicBox {
 			}
 				
 			MusicBox mb = new MusicBox();
-			System.out.println("1. Validate Main Music Repository "+root);
+			System.out.println("Following options are available on your system:");
+			if(Files.exists(root)){
+				System.out.println("1. Validate Main Music Repository "+root);
+			}
 			if(mobilePath != null){
 				System.out.println("2. Validate Mobile Device Folder "+mobilePath);
 				System.out.println("3. Sysnchronize Main Music Ripository with "+mobilePath);
 			}
-			System.out.println("4. Validate Mobile Device Folder "+SD_CARD_PATH);
-			System.out.println("5. Sysnchronize Music Library with "+SD_CARD_PATH);
+			Path sdCardPath = Paths.get(SD_CARD_PATH);
+			if(Files.exists(sdCardPath)){
+				System.out.println("4. Validate Mobile Device Folder "+SD_CARD_PATH);
+				System.out.println("5. Sysnchronize Music Library with "+SD_CARD_PATH);
+			}
 			System.out.println("0. Exit");
 			
 			int input = waitForCommand("Enter:");
 			
 			System.out.println("Input - "+input);
-			if(input == 1){
+			if(input == 1 && Files.exists(root)){
 				mb.validator.performeValidation(log, root);
-			}else if(input == 2){
+			}else if(input == 2 && Files.exists(mobilePath)){
 				mb.validator.performeValidation(log, mobilePath);
-			}else if(input == 3){
+			}else if(input == 3 && Files.exists(root) && Files.exists(mobilePath)){
 				mb.synchronizer.performeSynchronization(log, root, mobilePath);
-			}else if(input == 4){
-				mb.validator.performeValidation(log, Paths.get(SD_CARD_PATH));
-			}else if(input == 5){
-				mb.synchronizer.performeSynchronization(log, root, Paths.get(SD_CARD_PATH));
+			}else if(input == 4  && Files.exists(sdCardPath)){
+				mb.validator.performeValidation(log, sdCardPath);
+			}else if(input == 5 && Files.exists(root) && Files.exists(sdCardPath)){
+				mb.synchronizer.performeSynchronization(log, root, sdCardPath);
 			}
 		}catch(IOException e){
 			e.printStackTrace();

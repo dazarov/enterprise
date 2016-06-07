@@ -1,14 +1,14 @@
 package com.musicbox;
 
-import static com.musicbox.Utils.out;
-import static com.musicbox.Utils.waitForCommand;
-import static com.musicbox.Utils.WAITER_ID_SYNCHRONIZE_ROOTS;
 import static com.musicbox.Utils.WAITER_ID_CHECK_INFO_1;
 import static com.musicbox.Utils.WAITER_ID_CHECK_INFO_2;
+import static com.musicbox.Utils.WAITER_ID_SYNCHRONIZE_ROOTS;
 import static com.musicbox.Utils.copy;
 import static com.musicbox.Utils.format;
 import static com.musicbox.Utils.getCommand;
 import static com.musicbox.Utils.move;
+import static com.musicbox.Utils.out;
+import static com.musicbox.Utils.waitForCommand;
 
 import java.io.IOException;
 import java.io.Writer;
@@ -16,8 +16,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
 import java.util.Map;
 
 public class MusicBoxSynchronizer {
@@ -33,8 +31,7 @@ public class MusicBoxSynchronizer {
 	
 	void performeSynchronization(Writer log, Path root, Path otherRoot) throws IOException{
 		LocalDateTime startDateTime = LocalDateTime.now();
-		DateTimeFormatter formatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.FULL, FormatStyle.MEDIUM);
-		out(log, formatter.format(startDateTime));
+		out(log, "\n\n################################    "+format(startDateTime)+"    ################################");
 		out(log, "Synchronization...");
 		
 		if(!Files.exists(otherRoot)){

@@ -8,6 +8,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 
 public class Utils {
 	static final int WAITER_ID_SYNCHRONIZE_ROOTS = 1;
@@ -103,12 +106,18 @@ public class Utils {
 
 	}
 	
+	static String format(LocalDateTime dateTime){
+		DateTimeFormatter formatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.FULL, FormatStyle.MEDIUM);
+		return formatter.format(dateTime);
+	}
+	
 	static String format(Duration duration){
 		long seconds = duration.getSeconds();
         long hours = seconds / (60 * 60);
         int minutes = (int) ((seconds % (60 * 60)) / 60);
         int secs = (int) (seconds % 60);
-        return ""+hours+":"+minutes+":"+secs;
+        //return ""+hours+":"+minutes+":"+secs;
+        return ""+hours+" hours, "+minutes+" minuts, "+secs+" seconds.";
 	}
 
 }

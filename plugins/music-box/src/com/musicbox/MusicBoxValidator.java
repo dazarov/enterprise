@@ -1,8 +1,8 @@
 package com.musicbox;
 
+import static com.musicbox.Utils.format;
 import static com.musicbox.Utils.out;
 import static com.musicbox.Utils.waitForCommand;
-import static com.musicbox.Utils.format;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -12,8 +12,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -51,9 +49,7 @@ public class MusicBoxValidator {
 	
 	void performeValidation(Writer log, Path root) throws IOException {
 		LocalDateTime startDateTime = LocalDateTime.now();
-		DateTimeFormatter formatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.FULL, FormatStyle.MEDIUM);
-		String dateString = formatter.format(startDateTime); 
-		out(log, dateString);
+		out(log, "\n\n################################    "+format(startDateTime)+"    ################################");
 		out(log, "Validation...");
 		
 		if(Files.isDirectory(root)){
@@ -68,7 +64,7 @@ public class MusicBoxValidator {
 		
 		moveToSeparateFolder(log);
 		
-		createSongListFile(dateString);
+		createSongListFile(format(startDateTime));
 		
 		out(log, "Files processed - "+fileNumbers);
 		long hours = totalLength/(60*60);
