@@ -23,6 +23,7 @@ import com.dworld.core.DWConfiguration;
 import com.dworld.core.DWConstants;
 import com.dworld.core.DWEngine;
 import com.dworld.core.DWUnitFactory;
+import com.dworld.core.ILauncher;
 import com.dworld.core.IUnit;
 import com.dworld.core.Land;
 import com.dworld.core.Location;
@@ -32,48 +33,20 @@ import com.dworld.ui.DWMap;
 import com.dworld.ui.DWMenuBuilder;
 import com.dworld.ui.DWToolBarBuilder;
 import com.dworld.ui.DWWindowListener;
-import com.dworld.units.ControlledUnit;
 import com.dworld.units.Unit;
 
-public class DWLauncher implements KeyListener, MouseListener, MouseMotionListener {
-	public static final String SAVE_FILE = "/save.dat";
-	public static final String BACKUP_FILE = "/backup.dat";
-	public static final String TEST_FILE = "/test.dat";
-	
-	public static final int DRAW_BRUSH = 1;
-	public static final int DRAW_LINE = 2;
-	public static final int DRAW_RECTANGLE = 3;
-	public static final int DRAW_FILL = 4;
-	
-	private static int draw_mode = DRAW_BRUSH;
-	
-	private static DWLauncher launcher;
-	private static ControlledUnit controlledUnit = null;
-	
+public class DWSwingLauncher implements KeyListener, MouseListener, MouseMotionListener, ILauncher {
 	private JFrame window;
-	private static String path;
 	private JPanel panel = null;
-	private int selectedElement = Land.Brick;
-	private boolean buildMode = false;
-	public static final String TITLE = "D World";
-	public static final String MODIFYED_TITLE = "*D World";
-	
-	private static boolean attack_mode = false;
 	
 	private DWEngine engine;
+	
+	DWConfiguration configuration;
 
-	public DWLauncher() {
+	public DWSwingLauncher() {
 
 	}
 	
-	public static void setDrawMode(int mode){
-		draw_mode = mode;
-	}
-	
-	public static DWLauncher getLauncher(){
-		return launcher;
-	}
-
 	/**
 	 * @param args
 	 */
@@ -83,7 +56,7 @@ public class DWLauncher implements KeyListener, MouseListener, MouseMotionListen
 		assert start = true;
 		
 		if(start){
-			launcher = new DWLauncher();
+			DWSwingLauncher launcher = new DWSwingLauncher();
 	
 			launcher.init();
 			
@@ -91,34 +64,31 @@ public class DWLauncher implements KeyListener, MouseListener, MouseMotionListen
 		}
 	}
 	
-	public static String getPath(){
-		return path;
-	}
-
 	private void init() {
-		File jar = new File(DWLauncher.class.getProtectionDomain().getCodeSource().getLocation().getPath());
+		String pathName = "";
+		File jar = new File(DWSwingLauncher.class.getProtectionDomain().getCodeSource().getLocation().getPath());
 		if(jar.exists()){
-			path = jar.getParent();
-		}else{
-			path = "";
+			pathName = jar.getParent();
 		}
-		DWConfiguration configuration = DWConfiguration.getInstance();
+		configuration = DWConfiguration.getInstance();
 		window = configuration.getWindow();
 		engine = configuration.getEngine();
+		configuration.setLauncher(this);
+		configuration.setPathName(pathName);
 		DWWindowListener.getDefault().addMainWindow(window);
 		initMenu();
 		initWindow();
 	}
 
 	private void start() {
-		Land.load(SAVE_FILE, window);
+		Land.load(DWConfiguration.SAVE_FILE, window);
 		engine.init();
 		engine.run();
 	}
 
 	private void initWindow() {
 
-		window.setTitle(TITLE);
+		window.setTitle(DWConfiguration.TITLE);
 		window.setIconImage(new ImageIcon("resources/land/patriot.gif")
 				.getImage());
 		panel = new JPanel() {
@@ -137,9 +107,9 @@ public class DWLauncher implements KeyListener, MouseListener, MouseMotionListen
 		window.setSize(DWConstants.UI_WIDTH * DWConstants.UI_IMAGE_WIDTH + 8,
 				DWConstants.UI_HEIGHT * DWConstants.UI_IMAGE_HEIGHT + 48);
 		window.setLocation(480, 10);
-		window.addKeyListener(launcher);
-		panel.addMouseListener(launcher);
-		panel.addMouseMotionListener(launcher);
+		window.addKeyListener(this);
+		panel.addMouseListener(this);
+		panel.addMouseMotionListener(this);
 		window.setResizable(false);
 		window.setVisible(true);
 		window.setFocusable(true);
@@ -160,7 +130,7 @@ public class DWLauncher implements KeyListener, MouseListener, MouseMotionListen
 					"Do you want to save the game?", "Question",
 					JOptionPane.YES_NO_OPTION);
 			if (n == 0) {
-				engine.saveAndExit(SAVE_FILE);
+				engine.saveAndExit(DWConfiguration.SAVE_FILE);
 				return false;
 			}
 		}
@@ -203,7 +173,7 @@ public class DWLauncher implements KeyListener, MouseListener, MouseMotionListen
 			DWMap.switchMinimap();
 		}
 		// Alt
-		if(keyModifiers == 8 && !isBuildMode()){
+		if(keyModifiers == 8 && !configuration.isBuildMode()){
 			switch(keyCode){
 			case 37: // Left
 				SelectionManager.modifySelection(0, 0, -1, 0);
@@ -222,7 +192,7 @@ public class DWLauncher implements KeyListener, MouseListener, MouseMotionListen
 				return;
 			}
 		}
-		if(keyModifiers == 0 && isBuildMode()){
+		if(keyModifiers == 0 && configuration.isBuildMode()){
 			switch(keyCode){
 			case 37: // Left
 				SelectionManager.moveLeft();
@@ -256,8 +226,8 @@ public class DWLauncher implements KeyListener, MouseListener, MouseMotionListen
 			}
 		}
 		
-		if (controlledUnit != null)
-			controlledUnit.control(keyCode, keyModifiers);
+		if (DWConfiguration.getInstance().getControlledUnit() != null)
+			DWConfiguration.getInstance().getControlledUnit().control(keyCode, keyModifiers);
 		 
 	}
 	
@@ -310,14 +280,14 @@ public class DWLauncher implements KeyListener, MouseListener, MouseMotionListen
 		
 		Location location = getLocation(e.getX(), e.getY());
 
-		if (!buildMode) { // selection mode
+		if (!configuration.isBuildMode()) { // selection mode
 			if (e.getButton() == MouseEvent.BUTTON1) {
 				SelectionManager.clearSelection();
 				selectedPoint = location;
 				SelectionManager.setSelectedArea(new Rectangle(selectedPoint.getX(), selectedPoint.getY(), 1, 1));
 			} else {
 				if(!SelectionManager.sendDefaultCommand(location)){
-					if(attack_mode){
+					if(configuration.isAttackMode()){
 						SelectionManager.sendCommand(Unit.EXTERNAL_COMMAND_ATTACK, new Object[]{location});
 					}else{
 						SelectionManager.sendCommand(Unit.EXTERNAL_COMMAND_MOVE_TO, new Object[]{location});
@@ -338,8 +308,8 @@ public class DWLauncher implements KeyListener, MouseListener, MouseMotionListen
 				SelectionManager.setSelectedLine(selectedPoint, selectedPoint);
 		}else if(isBrush()){
 			if (e.getButton() == MouseEvent.BUTTON1){
-				Land.setLand(location, selectedElement);
-				DWUnitFactory.createUnit(selectedElement, location.getX(), location.getY());
+				Land.setLand(location, configuration.getSelectedMenu());
+				DWUnitFactory.createUnit(configuration.getSelectedMenu(), location.getX(), location.getY());
 			}else{
 				IUnit unit = engine.findUnit(location);
 				if(unit != null){
@@ -353,25 +323,25 @@ public class DWLauncher implements KeyListener, MouseListener, MouseMotionListen
 	}
 	
 	public boolean isRect(){
-		return draw_mode == DRAW_RECTANGLE;
+		return configuration.getDrawMode() == DWConfiguration.DRAW_RECTANGLE;
 	}
 	
 	public boolean isLine(){
-		return draw_mode == DRAW_LINE;
+		return configuration.getDrawMode() == DWConfiguration.DRAW_LINE;
 	}
 	
 	public boolean isBrush(){
-		return draw_mode == DRAW_BRUSH;
+		return configuration.getDrawMode() == DWConfiguration.DRAW_BRUSH;
 	}
 	
 	public boolean isFill(){
-		return draw_mode == DRAW_FILL;
+		return configuration.getDrawMode() == DWConfiguration.DRAW_FILL;
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		button = e.getButton();
-		if(isBuildMode()){
+		if(configuration.isBuildMode()){
 			if(isRect()){
 				Rectangle rectangle = SelectionManager.getSelectedArea();
 				if(rectangle == SelectionManager.NULL_RECTANGLE)
@@ -379,7 +349,7 @@ public class DWLauncher implements KeyListener, MouseListener, MouseMotionListen
 				for(int x = rectangle.x; x < rectangle.x+rectangle.width; x++){
 					for(int y = rectangle.y; y < rectangle.y+rectangle.height; y++){
 						if (e.getButton() == MouseEvent.BUTTON1)
-							Land.setLand(new Location(x, y), selectedElement);
+							Land.setLand(new Location(x, y), configuration.getSelectedMenu());
 						else
 							Land.setLand(new Location(x, y), Land.Empty);
 					}
@@ -390,7 +360,7 @@ public class DWLauncher implements KeyListener, MouseListener, MouseMotionListen
 				if(points != null){
 					for(Location point : points){
 						if (e.getButton() == MouseEvent.BUTTON1){
-							Land.setLand(point, selectedElement);
+							Land.setLand(point, configuration.getSelectedMenu());
 						}else{
 							Land.setLand(point, Land.Empty);
 						}
@@ -401,7 +371,7 @@ public class DWLauncher implements KeyListener, MouseListener, MouseMotionListen
 				Location location = getLocation(e.getX(), e.getY());
 				int oldCode = Land.getLand(location);
 				if (e.getButton() == MouseEvent.BUTTON1){
-					fill(location.getX(), location.getY(), oldCode, selectedElement);
+					fill(location.getX(), location.getY(), oldCode, configuration.getSelectedMenu());
 				}else{
 					fill(location.getX(), location.getY(), oldCode, Land.Empty);
 				}
@@ -410,41 +380,13 @@ public class DWLauncher implements KeyListener, MouseListener, MouseMotionListen
 			}
 			SelectionManager.clearSelection();
 		}
-		if(!isBuildMode()){
+		if(!configuration.isBuildMode()){
 			SelectionManager.select();
 		}
 	}
 	
 	public void setModified(){
 		Land.modified(window);
-	}
-
-	public void setSelectedElement(int code){
-		selectedElement = code;
-	}
-
-	public int getSelectedElement(){
-		return selectedElement;
-	}
-	
-	public void setAttackMode(boolean mode){
-		attack_mode = mode;
-	}
-	
-	public static ControlledUnit getControlledUnit() {
-		return controlledUnit;
-	}
-
-	public static void setControlledUnit(ControlledUnit controlledUnit) {
-		DWLauncher.controlledUnit = controlledUnit;
-	}
-
-	public boolean isBuildMode() {
-		return buildMode;
-	}
-
-	public void setBuildMode(boolean buildMode) {
-		this.buildMode = buildMode;
 	}
 
 	int lastX = 0, lastY = 0;
@@ -457,7 +399,7 @@ public class DWLauncher implements KeyListener, MouseListener, MouseMotionListen
 			return;
 		lastX = location.getX();
 		lastY = location.getY();
-		if (!isBuildMode() || isRect()) {
+		if (!configuration.isBuildMode() || isRect()) {
 			if (selectedPoint != null) {
 				int topX, topY, width, height;
 
@@ -487,14 +429,14 @@ public class DWLauncher implements KeyListener, MouseListener, MouseMotionListen
 						width, height));
 			}
 			return;
-		}else if(isBuildMode() && isLine()){
+		}else if(configuration.isBuildMode() && isLine()){
 			SelectionManager.setSelectedLine(selectedPoint, location);
 			return;
 		}
 
 		if(isBrush()){
 			if (button == MouseEvent.BUTTON1)
-				Land.setLand(location, selectedElement);
+				Land.setLand(location, configuration.getSelectedMenu());
 			else
 				Land.setLand(location, Land.Empty);
 		}

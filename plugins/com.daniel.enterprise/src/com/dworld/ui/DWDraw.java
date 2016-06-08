@@ -11,7 +11,7 @@ import java.util.Map;
 
 import javax.swing.ImageIcon;
 
-import com.dworld.DWLauncher;
+import com.dworld.DWSwingLauncher;
 import com.dworld.core.DWConstants;
 import com.dworld.core.Land;
 import com.dworld.core.Location;
@@ -607,7 +607,7 @@ public class DWDraw {
 	}
 
 	public static Image loadImage(String path) {
-		URL url = DWLauncher.class.getClassLoader().getResource(path);
+		URL url = DWSwingLauncher.class.getClassLoader().getResource(path);
 		if(url != null){
 			return new ImageIcon(url).getImage();
 		}else{

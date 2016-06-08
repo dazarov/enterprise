@@ -10,7 +10,7 @@ import javax.swing.JFrame;
 import javax.swing.JToolBar;
 import javax.swing.SwingConstants;
 
-import com.dworld.DWLauncher;
+import com.dworld.core.DWConfiguration;
 import com.dworld.core.Land;
 import com.dworld.core.SelectionManager;
 import com.dworld.ui.actions.ChangeManCodeAction;
@@ -235,7 +235,7 @@ public class DWToolBarBuilder {
 		button.setIcon(new ImageIcon(DWDraw.loadImage("resources/brush.png")));
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				DWLauncher.setDrawMode(DWLauncher.DRAW_BRUSH);
+				DWConfiguration.getInstance().setDrawMode(DWConfiguration.DRAW_BRUSH);
 			}
 		});
 		toolBar.add(button);
@@ -244,7 +244,7 @@ public class DWToolBarBuilder {
 		button.setIcon(new ImageIcon(DWDraw.loadImage("resources/line.png")));
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				DWLauncher.setDrawMode(DWLauncher.DRAW_LINE);
+				DWConfiguration.getInstance().setDrawMode(DWConfiguration.DRAW_LINE);
 			}
 		});
 		toolBar.add(button);
@@ -253,7 +253,7 @@ public class DWToolBarBuilder {
 		button.setIcon(new ImageIcon(DWDraw.loadImage("resources/rect.png")));
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				DWLauncher.setDrawMode(DWLauncher.DRAW_RECTANGLE);
+				DWConfiguration.getInstance().setDrawMode(DWConfiguration.DRAW_RECTANGLE);
 			}
 		});
 		toolBar.add(button);
@@ -262,7 +262,7 @@ public class DWToolBarBuilder {
 		button.setIcon(new ImageIcon(DWDraw.loadImage("resources/fill.png")));
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				DWLauncher.setDrawMode(DWLauncher.DRAW_FILL);
+				DWConfiguration.getInstance().setDrawMode(DWConfiguration.DRAW_FILL);
 			}
 		});
 		toolBar.add(button);

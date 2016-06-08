@@ -11,7 +11,6 @@ import java.io.InputStream;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.dworld.DWLauncher;
 import com.dworld.ui.DWDraw;
 import com.dworld.ui.DWMessageDialog;
 import com.dworld.ui.DWProgressMonitor;
@@ -858,7 +857,7 @@ public class Land {
 	private static void loadMan(final int x, final int y, int code,
 			InputStream stream) throws IOException {
 		ControlledUnit unit = new ControlledUnit(x, y, code);
-		DWLauncher.setControlledUnit(unit);
+		DWConfiguration.getInstance().setControlledUnit(unit);
 		unit.load(stream);
 		DWDraw.setUnit(unit);
 	}
@@ -881,12 +880,12 @@ public class Land {
 	
 	private static void saved(Frame panel){
 		dirty = false;
-		panel.setTitle(DWLauncher.TITLE);
+		panel.setTitle(DWConfiguration.TITLE);
 	}
 	
 	public static void modified(Frame panel){
 		dirty = true;
-		panel.setTitle(DWLauncher.MODIFYED_TITLE);
+		panel.setTitle(DWConfiguration.MODIFYED_TITLE);
 	}
 
 	public static void load(String fileName, Frame panel) {
@@ -897,7 +896,7 @@ public class Land {
 				}
 			}
 		}
-		File file = new File(DWLauncher.getPath()+fileName);
+		File file = new File(DWConfiguration.getInstance().getPathName()+fileName);
 		if (!file.exists()){
 			new DWMessageDialog(panel, "Error", "File "+file.getAbsolutePath()+" not found");
 			return;
@@ -939,13 +938,13 @@ public class Land {
 	}
 
 	public static void save(String fileName, Frame panel) {
-		File file = new File(DWLauncher.getPath()+fileName);
+		File file = new File(DWConfiguration.getInstance().getPathName()+fileName);
 		DWProgressMonitor progressMonitor = new DWProgressMonitor(panel, "Saving "+fileName+" file...", DWConstants.MAX_X);
 		int progress = 0;
 		try(FileOutputStream fs = new FileOutputStream(file);
 				BufferedOutputStream stream = new BufferedOutputStream(fs);) {
 			
-			ControlledUnit hero = DWLauncher.getControlledUnit();
+			ControlledUnit hero = DWConfiguration.getInstance().getControlledUnit();
 			
 			writeInt(stream, hero.getLocation().getX());
 			writeInt(stream, hero.getLocation().getY());

@@ -12,7 +12,6 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JRadioButtonMenuItem;
 
-import com.dworld.DWLauncher;
 import com.dworld.core.DWConfiguration;
 import com.dworld.core.DWEngine;
 import com.dworld.core.Land;
@@ -40,7 +39,7 @@ public class DWMenuBuilder {
 		menuItem = new JMenuItem("Load");
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				engine.load(DWLauncher.SAVE_FILE);
+				engine.load(DWConfiguration.SAVE_FILE);
 			}
 		});
 		menu.add(menuItem);
@@ -48,7 +47,7 @@ public class DWMenuBuilder {
 		menuItem = new JMenuItem("Save");
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				engine.save(DWLauncher.SAVE_FILE);
+				engine.save(DWConfiguration.SAVE_FILE);
 			}
 		});
 		menu.add(menuItem);
@@ -58,7 +57,7 @@ public class DWMenuBuilder {
 		menuItem = new JMenuItem("Load Backup");
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				engine.load(DWLauncher.BACKUP_FILE);
+				engine.load(DWConfiguration.BACKUP_FILE);
 			}
 		});
 		menu.add(menuItem);
@@ -66,7 +65,7 @@ public class DWMenuBuilder {
 		menuItem = new JMenuItem("Save Backup");
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				engine.save(DWLauncher.BACKUP_FILE);
+				engine.save(DWConfiguration.BACKUP_FILE);
 			}
 		});
 		menu.add(menuItem);
@@ -76,7 +75,7 @@ public class DWMenuBuilder {
 		menuItem = new JMenuItem("Load Test");
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				engine.load(DWLauncher.TEST_FILE);
+				engine.load(DWConfiguration.TEST_FILE);
 			}
 		});
 		menu.add(menuItem);
@@ -84,7 +83,7 @@ public class DWMenuBuilder {
 		menuItem = new JMenuItem("Save Test");
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				engine.save(DWLauncher.TEST_FILE);
+				engine.save(DWConfiguration.TEST_FILE);
 			}
 		});
 		menu.add(menuItem);
@@ -94,7 +93,7 @@ public class DWMenuBuilder {
 		menuItem = new JMenuItem("Exit");
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(DWLauncher.getLauncher().exitConfirmation())
+				if(DWConfiguration.getInstance().getLauncher().exitConfirmation())
 					System.exit(0);
 			}
 		});
@@ -144,7 +143,7 @@ public class DWMenuBuilder {
 		menuItem = new JMenuItem("Info");
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new DWInfoScreen(window, DWLauncher.getControlledUnit());
+				new DWInfoScreen(window, DWConfiguration.getInstance().getControlledUnit());
 			}
 		});
 		menu.add(menuItem);
@@ -153,9 +152,9 @@ public class DWMenuBuilder {
 		cbMenuItem = new JCheckBoxMenuItem("Build mode");
 		cbMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				DWLauncher.getLauncher().setBuildMode(!DWLauncher.getLauncher().isBuildMode());
-				engine.pause(DWLauncher.getLauncher().isBuildMode());
-				if(DWLauncher.getLauncher().isBuildMode()){
+				DWConfiguration.getInstance().setBuildMode(!DWConfiguration.getInstance().isBuildMode());
+				engine.pause(DWConfiguration.getInstance().isBuildMode());
+				if(DWConfiguration.getInstance().isBuildMode()){
 					DWToolBarBuilder.showPalette();
 				}else{
 					DWToolBarBuilder.hidePalette();
@@ -426,25 +425,25 @@ public class DWMenuBuilder {
 		menu.addSeparator();
 		
 		menuItem = new JCheckBoxMenuItem("Fight");
-		if(DWLauncher.getControlledUnit() != null)
-			menuItem.setSelected(DWLauncher.getControlledUnit().isFight());
+		if(DWConfiguration.getInstance().getControlledUnit() != null)
+			menuItem.setSelected(DWConfiguration.getInstance().getControlledUnit().isFight());
 		else
 			menuItem.setSelected(false);
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				DWLauncher.getControlledUnit().setFight(!DWLauncher.getControlledUnit().isFight());
+				DWConfiguration.getInstance().getControlledUnit().setFight(!DWConfiguration.getInstance().getControlledUnit().isFight());
 			}
 		});
 		menu.add(menuItem);
 		
 		menuItem = new JCheckBoxMenuItem("Defense");
-		if(DWLauncher.getControlledUnit() != null)
-			menuItem.setSelected(DWLauncher.getControlledUnit().isDefense());
+		if(DWConfiguration.getInstance().getControlledUnit() != null)
+			menuItem.setSelected(DWConfiguration.getInstance().getControlledUnit().isDefense());
 		else
 			menuItem.setSelected(true);
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				DWLauncher.getControlledUnit().setDefense(!DWLauncher.getControlledUnit().isDefense());
+				DWConfiguration.getInstance().getControlledUnit().setDefense(!DWConfiguration.getInstance().getControlledUnit().isDefense());
 			}
 		});
 		menu.add(menuItem);
@@ -458,7 +457,7 @@ public class DWMenuBuilder {
 		JRadioButtonMenuItem rbMenuItem = new JRadioButtonMenuItem("Attack");
 		rbMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				DWLauncher.getLauncher().setAttackMode(true);
+				DWConfiguration.getInstance().setAttackMode(true);
 			}
 		});
 		rbMenuItem.setSelected(false);
@@ -468,7 +467,7 @@ public class DWMenuBuilder {
 		rbMenuItem = new JRadioButtonMenuItem("Move to");
 		rbMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				DWLauncher.getLauncher().setAttackMode(false);
+				DWConfiguration.getInstance().setAttackMode(false);
 			}
 		});
 		rbMenuItem.setSelected(true);
@@ -568,7 +567,7 @@ public class DWMenuBuilder {
 		JRadioButtonMenuItem rbMenuItem = new JRadioButtonMenuItem(name);
 		rbMenuItem.setIcon(new ImageIcon(DWDraw.getImage(code)));
 		rbMenuItem.addActionListener(new SelectElementAction(code));
-		if (DWLauncher.getLauncher().getSelectedElement() == code)
+		if (DWConfiguration.getInstance().getSelectedMenu() == code)
 			rbMenuItem.setSelected(true);
 		group.add(rbMenuItem);
 		menu.add(rbMenuItem);

@@ -1,5 +1,7 @@
 package com.dworld.core;
 
+import java.util.Objects;
+
 /**
  * Immutable location
  *
@@ -43,9 +45,7 @@ public final class Location {
 	
 	@Override
 	public int hashCode() {
-        long bits = java.lang.Double.doubleToLongBits(getX());
-        bits ^= java.lang.Double.doubleToLongBits(getY()) * 31;
-        return (((int) bits) ^ ((int) (bits >> 32)));
+		return Objects.hash(x, y);
     }
 	
 	@Override

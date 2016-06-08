@@ -8,7 +8,6 @@ import java.util.Map;
 
 import javax.swing.JFrame;
 
-import com.dworld.DWLauncher;
 import com.dworld.ui.DWMap;
 
 public class DWEngine {
@@ -150,7 +149,7 @@ public class DWEngine {
 
 	public void changeManCode(int code){
 		pause(true);
-		DWLauncher.getControlledUnit().setCode(code);
+		DWConfiguration.getInstance().getControlledUnit().setCode(code);
 		pause(false);
 	}
 	

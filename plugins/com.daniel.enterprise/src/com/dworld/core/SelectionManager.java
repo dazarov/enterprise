@@ -3,7 +3,6 @@ package com.dworld.core;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 
-import com.dworld.DWLauncher;
 import com.dworld.units.Unit;
 
 public class SelectionManager {
@@ -190,7 +189,7 @@ public class SelectionManager {
 				}
 				selectedArea.width = copiedArea.width;
 				selectedArea.height = copiedArea.height;
-				DWLauncher.getLauncher().setModified();
+				DWConfiguration.getInstance().getLauncher().setModified();
 			}
 		}
 	}
@@ -219,7 +218,7 @@ public class SelectionManager {
 				int width = selectedArea.width;
 				selectedArea.width = selectedArea.height;
 				selectedArea.height = width;
-				DWLauncher.getLauncher().setModified();
+				DWConfiguration.getInstance().getLauncher().setModified();
 			}
 		}
 	}
@@ -248,7 +247,7 @@ public class SelectionManager {
 				int width = selectedArea.width;
 				selectedArea.width = selectedArea.height;
 				selectedArea.height = width;
-				DWLauncher.getLauncher().setModified();
+				DWConfiguration.getInstance().getLauncher().setModified();
 			}
 		}
 	}
@@ -265,7 +264,7 @@ public class SelectionManager {
 						Land.setLand(x, y2, code1);
 					}
 				}
-				DWLauncher.getLauncher().setModified();
+				DWConfiguration.getInstance().getLauncher().setModified();
 			}
 		}
 	}
@@ -282,7 +281,7 @@ public class SelectionManager {
 						Land.setLand(x2, y, code1);
 					}
 				}
-				DWLauncher.getLauncher().setModified();
+				DWConfiguration.getInstance().getLauncher().setModified();
 			}
 		}
 	}
@@ -300,7 +299,7 @@ public class SelectionManager {
 					}
 				}
 				selectedArea.y = selectedArea.y - 1;
-				DWLauncher.getLauncher().setModified();
+				DWConfiguration.getInstance().getLauncher().setModified();
 			}
 		}
 	}
@@ -318,7 +317,7 @@ public class SelectionManager {
 					}
 				}
 				selectedArea.y = selectedArea.y + 1;
-				DWLauncher.getLauncher().setModified();
+				DWConfiguration.getInstance().getLauncher().setModified();
 			}
 		}
 	}
@@ -336,7 +335,7 @@ public class SelectionManager {
 					}
 				}
 				selectedArea.x = selectedArea.x - 1;
-				DWLauncher.getLauncher().setModified();
+				DWConfiguration.getInstance().getLauncher().setModified();
 			}
 		}
 	}
@@ -354,7 +353,7 @@ public class SelectionManager {
 					}
 				}
 				selectedArea.x = selectedArea.x + 1;
-				DWLauncher.getLauncher().setModified();
+				DWConfiguration.getInstance().getLauncher().setModified();
 			}
 		}
 	}

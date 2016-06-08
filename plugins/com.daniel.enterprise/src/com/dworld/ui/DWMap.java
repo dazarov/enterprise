@@ -12,7 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneLayout;
 
-import com.dworld.DWLauncher;
+import com.dworld.core.DWConfiguration;
 import com.dworld.core.Land;
 import com.dworld.core.Location;
 
@@ -68,11 +68,11 @@ public class DWMap {
 	public static void refreshMinimap(){
 		if(minimap != null){
 			if(drawPoint == null)
-				drawPoint = DWLauncher.getControlledUnit().getDrawPosition();
+				drawPoint = DWConfiguration.getInstance().getControlledUnit().getDrawPosition();
 			else{
-				if(!DWLauncher.getControlledUnit().getDrawPosition().equals(drawPoint)){
+				if(!DWConfiguration.getInstance().getControlledUnit().getDrawPosition().equals(drawPoint)){
 					minimap.repaint();
-					drawPoint = DWLauncher.getControlledUnit().getDrawPosition();
+					drawPoint = DWConfiguration.getInstance().getControlledUnit().getDrawPosition();
 				}
 			}
 			
@@ -102,8 +102,8 @@ public class DWMap {
 
 			public void paint(Graphics g) {
 				super.paint(g);
-				if(DWLauncher.getControlledUnit() != null)
-					drawRegion(g, DWLauncher.getControlledUnit().getDrawPosition().getX()-150, DWLauncher.getControlledUnit().getDrawPosition().getY()-150, 300, 300);
+				if(DWConfiguration.getInstance().getControlledUnit() != null)
+					drawRegion(g, DWConfiguration.getInstance().getControlledUnit().getDrawPosition().getX()-150, DWConfiguration.getInstance().getControlledUnit().getDrawPosition().getY()-150, 300, 300);
 			}
 		};
 		panel.setBackground(Color.black);
