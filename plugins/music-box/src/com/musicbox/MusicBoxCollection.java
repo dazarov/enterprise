@@ -90,8 +90,6 @@ public class MusicBoxCollection {
 		return artists.size();
 	}
 	
-	
-	
 	void collectInfo(Writer log, Path root, Path filePath) throws IOException{
 		//System.out.println("collectInfo "+filePath);
 		System.out.print(".");

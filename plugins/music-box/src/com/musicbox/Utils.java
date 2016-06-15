@@ -62,7 +62,7 @@ public class Utils {
 			lastCommand = -1;
 			lastID = -1;
 			int command = waitForCommand(prompt);
-			if(command%2 != 0){
+			if(command%2 == 0){
 				lastCommand = command-1;
 				lastID = waiterID;
 				return lastCommand;

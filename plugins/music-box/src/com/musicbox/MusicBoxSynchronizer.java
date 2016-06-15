@@ -130,6 +130,7 @@ public class MusicBoxSynchronizer {
 					System.out.println("4 - Skip All");
 					System.out.println("0 - Exit");
 					int command = getCommand("Input:", WAITER_ID_CHECK_INFO_1);
+					System.out.println("Command - "+command);
 					if(command == 1){ // Move file to the correct location
 						out(log, "Move file "+filePath.getFileName()+" to the other folder");
 						move(mobileRoot, filePath, fileInfo.filePath.getParent());
@@ -204,6 +205,7 @@ public class MusicBoxSynchronizer {
 			System.out.println("6 - Skip ALL");
 			System.out.println("0 - Exit");
 			int command = getCommand("Input:", WAITER_ID_SYNCHRONIZE_ROOTS);
+			System.out.println("Command - "+command);
 			if(command == 1){
 				out(log, "Copy file "+info.filePath+" ------> to mobile device...");
 				

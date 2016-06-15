@@ -44,7 +44,7 @@ public class MusicBox {
 			}
 			if(mobilePath != null){
 				System.out.println("2. Validate Mobile Device Folder "+mobilePath);
-				System.out.println("3. Sysnchronize Main Music Ripository with "+mobilePath);
+				System.out.println("3. Synchronize Main Music Repository with "+mobilePath);
 			}
 			Path sdCardPath = Paths.get(SD_CARD_PATH);
 			if(Files.exists(sdCardPath)){
@@ -55,7 +55,6 @@ public class MusicBox {
 			
 			int input = waitForCommand("Enter:");
 			
-			System.out.println("Input - "+input);
 			if(input == 1 && Files.exists(root)){
 				mb.validator.performeValidation(log, root);
 			}else if(input == 2 && Files.exists(mobilePath)){
