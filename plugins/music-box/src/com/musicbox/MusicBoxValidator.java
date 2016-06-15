@@ -175,32 +175,6 @@ public class MusicBoxValidator {
 			
 			Information tagInfo = new Information(tag.getFirst(FieldKey.ARTIST), tag.getFirst(FieldKey.TITLE));
 			
-			if(folderArtist == null){
-				if(artistFolders.contains(fileNameInfo.artist.toLowerCase())){
-					out(logFile, fileName+" Song in All forder, but there is a specific folder for this artist! Moving...");
-					Path dir = findArtistFolder(root, fileNameInfo.artist.toLowerCase());
-					if(dir != null){
-						Path newFile = Paths.get(dir.toString(), fileNameInfo.artist.trim()+" - "+fileNameInfo.title.trim()+".mp3");
-						Files.move(file, newFile);
-						out(logFile, "File successfully moved!");
-					}else{
-						out(logFile, "Internal error - folder not found!!!!");
-					}
-				}
-				if(collection.nonFolderArtists.containsKey(fileNameInfo.artist.toLowerCase())){
-					List<Path> files = collection.nonFolderArtists.get(fileNameInfo.artist.toLowerCase());
-					files.add(file);
-					if(files.size() > MAX_NUMBER_OF_FILES_IN_COMMON_FOLDER){
-						out(logFile, fileName+" Song in All forder, but there are more then 4 songs of this artist!");
-					}
-				}else{
-					List<Path> files = new ArrayList<>();
-					files.add(file);
-					collection.nonFolderArtists.put(fileNameInfo.artist.toLowerCase(), files);
-				}
-				
-			}
-			
 			if(!tagInfo.artist.equals(fileNameInfo.artist) || !tagInfo.title.equals(fileNameInfo.title) || (folderArtist != null && ((fileNameInfo.multiArtist && fileNameInfo.artist.indexOf(folderArtist) < 0) || (!fileNameInfo.multiArtist && !fileNameInfo.artist.equals(folderArtist)) ))){
 				System.out.println("Which one is correct?");
 				if((folderArtist != null && ((fileNameInfo.multiArtist && fileNameInfo.artist.indexOf(folderArtist) < 0) || (!fileNameInfo.multiArtist && !fileNameInfo.artist.equals(folderArtist)) ))){
@@ -247,6 +221,31 @@ public class MusicBoxValidator {
 				}
 			}
 			
+			if(folderArtist == null){
+				if(artistFolders.contains(fileNameInfo.artist.toLowerCase())){
+					out(logFile, fileName+" Song in All forder, but there is a specific folder for this artist! Moving...");
+					Path dir = findArtistFolder(root, fileNameInfo.artist.toLowerCase());
+					if(dir != null){
+						Path newFile = Paths.get(dir.toString(), fileNameInfo.artist.trim()+" - "+fileNameInfo.title.trim()+".mp3");
+						Files.move(file, newFile);
+						out(logFile, "File successfully moved!");
+					}else{
+						out(logFile, "Internal error - folder not found!!!!");
+					}
+				}
+				if(collection.nonFolderArtists.containsKey(fileNameInfo.artist.toLowerCase())){
+					List<Path> files = collection.nonFolderArtists.get(fileNameInfo.artist.toLowerCase());
+					files.add(file);
+					if(files.size() > MAX_NUMBER_OF_FILES_IN_COMMON_FOLDER){
+						out(logFile, fileName+" Song in All forder, but there are more then 4 songs of this artist!");
+					}
+				}else{
+					List<Path> files = new ArrayList<>();
+					files.add(file);
+					collection.nonFolderArtists.put(fileNameInfo.artist.toLowerCase(), files);
+				}
+				
+			}
 			
 		} catch (CannotReadException | IOException | TagException | ReadOnlyFileException
 				| InvalidAudioFrameException e) {
