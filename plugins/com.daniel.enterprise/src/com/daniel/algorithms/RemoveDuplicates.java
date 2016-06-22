@@ -23,7 +23,7 @@ public class RemoveDuplicates {
 		System.out.println("New Length - "+newLength);
 	}
 	
-	static int removeDuplicates(int[] array){
+	static int removeDuplicates3(int[] array){
 		int times = 0;
 		int newLength = array.length;
 		for(int i = 0; i < newLength-1; i++){
@@ -60,6 +60,20 @@ public class RemoveDuplicates {
 		}
 		System.out.println("Times - "+times);
 		return newLength;
+	}
+	
+	static int removeDuplicates(int[] array){
+		if(array.length == 0){
+			return 0;
+		}
+		
+		int writeIndex = 1;
+		for(int i = 1; i < array.length; ++i){
+			if(array[writeIndex - 1] != array[i]){
+				array[writeIndex++] = array[i];
+			}
+		}
+		return writeIndex;
 	}
 	
 }

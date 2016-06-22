@@ -14,7 +14,7 @@ public class Chapter2 {
 		// Arrays
 		int[] array1;
 		int array2[];
-		int [] array3 = new int[]{1,2,3,4};
+		int []array3 = new int[]{1,2,3,4};
 		int array4 [] = {1,2,3,4,5,6}; // anonymous array
 		
 		int[] array5, array6;
