@@ -68,7 +68,7 @@ public class RemoveDuplicates {
 		}
 		
 		int writeIndex = 1;
-		for(int i = 1; i < array.length; ++i){
+		for(int i = 1; i < array.length; i++){
 			if(array[writeIndex - 1] != array[i]){
 				array[writeIndex++] = array[i];
 			}

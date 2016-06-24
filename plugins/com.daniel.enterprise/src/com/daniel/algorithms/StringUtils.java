@@ -139,6 +139,41 @@ public class StringUtils {
 		return result;
 	}
 	
+	public static String intToString(int x){
+		StringBuilder sb = new StringBuilder();
+		boolean isNegative = false;
+		if(x < 0){
+			x = -x;
+			isNegative = true;
+		}
+		
+		do{
+			char c = (char)('0'+ x % 10);
+			sb.append(c);
+			x /= 10;
+		}while(x > 0);
+		
+		if(isNegative){
+			sb.append("-");
+		}
+		
+		return sb.reverse().toString();
+	}
+	
+	public static int stringToInt(String s){
+		char[] chars = s.toCharArray();
+		
+		boolean isNegative = chars[0] == '-';
+		int result = 0;
+		
+		for(int i = chars[0] == '-' ? 1 : 0; i < chars.length; i++){
+			int digit = chars[i] - '0';
+			result = result * 10 + digit;
+		}
+		
+		return isNegative ? -result : result;
+	}
+	
 	
 	public static void main(String[] args){
 		ArrayList<String> text = new ArrayList<String>();
@@ -365,6 +400,12 @@ public class StringUtils {
 		for(String str : result){
 			System.out.println(str);
 		}
+		
+		System.out.println("intToString 1 - <"+intToString(123456)+">");
+		System.out.println("intToString 2 - <"+intToString(-7523)+">");
+		
+		System.out.println("stringToInt 1 - <"+stringToInt("123456")+">");
+		System.out.println("stringToInt 2 - <"+stringToInt("-7523")+">");
 
 	}
 }
