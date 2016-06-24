@@ -1,6 +1,7 @@
 package com.dworld;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
@@ -94,10 +95,14 @@ public class DWSwingLauncher implements KeyListener, MouseListener, MouseMotionL
 		panel = new JPanel() {
 			static final long serialVersionUID = 12;
 
-			public void paint(Graphics g) {
+			@Override
+			public void paintComponent(Graphics g) {
+				super.paintComponent(g);
 				DWDraw.draw(g);
 			}
 		};
+		panel.setOpaque(true);
+		panel.setBackground(Color.black);
 		
 		panel.setSize(DWConstants.UI_WIDTH * DWConstants.UI_IMAGE_WIDTH, DWConstants.UI_HEIGHT * DWConstants.UI_IMAGE_HEIGHT);
 		window.setLayout(new BorderLayout());

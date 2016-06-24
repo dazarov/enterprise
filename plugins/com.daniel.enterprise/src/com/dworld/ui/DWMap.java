@@ -25,9 +25,9 @@ public class DWMap {
 		JPanel panel = new JPanel(){
 			static final long serialVersionUID = 15;
 
-			public void paint(Graphics g) {
-				super.paint(g);
-				
+			@Override
+			public void paintComponent(Graphics g) {
+				super.paintComponent(g);
 				drawRegion(g, 0, 0, Land.getMaxX(), Land.getMaxY());
 			}
 		};
@@ -100,8 +100,9 @@ public class DWMap {
 		JPanel panel = new JPanel(){
 			static final long serialVersionUID = 16;
 
-			public void paint(Graphics g) {
-				super.paint(g);
+			@Override
+			public void paintComponent(Graphics g) {
+				super.paintComponent(g);
 				if(DWConfiguration.getInstance().getControlledUnit() != null)
 					drawRegion(g, DWConfiguration.getInstance().getControlledUnit().getDrawPosition().getX()-150, DWConfiguration.getInstance().getControlledUnit().getDrawPosition().getY()-150, 300, 300);
 			}
@@ -205,7 +206,10 @@ public class DWMap {
 							g.setColor(Color.white);
 					}
 					g.drawLine(windowX, windowY, windowX, windowY);
-				}
+				}//else{
+				//	g.setColor(Color.black);
+				//	g.drawLine(windowX, windowY, windowX, windowY);
+				//}
 			}
 		}
 	}

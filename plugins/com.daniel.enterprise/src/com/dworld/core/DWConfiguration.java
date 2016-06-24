@@ -18,6 +18,17 @@ public class DWConfiguration {
 	
 	private static volatile DWConfiguration instance;
 	
+	public static DWConfiguration getInstance(){
+		if(instance == null){
+			synchronized (DWConfiguration.class) {
+				if(instance == null){
+					instance = new DWConfiguration();
+				}
+			}
+		}
+		return instance;
+	}
+	
 	private final DWEngine engine;
 	private final JFrame window;
 	
@@ -31,17 +42,6 @@ public class DWConfiguration {
 	private boolean attackMode = false;
 	
 	private String pathName;
-	
-	public static DWConfiguration getInstance(){
-		if(instance == null){
-			synchronized (DWConfiguration.class) {
-				if(instance == null){
-					instance = new DWConfiguration();
-				}
-			}
-		}
-		return instance;
-	}
 	
 	private DWConfiguration(){
 		window = new JFrame();

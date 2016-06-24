@@ -24,6 +24,7 @@ public class DWJavaFXLauncher extends Application{
 	}
 	
 	private void drawShapes(GraphicsContext gc) {
+		//gc.drawImage(img, x, y);
 		gc.setFill(Color.GREEN);
         gc.setStroke(Color.BLUE);
         gc.setLineWidth(5);

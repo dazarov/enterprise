@@ -641,9 +641,10 @@ public class DWDraw {
 		for (int x = 0; x < DWConstants.UI_WIDTH; x++) {
 			for (int y = 0; y < DWConstants.UI_HEIGHT; y++) {
 				code = Land.getLand(startX + x, startY + y);
-				
-				image = getImage(code);
-				g.drawImage(image, x * DWConstants.UI_IMAGE_WIDTH, y * DWConstants.UI_IMAGE_HEIGHT, DWConstants.UI_IMAGE_WIDTH,	DWConstants.UI_IMAGE_HEIGHT, null);
+				if(code != Land.Empty){
+					image = getImage(code);
+					g.drawImage(image, x * DWConstants.UI_IMAGE_WIDTH, y * DWConstants.UI_IMAGE_HEIGHT, DWConstants.UI_IMAGE_WIDTH,	DWConstants.UI_IMAGE_HEIGHT, null);
+				}
 			}
 		}
 		Rectangle area = SelectionManager.getSelectedArea();
