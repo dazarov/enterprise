@@ -7,7 +7,7 @@ import javax.swing.JDialog;
 import javax.swing.JProgressBar;
 
 
-public class DWProgressMonitor extends JDialog {
+public class DWProgressMonitor extends JDialog implements IProgressMonitor{
 	public static final long serialVersionUID = 1;
 	
 	private JProgressBar progressBar;
@@ -26,10 +26,12 @@ public class DWProgressMonitor extends JDialog {
 		setVisible(true);
 	}
 	
+	@Override
 	public void setProgress(int value){
 		progressBar.setValue(value);
 	}
 	
+	@Override
 	public void close(){
 		setVisible(false);
 	}

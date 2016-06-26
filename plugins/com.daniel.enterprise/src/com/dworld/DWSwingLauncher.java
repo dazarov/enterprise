@@ -72,9 +72,11 @@ public class DWSwingLauncher implements KeyListener, MouseListener, MouseMotionL
 			pathName = jar.getParent();
 		}
 		configuration = DWConfiguration.getInstance();
-		window = configuration.getWindow();
-		engine = configuration.getEngine();
 		configuration.setLauncher(this);
+		
+		window = configuration.getUI().getWindow();
+		engine = configuration.getEngine();
+		
 		configuration.setPathName(pathName);
 		DWWindowListener.getDefault().addMainWindow(window);
 		initMenu();
@@ -82,7 +84,7 @@ public class DWSwingLauncher implements KeyListener, MouseListener, MouseMotionL
 	}
 
 	private void start() {
-		Land.load(DWConfiguration.SAVE_FILE, window);
+		Land.load(DWConfiguration.SAVE_FILE);
 		engine.init();
 		engine.run();
 	}
@@ -390,8 +392,14 @@ public class DWSwingLauncher implements KeyListener, MouseListener, MouseMotionL
 		}
 	}
 	
+	@Override
 	public void setModified(){
-		Land.modified(window);
+		Land.modified();
+	}
+	
+	@Override
+	public void setSaved(){
+		Land.modified();
 	}
 
 	int lastX = 0, lastY = 0;

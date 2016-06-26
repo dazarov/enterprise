@@ -1,6 +1,5 @@
 package com.dworld.core;
 
-import java.awt.Frame;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -12,8 +11,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.dworld.ui.DWDraw;
-import com.dworld.ui.DWMessageDialog;
-import com.dworld.ui.DWProgressMonitor;
+import com.dworld.ui.IProgressMonitor;
 import com.dworld.units.ControlledUnit;
 import com.dworld.units.MovableUnit;
 import com.dworld.units.weapon.Bullet;
@@ -878,17 +876,17 @@ public class Land {
 		return dirty;
 	}
 	
-	private static void saved(Frame panel){
+	private static void saved(){
 		dirty = false;
-		panel.setTitle(DWConfiguration.TITLE);
+		DWConfiguration.getInstance().getUI().setTitle(DWConfiguration.TITLE);
 	}
 	
-	public static void modified(Frame panel){
+	public static void modified(){
 		dirty = true;
-		panel.setTitle(DWConfiguration.MODIFYED_TITLE);
+		DWConfiguration.getInstance().getUI().setTitle(DWConfiguration.MODIFYED_TITLE);
 	}
 
-	public static void load(String fileName, Frame panel) {
+	public static void load(String fileName) {
 		for (int x = 0; x < DWConstants.MAX_X; x++) {
 			for (int y = 0; y < DWConstants.MAX_Y; y++) {
 				synchronized(landMap){
@@ -898,11 +896,11 @@ public class Land {
 		}
 		File file = new File(DWConfiguration.getInstance().getPathName()+fileName);
 		if (!file.exists()){
-			new DWMessageDialog(panel, "Error", "File "+file.getAbsolutePath()+" not found");
+			DWConfiguration.getInstance().getUI().showMessageDialog("Error", "File "+file.getAbsolutePath()+" not found");
 			return;
 		}
 		
-		DWProgressMonitor progressMonitor = new DWProgressMonitor(panel, "Loading "+fileName+" file...", DWConstants.MAX_X);
+		IProgressMonitor progressMonitor = DWConfiguration.getInstance().getUI().getProgressMonitor("Loading "+fileName+" file...", DWConstants.MAX_X);
 		int progress = 0;
 		try(FileInputStream fs = new FileInputStream(file);
 				BufferedInputStream stream = new BufferedInputStream(fs);) {
@@ -934,12 +932,12 @@ public class Land {
 			ex.printStackTrace();
 		}
 		progressMonitor.close();
-		saved(panel);
+		saved();
 	}
 
-	public static void save(String fileName, Frame panel) {
+	public static void save(String fileName) {
 		File file = new File(DWConfiguration.getInstance().getPathName()+fileName);
-		DWProgressMonitor progressMonitor = new DWProgressMonitor(panel, "Saving "+fileName+" file...", DWConstants.MAX_X);
+		IProgressMonitor progressMonitor = DWConfiguration.getInstance().getUI().getProgressMonitor("Saving "+fileName+" file...", DWConstants.MAX_X);
 		int progress = 0;
 		try(FileOutputStream fs = new FileOutputStream(file);
 				BufferedOutputStream stream = new BufferedOutputStream(fs);) {
@@ -979,7 +977,7 @@ public class Land {
 			ex.printStackTrace();
 		}
 		progressMonitor.close();
-		saved(panel);
+		saved();
 	}
 	
 	public static void writeInt(BufferedOutputStream stream, int value) throws IOException{

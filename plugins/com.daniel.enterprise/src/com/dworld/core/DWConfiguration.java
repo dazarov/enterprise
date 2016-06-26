@@ -1,7 +1,7 @@
 package com.dworld.core;
 
-import javax.swing.JFrame;
-
+import com.dworld.DWSwingLauncher;
+import com.dworld.ui.DWUI;
 import com.dworld.units.ControlledUnit;
 
 public class DWConfiguration {
@@ -30,10 +30,12 @@ public class DWConfiguration {
 	}
 	
 	private final DWEngine engine;
-	private final JFrame window;
+	
 	
 	private ControlledUnit controlledUnit = null;
 	private ILauncher launcher = null;
+	
+	private DWUI ui = null;
 	
 	private int drawMode = DRAW_BRUSH;
 	private int selectedMenu = Land.Brick;
@@ -44,16 +46,15 @@ public class DWConfiguration {
 	private String pathName;
 	
 	private DWConfiguration(){
-		window = new JFrame();
-		engine = new DWEngine(window);
-	}
-	
-	public JFrame getWindow(){
-		return window;
+		engine = new DWEngine();
 	}
 	
 	public DWEngine getEngine(){
 		return engine;
+	}
+	
+	public DWUI getUI(){
+		return ui;
 	}
 	
 	public ControlledUnit getControlledUnit() {
@@ -66,6 +67,9 @@ public class DWConfiguration {
 	
 	public void setLauncher(ILauncher launcher){
 		this.launcher = launcher;
+		if(launcher instanceof DWSwingLauncher){
+			ui = new DWUI(DWUI.UI_TYPE_SWING);
+		}
 	}
 	
 	public ILauncher getLauncher(){

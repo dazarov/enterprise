@@ -1,12 +1,9 @@
 package com.dworld.core;
 
-import java.awt.Frame;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import javax.swing.JFrame;
 
 import com.dworld.ui.DWMap;
 
@@ -36,11 +33,11 @@ public class DWEngine {
 	private static long delay=0;
 
 	private String fileName;
-	private Frame window;
+	//private Frame window;
 	
-	DWEngine(JFrame window){
+	DWEngine(){
 		super();
-		this.window = window;
+		//this.window = window;
 	}
 
 	public void run(){
@@ -48,7 +45,7 @@ public class DWEngine {
 		while (true) {
 			if(save){
 				//createHash(window);
-				Land.save(fileName, window);
+				Land.save(fileName);
 				current = 0;
 				time = 0;
 				save = false;
@@ -57,7 +54,7 @@ public class DWEngine {
 			}
 			if(load){
 				clear();
-				Land.load(fileName, window);
+				Land.load(fileName);
 				init();
 				current = 0;
 				time = 0;
@@ -94,7 +91,8 @@ public class DWEngine {
 				}
 			}
 			refreshMinimap();
-			window.repaint();
+			DWConfiguration.getInstance().getUI().getWindow().repaint();
+			//window.repaint();
 			frameID++;
 			if(frameID == Long.MAX_VALUE){
 				frameID = 0;
