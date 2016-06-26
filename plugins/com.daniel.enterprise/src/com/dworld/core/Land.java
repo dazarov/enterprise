@@ -10,7 +10,6 @@ import java.io.InputStream;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.dworld.ui.DWDraw;
 import com.dworld.ui.IProgressMonitor;
 import com.dworld.units.ControlledUnit;
 import com.dworld.units.MovableUnit;
@@ -857,7 +856,6 @@ public class Land {
 		ControlledUnit unit = new ControlledUnit(x, y, code);
 		DWConfiguration.getInstance().setControlledUnit(unit);
 		unit.load(stream);
-		DWDraw.setUnit(unit);
 	}
 
 	

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.dworld.ui;
+package com.dworld.ui.swing;
 
 import java.awt.Dimension;
 import java.awt.Point;

@@ -10,7 +10,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import com.dworld.core.DWConstants;
-import com.dworld.ui.DWMap;
+import com.dworld.ui.swing.DWMap;
 
 public class ShowGraphics{
 	public static void main(String[] args) {

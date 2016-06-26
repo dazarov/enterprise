@@ -1,4 +1,4 @@
-package com.dworld.ui.actions;
+package com.dworld.ui.swing.actions;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

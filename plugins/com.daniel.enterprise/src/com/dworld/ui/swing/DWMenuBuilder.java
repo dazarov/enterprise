@@ -1,4 +1,4 @@
-package com.dworld.ui;
+package com.dworld.ui.swing;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,8 +16,8 @@ import com.dworld.core.DWConfiguration;
 import com.dworld.core.DWEngine;
 import com.dworld.core.Land;
 import com.dworld.core.SelectionManager;
-import com.dworld.ui.actions.ChangeManCodeAction;
-import com.dworld.ui.actions.SelectElementAction;
+import com.dworld.ui.swing.actions.ChangeManCodeAction;
+import com.dworld.ui.swing.actions.SelectElementAction;
 import com.dworld.units.Unit;
 
 public class DWMenuBuilder {
@@ -557,7 +557,7 @@ public class DWMenuBuilder {
 	
 	private void createHeroMenuItem(JMenu menu, String name, int code){
 		JMenuItem menuItem = new JMenuItem(name);
-		menuItem.setIcon(new ImageIcon(DWDraw.getImage(code)));
+		menuItem.setIcon(new ImageIcon(DWConfiguration.getInstance().getUI().getImages().getImage(code)));
 		menuItem.addActionListener(new ChangeManCodeAction(window, code));
 		menu.add(menuItem);
 	}
@@ -565,7 +565,7 @@ public class DWMenuBuilder {
 	private void createBuildMenuItem(JMenu menu, ButtonGroup group,
 			String name, int code) {
 		JRadioButtonMenuItem rbMenuItem = new JRadioButtonMenuItem(name);
-		rbMenuItem.setIcon(new ImageIcon(DWDraw.getImage(code)));
+		rbMenuItem.setIcon(new ImageIcon(DWConfiguration.getInstance().getUI().getImages().getImage(code)));
 		rbMenuItem.addActionListener(new SelectElementAction(code));
 		if (DWConfiguration.getInstance().getSelectedMenu() == code)
 			rbMenuItem.setSelected(true);

@@ -23,6 +23,7 @@ public class RemoveDuplicates {
 		System.out.println("New Length - "+newLength);
 	}
 	
+	// O(n^2)
 	static int removeDuplicates3(int[] array){
 		int times = 0;
 		int newLength = array.length;
@@ -41,7 +42,7 @@ public class RemoveDuplicates {
 		return newLength;
 	}
 
-	
+	// O(n^2)
 	static int removeDuplicates2(int[] array){
 		int times=0;
 		int newLength = 1;
@@ -62,6 +63,7 @@ public class RemoveDuplicates {
 		return newLength;
 	}
 	
+	// O(n)
 	static int removeDuplicates(int[] array){
 		if(array.length == 0){
 			return 0;

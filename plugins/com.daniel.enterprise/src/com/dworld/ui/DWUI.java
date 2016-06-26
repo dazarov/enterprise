@@ -2,22 +2,32 @@ package com.dworld.ui;
 
 import javax.swing.JFrame;
 
+import com.dworld.ui.swing.DWMessageDialog;
+import com.dworld.ui.swing.DWProgressMonitor;
+import com.dworld.ui.swing.DWSwingImages;
+
 public class DWUI {
 	public static final int UI_TYPE_SWING = 0;
 	public static final int UI_TYPE_JAVA_FX = 1;
 	
 	private final int type;
 	private JFrame window;
+	private DWSwingImages images;
 	
 	public DWUI(int type){
 		this.type = type;
 		if(type == UI_TYPE_SWING){
 			window = new JFrame();
+			images = new DWSwingImages();
 		}
 	}
 	
 	public JFrame getWindow(){
 		return window;
+	}
+	
+	public DWSwingImages getImages(){
+		return images;
 	}
 	
 	public IProgressMonitor getProgressMonitor(String title, int max){

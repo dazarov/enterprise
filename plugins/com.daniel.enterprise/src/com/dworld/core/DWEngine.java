@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.dworld.ui.DWMap;
+import com.dworld.ui.swing.DWMap;
 
 public class DWEngine {
 	private static final long MAIN_DELAY = 60;

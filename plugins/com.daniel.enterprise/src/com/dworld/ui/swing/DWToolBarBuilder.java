@@ -1,4 +1,4 @@
-package com.dworld.ui;
+package com.dworld.ui.swing;
 
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -13,8 +13,9 @@ import javax.swing.SwingConstants;
 import com.dworld.core.DWConfiguration;
 import com.dworld.core.Land;
 import com.dworld.core.SelectionManager;
-import com.dworld.ui.actions.ChangeManCodeAction;
-import com.dworld.ui.actions.SelectElementAction;
+import java.awt.Image;
+import com.dworld.ui.swing.actions.ChangeManCodeAction;
+import com.dworld.ui.swing.actions.SelectElementAction;
 
 public class DWToolBarBuilder {
 	private static DWWindow palette = null;
@@ -50,7 +51,7 @@ public class DWToolBarBuilder {
 	
 	private void createHeroButton(JToolBar toolBar, final int code){
 		JButton button = new JButton();
-		button.setIcon(new ImageIcon(DWDraw.getImage(code)));
+		button.setIcon(new ImageIcon(getImage(code)));
 		button.addActionListener(new ChangeManCodeAction(window, code));
 		
 		toolBar.add(button);
@@ -222,9 +223,17 @@ public class DWToolBarBuilder {
 		palette.add(toolBar);
 	}
 	
+	private static Image getImage(int code){
+		return DWConfiguration.getInstance().getUI().getImages().getImage(code);
+	}
+
+	private static Image loadImage(String path){
+		return DWConfiguration.getInstance().getUI().getImages().loadImage(path);
+	}
+	
 	private static void createToolButton(JToolBar toolBar, final int code){
 		JButton button = new JButton();
-		button.setIcon(new ImageIcon(DWDraw.getImage(code)));
+		button.setIcon(new ImageIcon(getImage(code)));
 		button.addActionListener(new SelectElementAction(code));
 		
 		toolBar.add(button);
@@ -232,7 +241,7 @@ public class DWToolBarBuilder {
 
 	private static void createDrawButtons(JToolBar toolBar){
 		JButton button = new JButton();
-		button.setIcon(new ImageIcon(DWDraw.loadImage("resources/brush.png")));
+		button.setIcon(new ImageIcon(loadImage("resources/brush.png")));
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				DWConfiguration.getInstance().setDrawMode(DWConfiguration.DRAW_BRUSH);
@@ -241,7 +250,7 @@ public class DWToolBarBuilder {
 		toolBar.add(button);
 
 		button = new JButton();
-		button.setIcon(new ImageIcon(DWDraw.loadImage("resources/line.png")));
+		button.setIcon(new ImageIcon(loadImage("resources/line.png")));
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				DWConfiguration.getInstance().setDrawMode(DWConfiguration.DRAW_LINE);
@@ -250,7 +259,7 @@ public class DWToolBarBuilder {
 		toolBar.add(button);
 
 		button = new JButton();
-		button.setIcon(new ImageIcon(DWDraw.loadImage("resources/rect.png")));
+		button.setIcon(new ImageIcon(loadImage("resources/rect.png")));
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				DWConfiguration.getInstance().setDrawMode(DWConfiguration.DRAW_RECTANGLE);
@@ -259,7 +268,7 @@ public class DWToolBarBuilder {
 		toolBar.add(button);
 		
 		button = new JButton();
-		button.setIcon(new ImageIcon(DWDraw.loadImage("resources/fill.png")));
+		button.setIcon(new ImageIcon(loadImage("resources/fill.png")));
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				DWConfiguration.getInstance().setDrawMode(DWConfiguration.DRAW_FILL);
@@ -270,7 +279,7 @@ public class DWToolBarBuilder {
 		toolBar.addSeparator();
 		
 		button = new JButton();
-		button.setIcon(new ImageIcon(DWDraw.loadImage("resources/FlipVertically.png")));
+		button.setIcon(new ImageIcon(loadImage("resources/FlipVertically.png")));
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				SelectionManager.flipVertically();
@@ -279,7 +288,7 @@ public class DWToolBarBuilder {
 		toolBar.add(button);
 
 		button = new JButton();
-		button.setIcon(new ImageIcon(DWDraw.loadImage("resources/FlipHorizontally.png")));
+		button.setIcon(new ImageIcon(loadImage("resources/FlipHorizontally.png")));
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				SelectionManager.flipHorizontally();
@@ -288,7 +297,7 @@ public class DWToolBarBuilder {
 		toolBar.add(button);
 		
 		button = new JButton();
-		button.setIcon(new ImageIcon(DWDraw.loadImage("resources/TurnRight.png")));
+		button.setIcon(new ImageIcon(loadImage("resources/TurnRight.png")));
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				SelectionManager.turnRight();
@@ -297,7 +306,7 @@ public class DWToolBarBuilder {
 		toolBar.add(button);
 
 		button = new JButton();
-		button.setIcon(new ImageIcon(DWDraw.loadImage("resources/TurnLeft.png")));
+		button.setIcon(new ImageIcon(loadImage("resources/TurnLeft.png")));
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				SelectionManager.turnLeft();
@@ -306,7 +315,7 @@ public class DWToolBarBuilder {
 		toolBar.add(button);
 		
 		button = new JButton();
-		button.setIcon(new ImageIcon(DWDraw.loadImage("resources/MoveUp.png")));
+		button.setIcon(new ImageIcon(loadImage("resources/MoveUp.png")));
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				SelectionManager.moveUp();
@@ -314,7 +323,7 @@ public class DWToolBarBuilder {
 		});
 		toolBar.add(button);
 		button = new JButton();
-		button.setIcon(new ImageIcon(DWDraw.loadImage("resources/MoveDown.png")));
+		button.setIcon(new ImageIcon(loadImage("resources/MoveDown.png")));
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				SelectionManager.moveDown();
@@ -322,7 +331,7 @@ public class DWToolBarBuilder {
 		});
 		toolBar.add(button);
 		button = new JButton();
-		button.setIcon(new ImageIcon(DWDraw.loadImage("resources/MoveRight.png")));
+		button.setIcon(new ImageIcon(loadImage("resources/MoveRight.png")));
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				SelectionManager.moveRight();
@@ -330,7 +339,7 @@ public class DWToolBarBuilder {
 		});
 		toolBar.add(button);
 		button = new JButton();
-		button.setIcon(new ImageIcon(DWDraw.loadImage("resources/MoveLeft.png")));
+		button.setIcon(new ImageIcon(loadImage("resources/MoveLeft.png")));
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				SelectionManager.moveLeft();

@@ -1,4 +1,4 @@
-package com.dworld.ui;
+package com.dworld.ui.swing;
 
 import javax.swing.JFrame;
 

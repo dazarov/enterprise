@@ -1,10 +1,12 @@
-package com.dworld.ui;
+package com.dworld.ui.swing;
 
 import java.awt.Dimension;
 import java.awt.Frame;
 
 import javax.swing.JDialog;
 import javax.swing.JProgressBar;
+
+import com.dworld.ui.IProgressMonitor;
 
 
 public class DWProgressMonitor extends JDialog implements IProgressMonitor{
