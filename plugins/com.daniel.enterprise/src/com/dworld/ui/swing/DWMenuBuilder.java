@@ -557,7 +557,7 @@ public class DWMenuBuilder {
 	
 	private void createHeroMenuItem(JMenu menu, String name, int code){
 		JMenuItem menuItem = new JMenuItem(name);
-		menuItem.setIcon(new ImageIcon(DWConfiguration.getInstance().getUI().getImages().getImage(code)));
+		menuItem.setIcon(new ImageIcon(DWConfiguration.getInstance().getUI().getImages(DWSwingImages.class).getImage(code)));
 		menuItem.addActionListener(new ChangeManCodeAction(window, code));
 		menu.add(menuItem);
 	}
@@ -565,7 +565,7 @@ public class DWMenuBuilder {
 	private void createBuildMenuItem(JMenu menu, ButtonGroup group,
 			String name, int code) {
 		JRadioButtonMenuItem rbMenuItem = new JRadioButtonMenuItem(name);
-		rbMenuItem.setIcon(new ImageIcon(DWConfiguration.getInstance().getUI().getImages().getImage(code)));
+		rbMenuItem.setIcon(new ImageIcon(DWConfiguration.getInstance().getUI().getImages(DWSwingImages.class).getImage(code)));
 		rbMenuItem.addActionListener(new SelectElementAction(code));
 		if (DWConfiguration.getInstance().getSelectedMenu() == code)
 			rbMenuItem.setSelected(true);

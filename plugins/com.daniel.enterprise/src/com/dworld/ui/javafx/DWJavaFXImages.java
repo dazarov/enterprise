@@ -1,13 +1,8 @@
 package com.dworld.ui.javafx;
 
-import java.awt.Rectangle;
-import java.util.ArrayList;
-
 import com.dworld.core.DWConfiguration;
 import com.dworld.core.DWConstants;
 import com.dworld.core.Land;
-import com.dworld.core.Location;
-import com.dworld.core.SelectionManager;
 import com.dworld.ui.DWImages;
 
 import javafx.scene.canvas.GraphicsContext;

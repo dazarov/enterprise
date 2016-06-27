@@ -33,18 +33,15 @@ public class DWEngine {
 	private static long delay=0;
 
 	private String fileName;
-	//private Frame window;
 	
 	DWEngine(){
 		super();
-		//this.window = window;
 	}
 
 	public void run(){
 		
 		while (true) {
 			if(save){
-				//createHash(window);
 				Land.save(fileName);
 				current = 0;
 				time = 0;
@@ -92,7 +89,6 @@ public class DWEngine {
 			}
 			refreshMinimap();
 			DWConfiguration.getInstance().getUI().getWindow().repaint();
-			//window.repaint();
 			frameID++;
 			if(frameID == Long.MAX_VALUE){
 				frameID = 0;
@@ -167,10 +163,6 @@ public class DWEngine {
 			slowUnits.remove(element);
 		}
 		allUnits.clear();
-//		for(int i = allUnits.size()-1; i >= 0; i--){
-//			Unit element = allUnits.get(i);
-//			allUnits.remove(element);
-//		}
 	}
 	
 	private int refreshCounter = minimapRefreshRate;
@@ -193,7 +185,6 @@ public class DWEngine {
 		for (int i = 0; i < toDelete.size(); i++) {
 			element = toDelete.get(i);
 			slowUnits.remove(element);
-			//allUnits.remove(element);
 			allUnits.remove(element);
 		}
 		toDelete.clear();
@@ -219,7 +210,6 @@ public class DWEngine {
 		for (int i = 0; i < toDelete.size(); i++) {
 			element = toDelete.get(i);
 			activeUnits.remove(element);
-			//allUnits.remove(element);
 			allUnits.remove(element);
 		}
 		toDelete.clear();

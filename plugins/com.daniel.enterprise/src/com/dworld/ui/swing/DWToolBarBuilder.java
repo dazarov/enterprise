@@ -224,11 +224,11 @@ public class DWToolBarBuilder {
 	}
 	
 	private static Image getImage(int code){
-		return DWConfiguration.getInstance().getUI().getImages().getImage(code);
+		return DWConfiguration.getInstance().getUI().getImages(DWSwingImages.class).getImage(code);
 	}
 
 	private static Image loadImage(String path){
-		return DWConfiguration.getInstance().getUI().getImages().loadImage(path);
+		return DWConfiguration.getInstance().getUI().getImages(DWSwingImages.class).loadImage(path);
 	}
 	
 	private static void createToolButton(JToolBar toolBar, final int code){

@@ -31,6 +31,7 @@ import com.dworld.core.Location;
 import com.dworld.core.SelectionManager;
 import com.dworld.ui.swing.DWMap;
 import com.dworld.ui.swing.DWMenuBuilder;
+import com.dworld.ui.swing.DWSwingImages;
 import com.dworld.ui.swing.DWToolBarBuilder;
 import com.dworld.ui.swing.DWWindowListener;
 import com.dworld.units.Unit;
@@ -99,7 +100,7 @@ public class DWSwingLauncher implements KeyListener, MouseListener, MouseMotionL
 			@Override
 			public void paintComponent(Graphics g) {
 				super.paintComponent(g);
-				DWConfiguration.getInstance().getUI().getImages().draw(g);
+				DWConfiguration.getInstance().getUI().getImages(DWSwingImages.class).draw(g);
 			}
 		};
 		panel.setOpaque(true);
@@ -275,8 +276,8 @@ public class DWSwingLauncher implements KeyListener, MouseListener, MouseMotionL
 	
 	private Location getLocation(int mouseX, int mouseY){
 		return new Location(
-			DWConfiguration.getInstance().getUI().getImages().getX() + (mouseX - 3) / DWConstants.UI_IMAGE_WIDTH,
-			DWConfiguration.getInstance().getUI().getImages().getY() + mouseY / DWConstants.UI_IMAGE_HEIGHT
+			DWConfiguration.getInstance().getUI().getImages(DWSwingImages.class).getX() + (mouseX - 3) / DWConstants.UI_IMAGE_WIDTH,
+			DWConfiguration.getInstance().getUI().getImages(DWSwingImages.class).getY() + mouseY / DWConstants.UI_IMAGE_HEIGHT
 		);
 	}
 

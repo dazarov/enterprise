@@ -13,8 +13,9 @@ public class DWUI {
 	
 	private final int type;
 	private JFrame window;
-	private DWSwingImages images;
-	private DWJavaFXImages fxImages;
+	
+	@SuppressWarnings("rawtypes")
+	private DWImages images;
 		
 	public DWUI(int type){
 		this.type = type;
@@ -22,7 +23,7 @@ public class DWUI {
 			window = new JFrame();
 			images = new DWSwingImages();
 		}else if(type == UI_TYPE_JAVA_FX){
-			fxImages = new DWJavaFXImages();
+			images = new DWJavaFXImages();
 		}
 	}
 	
@@ -30,18 +31,21 @@ public class DWUI {
 		return window;
 	}
 	
-	public DWSwingImages getImages(){
-		return images;
+	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public <V extends DWImages> V getImages(Class<V> type){
+		if(images.getClass().equals(type)){
+			return (V)images;
+		}
+		throw new IllegalArgumentException();
 	}
 	
-	public DWJavaFXImages getJavaFXImages(){
-		return fxImages;
-	}
 	
 	public IProgressMonitor getProgressMonitor(String title, int max){
 		if(type == UI_TYPE_SWING){
 			return new DWProgressMonitor(window, title, max);
 		}
+		//throw new IllegalStateException();
 		return null;
 	}
 	
