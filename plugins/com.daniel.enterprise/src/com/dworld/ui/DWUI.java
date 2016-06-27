@@ -2,6 +2,7 @@ package com.dworld.ui;
 
 import javax.swing.JFrame;
 
+import com.dworld.ui.javafx.DWJavaFXImages;
 import com.dworld.ui.swing.DWMessageDialog;
 import com.dworld.ui.swing.DWProgressMonitor;
 import com.dworld.ui.swing.DWSwingImages;
@@ -13,12 +14,15 @@ public class DWUI {
 	private final int type;
 	private JFrame window;
 	private DWSwingImages images;
-	
+	private DWJavaFXImages fxImages;
+		
 	public DWUI(int type){
 		this.type = type;
 		if(type == UI_TYPE_SWING){
 			window = new JFrame();
 			images = new DWSwingImages();
+		}else if(type == UI_TYPE_JAVA_FX){
+			fxImages = new DWJavaFXImages();
 		}
 	}
 	
@@ -28,6 +32,10 @@ public class DWUI {
 	
 	public DWSwingImages getImages(){
 		return images;
+	}
+	
+	public DWJavaFXImages getJavaFXImages(){
+		return fxImages;
 	}
 	
 	public IProgressMonitor getProgressMonitor(String title, int max){
