@@ -1,60 +1,178 @@
 package com.dworld;
 
+import java.io.File;
+
+import com.dworld.core.DWConfiguration;
+import com.dworld.core.DWConstants;
+import com.dworld.core.DWEngine;
+import com.dworld.core.ILauncher;
+import com.dworld.core.Land;
+import com.dworld.core.SelectionManager;
+import com.dworld.ui.javafx.DWJavaFXImages;
+import com.dworld.ui.swing.DWMap;
+
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.ArcType;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
-public class DWJavaFXLauncher extends Application{
+public class DWJavaFXLauncher extends Application implements ILauncher{
+	
+	private DWEngine engine;
+	
+	private DWConfiguration configuration;
 	
 	@Override
     public void init() throws Exception {
         super.init();
-        
+        String pathName = "";
+		File jar = new File(DWSwingLauncher.class.getProtectionDomain().getCodeSource().getLocation().getPath());
+		if(jar.exists()){
+			pathName = jar.getParent();
+		}
+		configuration = DWConfiguration.getInstance();
+		configuration.setLauncher(this);
+		
+		//window = configuration.getUI().getWindow();
+		engine = configuration.getEngine();
+		
+		configuration.setPathName(pathName);
+		//DWWindowListener.getDefault().addMainWindow(window);
+		//initMenu();
+		//initWindow();
 	}
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
+		Land.load(DWConfiguration.SAVE_FILE);
+		engine.init();
+		
 		primaryStage.setTitle("Drawing Operations Test");
         Group root = new Group();
-        Canvas canvas = new Canvas(300, 250);
+        
+        Canvas canvas = new Canvas(DWConstants.UI_WIDTH * DWConstants.UI_IMAGE_WIDTH, DWConstants.UI_HEIGHT * DWConstants.UI_IMAGE_HEIGHT);
         GraphicsContext gc = canvas.getGraphicsContext2D();
-        drawShapes(gc);
-        root.getChildren().add(canvas);
-        primaryStage.setScene(new Scene(root));
+        DWConfiguration.getInstance().getUI().setGraphicsContext(gc);
+        
+        StackPane holder = new StackPane();
+        holder.setStyle("-fx-background-color: black");
+        holder.getChildren().add(canvas);
+        root.getChildren().add(holder);
+        Scene scene = new Scene(root);
+        primaryStage.setScene(scene);
+        EventHandler<KeyEvent> keyEventHandler = new KeyEventHandler();
+        
+        scene.setOnKeyTyped(keyEventHandler);
+        scene.setOnKeyPressed(keyEventHandler);
         primaryStage.show();
-	}
-	
-	private void drawShapes(GraphicsContext gc) {
-		//gc.drawImage(img, x, y);
-		gc.setFill(Color.GREEN);
-        gc.setStroke(Color.BLUE);
-        gc.setLineWidth(5);
-        gc.strokeLine(40, 10, 10, 40);
-        gc.fillOval(10, 60, 30, 30);
-        gc.strokeOval(60, 60, 30, 30);
-        gc.fillRoundRect(110, 60, 30, 30, 10, 10);
-        gc.strokeRoundRect(160, 60, 30, 30, 10, 10);
-        gc.fillArc(10, 110, 30, 30, 45, 240, ArcType.OPEN);
-        gc.fillArc(60, 110, 30, 30, 45, 240, ArcType.CHORD);
-        gc.fillArc(110, 110, 30, 30, 45, 240, ArcType.ROUND);
-        gc.strokeArc(10, 160, 30, 30, 45, 240, ArcType.OPEN);
-        gc.strokeArc(60, 160, 30, 30, 45, 240, ArcType.CHORD);
-        gc.strokeArc(110, 160, 30, 30, 45, 240, ArcType.ROUND);
-        gc.fillPolygon(new double[]{10, 40, 10, 40},
-                       new double[]{210, 210, 240, 240}, 4);
-        gc.strokePolygon(new double[]{60, 90, 60, 90},
-                         new double[]{210, 210, 240, 240}, 4);
-        gc.strokePolyline(new double[]{110, 140, 110, 140},
-                          new double[]{210, 210, 240, 240}, 4);
+        new Thread(engine).start();
 	}
 	
 	public static void main(String[] args) {
         launch(args);
     }
+
+	@Override
+	public void setModified() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setSaved() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean exitConfirmation() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	
+	private class KeyEventHandler implements EventHandler<KeyEvent> {
+
+		@Override
+		public void handle(KeyEvent event) {
+			if (event.getEventType() == KeyEvent.KEY_PRESSED) {
+				doKeyPressed(event.getCode(), event.getCharacter().charAt(0), 0);
+			}
+		}
+		
+	}
+	
+	public void doKeyPressed(KeyCode keyCode, int code, int keyModifiers){
+		if (keyCode == KeyCode.ESCAPE) {
+			if(exitConfirmation())
+				System.exit(0);
+		}else if (keyCode == KeyCode.M) { // m
+			DWMap.showMap();
+		}else if (keyCode == KeyCode.N) { // n
+			DWMap.switchMinimap();
+		}
+		// Alt
+		if(keyModifiers == 8 && !configuration.isBuildMode()){
+			switch(keyCode){
+			case LEFT: // Left
+				SelectionManager.modifySelection(0, 0, -1, 0);
+				return;
+
+			case UP: // Up
+				SelectionManager.modifySelection(0, 0, 0, -1);
+				return;
+
+			case RIGHT: // Right
+				SelectionManager.modifySelection(0, 0, 1, 0);
+				return;
+
+			case DOWN: // Down
+				SelectionManager.modifySelection(0, 0, 0, 1);
+				return;
+			}
+		}
+		if(keyModifiers == 0 && configuration.isBuildMode()){
+			switch(keyCode){
+			case LEFT: // Left
+				SelectionManager.moveLeft();
+				return;
+
+			case UP: // Up
+				SelectionManager.moveUp();
+				return;
+
+			case RIGHT: // Right
+				SelectionManager.moveRight();
+				return;
+
+			case DOWN: // Down
+				SelectionManager.moveDown();
+				return;
+
+			case DELETE: // Del
+				SelectionManager.delete();
+				return;
+			}
+		}
+		// Ctrl
+		if(keyModifiers == 2){
+			if(keyCode == KeyCode.C){ // Ctrl+c
+				SelectionManager.copy();
+				return;
+			}else if(keyCode == KeyCode.V){ // Ctrl+v
+				SelectionManager.paste();
+				return;
+			}
+		}
+		
+		if (DWConfiguration.getInstance().getControlledUnit() != null)
+			DWConfiguration.getInstance().getControlledUnit().control(code, keyModifiers);
+		 
+	}
 
 }

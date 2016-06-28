@@ -1,8 +1,8 @@
 package com.dworld.core;
 
+import com.dworld.DWJavaFXLauncher;
 import com.dworld.DWSwingLauncher;
 import com.dworld.ui.DWUI;
-import com.dworld.ui.javafx.DWJavaFXImages;
 import com.dworld.units.ControlledUnit;
 
 public class DWConfiguration {
@@ -70,7 +70,7 @@ public class DWConfiguration {
 		this.launcher = launcher;
 		if(launcher instanceof DWSwingLauncher){
 			ui = new DWUI(DWUI.UI_TYPE_SWING);
-		}else if(launcher instanceof DWJavaFXImages){
+		}else if(launcher instanceof DWJavaFXLauncher){
 			ui = new DWUI(DWUI.UI_TYPE_JAVA_FX);
 		}
 	}

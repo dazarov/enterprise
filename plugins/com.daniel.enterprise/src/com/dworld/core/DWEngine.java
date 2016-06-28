@@ -7,7 +7,7 @@ import java.util.Map;
 
 import com.dworld.ui.swing.DWMap;
 
-public class DWEngine {
+public class DWEngine implements Runnable{
 	private static final long MAIN_DELAY = 60;
 	private static final long SLEEP_DELAY = 100;
 	private static final int minimapRefreshRate = 10;
@@ -38,6 +38,7 @@ public class DWEngine {
 		super();
 	}
 
+	@Override
 	public void run(){
 		
 		while (true) {
@@ -88,7 +89,7 @@ public class DWEngine {
 				}
 			}
 			refreshMinimap();
-			DWConfiguration.getInstance().getUI().getWindow().repaint();
+			DWConfiguration.getInstance().getUI().repaint();
 			frameID++;
 			if(frameID == Long.MAX_VALUE){
 				frameID = 0;
@@ -194,7 +195,6 @@ public class DWEngine {
 	}
 
 	private void loop() {
-
 		// main loop
 		IActive element;
 		for (int i = 0; i < activeUnits.size(); i++) {

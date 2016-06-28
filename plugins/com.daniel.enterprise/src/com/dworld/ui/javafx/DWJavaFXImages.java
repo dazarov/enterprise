@@ -12,7 +12,8 @@ public class DWJavaFXImages extends DWImages<Image>{
 
 	@Override
 	protected Image loadImage(String path) {
-		return new Image(path);
+		//URL url = DWSwingLauncher.class.getClassLoader().getResource(path);
+		return new Image("file:"+path, true);
 	}
 	private int code;
 	private Image image;
