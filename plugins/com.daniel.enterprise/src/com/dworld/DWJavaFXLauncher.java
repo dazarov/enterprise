@@ -8,7 +8,8 @@ import com.dworld.core.DWEngine;
 import com.dworld.core.ILauncher;
 import com.dworld.core.Land;
 import com.dworld.core.SelectionManager;
-import com.dworld.ui.javafx.DWJavaFXImages;
+import com.dworld.ui.javafx.DWJavaFXKeyConverter;
+import com.dworld.ui.javafx.DWJavaFXKeyConverter.KeyInfo;
 import com.dworld.ui.swing.DWMap;
 
 import javafx.application.Application;
@@ -17,7 +18,6 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
@@ -80,98 +80,97 @@ public class DWJavaFXLauncher extends Application implements ILauncher{
 
 	@Override
 	public void setModified() {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void setSaved() {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public boolean exitConfirmation() {
-		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 	
 	private class KeyEventHandler implements EventHandler<KeyEvent> {
 
 		@Override
 		public void handle(KeyEvent event) {
+			
 			if (event.getEventType() == KeyEvent.KEY_PRESSED) {
-				doKeyPressed(event.getCode(), event.getCharacter().charAt(0), 0);
+				KeyInfo info = DWJavaFXKeyConverter.convert(event);
+				doKeyPressed(info.code, info.modifiers);
 			}
 		}
 		
 	}
 	
-	public void doKeyPressed(KeyCode keyCode, int code, int keyModifiers){
-		if (keyCode == KeyCode.ESCAPE) {
+	public void doKeyPressed(int keyCode, int keyModifiers){
+		if (keyCode == 0)
+			return;
+		else if (keyCode == 27) {
 			if(exitConfirmation())
 				System.exit(0);
-		}else if (keyCode == KeyCode.M) { // m
+		}else if (keyCode == 77) { // m
 			DWMap.showMap();
-		}else if (keyCode == KeyCode.N) { // n
+		}else if (keyCode == 78) { // n
 			DWMap.switchMinimap();
 		}
 		// Alt
 		if(keyModifiers == 8 && !configuration.isBuildMode()){
 			switch(keyCode){
-			case LEFT: // Left
+			case 37: // Left
 				SelectionManager.modifySelection(0, 0, -1, 0);
 				return;
 
-			case UP: // Up
+			case 38: // Up
 				SelectionManager.modifySelection(0, 0, 0, -1);
 				return;
 
-			case RIGHT: // Right
+			case 39: // Right
 				SelectionManager.modifySelection(0, 0, 1, 0);
 				return;
 
-			case DOWN: // Down
+			case 40: // Down
 				SelectionManager.modifySelection(0, 0, 0, 1);
 				return;
 			}
 		}
 		if(keyModifiers == 0 && configuration.isBuildMode()){
 			switch(keyCode){
-			case LEFT: // Left
+			case 37: // Left
 				SelectionManager.moveLeft();
 				return;
 
-			case UP: // Up
+			case 38: // Up
 				SelectionManager.moveUp();
 				return;
 
-			case RIGHT: // Right
+			case 39: // Right
 				SelectionManager.moveRight();
 				return;
 
-			case DOWN: // Down
+			case 40: // Down
 				SelectionManager.moveDown();
 				return;
 
-			case DELETE: // Del
+			case 127: // Del
 				SelectionManager.delete();
 				return;
 			}
 		}
 		// Ctrl
 		if(keyModifiers == 2){
-			if(keyCode == KeyCode.C){ // Ctrl+c
+			if(keyCode == 67){ // Ctrl+c
 				SelectionManager.copy();
 				return;
-			}else if(keyCode == KeyCode.V){ // Ctrl+v
+			}else if(keyCode == 86){ // Ctrl+v
 				SelectionManager.paste();
 				return;
 			}
 		}
 		
 		if (DWConfiguration.getInstance().getControlledUnit() != null)
-			DWConfiguration.getInstance().getControlledUnit().control(code, keyModifiers);
+			DWConfiguration.getInstance().getControlledUnit().control(keyCode, keyModifiers);
 		 
 	}
 

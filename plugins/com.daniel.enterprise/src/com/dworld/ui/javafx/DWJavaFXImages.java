@@ -12,7 +12,6 @@ public class DWJavaFXImages extends DWImages<Image>{
 
 	@Override
 	protected Image loadImage(String path) {
-		//URL url = DWSwingLauncher.class.getClassLoader().getResource(path);
 		return new Image("file:"+path, true);
 	}
 	private int code;
@@ -28,6 +27,8 @@ public class DWJavaFXImages extends DWImages<Image>{
 				if(code != Land.Empty){
 					image = getImage(code);
 					g.drawImage(image, (double) x * DWConstants.UI_IMAGE_WIDTH, (double)y * DWConstants.UI_IMAGE_HEIGHT, (double)DWConstants.UI_IMAGE_WIDTH, (double)	DWConstants.UI_IMAGE_HEIGHT);
+				}else{
+					g.fillRect((double) x * DWConstants.UI_IMAGE_WIDTH, (double)y * DWConstants.UI_IMAGE_HEIGHT, (double)DWConstants.UI_IMAGE_WIDTH, (double)	DWConstants.UI_IMAGE_HEIGHT);
 				}
 			}
 		}
