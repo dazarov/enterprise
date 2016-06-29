@@ -61,7 +61,7 @@ public class DWJavaFXLauncher extends Application implements ILauncher{
         DWConfiguration.getInstance().getUI().setGraphicsContext(gc);
         
         StackPane holder = new StackPane();
-        holder.setStyle("-fx-background-color: black");
+        holder.setStyle("-fx-background-color: black; -fx-color: yellow");
         holder.getChildren().add(canvas);
         root.getChildren().add(holder);
         Scene scene = new Scene(root);
@@ -98,7 +98,9 @@ public class DWJavaFXLauncher extends Application implements ILauncher{
 			
 			if (event.getEventType() == KeyEvent.KEY_PRESSED) {
 				KeyInfo info = DWJavaFXKeyConverter.convert(event);
-				doKeyPressed(info.code, info.modifiers);
+				if(info != null){
+					doKeyPressed(info.code, info.modifiers);
+				}
 			}
 		}
 		
