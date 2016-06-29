@@ -7,10 +7,8 @@ import com.dworld.core.DWConstants;
 import com.dworld.core.DWEngine;
 import com.dworld.core.ILauncher;
 import com.dworld.core.Land;
-import com.dworld.core.SelectionManager;
 import com.dworld.ui.javafx.DWJavaFXKeyConverter;
 import com.dworld.ui.javafx.DWJavaFXKeyConverter.KeyInfo;
-import com.dworld.ui.swing.DWMap;
 
 import javafx.application.Application;
 import javafx.event.EventHandler;
@@ -19,6 +17,7 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
@@ -39,13 +38,9 @@ public class DWJavaFXLauncher extends Application implements ILauncher{
 		configuration = DWConfiguration.getInstance();
 		configuration.setLauncher(this);
 		
-		//window = configuration.getUI().getWindow();
 		engine = configuration.getEngine();
 		
 		configuration.setPathName(pathName);
-		//DWWindowListener.getDefault().addMainWindow(window);
-		//initMenu();
-		//initWindow();
 	}
 
 	@Override
@@ -53,23 +48,27 @@ public class DWJavaFXLauncher extends Application implements ILauncher{
 		Land.load(DWConfiguration.SAVE_FILE);
 		engine.init();
 		
-		primaryStage.setTitle("Drawing Operations Test");
+		primaryStage.setTitle(DWConfiguration.TITLE);
         Group root = new Group();
         
         Canvas canvas = new Canvas(DWConstants.UI_WIDTH * DWConstants.UI_IMAGE_WIDTH, DWConstants.UI_HEIGHT * DWConstants.UI_IMAGE_HEIGHT);
         GraphicsContext gc = canvas.getGraphicsContext2D();
         DWConfiguration.getInstance().getUI().setGraphicsContext(gc);
         
-        StackPane holder = new StackPane();
-        holder.setStyle("-fx-background-color: black; -fx-color: yellow");
-        holder.getChildren().add(canvas);
-        root.getChildren().add(holder);
+        root.getChildren().add(canvas);
         Scene scene = new Scene(root);
         primaryStage.setScene(scene);
-        EventHandler<KeyEvent> keyEventHandler = new KeyEventHandler();
         
-        scene.setOnKeyTyped(keyEventHandler);
-        scene.setOnKeyPressed(keyEventHandler);
+        KeyEventHandler keyHandler = new KeyEventHandler();
+        
+        scene.setOnKeyPressed(keyHandler);
+        
+        MouseEventHandler mouseHandler = new MouseEventHandler();
+        
+        scene.setOnMousePressed(mouseHandler);
+        scene.setOnMouseReleased(mouseHandler);
+        scene.setOnMouseDragged(mouseHandler);
+        
         primaryStage.show();
         new Thread(engine).start();
 	}
@@ -85,11 +84,6 @@ public class DWJavaFXLauncher extends Application implements ILauncher{
 	@Override
 	public void setSaved() {
 	}
-
-	@Override
-	public boolean exitConfirmation() {
-		return true;
-	}
 	
 	private class KeyEventHandler implements EventHandler<KeyEvent> {
 
@@ -99,81 +93,25 @@ public class DWJavaFXLauncher extends Application implements ILauncher{
 			if (event.getEventType() == KeyEvent.KEY_PRESSED) {
 				KeyInfo info = DWJavaFXKeyConverter.convert(event);
 				if(info != null){
-					doKeyPressed(info.code, info.modifiers);
+					DWConfiguration.getInstance().getUI().getKeyListener().doKeyPressed(info.code, info.modifiers);
 				}
 			}
 		}
-		
 	}
 	
-	public void doKeyPressed(int keyCode, int keyModifiers){
-		if (keyCode == 0)
-			return;
-		else if (keyCode == 27) {
-			if(exitConfirmation())
-				System.exit(0);
-		}else if (keyCode == 77) { // m
-			DWMap.showMap();
-		}else if (keyCode == 78) { // n
-			DWMap.switchMinimap();
-		}
-		// Alt
-		if(keyModifiers == 8 && !configuration.isBuildMode()){
-			switch(keyCode){
-			case 37: // Left
-				SelectionManager.modifySelection(0, 0, -1, 0);
-				return;
+	private class MouseEventHandler implements EventHandler<MouseEvent>{
 
-			case 38: // Up
-				SelectionManager.modifySelection(0, 0, 0, -1);
-				return;
-
-			case 39: // Right
-				SelectionManager.modifySelection(0, 0, 1, 0);
-				return;
-
-			case 40: // Down
-				SelectionManager.modifySelection(0, 0, 0, 1);
-				return;
-			}
-		}
-		if(keyModifiers == 0 && configuration.isBuildMode()){
-			switch(keyCode){
-			case 37: // Left
-				SelectionManager.moveLeft();
-				return;
-
-			case 38: // Up
-				SelectionManager.moveUp();
-				return;
-
-			case 39: // Right
-				SelectionManager.moveRight();
-				return;
-
-			case 40: // Down
-				SelectionManager.moveDown();
-				return;
-
-			case 127: // Del
-				SelectionManager.delete();
-				return;
-			}
-		}
-		// Ctrl
-		if(keyModifiers == 2){
-			if(keyCode == 67){ // Ctrl+c
-				SelectionManager.copy();
-				return;
-			}else if(keyCode == 86){ // Ctrl+v
-				SelectionManager.paste();
-				return;
+		@Override
+		public void handle(MouseEvent event) {
+			if(event.getEventType() == MouseEvent.MOUSE_PRESSED){
+				DWConfiguration.getInstance().getUI().getMouseListener().doMousePressed(event.getButton().ordinal(), (int)event.getX(), (int)event.getY());
+			}else if(event.getEventType() == MouseEvent.MOUSE_RELEASED){
+				DWConfiguration.getInstance().getUI().getMouseListener().doMouseReleased(event.getButton().ordinal(), (int)event.getX(), (int)event.getY());
+			}else if(event.getEventType() == MouseEvent.MOUSE_DRAGGED){
+				DWConfiguration.getInstance().getUI().getMouseListener().doMouseDragged(event.getButton().ordinal(), (int)event.getX(), (int)event.getY());
 			}
 		}
 		
-		if (DWConfiguration.getInstance().getControlledUnit() != null)
-			DWConfiguration.getInstance().getControlledUnit().control(keyCode, keyModifiers);
-		 
 	}
 
 }

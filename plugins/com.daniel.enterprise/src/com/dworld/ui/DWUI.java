@@ -1,7 +1,10 @@
 package com.dworld.ui;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
+import com.dworld.core.DWConfiguration;
+import com.dworld.core.Land;
 import com.dworld.ui.javafx.DWJavaFXImages;
 import com.dworld.ui.javafx.DWJavaFXProgressMonitor;
 import com.dworld.ui.swing.DWMessageDialog;
@@ -21,6 +24,10 @@ public class DWUI {
 	
 	@SuppressWarnings("rawtypes")
 	private DWImages images;
+	
+	private DWKeyListener keyListener = new DWKeyListener();
+	
+	private DWMouseListener mouseListener = new DWMouseListener();
 		
 	public DWUI(int type){
 		this.type = type;
@@ -36,6 +43,14 @@ public class DWUI {
 		return window;
 	}
 	
+	public DWKeyListener getKeyListener(){
+		return keyListener;
+	}
+	
+	public DWMouseListener getMouseListener(){
+		return mouseListener;
+	}
+	
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public <V extends DWImages> V getImages(Class<V> type){
@@ -43,6 +58,26 @@ public class DWUI {
 			return (V)images;
 		}
 		throw new IllegalArgumentException();
+	}
+	
+	@SuppressWarnings("rawtypes")
+	public DWImages getImages(){
+		return images;
+	}
+	
+	public boolean exitConfirmation(){
+		if(type == UI_TYPE_SWING){
+			if (Land.isDirty()) {
+				int n = JOptionPane.showConfirmDialog(window,
+						"Do you want to save the game?", "Question",
+						JOptionPane.YES_NO_OPTION);
+				if (n == 0) {
+					DWConfiguration.getInstance().getEngine().saveAndExit(DWConfiguration.SAVE_FILE);
+					return false;
+				}
+			}
+		}
+		return true;
 	}
 	
 	

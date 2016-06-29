@@ -12,6 +12,7 @@ import com.dworld.ui.DWImages;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
 
 public class DWJavaFXImages extends DWImages<Image>{
 
@@ -19,6 +20,7 @@ public class DWJavaFXImages extends DWImages<Image>{
 	protected Image loadImage(String path) {
 		return new Image("file:"+path, true);
 	}
+	
 	private int code;
 	private Image image;
 	
@@ -33,20 +35,21 @@ public class DWJavaFXImages extends DWImages<Image>{
 					image = getImage(code);
 					g.drawImage(image, (double) x * DWConstants.UI_IMAGE_WIDTH, (double)y * DWConstants.UI_IMAGE_HEIGHT, (double)DWConstants.UI_IMAGE_WIDTH, (double)	DWConstants.UI_IMAGE_HEIGHT);
 				}else{
+					g.setFill(Color.BLACK);
 					g.fillRect((double) x * DWConstants.UI_IMAGE_WIDTH, (double)y * DWConstants.UI_IMAGE_HEIGHT, (double)DWConstants.UI_IMAGE_WIDTH, (double)	DWConstants.UI_IMAGE_HEIGHT);
 				}
 			}
 		}
 		Rectangle area = SelectionManager.getSelectedArea();
 		if(area != SelectionManager.NULL_RECTANGLE){
-			//g.setColor(Color.yellow);
-			g.rect((area.x-startX)*DWConstants.UI_IMAGE_WIDTH, (area.y-startY)*DWConstants.UI_IMAGE_HEIGHT, area.width*DWConstants.UI_IMAGE_WIDTH-1, area.height*DWConstants.UI_IMAGE_HEIGHT-1);
+			g.setStroke(Color.YELLOW);
+			g.strokeRect((area.x-startX)*DWConstants.UI_IMAGE_WIDTH, (area.y-startY)*DWConstants.UI_IMAGE_HEIGHT, area.width*DWConstants.UI_IMAGE_WIDTH-1, area.height*DWConstants.UI_IMAGE_HEIGHT-1);
 		}
 		ArrayList<Location> elements = SelectionManager.getSelectedLine();
 		if(elements != null){
-			//g.setColor(Color.yellow);
+			g.setStroke(Color.YELLOW);
 			for(Location point : elements){
-				g.rect((point.getX()-startX)*DWConstants.UI_IMAGE_WIDTH, (point.getY()-startY)*DWConstants.UI_IMAGE_HEIGHT, DWConstants.UI_IMAGE_WIDTH-1, DWConstants.UI_IMAGE_HEIGHT-1);
+				g.strokeRect((point.getX()-startX)*DWConstants.UI_IMAGE_WIDTH, (point.getY()-startY)*DWConstants.UI_IMAGE_HEIGHT, DWConstants.UI_IMAGE_WIDTH-1, DWConstants.UI_IMAGE_HEIGHT-1);
 			}
 		}
 	}

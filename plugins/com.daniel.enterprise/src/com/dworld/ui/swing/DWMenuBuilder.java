@@ -93,7 +93,7 @@ public class DWMenuBuilder {
 		menuItem = new JMenuItem("Exit");
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(DWConfiguration.getInstance().getLauncher().exitConfirmation())
+				if(DWConfiguration.getInstance().getUI().exitConfirmation())
 					System.exit(0);
 			}
 		});

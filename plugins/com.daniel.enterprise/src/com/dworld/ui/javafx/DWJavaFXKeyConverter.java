@@ -16,24 +16,28 @@ public class DWJavaFXKeyConverter {
 	private static Map<KeyCode, Integer> keys = new HashMap<KeyCode, Integer>();
 	static{
 		keys.put(KeyCode.ESCAPE, 27);
-		keys.put(KeyCode.UP, 38);
-		keys.put(KeyCode.DOWN, 40);
+		keys.put(KeyCode.SPACE, 32);
+		
 		keys.put(KeyCode.LEFT, 37);
+		keys.put(KeyCode.UP, 38);
 		keys.put(KeyCode.RIGHT, 39);
-		keys.put(KeyCode.M, 77);
-		keys.put(KeyCode.N, 78);
+		keys.put(KeyCode.DOWN, 40);
+		
 		keys.put(KeyCode.C, 67);
-		keys.put(KeyCode.V, 86);
-		keys.put(KeyCode.L, 76);
 		keys.put(KeyCode.D, 68);
 		keys.put(KeyCode.F, 70);
-		keys.put(KeyCode.W, 87);
+		keys.put(KeyCode.L, 76);
+		keys.put(KeyCode.M, 77);
+		keys.put(KeyCode.N, 78);
+		keys.put(KeyCode.R, 82);
 		keys.put(KeyCode.S, 83);
+		keys.put(KeyCode.T, 84);
+		keys.put(KeyCode.V, 86);
+		keys.put(KeyCode.W, 87);
+		
 		keys.put(KeyCode.PLUS, 107);
 		keys.put(KeyCode.MINUS, 109);
-		keys.put(KeyCode.R, 82);
-		keys.put(KeyCode.T, 84);
-		keys.put(KeyCode.SPACE, 32);
+		
 		keys.put(KeyCode.DIGIT0, (int)'0');
 		keys.put(KeyCode.DIGIT1, (int)'1');
 		keys.put(KeyCode.DIGIT2, (int)'2');
@@ -60,6 +64,11 @@ public class DWJavaFXKeyConverter {
 		combinations.add(new Combination(KeyCombination.ALT_DOWN, KeyCode.DOWN));
 		combinations.add(new Combination(KeyCombination.ALT_DOWN, KeyCode.LEFT));
 		combinations.add(new Combination(KeyCombination.ALT_DOWN, KeyCode.RIGHT));
+
+		combinations.add(new Combination(KeyCombination.SHIFT_DOWN, KeyCode.UP));
+		combinations.add(new Combination(KeyCombination.SHIFT_DOWN, KeyCode.DOWN));
+		combinations.add(new Combination(KeyCombination.SHIFT_DOWN, KeyCode.LEFT));
+		combinations.add(new Combination(KeyCombination.SHIFT_DOWN, KeyCode.RIGHT));
 	}
 	
 	
@@ -73,6 +82,8 @@ public class DWJavaFXKeyConverter {
 					modifiers = 2;
 				}else if(comb.modifier == KeyCombination.ALT_DOWN){
 					modifiers = 8;
+				}else if(comb.modifier == KeyCombination.SHIFT_DOWN){
+					modifiers = 1;
 				}
 				
 				code = keys.get(comb.keyCode);

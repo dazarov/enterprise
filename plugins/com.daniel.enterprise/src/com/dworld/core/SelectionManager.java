@@ -357,4 +357,80 @@ public class SelectionManager {
 			}
 		}
 	}
+	
+	public static void fill(int x, int y, int oldCode, int newCode){
+		if(SelectionManager.getSelectedArea() != SelectionManager.NULL_RECTANGLE && SelectionManager.getSelectedArea().contains(x,y)){
+			for(int x1 = SelectionManager.getSelectedArea().x; x1 < SelectionManager.getSelectedArea().x + SelectionManager.getSelectedArea().width; x1++){
+				for(int y1 = SelectionManager.getSelectedArea().y; y1 < SelectionManager.getSelectedArea().getY() + SelectionManager.getSelectedArea().height; y1++){
+					int code = Land.getLand(x1, y1);
+					if(code == oldCode){
+						Land.setLand(x1, y1, newCode);
+					}
+				}
+				
+			}
+			return;
+		}
+		if(oldCode == newCode){
+			return;
+		}
+		int startX = x;
+		int startY = y;
+		while(Land.getLand(startX, startY) == oldCode){
+			startY--;
+		}
+		startY++;
+		startX++;
+		int xx = startX;
+		int yy = startY;
+		while(true){
+			while(Land.getLand(xx, yy) == oldCode){
+				Land.setLand(xx, yy, newCode);
+				xx++;
+			}
+			xx = startX-1;
+			while(Land.getLand(xx, yy) == oldCode){
+				Land.setLand(xx, yy, newCode);
+				xx--;
+			}
+			xx = startX;
+			
+			yy++;
+			if(Land.getLand(xx, yy) != oldCode){
+				return;
+			}
+		}
+	}
+	
+//	private void fill(int x, int y, int oldCode, int newCode){
+//		if(oldCode == newCode){
+//			return;
+//		}
+//		while(true){
+//			if(Land.getLand(x, y) != oldCode){
+//				return;
+//			}
+//			int startX = x;
+//			int startY = y;
+//			while(Land.getLand(startX, startY) == oldCode){
+//				startY--;
+//			}
+//			startY++;
+//			while(Land.getLand(startX, startY) == oldCode){
+//				startX--;
+//			}
+//			startX++;
+//			Direction direction = Direction.east;
+//			Point location = new Point(startX, startY);
+//			while(true){
+//				Land.setLand(location, newCode);
+//				direction = findDirection(location, oldCode, newCode, direction);
+//				if(direction == Direction.nowhere){
+//					break;
+//				}
+//				location = Land.getNewLocation(location, direction);
+//			}
+//		}
+//	}
+
 }
