@@ -26,8 +26,10 @@ public class DWUI {
 	private DWImages images;
 	
 	private DWKeyListener keyListener = new DWKeyListener();
-	
 	private DWMouseListener mouseListener = new DWMouseListener();
+	
+	private DWMenu menu = new DWMenu();
+	private DWToolbar toolbar = new DWToolbar();
 		
 	public DWUI(int type){
 		this.type = type;
@@ -51,6 +53,13 @@ public class DWUI {
 		return mouseListener;
 	}
 	
+	public DWMenu getMenu(){
+		return menu;
+	}
+	
+	public DWToolbar getToolbar(){
+		return toolbar;
+	}
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public <V extends DWImages> V getImages(Class<V> type){

@@ -197,7 +197,7 @@ public class DWMap {
 						break;
 
 					case Land.Ammo:
-					case Land.Grenada:
+					case Land.Grenade:
 					case Land.Rocket:
 						g.setColor(Color.pink);
 						break;

@@ -26,7 +26,7 @@ public class Land {
 	public static final int Empty = 0;
 	public static final int Wall = 1;
 	public static final int Brick = 2;
-	public static final int Grenada = 3;
+	public static final int Grenade = 3;
 	public static final int Ammo = 4;
 	public static final int BadSoldier = 5;
 	public static final int BadTank = 6;
@@ -401,7 +401,7 @@ public class Land {
 	public static Set<Integer> walkList = new HashSet<>();
 	static {
 		walkList.add(Empty);
-		walkList.add(Grenada);
+		walkList.add(Grenade);
 		walkList.add(Ammo);
 		walkList.add(Rocket);
 		walkList.add(Food);
@@ -547,7 +547,7 @@ public class Land {
 	private static Set<Integer> forBulletList = new HashSet<>();
 	static {
 		forBulletList.addAll(rocketList);
-		forBulletList.add(Grenada);
+		forBulletList.add(Grenade);
 	}
 
 	private static Set<Integer> forRocketList = new HashSet<>();

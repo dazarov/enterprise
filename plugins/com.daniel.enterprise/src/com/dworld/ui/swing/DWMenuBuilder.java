@@ -323,7 +323,7 @@ public class DWMenuBuilder {
 		subMenu = new JMenu("Ammunition");
 
 		createBuildMenuItem(subMenu, group, "Ammo", Land.Ammo);
-		createBuildMenuItem(subMenu, group, "Grenada", Land.Grenada);
+		createBuildMenuItem(subMenu, group, "Grenada", Land.Grenade);
 		createBuildMenuItem(subMenu, group, "Rocket", Land.Rocket);
 		subMenu.addSeparator();
 		createBuildMenuItem(subMenu, group, "Mine", Land.Mine);

@@ -23,7 +23,7 @@ public abstract class DWImages<T> {
 		images.put(Land.Brick, image);
 
 		image = loadImage("resources/land/grenada.gif");
-		images.put(Land.Grenada, image);
+		images.put(Land.Grenade, image);
 
 		image = loadImage("resources/land/ammo.gif");
 		images.put(Land.Ammo, image);

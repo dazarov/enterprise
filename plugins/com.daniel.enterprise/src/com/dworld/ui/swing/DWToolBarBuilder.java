@@ -147,7 +147,7 @@ public class DWToolBarBuilder {
 		createToolButton(toolBar, Land.ClosedHorizontalBrickGate);
 		toolBar.addSeparator();
 		createToolButton(toolBar, Land.Ammo);
-		createToolButton(toolBar, Land.Grenada);
+		createToolButton(toolBar, Land.Grenade);
 		createToolButton(toolBar, Land.Rocket);
 		toolBar.addSeparator();
 		createToolButton(toolBar, Land.Mine);
