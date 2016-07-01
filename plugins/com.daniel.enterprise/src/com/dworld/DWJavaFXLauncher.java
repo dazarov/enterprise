@@ -13,12 +13,12 @@ import com.dworld.ui.javafx.DWJavaFXMenuBuilder;
 
 import javafx.application.Application;
 import javafx.event.EventHandler;
-import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class DWJavaFXLauncher extends Application implements ILauncher{
@@ -49,18 +49,16 @@ public class DWJavaFXLauncher extends Application implements ILauncher{
 		engine.init();
 		
 		primaryStage.setTitle(DWConfiguration.TITLE);
-        Group root = new Group();
+        VBox root = new VBox();
         
         Canvas canvas = new Canvas(DWConstants.UI_WIDTH * DWConstants.UI_IMAGE_WIDTH, DWConstants.UI_HEIGHT * DWConstants.UI_IMAGE_HEIGHT);
-        canvas.setLayoutY(30);
         GraphicsContext gc = canvas.getGraphicsContext2D();
         DWConfiguration.getInstance().getUI().setGraphicsContext(gc);
         
         DWJavaFXMenuBuilder menuBuilder = new DWJavaFXMenuBuilder();
         root.getChildren().addAll(menuBuilder.buildMenu(), canvas);
-        //root.getChildren().add(canvas);
         
-        Scene scene = new Scene(root, DWConstants.UI_WIDTH * DWConstants.UI_IMAGE_WIDTH, DWConstants.UI_HEIGHT * DWConstants.UI_IMAGE_HEIGHT+20);
+        Scene scene = new Scene(root);
         primaryStage.setScene(scene);
         
         KeyEventHandler keyHandler = new KeyEventHandler();
