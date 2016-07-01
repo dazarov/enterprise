@@ -6,7 +6,6 @@ import java.awt.event.ActionListener;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JCheckBoxMenuItem;
-import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -21,10 +20,7 @@ import com.dworld.ui.swing.actions.SelectElementAction;
 import com.dworld.units.Unit;
 
 public class DWMenuBuilder {
-	private JFrame window;
-	
-	public DWMenuBuilder(JFrame window){
-		this.window = window;
+	public DWMenuBuilder(){
 	}
 	
 	public JMenuBar buildMenu() {
@@ -143,7 +139,7 @@ public class DWMenuBuilder {
 		menuItem = new JMenuItem("Info");
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new DWInfoScreen(window, DWConfiguration.getInstance().getControlledUnit());
+				new DWInfoScreen();
 			}
 		});
 		menu.add(menuItem);
@@ -426,24 +422,23 @@ public class DWMenuBuilder {
 		
 		menuItem = new JCheckBoxMenuItem("Fight");
 		if(DWConfiguration.getInstance().getControlledUnit() != null)
-			menuItem.setSelected(DWConfiguration.getInstance().getControlledUnit().isFight());
+			menuItem.setSelected(DWConfiguration.getInstance().isFight());
 		else
 			menuItem.setSelected(false);
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				DWConfiguration.getInstance().getControlledUnit().setFight(!DWConfiguration.getInstance().getControlledUnit().isFight());
+				DWConfiguration.getInstance().setFight(!DWConfiguration.getInstance().isFight());
 			}
 		});
 		menu.add(menuItem);
 		
 		menuItem = new JCheckBoxMenuItem("Defense");
-		if(DWConfiguration.getInstance().getControlledUnit() != null)
-			menuItem.setSelected(DWConfiguration.getInstance().getControlledUnit().isDefense());
-		else
-			menuItem.setSelected(true);
+		
+		menuItem.setSelected(DWConfiguration.getInstance().isDefense());
+		
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				DWConfiguration.getInstance().getControlledUnit().setDefense(!DWConfiguration.getInstance().getControlledUnit().isDefense());
+				DWConfiguration.getInstance().setDefense(!DWConfiguration.getInstance().isDefense());
 			}
 		});
 		menu.add(menuItem);
@@ -558,7 +553,7 @@ public class DWMenuBuilder {
 	private void createHeroMenuItem(JMenu menu, String name, int code){
 		JMenuItem menuItem = new JMenuItem(name);
 		menuItem.setIcon(new ImageIcon(DWConfiguration.getInstance().getUI().getImages(DWSwingImages.class).getImage(code)));
-		menuItem.addActionListener(new ChangeManCodeAction(window, code));
+		menuItem.addActionListener(new ChangeManCodeAction(DWConfiguration.getInstance().getUI().getWindow(), code));
 		menu.add(menuItem);
 	}
 

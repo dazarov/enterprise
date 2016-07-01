@@ -57,6 +57,7 @@ public class DWToolBarBuilder {
 		toolBar.add(button);
 	}
 	public static void showPalette(){
+		hidePalette();
 		palette = new DWWindow("Building Palette", DWWindow.ORIENTATION_LEFT);
 		palette.setLayout(new GridLayout(1,5));
 		

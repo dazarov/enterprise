@@ -2,7 +2,6 @@ package com.dworld.ui.swing;
 
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Frame;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -13,8 +12,8 @@ import javax.swing.SwingConstants;
 import com.dworld.core.DWConfiguration;
 import com.dworld.core.DWConstants;
 import com.dworld.core.DWEngine;
-import com.dworld.core.Land;
 import com.dworld.core.IActive;
+import com.dworld.core.Land;
 import com.dworld.units.ControlledUnit;
 import com.dworld.units.Gate;
 import com.dworld.units.Teleport;
@@ -23,8 +22,8 @@ import com.dworld.units.citizens.GoodBunker;
 import com.dworld.units.citizens.GoodGeneral;
 import com.dworld.units.citizens.GoodOfficer;
 import com.dworld.units.citizens.GoodRadar;
-import com.dworld.units.citizens.GoodTank;
 import com.dworld.units.citizens.GoodSoldier;
+import com.dworld.units.citizens.GoodTank;
 import com.dworld.units.enemies.BadBunker;
 import com.dworld.units.enemies.BadGeneral;
 import com.dworld.units.enemies.BadOfficer;
@@ -42,11 +41,10 @@ public class DWInfoScreen extends JDialog{
 	public static final long serialVersionUID = 2;
 	private JLabel label;
 	
-	private ControlledUnit controlledUnit;
 
-	public DWInfoScreen(Frame parent, ControlledUnit controlledUnit){
-		super(parent);
-		this.controlledUnit = controlledUnit;
+	public DWInfoScreen(){
+		super(DWConfiguration.getInstance().getUI().getWindow());
+		
 		setResizable(false);
 		setTitle("Info Screen");
 		String text = getInfo();
@@ -57,7 +55,7 @@ public class DWInfoScreen extends JDialog{
 		label.setPreferredSize(new Dimension(500, 600));
 		add(label);
 		pack();
-		setLocation(parent.getLocation().x+parent.getSize().width/2-getSize().width/2, parent.getLocation().y+parent.getSize().height/2-getSize().height/2);
+		setLocation(getParent().getLocation().x+getParent().getSize().width/2-getSize().width/2, getParent().getLocation().y+getParent().getSize().height/2-getSize().height/2);
 		addKeyListener(new KeyListener(){
 			public void keyPressed(KeyEvent event) {
 				if (event.getKeyCode() == 27) {
@@ -73,6 +71,7 @@ public class DWInfoScreen extends JDialog{
 	}
 	
 	private String getInfo(){
+		ControlledUnit controlledUnit = DWConfiguration.getInstance().getControlledUnit();
 		StringBuffer buffer = new StringBuffer();
 		DWEngine engine = DWConfiguration.getInstance().getEngine();
 		

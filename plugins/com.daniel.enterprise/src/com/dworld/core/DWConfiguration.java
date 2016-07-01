@@ -19,6 +19,10 @@ public class DWConfiguration {
 	
 	private static volatile DWConfiguration instance;
 	
+	private boolean fightActive = false;
+	private boolean defenseActive = true;
+
+	
 	public static DWConfiguration getInstance(){
 		if(instance == null){
 			synchronized (DWConfiguration.class) {
@@ -118,4 +122,21 @@ public class DWConfiguration {
 	public String getPathName(){
 		return pathName;
 	}
+	
+	public boolean isFight(){
+		return fightActive;
+	}
+
+	public void setFight(boolean fight){
+		fightActive = fight;
+	}
+	
+	public boolean isDefense(){
+		return defenseActive;
+	}
+
+	public void setDefense(boolean defense){
+		defenseActive = defense;
+	}
+
 }

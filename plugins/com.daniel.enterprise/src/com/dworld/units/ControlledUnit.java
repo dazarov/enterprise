@@ -2,6 +2,7 @@ package com.dworld.units;
 
 import java.util.Set;
 
+import com.dworld.core.DWConfiguration;
 import com.dworld.core.DWConstants;
 import com.dworld.core.DWUnitFactory;
 import com.dworld.core.Direction;
@@ -14,8 +15,6 @@ public class ControlledUnit extends MovableUnit {
 	protected int modifier = 0;
 	protected Location drawPosition = new Location(0,0);
 	protected double currentSpeed = DWConstants.STOP_SPEED;
-	protected boolean fightActive = false;
-	protected boolean defenseActive = true;
 	
 	public ControlledUnit(int x, int y, int code) {
 		super(x, y, code, DWConstants.MAX_SPEED);
@@ -222,11 +221,11 @@ public class ControlledUnit extends MovableUnit {
 			}
 			return false;
 		}
-		if(fightActive){
+		if(DWConfiguration.getInstance().isFight()){
 			fireBullets();
 		}
 		
-		if(defenseActive){
+		if(DWConfiguration.getInstance().isDefense()){
 			fireAgainstRocket();
 			if(lightDefenseComplex()) return true;
 		}
@@ -275,11 +274,11 @@ public class ControlledUnit extends MovableUnit {
 				break;
 				
 			case 68: // d
-				defenseActive = ! defenseActive;
+				DWConfiguration.getInstance().setDefense(!DWConfiguration.getInstance().isDefense());
 				break;
 				
 			case 70: // f
-				fightActive = ! fightActive;
+				DWConfiguration.getInstance().setFight(!DWConfiguration.getInstance().isFight());
 				break;
 				
 			case 87: // w
@@ -355,22 +354,6 @@ public class ControlledUnit extends MovableUnit {
 	@Override
 	protected boolean findNewDirection() {
 		return true;
-	}
-	
-	public boolean isFight(){
-		return fightActive;
-	}
-
-	public void setFight(boolean fight){
-		fightActive = fight;
-	}
-	
-	public boolean isDefense(){
-		return defenseActive;
-	}
-
-	public void setDefense(boolean defense){
-		defenseActive = defense;
 	}
 	
 	protected int getRocketType(){

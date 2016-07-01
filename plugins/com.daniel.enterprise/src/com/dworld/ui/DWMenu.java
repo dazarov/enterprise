@@ -98,7 +98,7 @@ public class DWMenu {
 		menu.items.add(new MenuItem("Pause",    () -> engine.pause(true)));
 		menu.items.add(new MenuItem("Go",       () -> engine.pause(false)));
 		menu.items.add(new MenuItem());
-		menu.items.add(new MenuItem("Info",     () -> new DWInfoScreen(DWConfiguration.getInstance().getUI().getWindow(), DWConfiguration.getInstance().getControlledUnit())));
+		menu.items.add(new MenuItem("Info",     () -> new DWInfoScreen()));
 		
 		menu = new Menu("Build");
 		menus.add(menu);
@@ -280,12 +280,12 @@ public class DWMenu {
 		menu.items.add(new MenuItem("Dark Knight",  Land.Dark_Knight, () -> DWConfiguration.getInstance().getEngine().changeManCode(Land.Dark_Knight)));
 		menu.items.add(new MenuItem());
 		menu.items.add(new CheckboxMenuItem("Fight",
-			() -> DWConfiguration.getInstance().getControlledUnit().isFight(),
-			() -> DWConfiguration.getInstance().getControlledUnit().setFight(!DWConfiguration.getInstance().getControlledUnit().isFight())
+			() -> DWConfiguration.getInstance().isFight(),
+			() -> DWConfiguration.getInstance().setFight(!DWConfiguration.getInstance().isFight())
 		));
 		menu.items.add(new CheckboxMenuItem("Defense",
-			() -> DWConfiguration.getInstance().getControlledUnit().isDefense(),
-			() -> DWConfiguration.getInstance().getControlledUnit().setDefense(!DWConfiguration.getInstance().getControlledUnit().isDefense())
+			() -> DWConfiguration.getInstance().isDefense(),
+			() -> DWConfiguration.getInstance().setDefense(!DWConfiguration.getInstance().isDefense())
 		));
 		
 		menu = new Menu("Commands");

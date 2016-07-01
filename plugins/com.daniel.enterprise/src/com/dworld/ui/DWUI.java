@@ -28,9 +28,6 @@ public class DWUI {
 	private DWKeyListener keyListener = new DWKeyListener();
 	private DWMouseListener mouseListener = new DWMouseListener();
 	
-	private DWMenu menu = new DWMenu();
-	private DWToolbar toolbar = new DWToolbar();
-		
 	public DWUI(int type){
 		this.type = type;
 		if(type == UI_TYPE_SWING){
@@ -51,14 +48,6 @@ public class DWUI {
 	
 	public DWMouseListener getMouseListener(){
 		return mouseListener;
-	}
-	
-	public DWMenu getMenu(){
-		return menu;
-	}
-	
-	public DWToolbar getToolbar(){
-		return toolbar;
 	}
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })

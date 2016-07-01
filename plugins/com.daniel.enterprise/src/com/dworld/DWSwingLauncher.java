@@ -25,6 +25,7 @@ import com.dworld.core.Land;
 import com.dworld.ui.swing.DWMap;
 import com.dworld.ui.swing.DWMenuBuilder;
 import com.dworld.ui.swing.DWSwingImages;
+import com.dworld.ui.swing.DWSwingMenuBuilder;
 import com.dworld.ui.swing.DWToolBarBuilder;
 import com.dworld.ui.swing.DWWindowListener;
 
@@ -124,7 +125,9 @@ public class DWSwingLauncher implements KeyListener, MouseListener, MouseMotionL
 	}
 	
 	private void initMenu() {
-		DWMenuBuilder menuBuilder = new DWMenuBuilder(window);
+		DWMenuBuilder menuBuilder = new DWMenuBuilder();
+		//DWSwingMenuBuilder menuBuilder = new DWSwingMenuBuilder();
+		
 		
 		window.setJMenuBar(menuBuilder.buildMenu());
 	}
