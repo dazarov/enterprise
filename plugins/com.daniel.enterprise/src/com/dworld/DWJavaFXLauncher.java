@@ -67,9 +67,9 @@ public class DWJavaFXLauncher extends Application implements ILauncher{
         
         MouseEventHandler mouseHandler = new MouseEventHandler();
         
-        scene.setOnMousePressed(mouseHandler);
-        scene.setOnMouseReleased(mouseHandler);
-        scene.setOnMouseDragged(mouseHandler);
+        canvas.setOnMousePressed(mouseHandler);
+        canvas.setOnMouseReleased(mouseHandler);
+        canvas.setOnMouseDragged(mouseHandler);
         
         primaryStage.show();
         new Thread(engine).start();
