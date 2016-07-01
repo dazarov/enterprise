@@ -14,39 +14,36 @@ import javax.swing.JMenuItem;
 import javax.swing.JRadioButtonMenuItem;
 
 import com.dworld.core.DWConfiguration;
-import com.dworld.ui.DWMenu;
-import com.dworld.ui.DWMenu.CheckboxMenuItem;
-import com.dworld.ui.DWMenu.Menu;
-import com.dworld.ui.DWMenu.MenuItem;
-import com.dworld.ui.DWMenu.RadioMenuItem;
+import com.dworld.ui.DWMenuStructure;
+import com.dworld.ui.DWMenuStructure.DWCheckboxMenuItem;
+import com.dworld.ui.DWMenuStructure.DWMenu;
+import com.dworld.ui.DWMenuStructure.DWMenuItem;
+import com.dworld.ui.DWMenuStructure.DWRadioMenuItem;
 
 public class DWSwingMenuBuilder {
-	
-	public DWSwingMenuBuilder(){
-	}
 	
 	public JMenuBar buildMenu() {
 		JMenuBar menuBar = new JMenuBar();
 		
-		List<Menu> menus = new DWMenu().menus;
+		List<DWMenu> menus = new DWMenuStructure().menus;
 		
-		for(Menu menu : menus){
+		for(DWMenu menu : menus){
 			createMenu(menu, menuBar);
 		}
 		
 		return menuBar;
 	}
 	
-	private void createMenu(Menu menu, Container parent){
+	private void createMenu(DWMenu menu, Container parent){
 		JMenu jMenu = new JMenu(menu.label);
 		
-		for(MenuItem item : menu.items){
-			if(item instanceof Menu){
-				createMenu((Menu)item, jMenu);
-			}else if(item instanceof RadioMenuItem){
-				createRadioItem((RadioMenuItem)item, jMenu);
-			}else if(item instanceof CheckboxMenuItem){
-				createCheckboxItem((CheckboxMenuItem)item, jMenu);
+		for(DWMenuItem item : menu.items){
+			if(item instanceof DWMenu){
+				createMenu((DWMenu)item, jMenu);
+			}else if(item instanceof DWRadioMenuItem){
+				createRadioItem((DWRadioMenuItem)item, jMenu);
+			}else if(item instanceof DWCheckboxMenuItem){
+				createCheckboxItem((DWCheckboxMenuItem)item, jMenu);
 			}else{
 				createMenuItem(item, jMenu);
 			}
@@ -65,7 +62,7 @@ public class DWSwingMenuBuilder {
 		return group;
 	}
 	
-	private void createRadioItem(RadioMenuItem radio, Container parent){
+	private void createRadioItem(DWRadioMenuItem radio, Container parent){
 		JRadioButtonMenuItem rbMenuItem = new JRadioButtonMenuItem(radio.label);
 		if(radio.imageCode != -1){
 			rbMenuItem.setIcon(new ImageIcon(DWConfiguration.getInstance().getUI().getImages(DWSwingImages.class).getImage(radio.imageCode)));
@@ -79,7 +76,7 @@ public class DWSwingMenuBuilder {
 		parent.add(rbMenuItem);
 	}
 	
-	private void createCheckboxItem(CheckboxMenuItem checkbox, Container parent){
+	private void createCheckboxItem(DWCheckboxMenuItem checkbox, Container parent){
 		JCheckBoxMenuItem menuItem = new JCheckBoxMenuItem(checkbox.label);
 		if(checkbox.isSelected != null){
 			menuItem.setSelected(checkbox.isSelected.getAsBoolean());
@@ -90,7 +87,7 @@ public class DWSwingMenuBuilder {
 		parent.add(menuItem);
 	}
 	
-	private void createMenuItem(MenuItem item, Container parent){
+	private void createMenuItem(DWMenuItem item, Container parent){
 		if(item.runner == null && parent instanceof JMenu){
 			((JMenu)parent).addSeparator();
 		}else{

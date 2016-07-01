@@ -9,6 +9,7 @@ import com.dworld.core.ILauncher;
 import com.dworld.core.Land;
 import com.dworld.ui.javafx.DWJavaFXKeyConverter;
 import com.dworld.ui.javafx.DWJavaFXKeyConverter.KeyInfo;
+import com.dworld.ui.javafx.DWJavaFXMenuBuilder;
 
 import javafx.application.Application;
 import javafx.event.EventHandler;
@@ -51,11 +52,15 @@ public class DWJavaFXLauncher extends Application implements ILauncher{
         Group root = new Group();
         
         Canvas canvas = new Canvas(DWConstants.UI_WIDTH * DWConstants.UI_IMAGE_WIDTH, DWConstants.UI_HEIGHT * DWConstants.UI_IMAGE_HEIGHT);
+        canvas.setLayoutY(30);
         GraphicsContext gc = canvas.getGraphicsContext2D();
         DWConfiguration.getInstance().getUI().setGraphicsContext(gc);
         
-        root.getChildren().add(canvas);
-        Scene scene = new Scene(root);
+        DWJavaFXMenuBuilder menuBuilder = new DWJavaFXMenuBuilder();
+        root.getChildren().addAll(menuBuilder.buildMenu(), canvas);
+        //root.getChildren().add(canvas);
+        
+        Scene scene = new Scene(root, DWConstants.UI_WIDTH * DWConstants.UI_IMAGE_WIDTH, DWConstants.UI_HEIGHT * DWConstants.UI_IMAGE_HEIGHT+20);
         primaryStage.setScene(scene);
         
         KeyEventHandler keyHandler = new KeyEventHandler();
