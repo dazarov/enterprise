@@ -3,9 +3,11 @@ package com.dworld.ui.swing;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.image.BufferedImage;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -21,19 +23,21 @@ public class DWMap {
 		final JFrame window = new JFrame();
 		window.setTitle("Map");
 		window.setLayout(new GridLayout());
-		
+		Image image = createImage();
 		JPanel panel = new JPanel(){
 			static final long serialVersionUID = 15;
 
 			@Override
 			public void paintComponent(Graphics g) {
 				super.paintComponent(g);
-				drawRegion(g, 0, 0, Land.getMaxX(), Land.getMaxY());
+				g.drawImage(image, 0, 0, null);
+				//drawRegion(g, 0, 0, Land.getMaxX(), Land.getMaxY());
 			}
 		};
 		panel.setBackground(Color.black);
 		panel.setSize(Land.getMaxX(), Land.getMaxY());
 		panel.setPreferredSize(panel.getSize());
+		//panel.add(image);
 		
 		JScrollPane scroll = new JScrollPane(panel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 		scroll.setLayout(new ScrollPaneLayout());
@@ -119,6 +123,13 @@ public class DWMap {
 		minimap.setFocusable(false);
 		minimap.setVisible(true);
 		DWWindowListener.getDefault().addWindow(minimap);
+	}
+	
+	public static Image createImage(){
+		BufferedImage image = new BufferedImage(Land.getMaxX(), Land.getMaxY(), BufferedImage.TYPE_INT_ARGB);
+		Graphics g = image.createGraphics();
+		drawRegion(g, 0,0,Land.getMaxX(), Land.getMaxY());
+		return image;
 	}
 	
 	public static void drawRegion(Graphics g, int startX, int startY, int width, int height){
