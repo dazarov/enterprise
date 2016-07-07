@@ -6,10 +6,10 @@ import com.dworld.core.DWConfiguration;
 import com.dworld.core.DWConstants;
 import com.dworld.core.DWEngine;
 import com.dworld.core.ILauncher;
-import com.dworld.core.Land;
 import com.dworld.ui.javafx.DWJavaFXKeyConverter;
 import com.dworld.ui.javafx.DWJavaFXKeyConverter.KeyInfo;
 import com.dworld.ui.javafx.DWJavaFXMenuBuilder;
+import com.dworld.ui.javafx.DWJavaFXProgressMonitor;
 
 import javafx.application.Application;
 import javafx.event.EventHandler;
@@ -45,8 +45,8 @@ public class DWJavaFXLauncher extends Application implements ILauncher{
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		Land.load(DWConfiguration.SAVE_FILE);
 		engine.init();
+		load(DWConfiguration.SAVE_FILE);
 		
 		primaryStage.setTitle(DWConfiguration.TITLE);
         VBox root = new VBox();
@@ -114,6 +114,21 @@ public class DWJavaFXLauncher extends Application implements ILauncher{
 			}
 		}
 		
+	}
+
+	@Override
+	public void load(String fileName) {
+		engine.load(fileName, new DWJavaFXProgressMonitor());
+	}
+
+	@Override
+	public void save(String fileName) {
+		engine.save(fileName, new DWJavaFXProgressMonitor());
+	}
+
+	@Override
+	public void saveAndExit(String fileName) {
+		engine.save(fileName, new DWJavaFXProgressMonitor());
 	}
 
 }

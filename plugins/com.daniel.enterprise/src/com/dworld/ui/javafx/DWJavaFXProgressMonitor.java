@@ -5,15 +5,11 @@ import com.dworld.ui.IProgressMonitor;
 public class DWJavaFXProgressMonitor implements IProgressMonitor{
 
 	@Override
-	public void setProgress(int progress) {
-		// TODO Auto-generated method stub
-		
+	public void progress(int progress) {
 	}
 
 	@Override
 	public void close() {
-		// TODO Auto-generated method stub
-		
 	}
 
 }

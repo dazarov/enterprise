@@ -79,14 +79,14 @@ public class DWMenuStructure {
 		DWMenu menu = new DWMenu("File");
 		menus.add(menu);
 
-		menu.items.add(new DWMenuItem("Load",        () -> engine.load(DWConfiguration.SAVE_FILE)));
-		menu.items.add(new DWMenuItem("Save",        () -> engine.save(DWConfiguration.SAVE_FILE)));
+		menu.items.add(new DWMenuItem("Load",        () -> config.getLauncher().load(DWConfiguration.SAVE_FILE)));
+		menu.items.add(new DWMenuItem("Save",        () -> config.getLauncher().save(DWConfiguration.SAVE_FILE)));
 		menu.items.add(new DWMenuItem());
-		menu.items.add(new DWMenuItem("Load Backup", () -> engine.load(DWConfiguration.BACKUP_FILE)));
-		menu.items.add(new DWMenuItem("Save Backup", () -> engine.save(DWConfiguration.BACKUP_FILE)));
+		menu.items.add(new DWMenuItem("Load Backup", () -> config.getLauncher().load(DWConfiguration.BACKUP_FILE)));
+		menu.items.add(new DWMenuItem("Save Backup", () -> config.getLauncher().save(DWConfiguration.BACKUP_FILE)));
 		menu.items.add(new DWMenuItem());
-		menu.items.add(new DWMenuItem("Load Test",   () -> engine.load(DWConfiguration.TEST_FILE)));
-		menu.items.add(new DWMenuItem("Save Test",   () -> engine.save(DWConfiguration.TEST_FILE)));
+		menu.items.add(new DWMenuItem("Load Test",   () -> config.getLauncher().load(DWConfiguration.TEST_FILE)));
+		menu.items.add(new DWMenuItem("Save Test",   () -> config.getLauncher().save(DWConfiguration.TEST_FILE)));
 		menu.items.add(new DWMenuItem());
 		menu.items.add(new DWMenuItem("Exit",        () -> {if(config.getUI().exitConfirmation())System.exit(0);}));
 		

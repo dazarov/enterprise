@@ -10,19 +10,28 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.File;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JToolBar;
+import javax.swing.SwingWorker;
+import javax.swing.SwingWorker.StateValue;
 
 import com.dworld.core.DWConfiguration;
 import com.dworld.core.DWConstants;
 import com.dworld.core.DWEngine;
 import com.dworld.core.ILauncher;
 import com.dworld.core.Land;
+import com.dworld.ui.IMonitoredRunnable;
+import com.dworld.ui.IProgressMonitor;
+import com.dworld.ui.LoadAction;
+import com.dworld.ui.SaveAction;
 import com.dworld.ui.swing.DWMap;
+import com.dworld.ui.swing.DWProgressMonitor;
 import com.dworld.ui.swing.DWSwingImages;
 import com.dworld.ui.swing.DWSwingMenuBuilder;
 import com.dworld.ui.swing.DWToolBarBuilder;
@@ -44,17 +53,17 @@ public class DWSwingLauncher implements KeyListener, MouseListener, MouseMotionL
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		boolean start = false;
-		
-		assert start = true;
-		
-		if(start){
-			DWSwingLauncher launcher = new DWSwingLauncher();
-	
-			launcher.init();
-			
-			launcher.start();
-		}
+		//try {
+			//SwingUtilities.invokeAndWait(() -> {
+				DWSwingLauncher launcher = new DWSwingLauncher();
+
+				launcher.init();
+				
+				launcher.start();
+		//	});
+		//} catch (InvocationTargetException | InterruptedException e) {
+		//	e.printStackTrace();
+		//}
 	}
 	
 	private void init() {
@@ -76,9 +85,11 @@ public class DWSwingLauncher implements KeyListener, MouseListener, MouseMotionL
 	}
 
 	private void start() {
-		Land.load(DWConfiguration.SAVE_FILE);
+		load(DWConfiguration.SAVE_FILE);
 		engine.init();
-		engine.run();
+		
+		
+		new ForeverTask(engine).execute();
 	}
 
 	private void initWindow() {
@@ -198,5 +209,132 @@ public class DWSwingLauncher implements KeyListener, MouseListener, MouseMotionL
 
 	@Override
 	public void mouseMoved(MouseEvent arg0) {
+	}
+
+	@Override
+	public void load(String fileName) {
+		LongRunningTask task = new LongRunningTask(new LoadAction(fileName));
+		DWProgressMonitor monitor = new DWProgressMonitor("Loading...");
+		
+		task.addPropertyChangeListener(new PropertyChangeListener() {
+		      @Override
+		      public void propertyChange(final PropertyChangeEvent event) {
+		        if ("progress".equals(event.getPropertyName())) {
+		        	monitor.progress((Integer) event.getNewValue());
+		        }
+		        if (StateValue.DONE == task.getState()){
+		        	monitor.close();
+		        }
+		      }
+		});
+		task.execute();
+//		try {
+//			while(!task.isDone()){
+//				Thread.sleep(100);
+//			}
+//			task.get();
+//		} catch (InterruptedException | ExecutionException e) {
+//			e.printStackTrace();
+//		}
+		
+	}
+
+	@Override
+	public void save(String fileName) {
+		LongRunningTask task = new LongRunningTask(new SaveAction(fileName));
+		DWProgressMonitor monitor = new DWProgressMonitor("Saving...");
+		task.addPropertyChangeListener(new PropertyChangeListener() {
+		      @Override
+		      public void propertyChange(final PropertyChangeEvent event) {
+		        if ("progress".equals(event.getPropertyName())) {
+		        	monitor.progress((Integer) event.getNewValue());
+		        }
+		        if (StateValue.DONE == task.getState()){
+		        	monitor.close();
+		        }
+		      }
+		});
+		task.execute();
+//		try {
+//			while(!task.isDone()){
+//				Thread.sleep(100);
+//			}
+//			task.get();
+//		} catch (InterruptedException | ExecutionException e) {
+//			e.printStackTrace();
+//		}
+//		monitor.close();
+	}
+
+	@Override
+	public void saveAndExit(String fileName) {
+		LongRunningTask task = new LongRunningTask(new SaveAction(fileName));
+		DWProgressMonitor monitor = new DWProgressMonitor("Saving...");
+		task.addPropertyChangeListener(new PropertyChangeListener() {
+		      @Override
+		      public void propertyChange(final PropertyChangeEvent event) {
+		        if ("progress".equals(event.getPropertyName())) {
+		        	monitor.progress((Integer) event.getNewValue());
+		        }
+		        if (StateValue.DONE == task.getState()){
+		        	monitor.close();
+		        }
+		      }
+		});
+		task.execute();
+//		try {
+//			while(!task.isDone()){
+//				Thread.sleep(100);
+//			}
+//			task.get();
+//		} catch (InterruptedException | ExecutionException e) {
+//			e.printStackTrace();
+//		}
+//		monitor.close();
+	}
+	
+	static class ForeverTask extends SwingWorker<Integer, Integer>{
+		Runnable runner;
+		
+		public ForeverTask(Runnable runner){
+			this.runner = runner;
+		}
+
+		@Override
+		protected Integer doInBackground() throws Exception {
+			//publish("Long Running Task");
+			setProgress(33);
+			
+			runner.run();
+			
+			return 1;
+		}
+		
+	}
+	
+	static public class LongRunningTask extends SwingWorker<Integer, Integer> implements IProgressMonitor{
+		IMonitoredRunnable runner;
+		
+		public LongRunningTask(IMonitoredRunnable runner){
+			this.runner = runner;
+		}
+
+		@Override
+		protected Integer doInBackground() throws Exception {
+			runner.run(this);
+			
+			return 1;
+		}
+
+		@Override
+		public void progress(int progress) {
+			//System.out.println("LongRunningTask progress - "+progress);
+			setProgress(progress);
+		}
+
+		@Override
+		public void close() {
+		}
+		
 	}
 }

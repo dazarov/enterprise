@@ -884,7 +884,7 @@ public class Land {
 		DWConfiguration.getInstance().getUI().setTitle(DWConfiguration.MODIFYED_TITLE);
 	}
 
-	public static void load(String fileName) {
+	static void load(String fileName, IProgressMonitor progressMonitor) {
 		for (int x = 0; x < DWConstants.MAX_X; x++) {
 			for (int y = 0; y < DWConstants.MAX_Y; y++) {
 				synchronized(landMap){
@@ -898,7 +898,6 @@ public class Land {
 			return;
 		}
 		
-		IProgressMonitor progressMonitor = DWConfiguration.getInstance().getUI().getProgressMonitor("Loading "+fileName+" file...", DWConstants.MAX_X);
 		int progress = 0;
 		try(FileInputStream fs = new FileInputStream(file);
 				BufferedInputStream stream = new BufferedInputStream(fs);) {
@@ -908,9 +907,10 @@ public class Land {
 			int heroY = readInt(stream);
 			
 			for (int x = 0; x < DWConstants.MAX_X; x++) {
-				progress++;
-				progressMonitor.setProgress(progress);
-
+				if(progress != x*100/DWConstants.MAX_X){
+					progress = x*100/DWConstants.MAX_X;
+					progressMonitor.progress(progress);	
+				}
 				for (int y = 0; y < DWConstants.MAX_Y; y++) {
 					int code = stream.read();
 					
@@ -933,9 +933,8 @@ public class Land {
 		saved();
 	}
 
-	public static void save(String fileName) {
+	public static void save(String fileName, IProgressMonitor progressMonitor) {
 		File file = new File(DWConfiguration.getInstance().getPathName()+fileName);
-		IProgressMonitor progressMonitor = DWConfiguration.getInstance().getUI().getProgressMonitor("Saving "+fileName+" file...", DWConstants.MAX_X);
 		int progress = 0;
 		try(FileOutputStream fs = new FileOutputStream(file);
 				BufferedOutputStream stream = new BufferedOutputStream(fs);) {
@@ -946,8 +945,10 @@ public class Land {
 			writeInt(stream, hero.getLocation().getY());
 			
 			for (int x = 0; x < DWConstants.MAX_X; x++) {
-				progress++;
-				progressMonitor.setProgress(progress);
+				if(progress != x*100/DWConstants.MAX_X){
+					progress = x*100/DWConstants.MAX_X;
+					progressMonitor.progress(progress);	
+				}
 				for (int y = 0; y < DWConstants.MAX_Y; y++) {
 					int code;
 					synchronized(landMap){

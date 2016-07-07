@@ -8,22 +8,33 @@ import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneLayout;
+import javax.swing.SwingWorker.StateValue;
 
+import com.dworld.DWSwingLauncher.LongRunningTask;
 import com.dworld.core.DWConfiguration;
 import com.dworld.core.Land;
 import com.dworld.core.Location;
+import com.dworld.ui.IProgressMonitor;
 
 public class DWMap {
+	private static Image image;
+	
 	public static void showMap(){
+		image = createImage();
+	}
+	
+	private static void doMap(){
 		final JFrame window = new JFrame();
 		window.setTitle("Map");
 		window.setLayout(new GridLayout());
-		Image image = createImage();
+		
 		JPanel panel = new JPanel(){
 			static final long serialVersionUID = 15;
 
@@ -108,7 +119,7 @@ public class DWMap {
 			public void paintComponent(Graphics g) {
 				super.paintComponent(g);
 				if(DWConfiguration.getInstance().getControlledUnit() != null)
-					drawRegion(g, DWConfiguration.getInstance().getControlledUnit().getDrawPosition().getX()-150, DWConfiguration.getInstance().getControlledUnit().getDrawPosition().getY()-150, 300, 300);
+					drawRegion(g, DWConfiguration.getInstance().getControlledUnit().getDrawPosition().getX()-150, DWConfiguration.getInstance().getControlledUnit().getDrawPosition().getY()-150, 300, 300, null);
 			}
 		};
 		panel.setBackground(Color.black);
@@ -127,13 +138,43 @@ public class DWMap {
 	
 	public static Image createImage(){
 		BufferedImage image = new BufferedImage(Land.getMaxX(), Land.getMaxY(), BufferedImage.TYPE_INT_ARGB);
-		Graphics g = image.createGraphics();
-		drawRegion(g, 0,0,Land.getMaxX(), Land.getMaxY());
+		LongRunningTask task = new LongRunningTask( m -> {
+			Graphics g = image.createGraphics();
+			drawRegion(g, 0,0,Land.getMaxX(), Land.getMaxY(), m);
+		} );
+		DWProgressMonitor monitor = new DWProgressMonitor("Map creating...");
+		task.addPropertyChangeListener(new PropertyChangeListener() {
+		      @Override
+		      public void propertyChange(final PropertyChangeEvent event) {
+		        if ("progress".equals(event.getPropertyName())) {
+		        	monitor.progress((Integer) event.getNewValue());
+		        }
+		        if (StateValue.DONE == task.getState()){
+		        	monitor.close();
+		        	doMap();
+		        }
+		      }
+		});
+		task.execute();
+//		try {
+//			while(!task.isDone()){
+//				Thread.sleep(100);
+//			}
+//			task.get();
+//		} catch (InterruptedException | ExecutionException e) {
+//			e.printStackTrace();
+//		}
+//		monitor.close();
 		return image;
 	}
 	
-	public static void drawRegion(Graphics g, int startX, int startY, int width, int height){
+	public static void drawRegion(Graphics g, int startX, int startY, int width, int height, IProgressMonitor monitor){
+		int progress = 0;
 		for(int x = startX, windowX = 0; x < (startX+width); x++, windowX++){
+			if(monitor != null && progress != windowX*100/width){
+				progress = windowX*100/width;
+				monitor.progress(progress);	
+			}
 			for(int y = startY, windowY = 0; y < (startY+height); y++, windowY++){
 				int code = Land.getLand(x, y);
 				if(code != Land.Empty){

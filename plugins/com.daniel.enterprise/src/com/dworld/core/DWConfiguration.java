@@ -1,8 +1,13 @@
 package com.dworld.core;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.dworld.DWJavaFXLauncher;
 import com.dworld.DWSwingLauncher;
 import com.dworld.ui.DWUI;
+import com.dworld.ui.IMonitoredRunnable;
+import com.dworld.ui.LoadAction;
 import com.dworld.units.ControlledUnit;
 
 public class DWConfiguration {
@@ -16,6 +21,10 @@ public class DWConfiguration {
 	public static final int DRAW_LINE = 2;
 	public static final int DRAW_RECTANGLE = 3;
 	public static final int DRAW_FILL = 4;
+	
+	public static final int ACTION_LOAD_MAIN = 0;
+	public static final int ACTION_LOAD_BACKUP = 1;
+	public static final int ACTION_LOAD_TEST = 2;
 	
 	private static volatile DWConfiguration instance;
 	
@@ -50,8 +59,18 @@ public class DWConfiguration {
 	
 	private String pathName;
 	
+	private Map<Integer, IMonitoredRunnable> actions = new HashMap<>();
+	
 	private DWConfiguration(){
 		engine = new DWEngine();
+		
+		actions.put(ACTION_LOAD_MAIN, new LoadAction(SAVE_FILE));
+		actions.put(ACTION_LOAD_BACKUP, new LoadAction(BACKUP_FILE));
+		actions.put(ACTION_LOAD_TEST, new LoadAction(TEST_FILE));
+	}
+	
+	public IMonitoredRunnable getAction(int actionId){
+		return actions.get(actionId);
 	}
 	
 	public DWEngine getEngine(){

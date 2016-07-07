@@ -70,7 +70,7 @@ public class DWUI {
 						"Do you want to save the game?", "Question",
 						JOptionPane.YES_NO_OPTION);
 				if (n == 0) {
-					DWConfiguration.getInstance().getEngine().saveAndExit(DWConfiguration.SAVE_FILE);
+					DWConfiguration.getInstance().getLauncher().saveAndExit(DWConfiguration.SAVE_FILE);
 					return false;
 				}
 			}
@@ -81,7 +81,7 @@ public class DWUI {
 	
 	public IProgressMonitor getProgressMonitor(String title, int max){
 		if(type == UI_TYPE_SWING){
-			return new DWProgressMonitor(window, title, max);
+			return new DWProgressMonitor(title);
 		}else if(type == UI_TYPE_JAVA_FX){
 			return new DWJavaFXProgressMonitor();
 		}
