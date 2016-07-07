@@ -34,7 +34,7 @@ import com.dworld.ui.swing.DWMap;
 import com.dworld.ui.swing.DWProgressMonitor;
 import com.dworld.ui.swing.DWSwingImages;
 import com.dworld.ui.swing.DWSwingMenuBuilder;
-import com.dworld.ui.swing.DWToolBarBuilder;
+import com.dworld.ui.swing.DWSwingToolbarBuilder;
 import com.dworld.ui.swing.DWWindowListener;
 
 public class DWSwingLauncher implements KeyListener, MouseListener, MouseMotionListener, ILauncher {
@@ -53,17 +53,11 @@ public class DWSwingLauncher implements KeyListener, MouseListener, MouseMotionL
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		//try {
-			//SwingUtilities.invokeAndWait(() -> {
-				DWSwingLauncher launcher = new DWSwingLauncher();
+		DWSwingLauncher launcher = new DWSwingLauncher();
 
-				launcher.init();
-				
-				launcher.start();
-		//	});
-		//} catch (InvocationTargetException | InterruptedException e) {
-		//	e.printStackTrace();
-		//}
+		launcher.init();
+		
+		launcher.start();
 	}
 	
 	private void init() {
@@ -87,7 +81,6 @@ public class DWSwingLauncher implements KeyListener, MouseListener, MouseMotionL
 	private void start() {
 		load(DWConfiguration.SAVE_FILE);
 		engine.init();
-		
 		
 		new ForeverTask(engine).execute();
 	}
@@ -142,7 +135,7 @@ public class DWSwingLauncher implements KeyListener, MouseListener, MouseMotionL
 	}
 	
 	private void initToolBar(){
-		DWToolBarBuilder toolBarBuilder = new DWToolBarBuilder(window);
+		DWSwingToolbarBuilder toolBarBuilder = new DWSwingToolbarBuilder();
 		JToolBar toolBar = toolBarBuilder.buildToolBar();
 		
 		window.add(toolBar, BorderLayout.NORTH);
@@ -228,15 +221,6 @@ public class DWSwingLauncher implements KeyListener, MouseListener, MouseMotionL
 		      }
 		});
 		task.execute();
-//		try {
-//			while(!task.isDone()){
-//				Thread.sleep(100);
-//			}
-//			task.get();
-//		} catch (InterruptedException | ExecutionException e) {
-//			e.printStackTrace();
-//		}
-		
 	}
 
 	@Override
@@ -255,15 +239,6 @@ public class DWSwingLauncher implements KeyListener, MouseListener, MouseMotionL
 		      }
 		});
 		task.execute();
-//		try {
-//			while(!task.isDone()){
-//				Thread.sleep(100);
-//			}
-//			task.get();
-//		} catch (InterruptedException | ExecutionException e) {
-//			e.printStackTrace();
-//		}
-//		monitor.close();
 	}
 
 	@Override
@@ -282,15 +257,6 @@ public class DWSwingLauncher implements KeyListener, MouseListener, MouseMotionL
 		      }
 		});
 		task.execute();
-//		try {
-//			while(!task.isDone()){
-//				Thread.sleep(100);
-//			}
-//			task.get();
-//		} catch (InterruptedException | ExecutionException e) {
-//			e.printStackTrace();
-//		}
-//		monitor.close();
 	}
 	
 	static class ForeverTask extends SwingWorker<Integer, Integer>{
@@ -302,7 +268,6 @@ public class DWSwingLauncher implements KeyListener, MouseListener, MouseMotionL
 
 		@Override
 		protected Integer doInBackground() throws Exception {
-			//publish("Long Running Task");
 			setProgress(33);
 			
 			runner.run();
@@ -328,7 +293,6 @@ public class DWSwingLauncher implements KeyListener, MouseListener, MouseMotionL
 
 		@Override
 		public void progress(int progress) {
-			//System.out.println("LongRunningTask progress - "+progress);
 			setProgress(progress);
 		}
 

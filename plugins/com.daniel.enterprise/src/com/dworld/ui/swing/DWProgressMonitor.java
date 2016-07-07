@@ -1,5 +1,6 @@
 package com.dworld.ui.swing;
 
+import java.awt.Color;
 import java.awt.Dimension;
 
 import javax.swing.JDialog;
@@ -20,11 +21,10 @@ public class DWProgressMonitor extends JDialog implements IProgressMonitor{
 		setResizable(false);
 		setTitle(title);
 		progressBar = new JProgressBar(0, 100);
-		progressBar.setPreferredSize(new Dimension(400, 20));
+		progressBar.setPreferredSize(new Dimension(300, 20));
+		progressBar.setForeground(Color.blue);
 		progressBar.setValue(0);
-		progressBar.setStringPainted(false);
-		progressBar.setBorderPainted(true);
-		progressBar.setIndeterminate(false);
+		progressBar.setStringPainted(true);
 		add(progressBar);
 		pack();
 		setLocation(getOwner().getLocation().x+getOwner().getSize().width/2-getSize().width/2, getOwner().getLocation().y+getOwner().getSize().height/2-getSize().height/2);
@@ -33,26 +33,12 @@ public class DWProgressMonitor extends JDialog implements IProgressMonitor{
 	
 	@Override
 	public void progress(int value){
-    	//System.out.println("progress in EDT - "+SwingUtilities.isEventDispatchThread()+" value - "+value);
-
 		progressBar.setValue(value);
-//    	if(SwingUtilities.isEventDispatchThread()){
-//    		//SwingUtilities.invokeLater(() -> monitor.progress((Integer) event.getNewValue()));
-//    		monitor.progress((Integer) event.getNewValue());
-//        	//new Thread(() -> monitor.progress((Integer) event.getNewValue())).start();
-//    	}else{
-//    		try {
-//    			SwingUtilities.invokeAndWait(() -> monitor.progress((Integer) event.getNewValue()));
-//    		} catch (InvocationTargetException | InterruptedException e) {
-//    			e.printStackTrace();
-//    		}
-//    	}
-		
 	}
 	
 	@Override
 	public void close(){
 		setVisible(false);
-		//dispose();
+		dispose();
 	}
 }

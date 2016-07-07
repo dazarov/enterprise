@@ -10,7 +10,7 @@ import com.dworld.core.Land;
 import com.dworld.core.SelectionManager;
 import com.dworld.ui.swing.DWInfoScreen;
 import com.dworld.ui.swing.DWMap;
-import com.dworld.ui.swing.DWToolBarBuilder;
+import com.dworld.ui.swing.DWSwingToolbarBuilder;
 import com.dworld.units.Unit;
 
 public class DWMenuStructure {
@@ -109,9 +109,9 @@ public class DWMenuStructure {
 			config.setBuildMode(!config.isBuildMode());
 			engine.pause(config.isBuildMode());
 			if(config.isBuildMode()){
-				DWToolBarBuilder.showPalette();
+				DWSwingToolbarBuilder.showPalette();
 			}else{
-				DWToolBarBuilder.hidePalette();
+				DWSwingToolbarBuilder.hidePalette();
 			}
 			
 		}));

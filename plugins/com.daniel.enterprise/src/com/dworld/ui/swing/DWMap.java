@@ -7,6 +7,8 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -25,14 +27,22 @@ import com.dworld.ui.IProgressMonitor;
 
 public class DWMap {
 	private static Image image;
+	static DWWindow minimap = null;
+	static Location drawPoint = null;
+	
+	static JFrame window;
 	
 	public static void showMap(){
-		image = createImage();
+		image = null;
+		createImage();
 	}
 	
 	private static void doMap(){
-		final JFrame window = new JFrame();
-		window.setTitle("Map");
+		if(image == null || window != null){
+			return;
+		}
+		window = new JFrame();
+		window.setTitle("DWorld Map");
 		window.setLayout(new GridLayout());
 		
 		JPanel panel = new JPanel(){
@@ -42,20 +52,16 @@ public class DWMap {
 			public void paintComponent(Graphics g) {
 				super.paintComponent(g);
 				g.drawImage(image, 0, 0, null);
-				//drawRegion(g, 0, 0, Land.getMaxX(), Land.getMaxY());
 			}
 		};
 		panel.setBackground(Color.black);
 		panel.setSize(Land.getMaxX(), Land.getMaxY());
 		panel.setPreferredSize(panel.getSize());
-		//panel.add(image);
 		
 		JScrollPane scroll = new JScrollPane(panel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 		scroll.setLayout(new ScrollPaneLayout());
 		scroll.getVerticalScrollBar().setUnitIncrement(30);
 		scroll.getHorizontalScrollBar().setUnitIncrement(30);
-		
-		//scroll.add(panel);
 		
 		window.add(scroll);
 		window.pack();
@@ -63,10 +69,42 @@ public class DWMap {
 		scroll.getHorizontalScrollBar().setValue(600);
 		window.setLocation(0, 0);
 		window.setSize(Toolkit.getDefaultToolkit().getScreenSize());
+		window.addWindowListener(new WindowListener(){
+
+			@Override
+			public void windowOpened(WindowEvent e) {
+			}
+
+			@Override
+			public void windowClosing(WindowEvent e) {
+				window = null;
+			}
+
+			@Override
+			public void windowClosed(WindowEvent e) {
+			}
+
+			@Override
+			public void windowIconified(WindowEvent e) {
+			}
+
+			@Override
+			public void windowDeiconified(WindowEvent e) {
+			}
+
+			@Override
+			public void windowActivated(WindowEvent e) {
+			}
+
+			@Override
+			public void windowDeactivated(WindowEvent e) {
+			}
+		});
 		window.addKeyListener(new KeyListener(){
 			public void keyPressed(KeyEvent event) {
 				if (event.getKeyCode() == 27) {
 					window.dispose();
+					window = null;
 				}
 			}
 			public void keyReleased(KeyEvent event) {
@@ -77,8 +115,7 @@ public class DWMap {
 		window.setVisible(true);
 	}
 	
-	static DWWindow minimap = null;
-	static Location drawPoint = null;
+	
 	
 	public static void refreshMinimap(){
 		if(minimap != null){
@@ -104,12 +141,13 @@ public class DWMap {
 	public static void closeMinimap(){
 		if(minimap != null){
 			minimap.setVisible(false);
+			minimap.dispose();
 			minimap = null;
 		}
 	}
 	
 	public static void showMinimap(){
-		minimap = new DWWindow("Mini Map", DWWindow.ORIENTATION_RIGHT);
+		minimap = new DWWindow("DWorld Mini Map", DWWindow.ORIENTATION_RIGHT);
 		minimap.setLayout(new GridLayout());
 		
 		JPanel panel = new JPanel(){
@@ -136,7 +174,7 @@ public class DWMap {
 		DWWindowListener.getDefault().addWindow(minimap);
 	}
 	
-	public static Image createImage(){
+	static void createImage(){
 		BufferedImage image = new BufferedImage(Land.getMaxX(), Land.getMaxY(), BufferedImage.TYPE_INT_ARGB);
 		LongRunningTask task = new LongRunningTask( m -> {
 			Graphics g = image.createGraphics();
@@ -151,24 +189,15 @@ public class DWMap {
 		        }
 		        if (StateValue.DONE == task.getState()){
 		        	monitor.close();
+		        	DWMap.image = image;
 		        	doMap();
 		        }
 		      }
 		});
 		task.execute();
-//		try {
-//			while(!task.isDone()){
-//				Thread.sleep(100);
-//			}
-//			task.get();
-//		} catch (InterruptedException | ExecutionException e) {
-//			e.printStackTrace();
-//		}
-//		monitor.close();
-		return image;
 	}
 	
-	public static void drawRegion(Graphics g, int startX, int startY, int width, int height, IProgressMonitor monitor){
+	static void drawRegion(Graphics g, int startX, int startY, int width, int height, IProgressMonitor monitor){
 		int progress = 0;
 		for(int x = startX, windowX = 0; x < (startX+width); x++, windowX++){
 			if(monitor != null && progress != windowX*100/width){
