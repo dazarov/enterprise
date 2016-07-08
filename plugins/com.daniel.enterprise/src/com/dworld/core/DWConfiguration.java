@@ -17,6 +17,7 @@ public class DWConfiguration {
 	public static final String TITLE = "D World";
 	public static final String MODIFYED_TITLE = "*D World";
 	
+	public static final int NO_DRAW = 0;
 	public static final int DRAW_BRUSH = 1;
 	public static final int DRAW_LINE = 2;
 	public static final int DRAW_RECTANGLE = 3;
@@ -52,7 +53,7 @@ public class DWConfiguration {
 	private DWUI ui = null;
 	
 	private int drawMode = DRAW_BRUSH;
-	private int selectedMenu = Land.Brick;
+	private int selectedCode = Land.Brick;
 	private boolean buildMode = false;
 	
 	private boolean attackMode = false;
@@ -107,7 +108,11 @@ public class DWConfiguration {
 	}
 	
 	public int getDrawMode(){
-		return drawMode;
+		if(buildMode){
+			return drawMode;
+		}else{
+			return NO_DRAW;
+		}
 	}
 
 	public void setBuildMode(boolean mode){
@@ -126,12 +131,12 @@ public class DWConfiguration {
 		return attackMode;
 	}
 
-	public void setSelectedMenu(int element){
-		selectedMenu = element;
+	public void setSelectedCode(int element){
+		selectedCode = element;
 	}
 	
-	public int getSelectedMenu(){
-		return selectedMenu;
+	public int getSelectedCode(){
+		return selectedCode;
 	}
 
 	public void setPathName(String pathName){

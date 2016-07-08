@@ -69,7 +69,7 @@ public class DWJavaFXMenuBuilder {
 		RadioMenuItem rbMenuItem = new RadioMenuItem(radio.label);
 		if(radio.imageCode != -1){
 			rbMenuItem.setGraphic(new ImageView(DWConfiguration.getInstance().getUI().getImages(DWJavaFXImages.class).getImage(radio.imageCode)));
-			if (DWConfiguration.getInstance().getSelectedMenu() == radio.imageCode){
+			if (DWConfiguration.getInstance().getSelectedCode() == radio.imageCode){
 				rbMenuItem.setSelected(true);
 			}
 		}

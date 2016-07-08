@@ -364,10 +364,6 @@ public class ControlledUnit extends MovableUnit {
 		}
 	}
 	
-//	protected Rocket fireRocket(){
-//		return fireRocket(getRocketType());
-//	}
-
 	@Override
 	protected int getGrave(int beneath){
 		switch(beneath){

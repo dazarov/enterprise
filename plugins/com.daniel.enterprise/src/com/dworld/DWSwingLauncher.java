@@ -197,7 +197,7 @@ public class DWSwingLauncher implements KeyListener, MouseListener, MouseMotionL
 
 	@Override
 	public void mouseDragged(MouseEvent e) {
-		DWConfiguration.getInstance().getUI().getMouseListener().doMouseDragged(e.getButton(), e.getX(), e.getY());
+		DWConfiguration.getInstance().getUI().getMouseListener().doMouseDragged(e.getX(), e.getY());
 	}
 
 	@Override

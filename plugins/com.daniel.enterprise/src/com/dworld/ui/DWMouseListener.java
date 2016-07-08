@@ -14,7 +14,8 @@ import com.dworld.core.SelectionManager;
 import com.dworld.units.Unit;
 
 public class DWMouseListener {
-	Location selectedPoint = null;
+	Location startLocation = null;
+	int startButton = 0;
 	
 	private Location getLocation(int mouseX, int mouseY){
 		return new Location(
@@ -25,12 +26,13 @@ public class DWMouseListener {
 
 	public void doMousePressed(int button, int mouseX, int mouseY) {
 		Location location = getLocation(mouseX, mouseY);
+		startButton = button;
 
 		if (!DWConfiguration.getInstance().isBuildMode()) { // selection mode
 			if (button == MouseEvent.BUTTON1) {
 				SelectionManager.clearSelection();
-				selectedPoint = location;
-				SelectionManager.setSelectedArea(new Rectangle(selectedPoint.getX(), selectedPoint.getY(), 1, 1));
+				startLocation = location;
+				SelectionManager.setSelectedArea(new Rectangle(startLocation.getX(), startLocation.getY(), 1, 1));
 			} else {
 				if(!SelectionManager.sendDefaultCommand(location)){
 					if(DWConfiguration.getInstance().isAttackMode()){
@@ -40,22 +42,22 @@ public class DWMouseListener {
 					}
 				}
 				
-				selectedPoint = null;
+				startLocation = null;
 				SelectionManager.setSelectedArea(SelectionManager.NULL_RECTANGLE);
 			}
 			return;
 		}else if(isRect()){
 			SelectionManager.clearSelection();
-			selectedPoint = location;
-			SelectionManager.setSelectedArea(new Rectangle(selectedPoint.getX(), selectedPoint.getY(), 1, 1));
+			startLocation = location;
+			SelectionManager.setSelectedArea(new Rectangle(startLocation.getX(), startLocation.getY(), 1, 1));
 		}else if(isLine()){
 				SelectionManager.clearSelection();
-				selectedPoint = location;
-				SelectionManager.setSelectedLine(selectedPoint, selectedPoint);
+				startLocation = location;
+				SelectionManager.setSelectedLine(startLocation, startLocation);
 		}else if(isBrush()){
 			if (button == MouseEvent.BUTTON1){
-				Land.setLand(location, DWConfiguration.getInstance().getSelectedMenu());
-				DWUnitFactory.createUnit(DWConfiguration.getInstance().getSelectedMenu(), location.getX(), location.getY());
+				Land.setLand(location, DWConfiguration.getInstance().getSelectedCode());
+				DWUnitFactory.createUnit(DWConfiguration.getInstance().getSelectedCode(), location.getX(), location.getY());
 			}else{
 				IUnit unit = DWConfiguration.getInstance().getEngine().findUnit(location);
 				if(unit != null){
@@ -92,7 +94,7 @@ public class DWMouseListener {
 				for(int x = rectangle.x; x < rectangle.x+rectangle.width; x++){
 					for(int y = rectangle.y; y < rectangle.y+rectangle.height; y++){
 						if (button == MouseEvent.BUTTON1)
-							Land.setLand(new Location(x, y), DWConfiguration.getInstance().getSelectedMenu());
+							Land.setLand(new Location(x, y), DWConfiguration.getInstance().getSelectedCode());
 						else
 							Land.setLand(new Location(x, y), Land.Empty);
 					}
@@ -103,7 +105,7 @@ public class DWMouseListener {
 				if(points != null){
 					for(Location point : points){
 						if (button == MouseEvent.BUTTON1){
-							Land.setLand(point, DWConfiguration.getInstance().getSelectedMenu());
+							Land.setLand(point, DWConfiguration.getInstance().getSelectedCode());
 						}else{
 							Land.setLand(point, Land.Empty);
 						}
@@ -114,7 +116,7 @@ public class DWMouseListener {
 				Location location = getLocation(mouseX, mouseY);
 				int oldCode = Land.getLand(location);
 				if (button == MouseEvent.BUTTON1){
-					SelectionManager.fill(location.getX(), location.getY(), oldCode, DWConfiguration.getInstance().getSelectedMenu());
+					SelectionManager.fill(location.getX(), location.getY(), oldCode, DWConfiguration.getInstance().getSelectedCode());
 				}else{
 					SelectionManager.fill(location.getX(), location.getY(), oldCode, Land.Empty);
 				}
@@ -128,55 +130,53 @@ public class DWMouseListener {
 		}
 	}
 	
-	int lastX = 0, lastY = 0;
+	Location lastLocation = new Location(0,0);
 
-	public void doMouseDragged(int button, int mouseX, int mouseY) {
+	public void doMouseDragged(int mouseX, int mouseY) {
 
 		Location location = getLocation(mouseX, mouseY);
-		if (lastX == location.getX() && lastY == location.getY())
+		if (lastLocation.equals(location))
 			return;
-		lastX = location.getX();
-		lastY = location.getY();
+		lastLocation = location;
 		if (!DWConfiguration.getInstance().isBuildMode() || isRect()) {
-			if (selectedPoint != null) {
+			if (startLocation != null) {
 				int topX, topY, width, height;
 
-				if (location.getX() < selectedPoint.getX()) {
+				if (location.getX() < startLocation.getX()) {
 					topX = location.getX();
-					width = selectedPoint.getX() - location.getX() + 1;
-				} else if (location.getX() == selectedPoint.getX()) {
+					width = startLocation.getX() - location.getX() + 1;
+				} else if (location.getX() == startLocation.getX()) {
 					topX = location.getX();
 					width = 1;
 				} else {
-					topX = selectedPoint.getX();
-					width = location.getX() - selectedPoint.getX() + 1;
+					topX = startLocation.getX();
+					width = location.getX() - startLocation.getX() + 1;
 				}
 
-				if (location.getY() < selectedPoint.getY()) {
+				if (location.getY() < startLocation.getY()) {
 					topY = location.getY();
-					height = selectedPoint.getY() - location.getY() + 1;
-				} else if (location.getY() == selectedPoint.getY()) {
+					height = startLocation.getY() - location.getY() + 1;
+				} else if (location.getY() == startLocation.getY()) {
 					topY = location.getY();
 					height = 1;
 				} else {
-					topY = selectedPoint.getY();
-					height = location.getY() - selectedPoint.getY() + 1;
+					topY = startLocation.getY();
+					height = location.getY() - startLocation.getY() + 1;
 				}
 
 				SelectionManager.setSelectedArea(new Rectangle(topX, topY,
 						width, height));
 			}
 			return;
-		}else if(DWConfiguration.getInstance().isBuildMode() && isLine()){
-			SelectionManager.setSelectedLine(selectedPoint, location);
+		}else if(isLine()){
+			SelectionManager.setSelectedLine(startLocation, location);
 			return;
-		}
-
-		if(isBrush()){
-			if (button == MouseEvent.BUTTON1)
-				Land.setLand(location, DWConfiguration.getInstance().getSelectedMenu());
-			else
+		}else if(isBrush()){
+			if (startButton == MouseEvent.BUTTON1){
+				Land.setLand(location, DWConfiguration.getInstance().getSelectedCode());
+			} else {
 				Land.setLand(location, Land.Empty);
+			}
 		}
 	}
 

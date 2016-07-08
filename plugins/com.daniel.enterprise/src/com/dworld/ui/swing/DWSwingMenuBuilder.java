@@ -66,7 +66,7 @@ public class DWSwingMenuBuilder {
 		JRadioButtonMenuItem rbMenuItem = new JRadioButtonMenuItem(radio.label);
 		if(radio.imageCode != -1){
 			rbMenuItem.setIcon(new ImageIcon(DWConfiguration.getInstance().getUI().getImages(DWSwingImages.class).getImage(radio.imageCode)));
-			if (DWConfiguration.getInstance().getSelectedMenu() == radio.imageCode){
+			if (DWConfiguration.getInstance().getSelectedCode() == radio.imageCode){
 				rbMenuItem.setSelected(true);
 			}
 		}

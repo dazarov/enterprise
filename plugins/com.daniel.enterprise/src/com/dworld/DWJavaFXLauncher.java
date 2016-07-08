@@ -110,7 +110,7 @@ public class DWJavaFXLauncher extends Application implements ILauncher{
 			}else if(event.getEventType() == MouseEvent.MOUSE_RELEASED){
 				DWConfiguration.getInstance().getUI().getMouseListener().doMouseReleased(event.getButton().ordinal(), (int)event.getX(), (int)event.getY());
 			}else if(event.getEventType() == MouseEvent.MOUSE_DRAGGED){
-				DWConfiguration.getInstance().getUI().getMouseListener().doMouseDragged(event.getButton().ordinal(), (int)event.getX(), (int)event.getY());
+				DWConfiguration.getInstance().getUI().getMouseListener().doMouseDragged((int)event.getX(), (int)event.getY());
 			}
 		}
 		
