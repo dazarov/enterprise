@@ -10,7 +10,8 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.swing.JFrame;
 
@@ -22,9 +23,13 @@ public class DWWindowListener implements WindowListener, ComponentListener{
 	private static DWWindowListener instance;
 	
 	JFrame mainWindow = null;
-	ArrayList<DWWindow> windows = new ArrayList<DWWindow>();
+	Set<DWWindow> windows = new HashSet<DWWindow>();
 	
-	public static DWWindowListener getDefault(){
+	private DWWindowListener(){
+		
+	}
+	
+	public static synchronized DWWindowListener getDefault(){
 		if(instance == null){
 			instance = new DWWindowListener();
 		}
@@ -36,6 +41,12 @@ public class DWWindowListener implements WindowListener, ComponentListener{
 		window.addWindowListener(this);
 		window.addComponentListener(this);
 		relocate(window);
+	}
+	
+	public void removeWindow(DWWindow window){
+		windows.remove(window);
+		window.removeWindowListener(this);
+		window.removeComponentListener(this);
 	}
 
 	public void addMainWindow(JFrame window){
@@ -50,10 +61,15 @@ public class DWWindowListener implements WindowListener, ComponentListener{
 
 	@Override
 	public void windowClosing(WindowEvent e) {
+		System.out.println("listener window closing...");
+		windows.remove(e.getWindow());
+		e.getWindow().removeWindowListener(this);
+		e.getWindow().removeComponentListener(this);
 	}
 
 	@Override
 	public void windowClosed(WindowEvent e) {
+		System.out.println("listener window closed...");
 		windows.remove(e.getWindow());
 		e.getWindow().removeWindowListener(this);
 		e.getWindow().removeComponentListener(this);

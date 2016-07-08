@@ -33,11 +33,13 @@ public class DWMap {
 	static JFrame window;
 	
 	public static void showMap(){
+		System.out.println("Show Map...");
 		image = null;
 		createImage();
 	}
 	
 	private static void doMap(){
+		System.out.println("DO Map...");
 		if(image == null || window != null){
 			return;
 		}
@@ -140,13 +142,18 @@ public class DWMap {
 	
 	public static void closeMinimap(){
 		if(minimap != null){
-			minimap.setVisible(false);
-			minimap.dispose();
+			DWWindowListener.getDefault().removeWindow(minimap);
+			minimap.close();
 			minimap = null;
 		}
 	}
 	
 	public static void showMinimap(){
+		if(minimap != null){
+			minimap.setVisible(true);
+			DWWindowListener.getDefault().addWindow(minimap);
+			return;
+		}
 		minimap = new DWWindow("DWorld Mini Map", DWWindow.ORIENTATION_RIGHT);
 		minimap.setLayout(new GridLayout());
 		

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.dworld.ui.IProgressMonitor;
 import com.dworld.ui.swing.DWMap;
@@ -21,19 +22,14 @@ public class DWEngine implements Runnable {
 	
 	private long frameID = 0;
 	
-	private volatile boolean run = true;
+	private AtomicBoolean run = new AtomicBoolean(true);
 	private int maxElements = 0;
 	private long time=0;
 	private long maxTime=0;
 	
-	//private boolean save = false;
-	//private boolean exit = false;
-	//private boolean load = false;
-	
 	private static long current=0;
 	private static long delay=0;
 
-	//private String fileName;
 	
 	DWEngine(){
 		super();
@@ -43,23 +39,7 @@ public class DWEngine implements Runnable {
 	public void run(){
 		
 		while (true) {
-//			if(save){
-//				Land.save(fileName);
-//				current = 0;
-//				time = 0;
-//				save = false;
-//				if(exit)
-//					System.exit(0);
-//			}
-//			if(load){
-//				clear();
-//				Land.load(fileName);
-//				init();
-//				current = 0;
-//				time = 0;
-//				load = false;
-//			}
-			if(run){
+			if(run.get()){
 				long t = System.currentTimeMillis();
 				if(current != 0){
 					time = t - current;
@@ -104,6 +84,7 @@ public class DWEngine implements Runnable {
 		Land.save(fileName, progressMonitor);
 		current = 0;
 		time = 0;
+		pause(false);
 	}
 	
 	public void saveAndExit(String fileName, IProgressMonitor progressMonitor){
@@ -112,15 +93,12 @@ public class DWEngine implements Runnable {
 	}
 
 	public void load(String fileName, IProgressMonitor progressMonitor){
-		//this.fileName = fileName;
-		//load = true;
 		pause(true);
 		clear();
 		Land.load(fileName, progressMonitor);
 		init();
 		current = 0;
 		time = 0;
-//		load = false;
 		pause(false);
 	}
 	
@@ -149,7 +127,7 @@ public class DWEngine implements Runnable {
 	}
 	
 	public void pause(boolean pause){
-		run = !pause;
+		run.set(!pause);
 	}
 
 	public void changeManCode(int code){

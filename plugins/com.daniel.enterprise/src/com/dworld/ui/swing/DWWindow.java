@@ -1,5 +1,7 @@
 package com.dworld.ui.swing;
 
+import java.awt.event.WindowEvent;
+
 import javax.swing.JFrame;
 
 public class DWWindow extends JFrame {
@@ -18,5 +20,10 @@ public class DWWindow extends JFrame {
 
 	public int getOrientation(){
 		return orientation;
+	}
+	
+	public void close(){
+		dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
+		dispose();
 	}
 }

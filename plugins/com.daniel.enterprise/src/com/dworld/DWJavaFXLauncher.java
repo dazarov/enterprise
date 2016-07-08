@@ -10,6 +10,7 @@ import com.dworld.ui.javafx.DWJavaFXKeyConverter;
 import com.dworld.ui.javafx.DWJavaFXKeyConverter.KeyInfo;
 import com.dworld.ui.javafx.DWJavaFXMenuBuilder;
 import com.dworld.ui.javafx.DWJavaFXProgressMonitor;
+import com.dworld.ui.javafx.DWJavaFXToolbarBuilder;
 
 import javafx.application.Application;
 import javafx.event.EventHandler;
@@ -56,7 +57,10 @@ public class DWJavaFXLauncher extends Application implements ILauncher{
         DWConfiguration.getInstance().getUI().setGraphicsContext(gc);
         
         DWJavaFXMenuBuilder menuBuilder = new DWJavaFXMenuBuilder();
-        root.getChildren().addAll(menuBuilder.buildMenu(), canvas);
+        
+        DWJavaFXToolbarBuilder toolbarBuilder = new DWJavaFXToolbarBuilder();
+        
+        root.getChildren().addAll(menuBuilder.buildMenu(), toolbarBuilder.buildToolBar(), canvas);
         
         Scene scene = new Scene(root);
         primaryStage.setScene(scene);

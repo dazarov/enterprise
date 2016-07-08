@@ -8,6 +8,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JToolBar;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 
 import com.dworld.core.DWConfiguration;
 import com.dworld.ui.DWToolbarStructure;
@@ -26,7 +27,11 @@ public class DWSwingToolbarBuilder {
 	}
 	
 	public static void showPalette(){
-		hidePalette();
+		System.out.println("Show Palette...");
+		if(palette != null){
+			palette.setVisible(true);
+			return;
+		}
 		palette = new DWWindow("Building Palette", DWWindow.ORIENTATION_LEFT);
 		palette.setLayout(new GridLayout(1,5));
 		
@@ -46,9 +51,11 @@ public class DWSwingToolbarBuilder {
 	}
 	
 	public static void hidePalette(){
+		System.out.println("Hide Palette..."+SwingUtilities.isEventDispatchThread());
 		if(palette != null){
-			palette.setVisible(false);
-			palette.dispose();
+			DWWindowListener.getDefault().removeWindow(palette);
+			palette.close();
+			palette = null;
 		}
 	}
 	
