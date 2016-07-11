@@ -1,48 +1,14 @@
 package com.dworld.ui;
 
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-
-import com.dworld.core.DWConfiguration;
-import com.dworld.core.Land;
-import com.dworld.ui.javafx.DWJavaFXImages;
-import com.dworld.ui.javafx.DWJavaFXProgressMonitor;
-import com.dworld.ui.swing.DWInfoScreen;
-import com.dworld.ui.swing.DWMap;
-import com.dworld.ui.swing.DWMessageDialog;
-import com.dworld.ui.swing.DWProgressMonitor;
-import com.dworld.ui.swing.DWSwingImages;
-import com.dworld.ui.swing.DWSwingToolbarBuilder;
-
-import javafx.application.Platform;
-import javafx.scene.canvas.GraphicsContext;
-
-public class DWUI {
-	public static final int UI_TYPE_SWING = 0;
-	public static final int UI_TYPE_JAVA_FX = 1;
-	
-	private final int type;
-	private JFrame window;
-	private GraphicsContext gc;
+public abstract class DWUI {
 	
 	@SuppressWarnings("rawtypes")
-	private DWImages images;
+	protected DWImages images;
 	
 	private DWKeyListener keyListener = new DWKeyListener();
 	private DWMouseListener mouseListener = new DWMouseListener();
 	
-	public DWUI(int type){
-		this.type = type;
-		if(type == UI_TYPE_SWING){
-			window = new JFrame();
-			images = new DWSwingImages();
-		}else if(type == UI_TYPE_JAVA_FX){
-			images = new DWJavaFXImages();
-		}
-	}
-	
-	public JFrame getWindow(){
-		return window;
+	public DWUI(){
 	}
 	
 	public DWKeyListener getKeyListener(){
@@ -66,83 +32,23 @@ public class DWUI {
 		return images;
 	}
 	
-	public boolean exitConfirmation(){
-		if(type == UI_TYPE_SWING){
-			if (Land.isDirty()) {
-				int n = JOptionPane.showConfirmDialog(window,
-						"Do you want to save the game?", "Question",
-						JOptionPane.YES_NO_OPTION);
-				if (n == 0) {
-					DWConfiguration.getInstance().getLauncher().saveAndExit(DWConfiguration.SAVE_FILE);
-					return false;
-				}
-			}
-		}
-		return true;
-	}
+	public abstract boolean exitConfirmation();
 	
+	public abstract IProgressMonitor getProgressMonitor(String title, int max);
 	
-	public IProgressMonitor getProgressMonitor(String title, int max){
-		if(type == UI_TYPE_SWING){
-			return new DWProgressMonitor(title);
-		}else if(type == UI_TYPE_JAVA_FX){
-			return new DWJavaFXProgressMonitor();
-		}
-		throw new IllegalStateException();
-	}
+	public abstract void showMessageDialog(String title, String message);
 	
-	public void showMessageDialog(String title, String message){
-		if(type == UI_TYPE_SWING){
-			new DWMessageDialog(window, title, message);
-		}
-	}
+	public abstract void setTitle(String title);
 	
-	public void setTitle(String title){
-		if(type == UI_TYPE_SWING){
-			window.setTitle(title);
-		}
-	}
+	public abstract void repaint();
 	
-	public void setGraphicsContext(GraphicsContext gc){
-		this.gc = gc;
-	}
+	public abstract void showMap();
 	
-	public void repaint(){
-		if(type == UI_TYPE_SWING){
-			window.repaint();
-		}else if(type == UI_TYPE_JAVA_FX){
-			Platform.runLater(() -> getImages(DWJavaFXImages.class).draw(gc));
-		}
-	}
+	public abstract void showPalette();
 	
-	public void showMap(){
-		if(type == UI_TYPE_SWING){
-			DWMap.showMap();
-		}
-	}
+	public abstract void hidePalette();
 	
-	public void showPalette(){
-		if(type == UI_TYPE_SWING){
-			DWSwingToolbarBuilder.showPalette();
-		}
-	}
+	public abstract void toggleMinimap();
 	
-	public void hidePalette(){
-		if(type == UI_TYPE_SWING){
-			DWSwingToolbarBuilder.hidePalette();
-		}
-	}
-	
-	public void toggleMinimap(){
-		if(type == UI_TYPE_SWING){
-			DWMap.switchMinimap();
-		}
-	}
-	
-	public void showInfoScreen(){
-		if(type == UI_TYPE_SWING){
-			new DWInfoScreen();
-		}
-	}
-	
+	public abstract void showInfoScreen();
 }

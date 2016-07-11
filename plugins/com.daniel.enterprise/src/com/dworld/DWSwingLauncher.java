@@ -36,6 +36,7 @@ import com.dworld.ui.swing.DWProgressMonitor;
 import com.dworld.ui.swing.DWSwingImages;
 import com.dworld.ui.swing.DWSwingMenuBuilder;
 import com.dworld.ui.swing.DWSwingToolbarBuilder;
+import com.dworld.ui.swing.DWSwingUI;
 import com.dworld.ui.swing.DWWindowListener;
 
 public class DWSwingLauncher implements KeyListener, MouseListener, MouseMotionListener, ILauncher {
@@ -72,7 +73,7 @@ public class DWSwingLauncher implements KeyListener, MouseListener, MouseMotionL
 		configuration = DWConfiguration.getInstance();
 		configuration.setLauncher(this);
 		
-		window = configuration.getUI().getWindow();
+		window = ((DWSwingUI)DWConfiguration.getInstance().getUI()).getWindow();
 		engine = configuration.getEngine();
 		
 		configuration.setPathName(pathName);
@@ -119,6 +120,7 @@ public class DWSwingLauncher implements KeyListener, MouseListener, MouseMotionL
 		window.setResizable(false);
 		window.setVisible(true);
 		window.setFocusable(true);
+		window.setFocusableWindowState(true);
 		window.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent arg0) {

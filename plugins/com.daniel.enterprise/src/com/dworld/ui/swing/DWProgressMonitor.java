@@ -17,7 +17,7 @@ public class DWProgressMonitor extends JDialog implements IProgressMonitor{
 	
 	
 	public DWProgressMonitor(String title){
-		super(DWConfiguration.getInstance().getUI().getWindow());
+		super(((DWSwingUI)DWConfiguration.getInstance().getUI()).getWindow());
 		setResizable(false);
 		setTitle(title);
 		progressBar = new JProgressBar(0, 100);

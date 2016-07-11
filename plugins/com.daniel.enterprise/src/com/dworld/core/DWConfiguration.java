@@ -8,6 +8,8 @@ import com.dworld.DWSwingLauncher;
 import com.dworld.ui.DWUI;
 import com.dworld.ui.IMonitoredRunnable;
 import com.dworld.ui.LoadAction;
+import com.dworld.ui.javafx.DWJavaFXUI;
+import com.dworld.ui.swing.DWSwingUI;
 import com.dworld.units.ControlledUnit;
 
 public class DWConfiguration {
@@ -99,9 +101,9 @@ public class DWConfiguration {
 	public void setLauncher(ILauncher launcher){
 		this.launcher = launcher;
 		if(launcher instanceof DWSwingLauncher){
-			ui = new DWUI(DWUI.UI_TYPE_SWING);
+			ui = new DWSwingUI();
 		}else if(launcher instanceof DWJavaFXLauncher){
-			ui = new DWUI(DWUI.UI_TYPE_JAVA_FX);
+			ui = new DWJavaFXUI();
 		}
 	}
 	

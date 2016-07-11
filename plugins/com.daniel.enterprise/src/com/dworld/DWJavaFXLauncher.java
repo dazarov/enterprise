@@ -8,11 +8,13 @@ import com.dworld.core.DWEngine;
 import com.dworld.core.ILauncher;
 import com.dworld.ui.javafx.DWJavaFXKeyConverter;
 import com.dworld.ui.javafx.DWJavaFXKeyConverter.KeyInfo;
+import com.dworld.ui.javafx.DWJavaFXUI;
 import com.dworld.ui.javafx.DWJavaFXMenuBuilder;
 import com.dworld.ui.javafx.DWJavaFXProgressMonitor;
 import com.dworld.ui.javafx.DWJavaFXToolbarBuilder;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -27,6 +29,8 @@ public class DWJavaFXLauncher extends Application implements ILauncher{
 	private DWEngine engine;
 	
 	private DWConfiguration configuration;
+	
+	private Stage primaryStage;
 	
 	@Override
     public void init() throws Exception {
@@ -43,18 +47,24 @@ public class DWJavaFXLauncher extends Application implements ILauncher{
 		
 		configuration.setPathName(pathName);
 	}
+	
+	public void setTitle(String title){
+		primaryStage.setTitle(title);
+	}
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
+		this.primaryStage = primaryStage;
 		engine.init();
 		load(DWConfiguration.SAVE_FILE);
 		
 		primaryStage.setTitle(DWConfiguration.TITLE);
+		primaryStage.setOnCloseRequest(e -> {Platform.exit(); System.exit(0);});
         VBox root = new VBox();
         
         Canvas canvas = new Canvas(DWConstants.UI_WIDTH * DWConstants.UI_IMAGE_WIDTH, DWConstants.UI_HEIGHT * DWConstants.UI_IMAGE_HEIGHT);
         GraphicsContext gc = canvas.getGraphicsContext2D();
-        DWConfiguration.getInstance().getUI().setGraphicsContext(gc);
+        ((DWJavaFXUI)DWConfiguration.getInstance().getUI()).setGraphicsContext(gc);
         
         DWJavaFXMenuBuilder menuBuilder = new DWJavaFXMenuBuilder();
         
