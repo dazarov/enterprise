@@ -696,7 +696,7 @@ public class Land {
 			return Land.Vacuum;
 		}
 		int code;
-		synchronized(landMap){
+		synchronized(Land.class){
 			code = landMap[x][y];
 		}
 		
@@ -709,7 +709,7 @@ public class Land {
 	
 	public static int setLand(int x, int y, int code) {
 		int oldCode = getLand(x, y);
-		synchronized(landMap){
+		synchronized(Land.class){
 			landMap[x][y] = code;
 		}
 		return oldCode;
@@ -718,7 +718,7 @@ public class Land {
 	public static int setLand(Location location, MovableUnit unit) {
 		int oldCode = getLand(location);
 		int newCode = unit.getCode(oldCode);
-		synchronized(landMap){
+		synchronized(Land.class){
 			landMap[location.getX()][location.getY()] = newCode;
 		}
 		return oldCode;
@@ -726,7 +726,7 @@ public class Land {
 
 	public static void initLand(Location location, int beneath, MovableUnit unit) {
 		int newCode = unit.getCode(beneath);
-		synchronized(landMap){
+		synchronized(Land.class){
 			landMap[location.getX()][location.getY()] = newCode;
 		}
 	}
@@ -887,7 +887,7 @@ public class Land {
 	static void load(String fileName, IProgressMonitor progressMonitor) {
 		for (int x = 0; x < DWConstants.MAX_X; x++) {
 			for (int y = 0; y < DWConstants.MAX_Y; y++) {
-				synchronized(landMap){
+				synchronized(Land.class){
 					landMap[x][y] = Empty;
 				}
 			}
@@ -923,7 +923,9 @@ public class Land {
 							loadUnit(code, x, y, stream)){
 						continue;
 					}
-					landMap[x][y] = code;
+					synchronized(Land.class){
+						landMap[x][y] = code;
+					}
 				}
 			}
 		} catch (IOException ex) {
@@ -951,7 +953,7 @@ public class Land {
 				}
 				for (int y = 0; y < DWConstants.MAX_Y; y++) {
 					int code;
-					synchronized(landMap){
+					synchronized(Land.class){
 						code = landMap[x][y];
 					}
 					if (unsaveList.contains(code)) {

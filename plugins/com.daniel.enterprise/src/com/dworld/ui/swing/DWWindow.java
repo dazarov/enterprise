@@ -13,9 +13,18 @@ public class DWWindow extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private int orientation;
 	
+	private static long counter = 1;
+	
+	private long windowID;
+	
 	public DWWindow(String title, int orientation){
 		super(title);
 		this.orientation = orientation;
+		this.windowID = counter++;
+	}
+	
+	public String toString(){
+		return "DWindow "+windowID;
 	}
 
 	public int getOrientation(){

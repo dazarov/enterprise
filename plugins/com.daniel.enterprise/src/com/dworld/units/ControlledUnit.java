@@ -85,8 +85,11 @@ public class ControlledUnit extends MovableUnit {
 			activate();
 			resurrect();
 		}
-		if (this.key == -1)
-			this.key = key;
+		synchronized(this){
+			if (this.key == -1){
+				this.key = key;
+			}
+		}
 	}
 	
 	public Location getDrawPosition(){
@@ -229,7 +232,7 @@ public class ControlledUnit extends MovableUnit {
 			fireAgainstRocket();
 			if(lightDefenseComplex()) return true;
 		}
-		
+		synchronized(this){
 		if (key != -1) {
 			switch (key) {
 			case '0':
@@ -345,8 +348,10 @@ public class ControlledUnit extends MovableUnit {
 				break;
 			}
 			key = -1;
+		
 		} else {
 			speed = currentSpeed;
+		}
 		}
 		return true;
 	}

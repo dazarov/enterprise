@@ -87,6 +87,12 @@ public class DWConfiguration {
 	}
 
 	public void setControlledUnit(ControlledUnit controlledUnit) {
+		System.out.println("setting Controlled Unit...");
+		if(this.controlledUnit != null){
+			
+			System.out.println("Controlled Unit already exist!!");
+			Thread.dumpStack();
+		}
 		this.controlledUnit = controlledUnit;
 	}
 	

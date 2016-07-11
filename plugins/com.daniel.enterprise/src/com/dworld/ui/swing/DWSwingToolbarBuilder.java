@@ -29,10 +29,12 @@ public class DWSwingToolbarBuilder {
 	public static void showPalette(){
 		System.out.println("Show Palette...");
 		if(palette != null){
+			System.out.println("Palette exist - "+palette);
 			palette.setVisible(true);
 			return;
 		}
 		palette = new DWWindow("Building Palette", DWWindow.ORIENTATION_LEFT);
+		System.out.println("Palette created - "+palette);
 		palette.setLayout(new GridLayout(1,5));
 		
 		List<DWToolbar> tbs = new DWToolbarStructure().getPalette();
@@ -53,6 +55,7 @@ public class DWSwingToolbarBuilder {
 	public static void hidePalette(){
 		System.out.println("Hide Palette..."+SwingUtilities.isEventDispatchThread());
 		if(palette != null){
+			System.out.println("Palette hiding - "+palette);
 			DWWindowListener.getDefault().removeWindow(palette);
 			palette.close();
 			palette = null;

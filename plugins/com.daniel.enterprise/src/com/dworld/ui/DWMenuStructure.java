@@ -8,9 +8,6 @@ import com.dworld.core.DWConfiguration;
 import com.dworld.core.DWEngine;
 import com.dworld.core.Land;
 import com.dworld.core.SelectionManager;
-import com.dworld.ui.swing.DWInfoScreen;
-import com.dworld.ui.swing.DWMap;
-import com.dworld.ui.swing.DWSwingToolbarBuilder;
 import com.dworld.units.Unit;
 
 public class DWMenuStructure {
@@ -93,13 +90,13 @@ public class DWMenuStructure {
 		menu = new DWMenu("Game");
 		menus.add(menu);
 		
-		menu.items.add(new DWMenuItem("Map",      () -> DWMap.showMap()));
-		menu.items.add(new DWMenuItem("Mini Map", () -> DWMap.showMinimap()));
+		menu.items.add(new DWMenuItem("Map",      () -> config.getUI().showMap()));
+		menu.items.add(new DWMenuItem("Mini Map", () -> config.getUI().toggleMinimap()));
 		menu.items.add(new DWMenuItem());
 		menu.items.add(new DWMenuItem("Pause",    () -> engine.pause(true)));
 		menu.items.add(new DWMenuItem("Go",       () -> engine.pause(false)));
 		menu.items.add(new DWMenuItem());
-		menu.items.add(new DWMenuItem("Info",     () -> new DWInfoScreen()));
+		menu.items.add(new DWMenuItem("Info",     () -> config.getUI().showInfoScreen()));
 		
 		menu = new DWMenu("Build");
 		menus.add(menu);
@@ -109,9 +106,9 @@ public class DWMenuStructure {
 			config.setBuildMode(!config.isBuildMode());
 			engine.pause(config.isBuildMode());
 			if(config.isBuildMode()){
-				DWSwingToolbarBuilder.showPalette();
+				DWConfiguration.getInstance().getUI().showPalette();
 			}else{
-				DWSwingToolbarBuilder.hidePalette();
+				DWConfiguration.getInstance().getUI().hidePalette();
 			}
 			
 		}));

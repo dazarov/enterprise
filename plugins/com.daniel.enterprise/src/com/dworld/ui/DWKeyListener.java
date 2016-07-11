@@ -81,8 +81,11 @@ public class DWKeyListener {
 			}
 		}
 		
-		if (DWConfiguration.getInstance().getControlledUnit() != null)
+		if (DWConfiguration.getInstance().getControlledUnit() != null){
 			DWConfiguration.getInstance().getControlledUnit().control(keyCode, keyModifiers);
+		}else{
+			System.out.println("DWConfiguration.getInstance().getControlledUnit() - NULL");
+		}
 		 
 	}
 

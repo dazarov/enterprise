@@ -7,9 +7,12 @@ import com.dworld.core.DWConfiguration;
 import com.dworld.core.Land;
 import com.dworld.ui.javafx.DWJavaFXImages;
 import com.dworld.ui.javafx.DWJavaFXProgressMonitor;
+import com.dworld.ui.swing.DWInfoScreen;
+import com.dworld.ui.swing.DWMap;
 import com.dworld.ui.swing.DWMessageDialog;
 import com.dworld.ui.swing.DWProgressMonitor;
 import com.dworld.ui.swing.DWSwingImages;
+import com.dworld.ui.swing.DWSwingToolbarBuilder;
 
 import javafx.application.Platform;
 import javafx.scene.canvas.GraphicsContext;
@@ -112,5 +115,34 @@ public class DWUI {
 		}
 	}
 	
+	public void showMap(){
+		if(type == UI_TYPE_SWING){
+			DWMap.showMap();
+		}
+	}
+	
+	public void showPalette(){
+		if(type == UI_TYPE_SWING){
+			DWSwingToolbarBuilder.showPalette();
+		}
+	}
+	
+	public void hidePalette(){
+		if(type == UI_TYPE_SWING){
+			DWSwingToolbarBuilder.hidePalette();
+		}
+	}
+	
+	public void toggleMinimap(){
+		if(type == UI_TYPE_SWING){
+			DWMap.switchMinimap();
+		}
+	}
+	
+	public void showInfoScreen(){
+		if(type == UI_TYPE_SWING){
+			new DWInfoScreen();
+		}
+	}
 	
 }

@@ -18,6 +18,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JToolBar;
+import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 import javax.swing.SwingWorker.StateValue;
 
@@ -53,11 +54,13 @@ public class DWSwingLauncher implements KeyListener, MouseListener, MouseMotionL
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		DWSwingLauncher launcher = new DWSwingLauncher();
+		SwingUtilities.invokeLater(() ->{
+			DWSwingLauncher launcher = new DWSwingLauncher();
 
-		launcher.init();
+			launcher.init();
 		
-		launcher.start();
+			launcher.start();
+		});
 	}
 	
 	private void init() {
