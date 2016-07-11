@@ -5,6 +5,7 @@ import com.dworld.ui.DWToolbarStructure;
 import com.dworld.ui.DWToolbarStructure.DWButton;
 import com.dworld.ui.DWToolbarStructure.DWToolbar;
 
+import javafx.geometry.Orientation;
 import javafx.scene.control.Button;
 import javafx.scene.control.Separator;
 import javafx.scene.control.ToolBar;
@@ -22,28 +23,33 @@ public class DWJavaFXToolbarBuilder {
 	}
 	
 	private static ToolBar createToolBar(DWToolbar model, boolean vertical){
-		ToolBar toolBar = new ToolBar();
-		//toolBar.setFloatable(false);
-		//toolBar.setFocusable(false);
-		//if(vertical){
-		//	toolBar.setOrientation(SwingConstants.VERTICAL);
-		//
-		for(DWButton button : model.buttons){
-			if(button.runner == null){
-				toolBar.getItems().add(new Separator());
+		ToolBar toolbar = new ToolBar(){
+			@Override
+			public void requestFocus(){}
+		};
+		toolbar.requestFocus();
+		if(vertical){
+			toolbar.setOrientation(Orientation.VERTICAL);
+		}
+		for(DWButton dButton : model.buttons){
+			if(dButton.runner == null){
+				toolbar.getItems().add(new Separator());
 			}else{
-				Button jButton = new Button();
-				if(button.imageCode != -1){
-					jButton.setGraphic(new ImageView(getImage(button.imageCode)));
-				} else if(button.imagePath != null){
-					jButton.setGraphic(new ImageView(loadImage(button.imagePath)));
+				Button button = new Button(){
+					@Override
+					public void requestFocus(){}
+				};
+				if(dButton.imageCode != -1){
+					button.setGraphic(new ImageView(getImage(dButton.imageCode)));
+				} else if(dButton.imagePath != null){
+					button.setGraphic(new ImageView(loadImage(dButton.imagePath)));
 				}
-				jButton.setOnAction(e -> button.runner.run());
-				toolBar.getItems().add(jButton);
+				button.setOnAction(e -> dButton.runner.run());
+				toolbar.getItems().add(button);
 			}
 		}
 		
-		return toolBar;
+		return toolbar;
 	}
 	
 	private static Image getImage(int code){
