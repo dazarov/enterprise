@@ -37,12 +37,12 @@ import com.dworld.units.weapon.CannonBall;
 import com.dworld.units.weapon.Mine;
 import com.dworld.units.weapon.Rocket;
 
-public class DWInfoScreen extends JDialog{
+public class DWSwingInfoScreen extends JDialog{
 	public static final long serialVersionUID = 2;
 	private JLabel label;
 	
 
-	public DWInfoScreen(){
+	public DWSwingInfoScreen(){
 		super(DWConfiguration.getInstance().getUI(DWSwingUI.class).getWindow());
 		
 		setResizable(false);

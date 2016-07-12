@@ -19,31 +19,31 @@ import javax.swing.JFrame;
  * @author daniel
  *
  */
-public class DWWindowListener implements WindowListener, ComponentListener{
-	private static DWWindowListener instance;
+public class DWSwingWindowListener implements WindowListener, ComponentListener{
+	private static DWSwingWindowListener instance;
 	
 	JFrame mainWindow = null;
-	Set<DWWindow> windows = new HashSet<DWWindow>();
+	Set<DWSwingWindow> windows = new HashSet<DWSwingWindow>();
 	
-	private DWWindowListener(){
+	private DWSwingWindowListener(){
 		
 	}
 	
-	public static synchronized DWWindowListener getDefault(){
+	public static synchronized DWSwingWindowListener getDefault(){
 		if(instance == null){
-			instance = new DWWindowListener();
+			instance = new DWSwingWindowListener();
 		}
 		return instance;
 	}
 	
-	public void addWindow(DWWindow window){
+	public void addWindow(DWSwingWindow window){
 		windows.add(window);
 		window.addWindowListener(this);
 		window.addComponentListener(this);
 		relocate(window);
 	}
 	
-	public void removeWindow(DWWindow window){
+	public void removeWindow(DWSwingWindow window){
 		windows.remove(window);
 		window.removeWindowListener(this);
 		window.removeComponentListener(this);
@@ -108,7 +108,7 @@ public class DWWindowListener implements WindowListener, ComponentListener{
 	public void componentMoved(ComponentEvent e) {
 		Window w = (Window)e.getComponent();
 		if(w.equals(mainWindow)){
-			for(DWWindow window : windows){
+			for(DWSwingWindow window : windows){
 				relocate(window);
 			}
 		}
@@ -132,13 +132,13 @@ public class DWWindowListener implements WindowListener, ComponentListener{
 	public void componentHidden(ComponentEvent e) {
 	}
 	
-	private void relocate(DWWindow window){
+	private void relocate(DWSwingWindow window){
 		Point mainLocation = mainWindow.getLocation();
 		Dimension mainSize = mainWindow.getSize();
 		Dimension size = window.getSize();
-		if(window.getOrientation() == DWWindow.ORIENTATION_RIGHT){
+		if(window.getOrientation() == DWSwingWindow.ORIENTATION_RIGHT){
 			window.setLocation(mainLocation.x+mainSize.width, mainLocation.y+(mainSize.height-size.height)/2);
-		}else if(window.getOrientation() == DWWindow.ORIENTATION_LEFT){
+		}else if(window.getOrientation() == DWSwingWindow.ORIENTATION_LEFT){
 			window.setLocation(mainLocation.x-size.width, mainLocation.y+(mainSize.height-size.height)/2);
 		}
 	}

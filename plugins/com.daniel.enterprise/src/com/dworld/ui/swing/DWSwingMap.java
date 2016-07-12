@@ -25,21 +25,21 @@ import com.dworld.core.Land;
 import com.dworld.core.Location;
 import com.dworld.ui.IProgressMonitor;
 
-public class DWMap {
+public class DWSwingMap {
 	private static Image image;
-	static DWWindow minimap = null;
+	static DWSwingWindow minimap = null;
 	static Location drawPoint = null;
 	
 	static JFrame window;
 	
 	public static void showMap(){
-		System.out.println("Show Map...");
+		//System.out.println("Show Map...");
 		image = null;
 		createImage();
 	}
 	
 	private static void doMap(){
-		System.out.println("DO Map...");
+		//System.out.println("DO Map...");
 		if(image == null || window != null){
 			return;
 		}
@@ -133,7 +133,7 @@ public class DWMap {
 		}
 	}
 	
-	public static void switchMinimap(){
+	public static void toggleMinimap(){
 		if(minimap == null)
 			showMinimap();
 		else
@@ -142,7 +142,7 @@ public class DWMap {
 	
 	public static void closeMinimap(){
 		if(minimap != null){
-			DWWindowListener.getDefault().removeWindow(minimap);
+			DWSwingWindowListener.getDefault().removeWindow(minimap);
 			minimap.close();
 			minimap = null;
 		}
@@ -151,10 +151,10 @@ public class DWMap {
 	public static void showMinimap(){
 		if(minimap != null){
 			minimap.setVisible(true);
-			DWWindowListener.getDefault().addWindow(minimap);
+			DWSwingWindowListener.getDefault().addWindow(minimap);
 			return;
 		}
-		minimap = new DWWindow("DWorld Mini Map", DWWindow.ORIENTATION_RIGHT);
+		minimap = new DWSwingWindow("DWorld Mini Map", DWSwingWindow.ORIENTATION_RIGHT);
 		minimap.setLayout(new GridLayout());
 		
 		JPanel panel = new JPanel(){
@@ -178,7 +178,7 @@ public class DWMap {
 		minimap.setFocusableWindowState(false);
 		minimap.setFocusable(false);
 		minimap.setVisible(true);
-		DWWindowListener.getDefault().addWindow(minimap);
+		DWSwingWindowListener.getDefault().addWindow(minimap);
 	}
 	
 	static void createImage(){
@@ -187,7 +187,7 @@ public class DWMap {
 			Graphics g = image.createGraphics();
 			drawRegion(g, 0,0,Land.getMaxX(), Land.getMaxY(), m);
 		} );
-		DWProgressMonitor monitor = new DWProgressMonitor("Map creating...");
+		DWSwingProgressMonitor monitor = new DWSwingProgressMonitor("Map creating...");
 		task.addPropertyChangeListener(new PropertyChangeListener() {
 		      @Override
 		      public void propertyChange(final PropertyChangeEvent event) {
@@ -196,7 +196,7 @@ public class DWMap {
 		        }
 		        if (StateValue.DONE == task.getState()){
 		        	monitor.close();
-		        	DWMap.image = image;
+		        	DWSwingMap.image = image;
 		        	doMap();
 		        }
 		      }

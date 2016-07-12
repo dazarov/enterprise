@@ -31,13 +31,13 @@ import com.dworld.ui.IMonitoredRunnable;
 import com.dworld.ui.IProgressMonitor;
 import com.dworld.ui.LoadAction;
 import com.dworld.ui.SaveAction;
-import com.dworld.ui.swing.DWMap;
-import com.dworld.ui.swing.DWProgressMonitor;
+import com.dworld.ui.swing.DWSwingMap;
+import com.dworld.ui.swing.DWSwingProgressMonitor;
 import com.dworld.ui.swing.DWSwingImages;
 import com.dworld.ui.swing.DWSwingMenuBuilder;
 import com.dworld.ui.swing.DWSwingToolbarBuilder;
 import com.dworld.ui.swing.DWSwingUI;
-import com.dworld.ui.swing.DWWindowListener;
+import com.dworld.ui.swing.DWSwingWindowListener;
 
 public class DWSwingLauncher implements KeyListener, MouseListener, MouseMotionListener, ILauncher {
 	private JFrame window;
@@ -77,7 +77,7 @@ public class DWSwingLauncher implements KeyListener, MouseListener, MouseMotionL
 		engine = configuration.getEngine();
 		
 		configuration.setPathName(pathName);
-		DWWindowListener.getDefault().addMainWindow(window);
+		DWSwingWindowListener.getDefault().addMainWindow(window);
 		initMenu();
 		initWindow();
 	}
@@ -130,7 +130,7 @@ public class DWSwingLauncher implements KeyListener, MouseListener, MouseMotionL
 			}
 		});
 		
-		DWMap.switchMinimap();
+		DWSwingMap.toggleMinimap();
 	}
 	
 	private void initMenu() {
@@ -213,7 +213,7 @@ public class DWSwingLauncher implements KeyListener, MouseListener, MouseMotionL
 	@Override
 	public void load(String fileName) {
 		LongRunningTask task = new LongRunningTask(new LoadAction(fileName));
-		DWProgressMonitor monitor = new DWProgressMonitor("Loading...");
+		DWSwingProgressMonitor monitor = new DWSwingProgressMonitor("Loading...");
 		
 		task.addPropertyChangeListener(new PropertyChangeListener() {
 		      @Override
@@ -232,7 +232,7 @@ public class DWSwingLauncher implements KeyListener, MouseListener, MouseMotionL
 	@Override
 	public void save(String fileName) {
 		LongRunningTask task = new LongRunningTask(new SaveAction(fileName));
-		DWProgressMonitor monitor = new DWProgressMonitor("Saving...");
+		DWSwingProgressMonitor monitor = new DWSwingProgressMonitor("Saving...");
 		task.addPropertyChangeListener(new PropertyChangeListener() {
 		      @Override
 		      public void propertyChange(final PropertyChangeEvent event) {
@@ -250,7 +250,7 @@ public class DWSwingLauncher implements KeyListener, MouseListener, MouseMotionL
 	@Override
 	public void saveAndExit(String fileName) {
 		LongRunningTask task = new LongRunningTask(new SaveAction(fileName));
-		DWProgressMonitor monitor = new DWProgressMonitor("Saving...");
+		DWSwingProgressMonitor monitor = new DWSwingProgressMonitor("Saving...");
 		task.addPropertyChangeListener(new PropertyChangeListener() {
 		      @Override
 		      public void propertyChange(final PropertyChangeEvent event) {

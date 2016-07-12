@@ -10,13 +10,13 @@ import com.dworld.core.DWConfiguration;
 import com.dworld.ui.IProgressMonitor;
 
 
-public class DWProgressMonitor extends JDialog implements IProgressMonitor{
+public class DWSwingProgressMonitor extends JDialog implements IProgressMonitor{
 	public static final long serialVersionUID = 1;
 	
 	private JProgressBar progressBar;
 	
 	
-	public DWProgressMonitor(String title){
+	public DWSwingProgressMonitor(String title){
 		super(DWConfiguration.getInstance().getUI(DWSwingUI.class).getWindow());
 		setResizable(false);
 		setTitle(title);

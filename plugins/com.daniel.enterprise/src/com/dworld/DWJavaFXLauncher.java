@@ -55,6 +55,7 @@ public class DWJavaFXLauncher extends Application implements ILauncher{
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		this.primaryStage = primaryStage;
+		DWConfiguration.getInstance().getUI(DWJavaFXUI.class).setWindow(primaryStage);
 		engine.init();
 		load(DWConfiguration.SAVE_FILE);
 		

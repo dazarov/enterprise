@@ -34,11 +34,11 @@ public class DWSwingUI extends DWUI {
 	}
 	
 	public IProgressMonitor getProgressMonitor(String title, int max){
-		return new DWProgressMonitor(title);
+		return new DWSwingProgressMonitor(title);
 	}
 	
 	public void showMessageDialog(String title, String message){
-		new DWMessageDialog(window, title, message);
+		new DWSwingMessageDialog(window, title, message);
 	}
 	
 	public void setTitle(String title){
@@ -50,7 +50,7 @@ public class DWSwingUI extends DWUI {
 	}
 	
 	public void showMap(){
-		DWMap.showMap();
+		DWSwingMap.showMap();
 	}
 	
 	public void showPalette(){
@@ -62,15 +62,15 @@ public class DWSwingUI extends DWUI {
 	}
 	
 	public void toggleMinimap(){
-		DWMap.switchMinimap();
+		DWSwingMap.toggleMinimap();
 	}
 	
 	public void showInfoScreen(){
-		new DWInfoScreen();
+		new DWSwingInfoScreen();
 	}
 
 	@Override
 	public void refreshMinimap() {
-		DWMap.refreshMinimap();
+		DWSwingMap.refreshMinimap();
 	}
 }

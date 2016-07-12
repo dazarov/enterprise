@@ -4,7 +4,7 @@ import java.awt.event.WindowEvent;
 
 import javax.swing.JFrame;
 
-public class DWWindow extends JFrame {
+public class DWSwingWindow extends JFrame {
 	public static final int ORIENTATION_TOP = 0;
 	public static final int ORIENTATION_BOTTOM = 1;
 	public static final int ORIENTATION_LEFT = 2;
@@ -17,7 +17,7 @@ public class DWWindow extends JFrame {
 	
 	private long windowID;
 	
-	public DWWindow(String title, int orientation){
+	public DWSwingWindow(String title, int orientation){
 		super(title);
 		this.orientation = orientation;
 		this.windowID = counter++;

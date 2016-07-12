@@ -7,12 +7,22 @@ import com.dworld.ui.IProgressMonitor;
 
 import javafx.application.Platform;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.stage.Window;
 
 public class DWJavaFXUI extends DWUI {
 	private GraphicsContext gc;
+	private Window window;
 	
 	public DWJavaFXUI(){
 		images = new DWJavaFXImages();
+	}
+	
+	public void setWindow(Window window){
+		this.window = window;
+	}
+	
+	public Window getWindow(){
+		return window;
 	}
 	
 	public boolean exitConfirmation(){
@@ -39,6 +49,7 @@ public class DWJavaFXUI extends DWUI {
 	}
 	
 	public void showMap(){
+		DWJavaFXMap.showMap();
 	}
 	
 	public void showPalette(){

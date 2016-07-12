@@ -6,10 +6,10 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 
 
-public class DWMessageDialog extends JDialog {
+public class DWSwingMessageDialog extends JDialog {
 	public static final long serialVersionUID = 1;
 	
-	public DWMessageDialog(Frame parent, String title, String message){
+	public DWSwingMessageDialog(Frame parent, String title, String message){
 		super(parent);
 		setResizable(false);
 		setTitle(title);

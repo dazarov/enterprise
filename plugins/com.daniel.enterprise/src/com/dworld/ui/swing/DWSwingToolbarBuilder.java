@@ -16,7 +16,7 @@ import com.dworld.ui.DWToolbarStructure.DWButton;
 import com.dworld.ui.DWToolbarStructure.DWToolbar;
 
 public class DWSwingToolbarBuilder {
-	private static DWWindow palette = null;
+	private static DWSwingWindow palette = null;
 	
 	public JToolBar buildToolBar(){
 		
@@ -33,7 +33,7 @@ public class DWSwingToolbarBuilder {
 			palette.setVisible(true);
 			return;
 		}
-		palette = new DWWindow("Building Palette", DWWindow.ORIENTATION_LEFT);
+		palette = new DWSwingWindow("Building Palette", DWSwingWindow.ORIENTATION_LEFT);
 		System.out.println("Palette created - "+palette);
 		palette.setLayout(new GridLayout(1,5));
 		
@@ -49,14 +49,14 @@ public class DWSwingToolbarBuilder {
 		palette.setFocusableWindowState(false);
 		palette.setFocusable(false);
 		palette.setVisible(true);
-		DWWindowListener.getDefault().addWindow(palette);
+		DWSwingWindowListener.getDefault().addWindow(palette);
 	}
 	
 	public static void hidePalette(){
 		System.out.println("Hide Palette..."+SwingUtilities.isEventDispatchThread());
 		if(palette != null){
 			System.out.println("Palette hiding - "+palette);
-			DWWindowListener.getDefault().removeWindow(palette);
+			DWSwingWindowListener.getDefault().removeWindow(palette);
 			palette.close();
 			palette = null;
 		}
