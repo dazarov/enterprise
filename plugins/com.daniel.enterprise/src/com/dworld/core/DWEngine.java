@@ -7,7 +7,6 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.dworld.ui.IProgressMonitor;
-import com.dworld.ui.swing.DWMap;
 
 public class DWEngine implements Runnable {
 	private static final long MAIN_DELAY = 60;
@@ -210,7 +209,7 @@ public class DWEngine implements Runnable {
 		
 		if(refreshCounter <= 0){
 			refreshCounter = minimapRefreshRate;
-			DWMap.refreshMinimap();
+			DWConfiguration.getInstance().getUI().refreshMinimap();
 		}
 	}
 

@@ -73,7 +73,7 @@ public class DWSwingLauncher implements KeyListener, MouseListener, MouseMotionL
 		configuration = DWConfiguration.getInstance();
 		configuration.setLauncher(this);
 		
-		window = ((DWSwingUI)DWConfiguration.getInstance().getUI()).getWindow();
+		window = DWConfiguration.getInstance().getUI(DWSwingUI.class).getWindow();
 		engine = configuration.getEngine();
 		
 		configuration.setPathName(pathName);
@@ -86,7 +86,8 @@ public class DWSwingLauncher implements KeyListener, MouseListener, MouseMotionL
 		load(DWConfiguration.SAVE_FILE);
 		engine.init();
 		
-		new ForeverTask(engine).execute();
+		new Thread(engine).start();
+		//new ForeverTask(engine).execute();
 	}
 
 	private void initWindow() {

@@ -2,7 +2,6 @@ package com.dworld.ui;
 
 import com.dworld.core.DWConfiguration;
 import com.dworld.core.SelectionManager;
-import com.dworld.ui.swing.DWMap;
 
 public class DWKeyListener {
 	/**
@@ -23,9 +22,9 @@ public class DWKeyListener {
 			if(DWConfiguration.getInstance().getUI().exitConfirmation())
 				System.exit(0);
 		}else if (keyCode == 77) { // m
-			DWMap.showMap();
+			DWConfiguration.getInstance().getUI().showMap();
 		}else if (keyCode == 78) { // n
-			DWMap.switchMinimap();
+			DWConfiguration.getInstance().getUI().toggleMinimap();
 		}
 		// Alt
 		if(keyModifiers == 8 && !DWConfiguration.getInstance().isBuildMode()){

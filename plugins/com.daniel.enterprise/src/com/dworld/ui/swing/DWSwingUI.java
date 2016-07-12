@@ -68,4 +68,9 @@ public class DWSwingUI extends DWUI {
 	public void showInfoScreen(){
 		new DWInfoScreen();
 	}
+
+	@Override
+	public void refreshMinimap() {
+		DWMap.refreshMinimap();
+	}
 }

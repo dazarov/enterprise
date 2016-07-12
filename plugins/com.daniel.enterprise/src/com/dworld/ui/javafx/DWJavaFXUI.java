@@ -52,4 +52,10 @@ public class DWJavaFXUI extends DWUI {
 	
 	public void showInfoScreen(){
 	}
+
+	@Override
+	public void refreshMinimap() {
+		// TODO Auto-generated method stub
+		
+	}
 }

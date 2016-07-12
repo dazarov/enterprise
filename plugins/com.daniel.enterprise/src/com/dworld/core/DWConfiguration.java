@@ -84,6 +84,14 @@ public class DWConfiguration {
 		return ui;
 	}
 	
+	@SuppressWarnings({ "unchecked" })
+	public <V extends DWUI> V getUI(Class<V> type){
+		if(ui.getClass().equals(type)){
+			return (V)ui;
+		}
+		throw new IllegalArgumentException();
+	}
+	
 	public ControlledUnit getControlledUnit() {
 		return controlledUnit;
 	}

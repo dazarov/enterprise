@@ -43,7 +43,7 @@ public class DWInfoScreen extends JDialog{
 	
 
 	public DWInfoScreen(){
-		super(((DWSwingUI)DWConfiguration.getInstance().getUI()).getWindow());
+		super(DWConfiguration.getInstance().getUI(DWSwingUI.class).getWindow());
 		
 		setResizable(false);
 		setTitle("Info Screen");

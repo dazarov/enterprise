@@ -42,6 +42,8 @@ public abstract class DWUI {
 	
 	public abstract void repaint();
 	
+	public abstract void refreshMinimap();
+	
 	public abstract void showMap();
 	
 	public abstract void showPalette();
