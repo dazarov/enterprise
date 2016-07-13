@@ -109,10 +109,8 @@ public class DWJavaFXLauncher extends Application implements ILauncher{
 	}
 	
 	private class KeyEventHandler implements EventHandler<KeyEvent> {
-
 		@Override
 		public void handle(KeyEvent event) {
-			
 			if (event.getEventType() == KeyEvent.KEY_PRESSED) {
 				KeyInfo info = DWJavaFXKeyConverter.convert(event);
 				if(info != null){
@@ -123,7 +121,6 @@ public class DWJavaFXLauncher extends Application implements ILauncher{
 	}
 	
 	private class MouseEventHandler implements EventHandler<MouseEvent>{
-
 		@Override
 		public void handle(MouseEvent event) {
 			if(event.getEventType() == MouseEvent.MOUSE_PRESSED){
@@ -134,7 +131,6 @@ public class DWJavaFXLauncher extends Application implements ILauncher{
 				DWConfiguration.getInstance().getUI().getMouseListener().doMouseDragged((int)event.getX(), (int)event.getY());
 			}
 		}
-		
 	}
 
 	@Override
@@ -181,11 +177,6 @@ public class DWJavaFXLauncher extends Application implements ILauncher{
 		@Override
 		public void progress(int progress) {
 			updateProgress(progress, 100);
-		}
-		
-		@Override
-		protected void succeeded() {
-			updateProgress(100, 100);
 		}
 
 		@Override

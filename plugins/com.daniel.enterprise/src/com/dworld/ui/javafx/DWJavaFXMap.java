@@ -13,6 +13,8 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritableImage;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Screen;
@@ -45,6 +47,14 @@ public class DWJavaFXMap {
 	    root.getChildren().add(scroll);
 
 	    Scene scene = new Scene(root, DWConstants.MAX_X, DWConstants.MAX_Y);
+	    
+        scene.setOnKeyPressed(event -> {
+			if (event.getEventType() == KeyEvent.KEY_PRESSED) {
+				if(event.getCode().equals(KeyCode.ESCAPE)){
+					stage.close();
+				}
+			}
+        });
 
 	    stage.setTitle("DWorld Map");
 	    stage.setScene(scene);

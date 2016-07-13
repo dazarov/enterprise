@@ -10,8 +10,6 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.io.File;
 
 import javax.swing.ImageIcon;
@@ -31,10 +29,10 @@ import com.dworld.ui.IMonitoredRunnable;
 import com.dworld.ui.IProgressMonitor;
 import com.dworld.ui.LoadAction;
 import com.dworld.ui.SaveAction;
-import com.dworld.ui.swing.DWSwingMap;
-import com.dworld.ui.swing.DWSwingProgressMonitor;
 import com.dworld.ui.swing.DWSwingImages;
+import com.dworld.ui.swing.DWSwingMap;
 import com.dworld.ui.swing.DWSwingMenuBuilder;
+import com.dworld.ui.swing.DWSwingProgressMonitor;
 import com.dworld.ui.swing.DWSwingToolbarBuilder;
 import com.dworld.ui.swing.DWSwingUI;
 import com.dworld.ui.swing.DWSwingWindowListener;
@@ -55,7 +53,7 @@ public class DWSwingLauncher implements KeyListener, MouseListener, MouseMotionL
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		SwingUtilities.invokeLater(() ->{
+		SwingUtilities.invokeLater(() -> {
 			DWSwingLauncher launcher = new DWSwingLauncher();
 
 			launcher.init();
@@ -87,7 +85,6 @@ public class DWSwingLauncher implements KeyListener, MouseListener, MouseMotionL
 		engine.init();
 		
 		new Thread(engine).start();
-		//new ForeverTask(engine).execute();
 	}
 
 	private void initWindow() {
@@ -215,16 +212,13 @@ public class DWSwingLauncher implements KeyListener, MouseListener, MouseMotionL
 		LongRunningTask task = new LongRunningTask(new LoadAction(fileName));
 		DWSwingProgressMonitor monitor = new DWSwingProgressMonitor("Loading...");
 		
-		task.addPropertyChangeListener(new PropertyChangeListener() {
-		      @Override
-		      public void propertyChange(final PropertyChangeEvent event) {
-		        if ("progress".equals(event.getPropertyName())) {
-		        	monitor.progress((Integer) event.getNewValue());
-		        }
-		        if (StateValue.DONE == task.getState()){
-		        	monitor.close();
-		        }
-		      }
+		task.addPropertyChangeListener(event -> {
+	        if ("progress".equals(event.getPropertyName())) {
+	        	monitor.progress((Integer) event.getNewValue());
+	        }
+	        if (StateValue.DONE == task.getState()){
+	        	monitor.close();
+	        }
 		});
 		task.execute();
 	}
@@ -233,16 +227,13 @@ public class DWSwingLauncher implements KeyListener, MouseListener, MouseMotionL
 	public void save(String fileName) {
 		LongRunningTask task = new LongRunningTask(new SaveAction(fileName));
 		DWSwingProgressMonitor monitor = new DWSwingProgressMonitor("Saving...");
-		task.addPropertyChangeListener(new PropertyChangeListener() {
-		      @Override
-		      public void propertyChange(final PropertyChangeEvent event) {
-		        if ("progress".equals(event.getPropertyName())) {
-		        	monitor.progress((Integer) event.getNewValue());
-		        }
-		        if (StateValue.DONE == task.getState()){
-		        	monitor.close();
-		        }
-		      }
+		task.addPropertyChangeListener(event -> {
+	        if ("progress".equals(event.getPropertyName())) {
+	        	monitor.progress((Integer) event.getNewValue());
+	        }
+	        if (StateValue.DONE == task.getState()){
+	        	monitor.close();
+	        }
 		});
 		task.execute();
 	}
@@ -251,36 +242,15 @@ public class DWSwingLauncher implements KeyListener, MouseListener, MouseMotionL
 	public void saveAndExit(String fileName) {
 		LongRunningTask task = new LongRunningTask(new SaveAction(fileName));
 		DWSwingProgressMonitor monitor = new DWSwingProgressMonitor("Saving...");
-		task.addPropertyChangeListener(new PropertyChangeListener() {
-		      @Override
-		      public void propertyChange(final PropertyChangeEvent event) {
-		        if ("progress".equals(event.getPropertyName())) {
-		        	monitor.progress((Integer) event.getNewValue());
-		        }
-		        if (StateValue.DONE == task.getState()){
-		        	monitor.close();
-		        }
-		      }
+		task.addPropertyChangeListener(event -> {
+	        if ("progress".equals(event.getPropertyName())) {
+	        	monitor.progress((Integer) event.getNewValue());
+	        }
+	        if (StateValue.DONE == task.getState()){
+	        	monitor.close();
+	        }
 		});
 		task.execute();
-	}
-	
-	static class ForeverTask extends SwingWorker<Integer, Integer>{
-		Runnable runner;
-		
-		public ForeverTask(Runnable runner){
-			this.runner = runner;
-		}
-
-		@Override
-		protected Integer doInBackground() throws Exception {
-			setProgress(33);
-			
-			runner.run();
-			
-			return 1;
-		}
-		
 	}
 	
 	static public class LongRunningTask extends SwingWorker<Integer, Integer> implements IProgressMonitor{

@@ -1,13 +1,8 @@
 package com.dworld.core;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.dworld.DWJavaFXLauncher;
 import com.dworld.DWSwingLauncher;
 import com.dworld.ui.DWUI;
-import com.dworld.ui.IMonitoredRunnable;
-import com.dworld.ui.LoadAction;
 import com.dworld.ui.javafx.DWJavaFXUI;
 import com.dworld.ui.swing.DWSwingUI;
 import com.dworld.units.ControlledUnit;
@@ -33,7 +28,6 @@ public class DWConfiguration {
 	
 	private boolean fightActive = false;
 	private boolean defenseActive = true;
-
 	
 	public static DWConfiguration getInstance(){
 		if(instance == null){
@@ -48,7 +42,6 @@ public class DWConfiguration {
 	
 	private final DWEngine engine;
 	
-	
 	private ControlledUnit controlledUnit = null;
 	private ILauncher launcher = null;
 	
@@ -62,18 +55,8 @@ public class DWConfiguration {
 	
 	private String pathName;
 	
-	private Map<Integer, IMonitoredRunnable> actions = new HashMap<>();
-	
 	private DWConfiguration(){
 		engine = new DWEngine();
-		
-		actions.put(ACTION_LOAD_MAIN, new LoadAction(SAVE_FILE));
-		actions.put(ACTION_LOAD_BACKUP, new LoadAction(BACKUP_FILE));
-		actions.put(ACTION_LOAD_TEST, new LoadAction(TEST_FILE));
-	}
-	
-	public IMonitoredRunnable getAction(int actionId){
-		return actions.get(actionId);
 	}
 	
 	public DWEngine getEngine(){
@@ -97,12 +80,6 @@ public class DWConfiguration {
 	}
 
 	public void setControlledUnit(ControlledUnit controlledUnit) {
-		System.out.println("setting Controlled Unit...");
-		if(this.controlledUnit != null){
-			
-			System.out.println("Controlled Unit already exist!!");
-			Thread.dumpStack();
-		}
 		this.controlledUnit = controlledUnit;
 	}
 	
