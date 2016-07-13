@@ -1,5 +1,6 @@
 package com.dworld.ui.javafx;
 
+import com.dworld.DWJavaFXLauncher.LongRunningTask;
 import com.dworld.core.DWConfiguration;
 import com.dworld.core.DWConstants;
 import com.dworld.core.Land;
@@ -21,12 +22,21 @@ public class DWJavaFXMap {
 	private static WritableImage image;
 	
 	public static void showMap(){
+		image = null;
+		image = new WritableImage(DWConstants.MAX_X, DWConstants.MAX_Y);
+		LongRunningTask task = new LongRunningTask( m -> {
+			PixelWriter writer = image.getPixelWriter();
+	        drawImage(writer,0,0,DWConstants.MAX_X, DWConstants.MAX_Y, m);
+		} );
+		DWJavaFXProgressMonitor monitor = new DWJavaFXProgressMonitor("Map creating...");
+		task.setOnSucceeded(e -> {monitor.close();doMap();});
+		monitor.bind(task);
+		new Thread(task).start();
+	}
+	
+	public static void doMap(){
 		Stage stage = new Stage();
 		stage.initOwner(DWConfiguration.getInstance().getUI(DWJavaFXUI.class).getWindow());
-	    
-		image = new WritableImage(DWConstants.MAX_X, DWConstants.MAX_Y);
-		PixelWriter writer = image.getPixelWriter();
-        drawImage(writer,0,0,DWConstants.MAX_X, DWConstants.MAX_Y, new DWJavaFXProgressMonitor());
         
         ScrollPane scroll = new ScrollPane();
         scroll.setContent(new ImageView(image));

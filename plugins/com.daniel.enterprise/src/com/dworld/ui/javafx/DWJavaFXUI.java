@@ -30,7 +30,7 @@ public class DWJavaFXUI extends DWUI {
 	}
 	
 	public IProgressMonitor getProgressMonitor(String title, int max){
-		return new DWJavaFXProgressMonitor();
+		return new DWJavaFXProgressMonitor(title);
 	}
 	
 	public void showMessageDialog(String title, String message){

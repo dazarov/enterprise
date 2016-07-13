@@ -6,15 +6,20 @@ import com.dworld.core.DWConfiguration;
 import com.dworld.core.DWConstants;
 import com.dworld.core.DWEngine;
 import com.dworld.core.ILauncher;
+import com.dworld.ui.IMonitoredRunnable;
+import com.dworld.ui.IProgressMonitor;
+import com.dworld.ui.LoadAction;
+import com.dworld.ui.SaveAction;
 import com.dworld.ui.javafx.DWJavaFXKeyConverter;
 import com.dworld.ui.javafx.DWJavaFXKeyConverter.KeyInfo;
-import com.dworld.ui.javafx.DWJavaFXUI;
 import com.dworld.ui.javafx.DWJavaFXMenuBuilder;
 import com.dworld.ui.javafx.DWJavaFXProgressMonitor;
 import com.dworld.ui.javafx.DWJavaFXToolbarBuilder;
+import com.dworld.ui.javafx.DWJavaFXUI;
 
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -56,8 +61,6 @@ public class DWJavaFXLauncher extends Application implements ILauncher{
 	public void start(Stage primaryStage) throws Exception {
 		this.primaryStage = primaryStage;
 		DWConfiguration.getInstance().getUI(DWJavaFXUI.class).setWindow(primaryStage);
-		engine.init();
-		load(DWConfiguration.SAVE_FILE);
 		
 		primaryStage.setTitle(DWConfiguration.TITLE);
 		primaryStage.setOnCloseRequest(e -> {Platform.exit(); System.exit(0);});
@@ -87,6 +90,9 @@ public class DWJavaFXLauncher extends Application implements ILauncher{
         canvas.setOnMouseDragged(mouseHandler);
         
         primaryStage.show();
+        
+        engine.init();
+		load(DWConfiguration.SAVE_FILE);
         new Thread(engine).start();
 	}
 	
@@ -133,17 +139,58 @@ public class DWJavaFXLauncher extends Application implements ILauncher{
 
 	@Override
 	public void load(String fileName) {
-		engine.load(fileName, new DWJavaFXProgressMonitor());
+		DWJavaFXProgressMonitor monitor = new DWJavaFXProgressMonitor("Loading...");
+		LongRunningTask task = new LongRunningTask(new LoadAction(fileName));
+		task.setOnSucceeded(e -> monitor.close());
+		monitor.bind(task);
+		new Thread(task).start();
 	}
 
 	@Override
 	public void save(String fileName) {
-		engine.save(fileName, new DWJavaFXProgressMonitor());
+		DWJavaFXProgressMonitor monitor = new DWJavaFXProgressMonitor("Saving...");
+		LongRunningTask task = new LongRunningTask(new SaveAction(fileName));
+		task.setOnSucceeded(e -> monitor.close());
+		monitor.bind(task);
+		new Thread(task).start();
 	}
 
 	@Override
 	public void saveAndExit(String fileName) {
-		engine.save(fileName, new DWJavaFXProgressMonitor());
+		DWJavaFXProgressMonitor monitor = new DWJavaFXProgressMonitor("Saving...");
+		LongRunningTask task = new LongRunningTask(new SaveAction(fileName));
+		task.setOnSucceeded(e -> monitor.close());
+		monitor.bind(task);
+		new Thread(task).start();
 	}
+	
+	static public class LongRunningTask extends Task<Integer> implements IProgressMonitor{
+		IMonitoredRunnable runner;
+		
+		public LongRunningTask(IMonitoredRunnable runner){
+			this.runner = runner;
+		}
 
+		@Override
+		protected Integer call() throws Exception {
+			runner.run(this);
+			
+			return 1;
+		}
+
+		@Override
+		public void progress(int progress) {
+			updateProgress(progress, 100);
+		}
+		
+		@Override
+		protected void succeeded() {
+			updateProgress(100, 100);
+		}
+
+		@Override
+		public void close() {
+		}
+		
+	}
 }
