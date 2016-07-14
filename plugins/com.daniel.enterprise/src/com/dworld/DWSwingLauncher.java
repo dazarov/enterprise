@@ -214,7 +214,11 @@ public class DWSwingLauncher implements KeyListener, MouseListener, MouseMotionL
 		
 		task.addPropertyChangeListener(event -> {
 	        if ("progress".equals(event.getPropertyName())) {
-	        	monitor.progress((Integer) event.getNewValue());
+	        	if(monitor.isCancelled()){
+	        		task.cancel(true);
+	        	}else{
+	        		monitor.progress((Integer) event.getNewValue());
+	        	}
 	        }
 	        if (StateValue.DONE == task.getState()){
 	        	monitor.close();
@@ -275,6 +279,6 @@ public class DWSwingLauncher implements KeyListener, MouseListener, MouseMotionL
 		@Override
 		public void close() {
 		}
-		
+
 	}
 }

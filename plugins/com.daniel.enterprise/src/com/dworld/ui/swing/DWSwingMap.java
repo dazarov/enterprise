@@ -24,6 +24,7 @@ import com.dworld.core.DWConfiguration;
 import com.dworld.core.Land;
 import com.dworld.core.Location;
 import com.dworld.ui.IProgressMonitor;
+import com.dworld.ui.NullProgressMonitor;
 
 public class DWSwingMap {
 	private static Image image;
@@ -163,8 +164,14 @@ public class DWSwingMap {
 			@Override
 			public void paintComponent(Graphics g) {
 				super.paintComponent(g);
-				if(DWConfiguration.getInstance().getControlledUnit() != null)
-					drawRegion(g, DWConfiguration.getInstance().getControlledUnit().getDrawPosition().getX()-150, DWConfiguration.getInstance().getControlledUnit().getDrawPosition().getY()-150, 300, 300, null);
+				if(DWConfiguration.getInstance().getControlledUnit() != null){
+					drawRegion(g, 
+							DWConfiguration.getInstance().getControlledUnit().getDrawPosition().getX()-150,
+							DWConfiguration.getInstance().getControlledUnit().getDrawPosition().getY()-150,
+							300,
+							300,
+							new NullProgressMonitor());
+				}
 			}
 		};
 		panel.setBackground(Color.black);
@@ -192,12 +199,18 @@ public class DWSwingMap {
 		      @Override
 		      public void propertyChange(final PropertyChangeEvent event) {
 		        if ("progress".equals(event.getPropertyName())) {
-		        	monitor.progress((Integer) event.getNewValue());
+		        	if(monitor.isCancelled()){
+		        		task.cancel(true);
+		        	}else{
+		        		monitor.progress((Integer) event.getNewValue());
+		        	}
 		        }
 		        if (StateValue.DONE == task.getState()){
 		        	monitor.close();
-		        	DWSwingMap.image = image;
-		        	doMap();
+		        	if(!task.isCancelled()){
+		        		DWSwingMap.image = image;
+		        		doMap();
+		        	}
 		        }
 		      }
 		});
@@ -207,7 +220,10 @@ public class DWSwingMap {
 	static void drawRegion(Graphics g, int startX, int startY, int width, int height, IProgressMonitor monitor){
 		int progress = 0;
 		for(int x = startX, windowX = 0; x < (startX+width); x++, windowX++){
-			if(monitor != null && progress != windowX*100/width){
+			if(monitor.isCancelled()){
+				return;
+			}
+			if(progress != windowX*100/width){
 				progress = windowX*100/width;
 				monitor.progress(progress);	
 			}

@@ -138,6 +138,7 @@ public class DWJavaFXLauncher extends Application implements ILauncher{
 		DWJavaFXProgressMonitor monitor = new DWJavaFXProgressMonitor("Loading...");
 		LongRunningTask task = new LongRunningTask(new LoadAction(fileName));
 		task.setOnSucceeded(e -> monitor.close());
+		task.setOnCancelled(e -> monitor.close());
 		monitor.bind(task);
 		new Thread(task).start();
 	}

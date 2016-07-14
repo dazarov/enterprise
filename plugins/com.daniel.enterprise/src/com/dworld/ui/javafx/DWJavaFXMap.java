@@ -32,6 +32,7 @@ public class DWJavaFXMap {
 		} );
 		DWJavaFXProgressMonitor monitor = new DWJavaFXProgressMonitor("Map creating...");
 		task.setOnSucceeded(e -> {monitor.close();doMap();});
+		task.setOnCancelled(e -> monitor.close());
 		monitor.bind(task);
 		new Thread(task).start();
 	}
@@ -169,7 +170,10 @@ public class DWJavaFXMap {
 	static void drawImage(PixelWriter writer, int startX, int startY, int width, int height, IProgressMonitor monitor){
 		int progress = 0;
 		for(int x = startX, windowX = 0; x < (startX+width); x++, windowX++){
-			if(monitor != null && progress != windowX*100/width){
+			if(monitor.isCancelled()){
+				return;
+			}
+			if(progress != windowX*100/width){
 				progress = windowX*100/width;
 				monitor.progress(progress);	
 			}

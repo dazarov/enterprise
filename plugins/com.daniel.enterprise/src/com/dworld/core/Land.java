@@ -907,6 +907,9 @@ public class Land {
 			int heroY = readInt(stream);
 			
 			for (int x = 0; x < DWConstants.MAX_X; x++) {
+				if(progressMonitor.isCancelled()){
+					return;
+				}
 				if(progress != x*100/DWConstants.MAX_X){
 					progress = x*100/DWConstants.MAX_X;
 					progressMonitor.progress(progress);	
