@@ -1,5 +1,4 @@
 package com.daniel.blog.model;
 
-public class Advertisement {
-	private int id;
+public class Advertisement extends AbstractEntity{
 }

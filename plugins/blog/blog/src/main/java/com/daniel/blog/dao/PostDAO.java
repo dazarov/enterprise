@@ -6,5 +6,5 @@ import com.daniel.blog.model.Post;
 
 public interface PostDAO {
 	void save(Post post);
-	List<Post> list();
+	List<Post> list(int start, int limit);
 }

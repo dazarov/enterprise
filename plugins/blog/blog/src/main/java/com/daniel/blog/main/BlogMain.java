@@ -19,7 +19,7 @@ public class BlogMain {
 		
 		System.out.println("Post::"+post);
 		
-		List<Post> list = postDAO.list();
+		List<Post> list = postDAO.list(1,1);
 		
 		for(Post p : list){
 			System.out.println("Post List::"+p);

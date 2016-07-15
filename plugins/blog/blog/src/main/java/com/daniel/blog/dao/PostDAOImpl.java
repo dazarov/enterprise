@@ -2,6 +2,7 @@ package com.daniel.blog.dao;
 
 import java.util.List;
 
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -26,9 +27,12 @@ public class PostDAOImpl implements PostDAO{
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Post> list() {
+	public List<Post> list(int start, int limit) {
 		Session session = this.sessionFactory.openSession();
-		List<Post> postList = session.createQuery("from Post").list();
+		Query query = session.createQuery("from POSTS");
+		query.setFirstResult(start);
+		query.setMaxResults(limit);
+		List<Post> postList = query.list();
 		session.close();
 		return postList;
 	}

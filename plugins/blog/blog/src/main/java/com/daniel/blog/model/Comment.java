@@ -1,9 +1,19 @@
 package com.daniel.blog.model;
 
-import java.time.LocalDateTime;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
-public class Comment {
-	private int id;
+@Entity
+@Table(name="COMMENTS")
+public class Comment extends BlogEntry{
+	@Column(name="USER_ID")
 	private User user;
-	private LocalDateTime dateTime;
+	
+	@ManyToOne
+    @JoinColumn(name="ENTRY_ID", nullable=false)
+    public Entity entry;
+	
 }
