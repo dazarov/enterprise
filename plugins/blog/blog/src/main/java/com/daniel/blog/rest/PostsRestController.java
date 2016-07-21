@@ -67,7 +67,7 @@ public class PostsRestController {
 
 	@RequestMapping(value = "/posts/", method = RequestMethod.POST)
     public ResponseEntity<Void> createUser(@RequestBody Post post,    UriComponentsBuilder ucBuilder) {
-        System.out.println("Creating Post " + post.getSubjectEn());
+        System.out.println("Creating Post " + post.getSubject());
  
         postDAO.save(post);
  

@@ -3,7 +3,10 @@ package com.daniel.blog.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.AttributeConverter;
+import javax.persistence.Basic;
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
@@ -18,23 +21,19 @@ public class Post extends CommentableBlogEntry{
 	
 	// Fields
 	
-	@Column(name="SUBJECT_EN")
-	private String subjectEn;
+	@Column(name="LANGUAGE")
+	@Basic
+	@Convert(converter = LanguageConverter.class)
+	private Language language;
 	
-	@Column(name="SUBJECT_RU")
-	private String subjectRu;
+	@Column(name="SUBJECT")
+	private String subject;
 	
-	@Column(name="SHORT_EN")
-	private String shortEn;
+	@Column(name="DESCRIPTION")
+	private String description;
 	
-	@Column(name="SHORT_RU")
-	private String shortRu;
-	
-	@Column(name="BODY_EN")
-	private String bodyEn;
-	
-	@Column(name="BODY_RU")
-	private String bodyRu;
+	@Column(name="BODY")
+	private String body;
 	
 	@ManyToOne
     @JoinColumn(name="USER_ID", nullable=true)
@@ -49,55 +48,70 @@ public class Post extends CommentableBlogEntry{
 	
 	// Methods
 	
-	public String getSubjectEn(){
-		return subjectEn;
+	public void setLanguage(Language language){
+		this.language = language;
 	}
 	
-	public void setSubjectEn(String subjectEn){
-		this.subjectEn = subjectEn;
+	public Language getLanguage(){
+		return language;
+	}
+	
+	public String getSubject(){
+		return subject;
+	}
+	
+	public void setSubject(String subject){
+		this.subject = subject;
 	}
 
-	public String getSubjectRu(){
-		return subjectRu;
+	
+	public String getDescription(){
+		return description;
 	}
 	
-	public void setSubjectRu(String subjectRu){
-		this.subjectRu = subjectRu;
-	}
-	
-	public String getShortEn(){
-		return shortEn;
-	}
-	
-	public void setShortEn(String shortEn){
-		this.shortEn = shortEn;
+	public void setDescription(String description){
+		this.description = description;
 	}
 
-	public String getShortRu(){
-		return shortRu;
+
+	public String getBody(){
+		return body;
 	}
 	
-	public void setShortRu(String shortRu){
-		this.shortRu = shortRu;
+	public void setBody(String body){
+		this.body = body;
+	}
+	
+	public void setUser(User user){
+		this.user = user;
+	}
+	
+	public User getUser(){
+		return user;
 	}
 
-	public String getBodyEn(){
-		return bodyEn;
-	}
-	
-	public void setBodyEn(String bodyEn){
-		this.bodyEn = bodyEn;
-	}
-
-	public String getBodyRu(){
-		return bodyRu;
-	}
-	
-	public void setBodyRu(String bodyRu){
-		this.bodyRu = bodyRu;
-	}
-	
-	public List<Photo> getPotos(){
+	public List<Photo> getPhotos(){
 		return photos;
 	}
+	
+	public static class LanguageConverter implements AttributeConverter<Integer, Language>{
+
+		@Override
+		public Language convertToDatabaseColumn(Integer id) {
+			if(id == null){
+				return null;
+			}
+			return Language.byId(id);
+		}
+
+		@Override
+		public Integer convertToEntityAttribute(Language language) {
+			if(language == null){
+				return null;
+			}
+			return language.getId();
+		}
+		
+	}
+	
 }

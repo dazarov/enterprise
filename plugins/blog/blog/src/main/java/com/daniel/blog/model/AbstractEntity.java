@@ -2,7 +2,10 @@ package com.daniel.blog.model;
 
 import java.time.LocalDateTime;
 
+import javax.persistence.AttributeConverter;
+import javax.persistence.Basic;
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -25,6 +28,8 @@ public abstract class AbstractEntity {
 	private LocalDateTime dateTime;
 	
 	@Column(name="STATUS")
+	@Basic
+	@Convert(converter = StatusConverter.class)
 	private Status status;
 	
 	@Column(name="NUMBER_OF_VISITS")
@@ -82,5 +87,25 @@ public abstract class AbstractEntity {
 		}
 		AbstractEntity other = (AbstractEntity)obj;
 		return this.id == other.id;
+	}
+	
+	public static class StatusConverter implements AttributeConverter<Integer, Status>{
+
+		@Override
+		public Status convertToDatabaseColumn(Integer id) {
+			if(id == null){
+				return null;
+			}
+			return Status.byId(id);
+		}
+
+		@Override
+		public Integer convertToEntityAttribute(Status status) {
+			if(status == null){
+				return null;
+			}
+			return status.getId();
+		}
+		
 	}
 }

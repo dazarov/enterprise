@@ -2,7 +2,7 @@ package com.daniel.blog.dao;
 
 import java.util.List;
 
-import org.hibernate.Query;
+import org.hibernate.query.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -27,10 +27,10 @@ public class PostDAO{
 	@SuppressWarnings("unchecked")
 	public List<Post> list(int start, int limit) {
 		Session session = this.sessionFactory.openSession();
-		Query query = session.createQuery("from POSTS");
+		Query<Post> query = session.createQuery("from POSTS");
 		query.setFirstResult(start);
 		query.setMaxResults(limit);
-		List<Post> postList = query.list();
+		List<Post> postList = query.getResultList();
 		session.close();
 		return postList;
 	}
@@ -62,14 +62,28 @@ public class PostDAO{
 			session.close();
 			return false;
 		}
-		post.setSubjectEn(p.getSubjectEn());
-        post.setSubjectRu(p.getSubjectRu());
+		
+		post.getPhotos().clear();
+		post.getPhotos().addAll(p.getPhotos());
+		
+		post.getComments().clear();
+		post.getComments().addAll(p.getComments());
+		
+		post.setUser(p.getUser());
+		
+		post.setDateTime(p.getDateTime());
+		
+		post.setVisited(p.getVisited());
+		
+		post.setStatus(p.getStatus());
+		
+		post.setLanguage(p.getLanguage());
+		
+		post.setSubject(p.getSubject());
 
-        post.setShortEn(p.getShortEn());
-        post.setShortRu(p.getShortRu());
+        post.setDescription(p.getDescription());
 
-        post.setBodyEn(p.getBodyEn());
-        post.setBodyRu(p.getBodyRu());
+        post.setBody(p.getBody());
         
         session.getTransaction().commit();
 		
