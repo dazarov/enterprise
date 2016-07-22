@@ -1,8 +1,11 @@
 package com.daniel.blog.model;
 
 public enum Language {
-	RUSSIAN(0),
-	ENGLISH(1)
+	UNKNOWN(0),
+	RUSSIAN(1),
+	ENGLISH(2),
+	SPANISH(3),
+	FRANCH(4)
 	;
 
 	private int id;

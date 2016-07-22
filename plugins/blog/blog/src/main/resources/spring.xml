@@ -21,7 +21,13 @@
 		<property name="dataSource" ref="dataSource" />
 		<property name="annotatedClasses">
 			<list>
-				<value>com.journaldev.model.Person</value>
+				<value>com.daniel.blog.model.AbstractEntity</value>
+				<value>com.daniel.blog.model.User</value>
+				<value>com.daniel.blog.model.PhotoImage</value>
+				<value>com.daniel.blog.model.CommentableBlogEntry</value>
+				<value>com.daniel.blog.model.Post</value>
+				<value>com.daniel.blog.model.Photo</value>
+				<value>com.daniel.blog.model.Comment</value>
 			</list>
 		</property>
 		<property name="hibernateProperties">

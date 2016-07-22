@@ -3,13 +3,17 @@ package com.daniel.blog.dao;
 import java.util.List;
 
 import org.hibernate.query.Query;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 import com.daniel.blog.model.Post;
 
+@Component
 public class PostDAO{
+	@Autowired
 	private SessionFactory sessionFactory;
 	
 	public void setSessionFactory(SessionFactory sessionFactory){
@@ -63,15 +67,15 @@ public class PostDAO{
 			return false;
 		}
 		
-		post.getPhotos().clear();
-		post.getPhotos().addAll(p.getPhotos());
+		post.getImages().clear();
+		post.getImages().addAll(p.getImages());
 		
 		post.getComments().clear();
 		post.getComments().addAll(p.getComments());
 		
 		post.setUser(p.getUser());
 		
-		post.setDateTime(p.getDateTime());
+		post.setCreationTime(p.getCreationTime());
 		
 		post.setVisited(p.getVisited());
 		

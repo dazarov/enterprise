@@ -3,10 +3,7 @@ package com.daniel.blog.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.AttributeConverter;
-import javax.persistence.Basic;
 import javax.persistence.Column;
-import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
@@ -20,11 +17,6 @@ import javax.persistence.Table;
 public class Post extends CommentableBlogEntry{
 	
 	// Fields
-	
-	@Column(name="LANGUAGE")
-	@Basic
-	@Convert(converter = LanguageConverter.class)
-	private Language language;
 	
 	@Column(name="SUBJECT")
 	private String subject;
@@ -40,21 +32,14 @@ public class Post extends CommentableBlogEntry{
 	private User user;
 	
 	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "POST_PHOTO",
+	@JoinTable(name = "POST_IMAGE",
 		joinColumns = {@JoinColumn(name="POST_ID")},
-		inverseJoinColumns = {@JoinColumn(name="PHOTO_ID")}
+		inverseJoinColumns = {@JoinColumn(name="IMAGE_ID")}
 	)
-	private List<Photo> photos = new ArrayList<>();
+	private List<PhotoImage> images = new ArrayList<>();
 	
 	// Methods
 	
-	public void setLanguage(Language language){
-		this.language = language;
-	}
-	
-	public Language getLanguage(){
-		return language;
-	}
 	
 	public String getSubject(){
 		return subject;
@@ -73,7 +58,6 @@ public class Post extends CommentableBlogEntry{
 		this.description = description;
 	}
 
-
 	public String getBody(){
 		return body;
 	}
@@ -90,28 +74,8 @@ public class Post extends CommentableBlogEntry{
 		return user;
 	}
 
-	public List<Photo> getPhotos(){
-		return photos;
-	}
-	
-	public static class LanguageConverter implements AttributeConverter<Integer, Language>{
-
-		@Override
-		public Language convertToDatabaseColumn(Integer id) {
-			if(id == null){
-				return null;
-			}
-			return Language.byId(id);
-		}
-
-		@Override
-		public Integer convertToEntityAttribute(Language language) {
-			if(language == null){
-				return null;
-			}
-			return language.getId();
-		}
-		
+	public List<PhotoImage> getImages(){
+		return images;
 	}
 	
 }

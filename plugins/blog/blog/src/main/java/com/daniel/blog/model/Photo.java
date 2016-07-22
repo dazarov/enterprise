@@ -1,14 +1,8 @@
 package com.daniel.blog.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -18,40 +12,38 @@ public class Photo extends CommentableBlogEntry{
 	
 	// Fields
 	
-	@Column(name="DESCRIPTION_EN")
-	private String descriptionEn;
+	@Column(name="LOCATION")
+	private String location;
 
-	@Column(name="DESCRIPTION_RU")
-	private String descriptionRu;
-	
-	@Column(name="IMAGE")
-	@Lob
-	private int[] image;
+	@Column(name="DESCRIPTION")
+	private String description;
 	
 	@ManyToOne
     @JoinColumn(name="USER_ID", nullable=true)
 	private User user;
-	
-	@ManyToMany(fetch = FetchType.LAZY)
-	private List<Post> posts = new ArrayList<>();
+
+	@ManyToOne
+    @JoinColumn(name="IMAGE_ID", nullable=true)
+	private PhotoImage photoImage;
 	
 	// Methods
 	
-	public void setDescriptionEn(String descriptionEn){
-		this.descriptionEn = descriptionEn;
+	public void setLocation(String location){
+		this.location = location;
+	}
+	
+	public String getLocation(){
+		return location;
 	}
 
-	public void setDescriptionRu(String descriptionRu){
-		this.descriptionRu = descriptionRu;
+	public void setDescription(String description){
+		this.description = description;
 	}
 	
-	public void setImage(int[] image){
-		this.image = image;
+	public String getDescription(){
+		return description;
 	}
 	
-	public int[] getImage(){
-		return image;
-	}
 	
 	public void setUser(User user){
 		this.user = user;
@@ -61,7 +53,12 @@ public class Photo extends CommentableBlogEntry{
 		return user;
 	}
 	
-	public List<Post> getPosts(){
-		return posts;
+	public void setImage(PhotoImage image){
+		this.photoImage = image;
 	}
+
+	public PhotoImage getImage(){
+		return photoImage;
+	}
+	
 }

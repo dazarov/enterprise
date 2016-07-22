@@ -3,8 +3,11 @@ package com.daniel.blog.dao;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.stereotype.Component;
+
 import com.daniel.blog.model.User;
 
+@Component
 public class UserDAO {
 	public List<User> findAllUsers(){
 		return new ArrayList<User>();
