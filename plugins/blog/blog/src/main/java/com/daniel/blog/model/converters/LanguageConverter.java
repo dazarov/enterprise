@@ -6,10 +6,10 @@ import javax.persistence.Converter;
 import com.daniel.blog.model.Language;
 
 @Converter
-public class LanguageConverter implements AttributeConverter<Integer, Language>{
+public class LanguageConverter implements AttributeConverter<Language, Integer>{
 
 	@Override
-	public Language convertToDatabaseColumn(Integer id) {
+	public Language convertToEntityAttribute(Integer id) {
 		if(id == null){
 			return null;
 		}
@@ -17,7 +17,7 @@ public class LanguageConverter implements AttributeConverter<Integer, Language>{
 	}
 
 	@Override
-	public Integer convertToEntityAttribute(Language language) {
+	public Integer convertToDatabaseColumn(Language language) {
 		if(language == null){
 			return null;
 		}

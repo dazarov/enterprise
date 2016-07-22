@@ -21,9 +21,6 @@ public class PhotoImage extends AbstractEntity{
 	@Lob
 	private int[] image;
 	
-	@ManyToMany(fetch = FetchType.LAZY)
-	private List<Post> posts = new ArrayList<>();
-	
 	@OneToMany(fetch = FetchType.LAZY)
 	private List<Photo> photos = new ArrayList<>();
 	
@@ -35,10 +32,6 @@ public class PhotoImage extends AbstractEntity{
 	
 	public int[] getImage(){
 		return image;
-	}
-	
-	public List<Post> getPosts(){
-		return posts;
 	}
 	
 	public List<Photo> getPhotos(){

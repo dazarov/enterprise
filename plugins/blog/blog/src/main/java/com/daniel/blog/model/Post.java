@@ -3,6 +3,7 @@ package com.daniel.blog.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -31,7 +32,7 @@ public class Post extends CommentableBlogEntry{
     @JoinColumn(name="USER_ID", nullable=true)
 	private User user;
 	
-	@ManyToMany(fetch = FetchType.LAZY)
+	@ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	@JoinTable(name = "POST_IMAGE",
 		joinColumns = {@JoinColumn(name="POST_ID")},
 		inverseJoinColumns = {@JoinColumn(name="IMAGE_ID")}
@@ -76,6 +77,11 @@ public class Post extends CommentableBlogEntry{
 
 	public List<PhotoImage> getImages(){
 		return images;
+	}
+	
+	@Override
+	public String toString(){
+		return "Post ["+subject+"]";
 	}
 	
 }

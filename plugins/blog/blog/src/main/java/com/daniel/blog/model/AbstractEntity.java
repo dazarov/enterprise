@@ -23,7 +23,6 @@ public abstract class AbstractEntity {
 	private Long id;
 	
 	@Column(name="CREATION_TIME")
-	//@Temporal(TemporalType.TIMESTAMP)
 	private LocalDateTime creationTime;
 	
 	@Column(name="STATUS")

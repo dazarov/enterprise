@@ -6,10 +6,10 @@ import javax.persistence.Converter;
 import com.daniel.blog.model.Status;
 
 @Converter
-public class StatusConverter implements AttributeConverter<Integer, Status>{
+public class StatusConverter implements AttributeConverter<Status, Integer>{
 
 	@Override
-	public Status convertToDatabaseColumn(Integer id) {
+	public Status convertToEntityAttribute(Integer id) {
 		if(id == null){
 			return null;
 		}
@@ -17,7 +17,7 @@ public class StatusConverter implements AttributeConverter<Integer, Status>{
 	}
 
 	@Override
-	public Integer convertToEntityAttribute(Status status) {
+	public Integer convertToDatabaseColumn(Status status) {
 		if(status == null){
 			return null;
 		}

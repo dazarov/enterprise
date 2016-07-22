@@ -1,0 +1,28 @@
+{
+  "name": "Photo_Blog",
+  "version": "0.0.3",
+  "author": "Daniel Azarov <danwagtail@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "scripts": {
+    "preinstall": "npm install bower@1.4.1 -g; npm install grunt-cli@0.1.13 -g; npm install http-server@0.8.0 -g",
+    "install": "bower install",
+    "postinstall": "grunt __postinstall__",
+    "prestart": "grunt default",
+    "start": "node --harmony ./build/server.js"
+  },
+  "directories": {
+    "source": "source",
+    "build": "build"
+  },
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-contrib-clean": "^0.6.0",
+    "grunt-contrib-copy": "^0.8.0"
+  },
+  "dependencies": {
+    "express": "~4.13.3"
+  }
+}

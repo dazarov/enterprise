@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.daniel</groupId>
-  <artifactId>blog</artifactId>
+  <artifactId>PhotoBlogAngularJS</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>jar</packaging>
 
@@ -20,7 +20,17 @@
           <target>1.8</target>
         </configuration>
       </plugin>
+      <plugin>
+	      <groupId>org.apache.maven.plugins</groupId>
+	      <artifactId>maven-war-plugin</artifactId>
+	      <configuration>
+	          <warSourceDirectory>src/main/webapp/build</warSourceDirectory>
+	          <warName>PhotoBlogAngularJS</warName>
+	          <failOnMissingWebXml>false</failOnMissingWebXml>
+	      </configuration>
+	  </plugin>
   	</plugins>
+  	<finalName>PhotoBlogAngularJS</finalName>
   </build>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

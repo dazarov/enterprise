@@ -5,7 +5,7 @@ public enum Language {
 	RUSSIAN(1),
 	ENGLISH(2),
 	SPANISH(3),
-	FRANCH(4)
+	FRENCH(4)
 	;
 
 	private int id;
