@@ -43,4 +43,19 @@
 	<bean id="postDAO" class="com.daniel.blog.dao.PostDAO">
 		<property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
 	</bean>
+	<bean id="userDAO" class="com.daniel.blog.dao.UserDAO">
+		<property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
+	</bean>
+	<bean id="advertDAO" class="com.daniel.blog.dao.AdvertDAO">
+		<property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
+	</bean>
+	<bean id="commentDAO" class="com.daniel.blog.dao.CommentDAO">
+		<property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
+	</bean>
+	<bean id="photoDAO" class="com.daniel.blog.dao.PhotoDAO">
+		<property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
+	</bean>
+	<bean id="imageDAO" class="com.daniel.blog.dao.PhotoImageDAO">
+		<property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
+	</bean>
 </beans>

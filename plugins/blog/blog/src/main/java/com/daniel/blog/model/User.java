@@ -25,13 +25,7 @@ public class User extends AbstractEntity{
 	private String password;
 	
 	@OneToMany(fetch = FetchType.LAZY)
-	private List<Post> posts = new ArrayList<>();
-	
-	@OneToMany(fetch = FetchType.LAZY)
-	private List<Photo> photos = new ArrayList<>();
-	
-	@OneToMany(fetch = FetchType.LAZY)
-	private List<Comment> comments = new ArrayList<>();
+	private List<CommentableBlogEntry> blogEntries = new ArrayList<>();
 	
 	// Methods
 	
@@ -59,16 +53,8 @@ public class User extends AbstractEntity{
 		return password;
 	}
 	
-	public List<Post> getPosts(){
-		return posts;
-	}
-	
-	public List<Photo> getPhotos(){
-		return photos;
-	}
-
-	public List<Comment> getComments(){
-		return comments;
+	public List<CommentableBlogEntry> getBlogEntries(){
+		return blogEntries;
 	}
 	
 }

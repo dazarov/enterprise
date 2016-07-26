@@ -18,9 +18,9 @@ public class Photo extends CommentableBlogEntry{
 	@Column(name="DESCRIPTION")
 	private String description;
 	
-	@ManyToOne
-    @JoinColumn(name="USER_ID", nullable=true)
-	private User user;
+//	@ManyToOne
+//    @JoinColumn(name="USER_ID", nullable=true)
+//	private User user;
 
 	@ManyToOne
     @JoinColumn(name="IMAGE_ID", nullable=true)
@@ -42,15 +42,6 @@ public class Photo extends CommentableBlogEntry{
 	
 	public String getDescription(){
 		return description;
-	}
-	
-	
-	public void setUser(User user){
-		this.user = user;
-	}
-	
-	public User getUser(){
-		return user;
 	}
 	
 	public void setImage(PhotoImage image){

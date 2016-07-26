@@ -19,7 +19,7 @@ public abstract class AbstractEntity {
 	
 	@Id
 	@Column(name="ID")
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.TABLE)
 	private Long id;
 	
 	@Column(name="CREATION_TIME")
@@ -80,9 +80,9 @@ public abstract class AbstractEntity {
 		if(id == null){
 			return super.equals(obj);
 		}
-		if(!(obj instanceof AbstractEntity)){
-			return false;
-		}
+		if ( obj == null || getClass() != obj.getClass() ) {
+            return false;
+        }
 		AbstractEntity other = (AbstractEntity)obj;
 		return this.id == other.id;
 	}

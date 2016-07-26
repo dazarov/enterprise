@@ -7,12 +7,11 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Lob;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="PHOTO_IMAGE")
+@Table(name="IMAGE")
 public class PhotoImage extends AbstractEntity{
 	
 	// Fields
@@ -32,10 +31,6 @@ public class PhotoImage extends AbstractEntity{
 	
 	public int[] getImage(){
 		return image;
-	}
-	
-	public List<Photo> getPhotos(){
-		return photos;
 	}
 	
 }

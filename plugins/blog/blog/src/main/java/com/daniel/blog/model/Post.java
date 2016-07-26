@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.ForeignKey;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -28,9 +29,7 @@ public class Post extends CommentableBlogEntry{
 	@Column(name="BODY")
 	private String body;
 	
-	@ManyToOne
-    @JoinColumn(name="USER_ID", nullable=true)
-	private User user;
+	
 	
 	@ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	@JoinTable(name = "POST_IMAGE",
@@ -67,13 +66,6 @@ public class Post extends CommentableBlogEntry{
 		this.body = body;
 	}
 	
-	public void setUser(User user){
-		this.user = user;
-	}
-	
-	public User getUser(){
-		return user;
-	}
 
 	public List<PhotoImage> getImages(){
 		return images;

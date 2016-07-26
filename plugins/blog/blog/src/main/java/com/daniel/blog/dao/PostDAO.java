@@ -31,7 +31,7 @@ public class PostDAO{
 	@SuppressWarnings("unchecked")
 	public List<Post> list(int start, int limit) {
 		Session session = this.sessionFactory.openSession();
-		Query<Post> query = session.createQuery("from POSTS");
+		Query<Post> query = session.createQuery("FROM Post");
 		query.setFirstResult(start);
 		query.setMaxResults(limit);
 		List<Post> postList = query.getResultList();
@@ -49,7 +49,6 @@ public class PostDAO{
 		}
 		session.close();
 		return post;
-		
 	}
 	
 	public boolean update(Post p){

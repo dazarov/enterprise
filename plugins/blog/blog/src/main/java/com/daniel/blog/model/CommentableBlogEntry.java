@@ -4,20 +4,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Convert;
-import javax.persistence.FetchType;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.Entity;
+import javax.persistence.ForeignKey;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 import com.daniel.blog.model.converters.LanguageConverter;
 
-@MappedSuperclass
-public abstract class CommentableBlogEntry extends AbstractEntity {
+@Entity
+@Table(name="COMMENTABLE")
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+public class CommentableBlogEntry extends AbstractEntity {
 	
 	// Fields
 	
-	@OneToMany(fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "blogEntry", cascade = CascadeType.ALL, orphanRemoval = false)
 	List<Comment> comments = new ArrayList<>();
 	
 	@Column(name="LANGUAGE")
@@ -25,10 +33,24 @@ public abstract class CommentableBlogEntry extends AbstractEntity {
 	@Convert(converter = LanguageConverter.class)
 	private Language language;
 	
+	@ManyToOne
+    @JoinColumn(name="USER_ID", nullable=true, foreignKey = @ForeignKey(name = "USER_ID"))
+	private User user;
+	
 	// Methods
 	
 	public List<Comment> getComments(){
 		return comments;
+	}
+	
+	public void addComment(Comment comment){
+		comments.add(comment);
+		comment.setBlogEntry(this);
+	}
+	
+	public void removeComment(Comment comment){
+		comments.remove(comment);
+		comment.setBlogEntry(null);
 	}
 	
 	public void setLanguage(Language language){
@@ -37,6 +59,14 @@ public abstract class CommentableBlogEntry extends AbstractEntity {
 	
 	public Language getLanguage(){
 		return language;
+	}
+	
+	public void setUser(User user){
+		this.user = user;
+	}
+	
+	public User getUser(){
+		return user;
 	}
 
 }
