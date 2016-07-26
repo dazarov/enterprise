@@ -1,7 +1,7 @@
 package com.daniel.blog.model;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -21,7 +21,7 @@ public class PhotoImage extends AbstractEntity{
 	private int[] image;
 	
 	@OneToMany(fetch = FetchType.LAZY)
-	private List<Photo> photos = new ArrayList<>();
+	private Set<Photo> photos = new TreeSet<>();
 	
 	// Methods
 
@@ -31,6 +31,10 @@ public class PhotoImage extends AbstractEntity{
 	
 	public int[] getImage(){
 		return image;
+	}
+	
+	public Set<Photo> getPhotos(){
+		return photos;
 	}
 	
 }

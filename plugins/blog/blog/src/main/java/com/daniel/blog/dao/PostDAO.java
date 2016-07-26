@@ -29,11 +29,20 @@ public class PostDAO{
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Post> list(int start, int limit) {
+	public List<Post> list(int start, int number) {
 		Session session = this.sessionFactory.openSession();
 		Query<Post> query = session.createQuery("FROM Post");
 		query.setFirstResult(start);
-		query.setMaxResults(limit);
+		query.setMaxResults(number);
+		List<Post> postList = query.getResultList();
+		session.close();
+		return postList;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Post> list() {
+		Session session = this.sessionFactory.openSession();
+		Query<Post> query = session.createQuery("FROM Post");
 		List<Post> postList = query.getResultList();
 		session.close();
 		return postList;
@@ -108,6 +117,23 @@ public class PostDAO{
 		session.getTransaction().commit();
 		session.close();
 		return true;
+	}
+	
+	public boolean delete(Post post){
+		Session session = this.sessionFactory.openSession();
+		session.beginTransaction();
+		session.delete(post);
+		System.out.println("Deleted Successfully");
+		session.getTransaction().commit();
+		session.close();
+		return true;
+	}
+	
+	public void deleteAllPosts(){
+		List<Post> posts = list();
+		for(Post post : posts){
+			delete(post);
+		}
 	}
 
 }

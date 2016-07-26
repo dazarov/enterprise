@@ -1,4 +1,8 @@
-/* command line - mysql -u root -p */
+/*
+ * command line:
+ * start mySQL - mysql -u root -p
+ * run script - source setup.sql;
+ * */
 
 CREATE database PhotoBlog;
 create user 'testUser'@'localhost' identified by 'testPassword';

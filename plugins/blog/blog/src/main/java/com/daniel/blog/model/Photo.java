@@ -52,4 +52,8 @@ public class Photo extends CommentableBlogEntry{
 		return photoImage;
 	}
 	
+	@Override
+	public String toString(){
+		return "Photo [Description:"+description+", Location:"+location+"]";
+	}
 }

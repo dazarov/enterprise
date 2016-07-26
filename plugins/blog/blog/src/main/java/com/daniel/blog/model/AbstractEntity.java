@@ -13,7 +13,7 @@ import javax.persistence.MappedSuperclass;
 import com.daniel.blog.model.converters.StatusConverter;
 
 @MappedSuperclass
-public abstract class AbstractEntity {
+public abstract class AbstractEntity implements Comparable<AbstractEntity>{
 	
 	// Fields
 	
@@ -37,10 +37,6 @@ public abstract class AbstractEntity {
 	
 	public long getId(){
 		return id;
-	}
-	
-	public void setId(long id){
-		this.id = id;
 	}
 	
 	public LocalDateTime getCreationTime(){
@@ -85,5 +81,10 @@ public abstract class AbstractEntity {
         }
 		AbstractEntity other = (AbstractEntity)obj;
 		return this.id == other.id;
+	}
+	
+	@Override
+	public int compareTo(AbstractEntity other){
+		return (int)(this.id - other.id);
 	}
 }

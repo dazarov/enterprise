@@ -1,7 +1,7 @@
 package com.daniel.blog.model;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -26,7 +26,7 @@ public class CommentableBlogEntry extends AbstractEntity {
 	// Fields
 	
 	@OneToMany(mappedBy = "blogEntry", cascade = CascadeType.ALL, orphanRemoval = false)
-	List<Comment> comments = new ArrayList<>();
+	Set<Comment> comments = new TreeSet<>();
 	
 	@Column(name="LANGUAGE")
 	@Basic
@@ -39,7 +39,7 @@ public class CommentableBlogEntry extends AbstractEntity {
 	
 	// Methods
 	
-	public List<Comment> getComments(){
+	public Set<Comment> getComments(){
 		return comments;
 	}
 	

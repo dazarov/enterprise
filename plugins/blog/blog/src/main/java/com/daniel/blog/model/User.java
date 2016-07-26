@@ -1,7 +1,7 @@
 package com.daniel.blog.model;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -25,7 +25,7 @@ public class User extends AbstractEntity{
 	private String password;
 	
 	@OneToMany(fetch = FetchType.LAZY)
-	private List<CommentableBlogEntry> blogEntries = new ArrayList<>();
+	private Set<CommentableBlogEntry> blogEntries = new TreeSet<>();
 	
 	// Methods
 	
@@ -53,7 +53,7 @@ public class User extends AbstractEntity{
 		return password;
 	}
 	
-	public List<CommentableBlogEntry> getBlogEntries(){
+	public Set<CommentableBlogEntry> getBlogEntries(){
 		return blogEntries;
 	}
 	

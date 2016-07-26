@@ -1,7 +1,7 @@
 package com.daniel.blog.model;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -9,9 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
-import javax.persistence.ForeignKey;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -36,7 +34,7 @@ public class Post extends CommentableBlogEntry{
 		joinColumns = {@JoinColumn(name="POST_ID")},
 		inverseJoinColumns = {@JoinColumn(name="IMAGE_ID")}
 	)
-	private List<PhotoImage> images = new ArrayList<>();
+	private Set<PhotoImage> images = new TreeSet<>();
 	
 	// Methods
 	
@@ -67,13 +65,13 @@ public class Post extends CommentableBlogEntry{
 	}
 	
 
-	public List<PhotoImage> getImages(){
+	public Set<PhotoImage> getImages(){
 		return images;
 	}
 	
 	@Override
 	public String toString(){
-		return "Post ["+subject+"]";
+		return "Post [Subject:"+subject+", Description:"+description+", Body:"+body+"]";
 	}
 	
 }

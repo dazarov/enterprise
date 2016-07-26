@@ -41,38 +41,51 @@ public class AppTest
     public void testPostDAO() {
     	ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring.xml");
 		
-		PostDAO personDAO = context.getBean(PostDAO.class);
+		PostDAO postDAO = context.getBean(PostDAO.class);
 		
-		Post post = new Post();
-		post.setCreationTime(LocalDateTime.of(1980, 1, 12, 20, 30));
-		post.setStatus(Status.ENTRY_NOTPUBLISHED);
-		post.setVisited(256);
-		post.setSubject("Subject 1");
-		post.setDescription("Description 1");
-		post.setBody("Body 1");
-		post.setLanguage(Language.ENGLISH);
+		//postDAO.deleteAllPosts();
 		
-		personDAO.save(post);
-		System.out.println("Post::"+post);
+		Post post1 = new Post();
+		post1.setCreationTime(LocalDateTime.of(1980, 1, 12, 20, 30));
+		post1.setStatus(Status.ENTRY_NOTPUBLISHED);
+		post1.setVisited(256);
+		post1.setSubject("Subject 1");
+		post1.setDescription("Description 1");
+		post1.setBody("Body 1");
+		post1.setLanguage(Language.ENGLISH);
 		
-		post = new Post();
-		post.setCreationTime(LocalDateTime.of(2006, 6, 24, 15, 15));
-		post.setStatus(Status.ENTRY_PUBLIC);
-		post.setVisited(348);
-		post.setSubject("Subject 2");
-		post.setDescription("Description 2");
-		post.setBody("Body 2");
-		post.setLanguage(Language.FRENCH);
+		postDAO.save(post1);
 		
-		personDAO.save(post);
+		System.out.println("Post::"+post1);
 		
-		System.out.println("Post::"+post);
+		Post post2 = new Post();
+		post2.setCreationTime(LocalDateTime.of(2006, 6, 24, 15, 15));
+		post2.setStatus(Status.ENTRY_PUBLIC);
+		post2.setVisited(348);
+		post2.setSubject("Subject 2");
+		post2.setDescription("Description 2");
+		post2.setBody("Body 2");
+		post2.setLanguage(Language.FRENCH);
 		
-		List<Post> list = personDAO.list(0,100);
+		postDAO.save(post2);
+		
+		System.out.println("Post::"+post2);
+		
+		List<Post> list = postDAO.list(0,100);
 		
 		for(Post p : list){
 			System.out.println("Post List::"+p);
 		}
+		
+		assertEquals("Unexpected number of posts", 2, list.size());
+		
+		postDAO.delete(post1);
+		postDAO.delete(post2);
+		
+		list = postDAO.list(0,100);
+		
+		assertEquals("Unexpected number of posts", 0, list.size());
+		
 		//close resources
 		context.close();	
     }
