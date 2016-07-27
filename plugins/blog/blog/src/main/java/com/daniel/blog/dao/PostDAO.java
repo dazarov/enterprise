@@ -31,9 +31,11 @@ public class PostDAO{
 	@SuppressWarnings("unchecked")
 	public List<Post> list(int start, int number) {
 		Session session = this.sessionFactory.openSession();
-		Query<Post> query = session.createQuery("FROM Post");
-		query.setFirstResult(start);
-		query.setMaxResults(number);
+		
+		Query<Post> query = session.createQuery("FROM Post")
+			.setFirstResult(start)
+			.setMaxResults(number);
+		
 		List<Post> postList = query.getResultList();
 		session.close();
 		return postList;

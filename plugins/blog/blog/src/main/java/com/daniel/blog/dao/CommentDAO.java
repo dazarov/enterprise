@@ -31,11 +31,12 @@ public class CommentDAO {
 	@SuppressWarnings("unchecked")
 	public List<Comment> list(long blogEntryId, int start, int number) {
 		Session session = this.sessionFactory.openSession();
-		Query<Comment> query = session.createQuery("select c from Comment c where c.blogEntry.id = :blogEntryId")
-				.setParameter("blogEntryId", blogEntryId);
 		
-		query.setFirstResult(start);
-		query.setMaxResults(number);
+		Query<Comment> query = session.createQuery("select c from Comment c where c.blogEntry.id = :blogEntryId")
+			.setParameter("blogEntryId", blogEntryId)
+			.setFirstResult(start)
+			.setMaxResults(number);
+		
 		List<Comment> postList = query.getResultList();
 		session.close();
 		return postList;

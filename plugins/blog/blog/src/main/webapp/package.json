@@ -11,7 +11,8 @@
     "install": "bower install",
     "postinstall": "grunt __postinstall__",
     "prestart": "grunt default",
-    "start": "node --harmony ./build/server.js"
+    "start": "node --harmony",
+    "start_old": "node --harmony ./build/server.js"
   },
   "directories": {
     "source": "source",
