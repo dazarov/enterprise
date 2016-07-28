@@ -7,21 +7,21 @@ angular.module("photoBlog", ["ngRoute"])
 		templateUrl: "/views/home.html"
 	});
 	
-	//$routeProvider.when("/reset_password", {
-	//	templateUrl: "/views/reset_password.html"
-	//});
+	$routeProvider.when("/posts", {
+		templateUrl: "/views/posts/posts.html"
+	});
 	
-	//$routeProvider.when("/answer_questions", {
-	//	templateUrl: "/views/answer_questions.html"
-	//});
+	$routeProvider.when("/photos", {
+		templateUrl: "/views/photos/photos.html"
+	});
+
+	$routeProvider.when("/videos", {
+		templateUrl: "/views/videos/videos.html"
+	});
 	
-	//$routeProvider.when("/restore_userid", {
-	//	templateUrl: "/views/restore_userid.html"
-	//});
-	
-	//$routeProvider.when("/congrat", {
-	//	templateUrl: "/views/congrat.html"
-	//});
+	$routeProvider.when("/users", {
+		templateUrl: "/views/users/users.html"
+	});
 	
 	$routeProvider.when("/error", {
 		templateUrl: "/views/error.html"
@@ -56,9 +56,9 @@ angular.module("photoBlog", ["ngRoute"])
 	
 	$scope.error;
 	
-	$rootScope.$on( "$routeChangeStart", function(event, next, current) {
-		$scope.showFooter = next.templateUrl == "/views/home.html";
-	});
+	//$rootScope.$on( "$routeChangeStart", function(event, next, current) {
+	//	$scope.showFooter = next.templateUrl == "/views/home.html";
+	//});
 	
 	$scope.getQuestions = function(uid, email){
 		$scope.restorePassword = true;
