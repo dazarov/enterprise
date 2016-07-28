@@ -17,8 +17,7 @@ public class LinkedList<Item>{
         		next = this;
         	}else{
         		if(i == null){
-        			System.out.println("TEXT is NULL");
-        			Thread.dumpStack();
+        			throw new RuntimeException("TEXT is NULL");
         		}
 	            prev = p;
 	            prev.next = this;

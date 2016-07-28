@@ -18,8 +18,7 @@ public class FastLinkedList<Item> {
 				next = this;
 			} else {
 				if (i == null) {
-					System.out.println("TEXT is NULL");
-					Thread.dumpStack();
+					throw new RuntimeException("TEXT is NULL");
 				}
 				prev = p;
 				prev.next = this;
@@ -143,8 +142,7 @@ public class FastLinkedList<Item> {
 			nextNode.prev = prevNode;
 			size--;
 		}else{
-			System.out.println("Remove sentinel node...");
-			Thread.dumpStack();
+			throw new RuntimeException("Remove sentinel node...");
 		}
 	}
 

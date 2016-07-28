@@ -35,16 +35,14 @@ public class Replace extends Change{
 			
 			//postInsert(editor, newText.length());
 		}else{
-			System.out.println("Line is not found");
-			Thread.dumpStack();
+			throw new RuntimeException("Line is not found");
 		}
 	}
 
 	@Override
 	public void undo(Editor editor) {
 		if(oldText == null){
-			System.out.println("Illegal state of change Remove ");
-			Thread.dumpStack();
+			throw new IllegalStateException("Illegal state of change Remove ");
 		}
 		OriginalLine line = editor.getLines().get(position.getY());
 		if(line != null){
@@ -63,8 +61,7 @@ public class Replace extends Change{
 			
 			//postInsert(editor);
 		}else{
-			System.out.println("Line is not found");
-			Thread.dumpStack();
+			throw new RuntimeException("Line is not found");
 		}
 	}
 }
