@@ -46,6 +46,7 @@ public class ResizableArrayStack<E> implements Iterable<E>{
 		a = temp;
 	}
 	
+	@Override
 	public Iterator<E> iterator(){
 		return new ReverseIterator();
 	}

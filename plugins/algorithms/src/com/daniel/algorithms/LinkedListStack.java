@@ -30,6 +30,7 @@ public class LinkedListStack<E> implements Iterable<E> {
 		return item;
 	}
 	
+	@Override
 	public Iterator<E> iterator(){
 		return new LinkedListIterator();
 	}
