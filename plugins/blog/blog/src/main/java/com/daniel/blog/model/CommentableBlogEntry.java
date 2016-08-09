@@ -25,7 +25,7 @@ public class CommentableBlogEntry extends AbstractEntity {
 	
 	// Fields
 	
-	@OneToMany(mappedBy = "blogEntry", cascade = CascadeType.ALL, orphanRemoval = false)
+	@OneToMany(mappedBy = "blogEntry", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH}, orphanRemoval = false)
 	Set<Comment> comments = new TreeSet<>();
 	
 	@Column(name="LANGUAGE")

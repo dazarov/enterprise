@@ -29,7 +29,7 @@ public class Post extends CommentableBlogEntry{
 	
 	
 	
-	@ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+	@ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
 	@JoinTable(name = "POST_IMAGE",
 		joinColumns = {@JoinColumn(name="POST_ID")},
 		inverseJoinColumns = {@JoinColumn(name="IMAGE_ID")}

@@ -65,7 +65,7 @@ public class PostsRestController {
 	
 	//-------------------Create a Post--------------------------------------------------------
 
-	@RequestMapping(value = "/posts/", method = RequestMethod.POST)
+	@RequestMapping(value = "/posts/", method = RequestMethod.POST, consumes = "application/json")
     public ResponseEntity<Void> createUser(@RequestBody Post post,    UriComponentsBuilder ucBuilder) {
         System.out.println("Creating Post " + post.getSubject());
  
