@@ -1,12 +1,16 @@
 package com.daniel.blog.rest;
 
 import java.util.List;
- 
+
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +20,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.daniel.blog.dao.UserDAO;
 import com.daniel.blog.model.User;
+import com.daniel.blog.model.validators.UserValidator;
  
  
 @RestController
@@ -23,6 +28,11 @@ public class UsersRestController {
  
     @Autowired
     UserDAO userService;  //Service which will do all data retrieval/manipulation work
+    
+    @InitBinder
+    protected void initBinder(WebDataBinder binder) {
+        binder.setValidator(new UserValidator());
+    }
  
      
     //-------------------Retrieve All Users--------------------------------------------------------
@@ -55,7 +65,7 @@ public class UsersRestController {
     //-------------------Create a User--------------------------------------------------------
      
     @RequestMapping(value = "/users/", method = RequestMethod.POST)
-    public ResponseEntity<Void> createUser(@RequestBody User user,    UriComponentsBuilder ucBuilder) {
+    public ResponseEntity<Void> createUser(@RequestBody @Valid User user,    UriComponentsBuilder ucBuilder) {
         System.out.println("Creating User " + user.getName());
  
         if (userService.isUserExist(user)) {
@@ -74,7 +84,7 @@ public class UsersRestController {
     //------------------- Update a User --------------------------------------------------------
      
     @RequestMapping(value = "/users/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<User> updateUser(@PathVariable("id") long id, @RequestBody User user) {
+    public ResponseEntity<User> updateUser(@PathVariable("id") long id, @RequestBody @Valid User user) {
         System.out.println("Updating User " + id);
          
         User currentUser = userService.getUser(id);

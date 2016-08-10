@@ -12,6 +12,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import org.hibernate.validator.constraints.Length;
+
 @Entity
 @Table(name="POST")
 public class Post extends CommentableBlogEntry{
@@ -19,15 +21,16 @@ public class Post extends CommentableBlogEntry{
 	// Fields
 	
 	@Column(name="SUBJECT")
+	@Length(max = 100)
 	private String subject;
 	
 	@Column(name="DESCRIPTION")
+	@Length(max = 200)
 	private String description;
 	
 	@Column(name="BODY")
+	@Length(max = 3000)
 	private String body;
-	
-	
 	
 	@ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
 	@JoinTable(name = "POST_IMAGE",

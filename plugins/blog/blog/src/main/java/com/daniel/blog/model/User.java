@@ -9,6 +9,8 @@ import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.validator.constraints.Length;
+
 @Entity
 @Table(name="USER")
 public class User extends AbstractEntity{
@@ -16,12 +18,15 @@ public class User extends AbstractEntity{
 	// Fields
 	
 	@Column(name="NAME")
+	@Length(max = 100)
 	private String name;
 	
 	@Column(name="EMAIL")
+	@Length(max = 100)
 	private String email;
 	
 	@Column(name="PASSWORD")
+	@Length(max = 100)
 	private String password;
 	
 	@OneToMany(fetch = FetchType.LAZY)

@@ -1,5 +1,13 @@
 package com.daniel.blog.rest;
 
-public class PhotosRestController {
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 
+import com.daniel.blog.model.validators.PhotoValidator;
+
+public class PhotosRestController {
+	@InitBinder
+    protected void initBinder(WebDataBinder binder) {
+        binder.setValidator(new PhotoValidator());
+    }
 }

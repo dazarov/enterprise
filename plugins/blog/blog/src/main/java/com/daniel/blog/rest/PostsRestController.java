@@ -2,10 +2,14 @@ package com.daniel.blog.rest;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +20,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.daniel.blog.dao.PostDAO;
 import com.daniel.blog.model.Post;
+import com.daniel.blog.model.validators.PostValidator;
 
 //GET /posts       - Retrieves a list of posts
 //GET /posts?_start=20,_number=10
@@ -37,7 +42,12 @@ import com.daniel.blog.model.Post;
 public class PostsRestController {
 	
 	@Autowired
-    PostDAO postDAO; 
+    PostDAO postDAO;
+	
+	@InitBinder
+    protected void initBinder(WebDataBinder binder) {
+        binder.setValidator(new PostValidator());
+    }
 	
 	//-------------------Retrieve Page of Posts--------------------------------------------------------
 	
@@ -66,7 +76,7 @@ public class PostsRestController {
 	//-------------------Create a Post--------------------------------------------------------
 
 	@RequestMapping(value = "/posts/", method = RequestMethod.POST, consumes = "application/json")
-    public ResponseEntity<Void> createUser(@RequestBody Post post,    UriComponentsBuilder ucBuilder) {
+    public ResponseEntity<Void> createPost(@RequestBody @Valid Post post,    UriComponentsBuilder ucBuilder) {
         System.out.println("Creating Post " + post.getSubject());
  
         postDAO.save(post);
@@ -79,7 +89,7 @@ public class PostsRestController {
     //------------------- Update a Post --------------------------------------------------------
     
     @RequestMapping(value = "/posts/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<Post> updatePost(@PathVariable("id") long id, @RequestBody Post post) {
+    public ResponseEntity<Post> updatePost(@PathVariable("id") long id, @RequestBody @Valid Post post) {
         System.out.println("Updating Post " + id);
          
          
