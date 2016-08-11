@@ -18,6 +18,7 @@ public class PostDAO{
 	
 	public void setSessionFactory(SessionFactory sessionFactory){
 		this.sessionFactory = sessionFactory;
+		System.out.println("######################## com.daniel.blog.dao.PostDAO sessionFactory SET!");
 	}
 
 	public void save(Post post) {

@@ -1,6 +1,8 @@
-package com.daniel.blog.model;
+package com.daniel.blog.test.model;
 
 import org.springframework.test.util.ReflectionTestUtils;
+
+import com.daniel.blog.model.Post;
 
 public class PostBuilder {
 

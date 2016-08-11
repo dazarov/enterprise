@@ -42,11 +42,17 @@ import com.daniel.blog.model.validators.PostValidator;
 public class PostsRestController {
 	
 	@Autowired
-    PostDAO postDAO;
+    private PostDAO postDAO;
+	
+	public void setPostDAO(PostDAO postDAO){
+		this.postDAO = postDAO;
+		System.out.println("######################## com.daniel.blog.rest.PostsRestController postDAO SET!");
+	}
 	
 	@InitBinder
     protected void initBinder(WebDataBinder binder) {
         binder.setValidator(new PostValidator());
+        System.out.println("######################## com.daniel.blog.rest.PostsRestController binder SET!");
     }
 	
 	//-------------------Retrieve Page of Posts--------------------------------------------------------
@@ -65,6 +71,7 @@ public class PostsRestController {
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/posts/{id}", produces = "application/json") 
     public ResponseEntity<Post> getPost(@PathVariable("id") long id){
+		System.out.println("######################## com.daniel.blog.rest.PostsRestController getPost postDAO - "+postDAO);
 		Post post = postDAO.getPost(id);
         if (post == null) {
             System.out.println("User with id " + id + " not found");

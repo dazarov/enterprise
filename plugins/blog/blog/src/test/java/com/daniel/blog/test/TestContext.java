@@ -1,4 +1,4 @@
-package com.daniel.blog;
+package com.daniel.blog.test;
 
 import org.mockito.Mockito;
 import org.springframework.context.MessageSource;
@@ -22,7 +22,7 @@ public class TestContext {
     }
  
     @Bean
-    public PostDAO postDAO() {
+    public PostDAO postDAOMock() {
         return Mockito.mock(PostDAO.class);
     }
 }

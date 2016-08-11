@@ -40,7 +40,7 @@
 	</bean>
 
 	
-	<bean id="postDAO" class="com.daniel.blog.dao.PostDAO">
+	<!--bean id="postDAO" class="com.daniel.blog.dao.PostDAO">
 		<property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
 	</bean>
 	<bean id="userDAO" class="com.daniel.blog.dao.UserDAO">
@@ -57,5 +57,5 @@
 	</bean>
 	<bean id="imageDAO" class="com.daniel.blog.dao.PhotoImageDAO">
 		<property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
-	</bean>
+	</bean-->
 </beans>

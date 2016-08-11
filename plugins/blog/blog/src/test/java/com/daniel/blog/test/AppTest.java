@@ -1,47 +1,37 @@
-package com.daniel.blog;
+package com.daniel.blog.test;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.junit.Assert;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.daniel.blog.dao.PostDAO;
 import com.daniel.blog.model.Language;
 import com.daniel.blog.model.Post;
 import com.daniel.blog.model.Status;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = {PersistenceContext.class})
+public class AppTest {
+	
+	@Autowired
+    private PostDAO postDAO;
+	
+	public void setPostDAO(PostDAO postDAO){
+		this.postDAO = postDAO;
+		System.out.println("######################## com.daniel.blog.rest.PostsRestController postDAO SET!");
+	}
 
-/**
- * Unit test for simple App.
- */
-public class AppTest 
-    extends TestCase
-{
-    /**
-     * Create the test case
-     *
-     * @param testName name of the test case
-     */
-    public AppTest( String testName )
-    {
-        super( testName );
-    }
-
-    /**
-     * @return the suite of tests being tested
-     */
-    public static Test suite()
-    {
-        return new TestSuite( AppTest.class );
-    }
-
+	@Test
     public void testPostDAO() {
-    	ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring.xml");
+    	//ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring.xml");
 		
-		PostDAO postDAO = context.getBean(PostDAO.class);
+		//PostDAO postDAO = context.getBean(PostDAO.class);
 		
 		//postDAO.deleteAllPosts();
 		
@@ -77,17 +67,17 @@ public class AppTest
 			System.out.println("Post List::"+p);
 		}
 		
-		assertEquals("Unexpected number of posts", 2, list.size());
+		Assert.assertEquals("Unexpected number of posts", 2, list.size());
 		
 		postDAO.delete(post1);
 		postDAO.delete(post2);
 		
 		list = postDAO.list(0,100);
 		
-		assertEquals("Unexpected number of posts", 0, list.size());
+		Assert.assertEquals("Unexpected number of posts", 0, list.size());
 		
 		//close resources
-		context.close();	
+		//context.close();	
     }
     
     public void testUserDAO(){

@@ -1,4 +1,4 @@
-package com.daniel.blog;
+package com.daniel.blog.test;
 
 import java.io.IOException;
 import java.nio.charset.Charset;

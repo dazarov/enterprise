@@ -1,4 +1,4 @@
-package com.daniel.blog;
+package com.daniel.blog.test;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -17,8 +17,7 @@ import java.util.Properties;
 @Configuration
 @EnableWebMvc
 @ComponentScan(basePackages = {
-        "net.petrikainulainen.spring.testmvc.common.controller",
-        "net.petrikainulainen.spring.testmvc.todo.controller"
+        "com.daniel.blog"
 })
 public class WebAppContext extends WebMvcConfigurerAdapter {
  

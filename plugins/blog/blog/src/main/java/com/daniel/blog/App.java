@@ -5,17 +5,14 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.ImportResource;
 
-/**
- * Hello world!
- *
- */
+
 @Configuration
 @ComponentScan
 @EnableAutoConfiguration
 @SpringBootApplication
-@ImportResource("spring.xml")
+//@ContextConfiguration(classes = {PersistenceContext.class})
+//@ImportResource("spring.xml")
 public class App {
 
 

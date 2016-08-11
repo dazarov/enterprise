@@ -1,4 +1,4 @@
-package com.daniel.blog;
+package com.daniel.blog.test;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -14,7 +14,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import com.daniel.blog.dao.PostDAO;
 import com.daniel.blog.model.Post;
-import com.daniel.blog.model.PostBuilder;
+import com.daniel.blog.test.model.PostBuilder;
 
 import static junit.framework.Assert.assertNull;
 import static org.hamcrest.Matchers.is;
