@@ -1,4 +1,4 @@
-package com.daniel.blog.dao;
+package com.daniel.blog.dao.impl;
 
 import java.util.List;
 
@@ -9,18 +9,22 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
+import com.daniel.blog.annotations.Loggable;
+import com.daniel.blog.dao.PostDAO;
 import com.daniel.blog.model.Post;
 
 @Component
 public class PostDAOImpl implements PostDAO{
+
 	@Autowired
 	SessionFactory sessionFactory;
 	
+	@Loggable
 	public void setSessionFactory(SessionFactory sessionFactory){
 		this.sessionFactory = sessionFactory;
-		System.out.println("######################## com.daniel.blog.dao.PostDAO sessionFactory SET!");
 	}
 
+	@Loggable
 	@Override
 	public void save(Post post) {
 		Session session = this.sessionFactory.openSession();
@@ -30,6 +34,7 @@ public class PostDAOImpl implements PostDAO{
 		session.close();
 	}
 
+	@Loggable
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Post> list(int start, int number) {
@@ -44,6 +49,7 @@ public class PostDAOImpl implements PostDAO{
 		return postList;
 	}
 	
+	@Loggable
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Post> list() {
@@ -54,6 +60,7 @@ public class PostDAOImpl implements PostDAO{
 		return postList;
 	}
 
+	@Loggable
 	@Override
 	public Post getPost(long id){
 		Session session = this.sessionFactory.openSession();
@@ -67,6 +74,7 @@ public class PostDAOImpl implements PostDAO{
 		return post;
 	}
 	
+	@Loggable
 	@Override
 	public boolean update(Post p){
 		Session session = this.sessionFactory.openSession();
@@ -111,6 +119,7 @@ public class PostDAOImpl implements PostDAO{
 		return false;
 	}
 	
+	@Loggable
 	@Override
 	public boolean delete(long id){
 		Session session = this.sessionFactory.openSession();
@@ -128,6 +137,7 @@ public class PostDAOImpl implements PostDAO{
 		return true;
 	}
 	
+	@Loggable
 	@Override
 	public boolean delete(Post post){
 		Session session = this.sessionFactory.openSession();
@@ -139,6 +149,7 @@ public class PostDAOImpl implements PostDAO{
 		return true;
 	}
 	
+	@Loggable
 	@Override
 	public void deleteAllPosts(){
 		List<Post> posts = list();

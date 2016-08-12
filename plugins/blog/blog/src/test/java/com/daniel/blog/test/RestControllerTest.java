@@ -30,7 +30,7 @@ import java.util.Arrays;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {MockDAOTestConfiguration.class/*, WebAppContext.class*/})
 @WebAppConfiguration
-public class PostRestControllerTest {
+public class RestControllerTest {
 	
 	@Autowired
 	private WebApplicationContext context;

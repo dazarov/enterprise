@@ -15,7 +15,7 @@ import org.springframework.orm.hibernate4.LocalSessionFactoryBuilder;
 @Configuration
 //@EnableTransactionManagement
 //@EnableJpaRepositories(basePackages = "net.petrikainulainen.spring.testmvc.todo.repository")
-public class AppConfiguration {
+public class PersistenceConfiguration {
 
     @Resource
     private Environment environment;
@@ -43,16 +43,7 @@ public class AppConfiguration {
         sessionBuilder.setProperty("hibernate.current_session_context_class", "thread");
         sessionBuilder.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
         sessionBuilder.setProperty("hibernate.show_sql", "true");
-
      
-//        sessionBuilder.addAnnotatedClasses(AbstractEntity.class);
-//        sessionBuilder.addAnnotatedClasses(User.class);
-//        sessionBuilder.addAnnotatedClasses(PhotoImage.class);
-//        sessionBuilder.addAnnotatedClasses(CommentableBlogEntry.class);
-//        sessionBuilder.addAnnotatedClasses(Post.class);
-//        sessionBuilder.addAnnotatedClasses(Photo.class);
-//        sessionBuilder.addAnnotatedClasses(Comment.class);
-        
         return sessionBuilder.buildSessionFactory();
     }
 

@@ -10,14 +10,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.daniel.blog.dao.PostDAOImpl;
+import com.daniel.blog.dao.impl.PostDAOImpl;
 import com.daniel.blog.model.Language;
 import com.daniel.blog.model.Post;
 import com.daniel.blog.model.Status;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {PersistenceTestConfiguration.class})
-public class AppTest {
+public class DAOTest {
 	
 	@Autowired
     private PostDAOImpl postDAO;

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.daniel.blog.annotations.Loggable;
 import com.daniel.blog.dao.PostDAO;
 import com.daniel.blog.model.Post;
 import com.daniel.blog.model.validators.PostValidator;
@@ -44,19 +45,20 @@ public class PostsRestController {
 	@Autowired
     private PostDAO postDAO;
 	
+	@Loggable
 	public void setPostDAO(PostDAO postDAO){
 		this.postDAO = postDAO;
-		System.out.println("######################## com.daniel.blog.rest.PostsRestController postDAO SET!");
 	}
 	
 	@InitBinder
+	@Loggable
     protected void initBinder(WebDataBinder binder) {
         binder.setValidator(new PostValidator());
-        System.out.println("######################## com.daniel.blog.rest.PostsRestController binder SET!");
     }
 	
 	//-------------------Retrieve Page of Posts--------------------------------------------------------
 	
+	@Loggable
 	@RequestMapping(method = RequestMethod.GET, value = "/posts", produces = "application/json") 
     public ResponseEntity<List<Post>> getPosts(@RequestParam("_start") int start, @RequestParam("_number") int number){
 		List<Post> posts =  postDAO.list(start, number);
@@ -69,9 +71,9 @@ public class PostsRestController {
 	
 	//-------------------Retrieve Single Post--------------------------------------------------------
 	
+	@Loggable
 	@RequestMapping(method = RequestMethod.GET, value = "/posts/{id}", produces = "application/json") 
     public ResponseEntity<Post> getPost(@PathVariable("id") long id){
-		System.out.println("######################## com.daniel.blog.rest.PostsRestController getPost postDAO - "+postDAO);
 		Post post = postDAO.getPost(id);
         if (post == null) {
             System.out.println("User with id " + id + " not found");
@@ -82,6 +84,7 @@ public class PostsRestController {
 	
 	//-------------------Create a Post--------------------------------------------------------
 
+	@Loggable
 	@RequestMapping(value = "/posts/", method = RequestMethod.POST, consumes = "application/json")
     public ResponseEntity<Void> createPost(@RequestBody @Valid Post post,    UriComponentsBuilder ucBuilder) {
         System.out.println("Creating Post " + post.getSubject());
@@ -95,10 +98,10 @@ public class PostsRestController {
 	
     //------------------- Update a Post --------------------------------------------------------
     
+	@Loggable
     @RequestMapping(value = "/posts/{id}", method = RequestMethod.PUT)
     public ResponseEntity<Post> updatePost(@PathVariable("id") long id, @RequestBody @Valid Post post) {
         System.out.println("Updating Post " + id);
-         
          
         boolean updated = postDAO.update(post);
         if(updated){
@@ -112,6 +115,7 @@ public class PostsRestController {
     
   //------------------- Delete a Post --------------------------------------------------------
     
+	@Loggable
     @RequestMapping(value = "/posts/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<Post> deletePost(@PathVariable("id") long id) {
         System.out.println("Fetching & Deleting Post with id " + id);
