@@ -1,4 +1,4 @@
-package com.daniel.blog.model.aspects;
+package com.daniel.blog.aspects;
 
 import java.util.Arrays;
 

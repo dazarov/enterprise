@@ -4,7 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
-import com.daniel.blog.model.aspects.LoggerAspect;
+import com.daniel.blog.aspects.LoggerAspect;
 
 @Configuration
 @EnableAspectJAutoProxy

@@ -14,11 +14,8 @@ import org.springframework.orm.hibernate4.LocalSessionFactoryBuilder;
 @Configuration
 //@EnableTransactionManagement
 //@EnableJpaRepositories(basePackages = "net.petrikainulainen.spring.testmvc.todo.repository")
-@ComponentScan({"com.daniel.blog.dao"})
+@ComponentScan({"com.daniel.blog.dao.impl"})
 public class PersistenceTestConfiguration {
-
-    //@Resource
-    //private Environment environment;
 
     @Bean
     public DataSource dataSource() {
@@ -43,16 +40,7 @@ public class PersistenceTestConfiguration {
         sessionBuilder.setProperty("hibernate.current_session_context_class", "thread");
         sessionBuilder.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
         sessionBuilder.setProperty("hibernate.show_sql", "true");
-
      
-//        sessionBuilder.addAnnotatedClasses(AbstractEntity.class);
-//        sessionBuilder.addAnnotatedClasses(User.class);
-//        sessionBuilder.addAnnotatedClasses(PhotoImage.class);
-//        sessionBuilder.addAnnotatedClasses(CommentableBlogEntry.class);
-//        sessionBuilder.addAnnotatedClasses(Post.class);
-//        sessionBuilder.addAnnotatedClasses(Photo.class);
-//        sessionBuilder.addAnnotatedClasses(Comment.class);
-        
         return sessionBuilder.buildSessionFactory();
     }
 

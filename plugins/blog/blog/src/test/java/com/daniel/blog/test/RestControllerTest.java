@@ -1,10 +1,20 @@
 package com.daniel.blog.test;
 
+import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.is;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.util.Arrays;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -16,36 +26,28 @@ import com.daniel.blog.dao.PostDAO;
 import com.daniel.blog.model.Post;
 import com.daniel.blog.test.model.PostBuilder;
 
-import static junit.framework.Assert.assertNull;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.hasSize;
-import static org.junit.Assert.assertThat;
-import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-
-import java.util.Arrays;
-
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {MockDAOTestConfiguration.class/*, WebAppContext.class*/})
+@ContextConfiguration(classes = {MockDAOTestConfiguration.class, WebTestConfiguration.class})
 @WebAppConfiguration
 public class RestControllerTest {
 	
 	@Autowired
 	private WebApplicationContext context;
 	
+	//@Autowired
+	//PostsRestController postController;
+	
 	@Autowired
-    PostDAO postDAOMock;
-
+	private PostDAO postDAOMock;
+	
+	
 	private MockMvc mockMvc;
 
 	@Before
 	public void setup() {
-		mockMvc = MockMvcBuilders
-				.webAppContextSetup(context)
-				//.apply(springSecurity())
-				.build();
+		mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
+		//MockitoAnnotations.initMocks(this);
+		//mockMvc = MockMvcBuilders.standaloneSetup(postController).build();
 	}
 	
 	@Test
@@ -66,9 +68,9 @@ public class RestControllerTest {
         when(postDAOMock.list(0,10)).thenReturn(Arrays.asList(post1,post2));
  
  
-        mockMvc.perform(post("/posts?_start=0&_number=10"))
+        mockMvc.perform(get("/posts?_start=0&_number=10"))
 	        .andExpect(status().isOk())
-	        .andExpect(content().contentType(TestUtil.APPLICATION_JSON_UTF8))
+	        .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
 	        .andExpect(jsonPath("$", hasSize(2)))
 	        .andExpect(jsonPath("$[0].id", is(1)))
 	        .andExpect(jsonPath("$[0].description", is("description")))

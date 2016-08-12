@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -59,7 +60,7 @@ public class PostsRestController {
 	//-------------------Retrieve Page of Posts--------------------------------------------------------
 	
 	@Loggable
-	@RequestMapping(method = RequestMethod.GET, value = "/posts", produces = "application/json") 
+	@RequestMapping(method = RequestMethod.GET, value = "/posts", produces = MediaType.APPLICATION_JSON_VALUE) 
     public ResponseEntity<List<Post>> getPosts(@RequestParam("_start") int start, @RequestParam("_number") int number){
 		List<Post> posts =  postDAO.list(start, number);
 		
@@ -72,7 +73,7 @@ public class PostsRestController {
 	//-------------------Retrieve Single Post--------------------------------------------------------
 	
 	@Loggable
-	@RequestMapping(method = RequestMethod.GET, value = "/posts/{id}", produces = "application/json") 
+	@RequestMapping(method = RequestMethod.GET, value = "/posts/{id}", produces = MediaType.APPLICATION_JSON_VALUE) 
     public ResponseEntity<Post> getPost(@PathVariable("id") long id){
 		Post post = postDAO.getPost(id);
         if (post == null) {
@@ -85,7 +86,7 @@ public class PostsRestController {
 	//-------------------Create a Post--------------------------------------------------------
 
 	@Loggable
-	@RequestMapping(value = "/posts/", method = RequestMethod.POST, consumes = "application/json")
+	@RequestMapping(value = "/posts/", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> createPost(@RequestBody @Valid Post post,    UriComponentsBuilder ucBuilder) {
         System.out.println("Creating Post " + post.getSubject());
  
