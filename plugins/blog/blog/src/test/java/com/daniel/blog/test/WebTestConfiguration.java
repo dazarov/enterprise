@@ -19,7 +19,7 @@ import java.util.Properties;
 @ComponentScan(basePackages = {
         "com.daniel.blog"
 })
-public class WebAppContext extends WebMvcConfigurerAdapter {
+public class WebTestConfiguration extends WebMvcConfigurerAdapter {
  
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {

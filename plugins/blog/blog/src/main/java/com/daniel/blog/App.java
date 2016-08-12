@@ -8,10 +8,9 @@ import org.springframework.context.annotation.Configuration;
 
 
 @Configuration
-@ComponentScan
+@ComponentScan({"com.daniel.blog", "com.daniel.blog.model", "com.daniel.blog.dao"})
 @EnableAutoConfiguration
 @SpringBootApplication
-//@ContextConfiguration(classes = {PersistenceContext.class})
 //@ImportResource("spring.xml")
 public class App {
 

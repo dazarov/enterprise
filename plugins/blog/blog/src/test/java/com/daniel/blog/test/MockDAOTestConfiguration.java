@@ -9,7 +9,7 @@ import org.springframework.context.support.ResourceBundleMessageSource;
 import com.daniel.blog.dao.PostDAO;
  
 @Configuration
-public class TestContext {
+public class MockDAOTestConfiguration {
  
     @Bean
     public MessageSource messageSource() {

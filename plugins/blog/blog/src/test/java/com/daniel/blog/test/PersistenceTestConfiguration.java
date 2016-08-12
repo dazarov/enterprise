@@ -1,24 +1,24 @@
-package com.daniel.blog;
+package com.daniel.blog.test;
 
 
-import javax.annotation.Resource;
 import javax.sql.DataSource;
 
 import org.apache.commons.dbcp.BasicDataSource;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.env.Environment;
 import org.springframework.orm.hibernate4.LocalSessionFactoryBuilder;
 
 @Configuration
 //@EnableTransactionManagement
 //@EnableJpaRepositories(basePackages = "net.petrikainulainen.spring.testmvc.todo.repository")
-public class PersistenceContext {
+@ComponentScan({"com.daniel.blog.dao"})
+public class PersistenceTestConfiguration {
 
-    @Resource
-    private Environment environment;
+    //@Resource
+    //private Environment environment;
 
     @Bean
     public DataSource dataSource() {
@@ -33,8 +33,8 @@ public class PersistenceContext {
     }
     
     @Autowired
-    @Bean(name = "sessionFactory")
-    public SessionFactory getSessionFactory(DataSource dataSource) {
+    @Bean
+    public SessionFactory sessionFactory(DataSource dataSource) {
      
         LocalSessionFactoryBuilder sessionBuilder = new LocalSessionFactoryBuilder(dataSource);
         

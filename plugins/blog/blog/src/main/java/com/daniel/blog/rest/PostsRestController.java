@@ -23,7 +23,7 @@ import com.daniel.blog.model.Post;
 import com.daniel.blog.model.validators.PostValidator;
 
 //GET /posts       - Retrieves a list of posts
-//GET /posts?_start=20,_number=10
+//GET /posts?_start=20&_number=10
 //GET /posts/12    - Retrieves a specific post
 //POST /posts      - Creates a new post
 //PUT /posts/12    - Updates a specific post (more then one field)
@@ -62,7 +62,7 @@ public class PostsRestController {
 		List<Post> posts =  postDAO.list(start, number);
 		
 		if(posts.isEmpty()){
-            return new ResponseEntity<List<Post>>(HttpStatus.NO_CONTENT);//You many decide to return HttpStatus.NOT_FOUND
+            return new ResponseEntity<List<Post>>(HttpStatus.NOT_FOUND);//You many decide to return HttpStatus.NOT_FOUND
         }
         return new ResponseEntity<List<Post>>(posts, HttpStatus.OK);
 	}

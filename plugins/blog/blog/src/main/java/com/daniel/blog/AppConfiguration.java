@@ -1,4 +1,4 @@
-package com.daniel.blog.test;
+package com.daniel.blog;
 
 
 import javax.annotation.Resource;
@@ -15,7 +15,7 @@ import org.springframework.orm.hibernate4.LocalSessionFactoryBuilder;
 @Configuration
 //@EnableTransactionManagement
 //@EnableJpaRepositories(basePackages = "net.petrikainulainen.spring.testmvc.todo.repository")
-public class PersistenceContext {
+public class AppConfiguration {
 
     @Resource
     private Environment environment;
