@@ -16,7 +16,7 @@ import com.daniel.blog.model.Post;
 import com.daniel.blog.model.Status;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {PersistenceTestConfiguration.class})
+@ContextConfiguration(classes = {PersistenceTestConfiguration.class/*, AOPTestConfiguration.class*/})
 public class DAOTest {
 	
 	@Autowired
