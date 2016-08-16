@@ -1,4 +1,4 @@
-package com.daniel.blog;
+package com.daniel.blog.test.configs;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -8,7 +8,7 @@ import com.daniel.blog.aspects.LoggerAspect;
 
 @Configuration
 @EnableAspectJAutoProxy
-public class AOPConfiguration {
+public class AOPTestConfig {
 
 	@Bean
 	public LoggerAspect loggerAspect(){

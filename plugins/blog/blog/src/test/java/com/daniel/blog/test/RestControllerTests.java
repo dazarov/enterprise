@@ -23,12 +23,15 @@ import org.springframework.web.context.WebApplicationContext;
 
 import com.daniel.blog.dao.PostDAO;
 import com.daniel.blog.model.Post;
+import com.daniel.blog.test.configs.AOPTestConfig;
+import com.daniel.blog.test.configs.MockDAOTestConfig;
+import com.daniel.blog.test.configs.WebTestConfig;
 import com.daniel.blog.test.model.PostBuilder;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {MockDAOTestConfiguration.class, WebTestConfiguration.class, AOPTestConfiguration.class})
+@ContextConfiguration(classes = {MockDAOTestConfig.class, WebTestConfig.class, AOPTestConfig.class})
 @WebAppConfiguration
-public class RestControllerTest {
+public class RestControllerTests {
 	
 	@Autowired
 	private WebApplicationContext context;

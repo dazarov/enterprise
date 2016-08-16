@@ -10,31 +10,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.daniel.blog.dao.impl.PostDAOImpl;
+import com.daniel.blog.dao.PostDAO;
 import com.daniel.blog.model.Language;
 import com.daniel.blog.model.Post;
 import com.daniel.blog.model.Status;
+import com.daniel.blog.test.configs.AOPTestConfig;
+import com.daniel.blog.test.configs.PersistenceTestConfig;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {PersistenceTestConfiguration.class/*, AOPTestConfiguration.class*/})
-public class DAOTest {
+@ContextConfiguration(classes = {PersistenceTestConfig.class, AOPTestConfig.class})
+public class DAOTests {
 	
 	@Autowired
-    private PostDAOImpl postDAO;
+    private PostDAO postDAO;
 	
-	public void setPostDAO(PostDAOImpl postDAO){
-		this.postDAO = postDAO;
-		System.out.println("######################## com.daniel.blog.rest.PostsRestController postDAO SET!");
-	}
-
 	@Test
     public void testPostDAO() {
-    	//ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring.xml");
-		
-		//PostDAO postDAO = context.getBean(PostDAO.class);
-		
-		//postDAO.deleteAllPosts();
-		
 		Post post1 = new Post();
 		post1.setCreationTime(LocalDateTime.of(1980, 1, 12, 20, 30));
 		post1.setStatus(Status.ENTRY_NOTPUBLISHED);
@@ -75,9 +66,6 @@ public class DAOTest {
 		list = postDAO.list(0,100);
 		
 		Assert.assertEquals("Unexpected number of posts", 0, list.size());
-		
-		//close resources
-		//context.close();	
     }
     
     public void testUserDAO(){

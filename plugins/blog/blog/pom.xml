@@ -65,6 +65,11 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-orm</artifactId>
 		</dependency>
+		
+		<dependency>
+    		<groupId>org.springframework.data</groupId>
+    		<artifactId>spring-data-jpa</artifactId>
+  		</dependency>
 
 		<!-- Logging with SLF4J & LogBack -->
 		<dependency>

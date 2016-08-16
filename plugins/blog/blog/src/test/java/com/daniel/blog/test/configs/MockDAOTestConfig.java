@@ -1,4 +1,4 @@
-package com.daniel.blog.test;
+package com.daniel.blog.test.configs;
 
 import org.mockito.Mockito;
 import org.springframework.context.MessageSource;
@@ -9,7 +9,7 @@ import org.springframework.context.support.ResourceBundleMessageSource;
 import com.daniel.blog.dao.PostDAO;
  
 @Configuration
-public class MockDAOTestConfiguration {
+public class MockDAOTestConfig {
  
     @Bean
     public MessageSource messageSource() {

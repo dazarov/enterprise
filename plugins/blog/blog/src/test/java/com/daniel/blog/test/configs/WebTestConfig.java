@@ -1,4 +1,4 @@
-package com.daniel.blog.test;
+package com.daniel.blog.test.configs;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -19,7 +19,7 @@ import java.util.Properties;
 @Configuration
 @EnableWebMvc
 //@ComponentScan(basePackageClasses = {com.daniel.blog.rest.PostsRestController.class})
-public class WebTestConfiguration extends WebMvcConfigurerAdapter {
+public class WebTestConfig extends WebMvcConfigurerAdapter {
 	
 	@Bean
 	public PostsRestController postRestController(){
