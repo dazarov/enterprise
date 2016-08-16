@@ -6,10 +6,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ResourceBundleMessageSource;
 
-import com.daniel.blog.dao.PostDAO;
+import com.daniel.blog.services.PhotoBlogService;
  
 @Configuration
-public class MockDAOTestConfig {
+public class MockServiceTestConfig {
  
     @Bean
     public MessageSource messageSource() {
@@ -22,7 +22,7 @@ public class MockDAOTestConfig {
     }
  
     @Bean
-    public PostDAO postDAOMock() {
-        return Mockito.mock(PostDAO.class);
+    public PhotoBlogService photoBlogService() {
+        return Mockito.mock(PhotoBlogService.class);
     }
 }

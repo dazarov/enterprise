@@ -21,15 +21,15 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import com.daniel.blog.dao.PostDAO;
 import com.daniel.blog.model.Post;
+import com.daniel.blog.services.PhotoBlogService;
 import com.daniel.blog.test.configs.AOPTestConfig;
-import com.daniel.blog.test.configs.MockDAOTestConfig;
+import com.daniel.blog.test.configs.MockServiceTestConfig;
 import com.daniel.blog.test.configs.WebTestConfig;
 import com.daniel.blog.test.model.PostBuilder;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {MockDAOTestConfig.class, WebTestConfig.class, AOPTestConfig.class})
+@ContextConfiguration(classes = {MockServiceTestConfig.class, WebTestConfig.class, AOPTestConfig.class})
 @WebAppConfiguration
 public class RestControllerTests {
 	
@@ -37,7 +37,7 @@ public class RestControllerTests {
 	private WebApplicationContext context;
 	
 	@Autowired
-	private PostDAO postDAOMock;
+	private PhotoBlogService photoBlogService;
 	
 	
 	private MockMvc mockMvc;
@@ -62,7 +62,7 @@ public class RestControllerTests {
                 .body("body")
                 .build();
         
-        Mockito.when(postDAOMock.list(0,10)).thenReturn(Arrays.asList(post1,post2));
+        Mockito.when(photoBlogService.getPosts(0,10)).thenReturn(Arrays.asList(post1,post2));
  
  
         mockMvc.perform(get("/posts?_start=0&_number=10"))

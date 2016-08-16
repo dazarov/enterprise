@@ -35,7 +35,7 @@ public abstract class AbstractEntity implements Comparable<AbstractEntity>{
 	
 	// Methods
 	
-	public long getId(){
+	public Long getId(){
 		return id;
 	}
 	

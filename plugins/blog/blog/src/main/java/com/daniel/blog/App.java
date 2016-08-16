@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 
 
 @Configuration
-@ComponentScan({"com.daniel.blog", "com.daniel.blog.model", "com.daniel.blog.dao", "com.daniel.blog.dao.impl"})
+@ComponentScan({"com.daniel.blog", "com.daniel.blog.model", "com.daniel.blog.services"})
 @EnableAutoConfiguration
 @SpringBootApplication
 //@ImportResource("spring.xml")

@@ -10,22 +10,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.daniel.blog.dao.PostDAO;
 import com.daniel.blog.model.Language;
 import com.daniel.blog.model.Post;
 import com.daniel.blog.model.Status;
+import com.daniel.blog.services.PhotoBlogService;
 import com.daniel.blog.test.configs.AOPTestConfig;
 import com.daniel.blog.test.configs.PersistenceTestConfig;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {PersistenceTestConfig.class, AOPTestConfig.class})
-public class DAOTests {
+public class PhotoBlogServiceTests {
 	
 	@Autowired
-    private PostDAO postDAO;
+    private PhotoBlogService blogService;
 	
 	@Test
-    public void testPostDAO() {
+    public void testPostRepository() {
 		Post post1 = new Post();
 		post1.setCreationTime(LocalDateTime.of(1980, 1, 12, 20, 30));
 		post1.setStatus(Status.ENTRY_NOTPUBLISHED);
@@ -35,7 +35,7 @@ public class DAOTests {
 		post1.setBody("Body 1");
 		post1.setLanguage(Language.ENGLISH);
 		
-		postDAO.save(post1);
+		blogService.createPost(post1);
 		
 		System.out.println("Post::"+post1);
 		
@@ -48,11 +48,11 @@ public class DAOTests {
 		post2.setBody("Body 2");
 		post2.setLanguage(Language.FRENCH);
 		
-		postDAO.save(post2);
+		blogService.createPost(post2);
 		
 		System.out.println("Post::"+post2);
 		
-		List<Post> list = postDAO.list(0,100);
+		List<Post> list = blogService.getPosts(0,100);
 		
 		for(Post p : list){
 			System.out.println("Post List::"+p);
@@ -60,10 +60,10 @@ public class DAOTests {
 		
 		Assert.assertEquals("Unexpected number of posts", 2, list.size());
 		
-		postDAO.delete(post1);
-		postDAO.delete(post2);
+		blogService.deletePost(post1.getId());
+		blogService.deletePost(post2.getId());
 		
-		list = postDAO.list(0,100);
+		list = blogService.getPosts(0,100);
 		
 		Assert.assertEquals("Unexpected number of posts", 0, list.size());
     }

@@ -20,9 +20,10 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.daniel.blog.annotations.Loggable;
-import com.daniel.blog.dao.PostDAO;
 import com.daniel.blog.model.Post;
-import com.daniel.blog.model.validators.PostValidator;
+import com.daniel.blog.model.validators.PostRequestValidator;
+import com.daniel.blog.requests.PostRequest;
+import com.daniel.blog.services.PhotoBlogService;
 
 //GET /posts       - Retrieves a list of posts
 //GET /posts?_start=20&_number=10
@@ -44,17 +45,12 @@ import com.daniel.blog.model.validators.PostValidator;
 public class PostsRestController {
 	
 	@Autowired
-    private PostDAO postDAO;
-	
-	@Loggable
-	public void setPostDAO(PostDAO postDAO){
-		this.postDAO = postDAO;
-	}
+    private PhotoBlogService blogService;
 	
 	@InitBinder
 	@Loggable
     protected void initBinder(WebDataBinder binder) {
-        binder.setValidator(new PostValidator());
+        binder.setValidator(new PostRequestValidator());
     }
 	
 	//-------------------Retrieve Page of Posts--------------------------------------------------------
@@ -62,7 +58,7 @@ public class PostsRestController {
 	@Loggable
 	@RequestMapping(method = RequestMethod.GET, value = "/posts", produces = MediaType.APPLICATION_JSON_VALUE) 
     public ResponseEntity<List<Post>> getPosts(@RequestParam("_start") int start, @RequestParam("_number") int number){
-		List<Post> posts =  postDAO.list(start, number);
+		List<Post> posts =  blogService.getPosts(start, number);
 		
 		if(posts.isEmpty()){
             return new ResponseEntity<List<Post>>(HttpStatus.NOT_FOUND);//You many decide to return HttpStatus.NOT_FOUND
@@ -75,7 +71,7 @@ public class PostsRestController {
 	@Loggable
 	@RequestMapping(method = RequestMethod.GET, value = "/posts/{id}", produces = MediaType.APPLICATION_JSON_VALUE) 
     public ResponseEntity<Post> getPost(@PathVariable("id") long id){
-		Post post = postDAO.getPost(id);
+		Post post = blogService.getPost(id);
         if (post == null) {
             System.out.println("User with id " + id + " not found");
             return new ResponseEntity<Post>(HttpStatus.NOT_FOUND);
@@ -87,10 +83,10 @@ public class PostsRestController {
 
 	@Loggable
 	@RequestMapping(value = "/posts/", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> createPost(@RequestBody @Valid Post post,    UriComponentsBuilder ucBuilder) {
+    public ResponseEntity<Void> createPost(@RequestBody @Valid PostRequest post, UriComponentsBuilder ucBuilder) {
         System.out.println("Creating Post " + post.getSubject());
  
-        postDAO.save(post);
+        blogService.createPost(post);
  
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(ucBuilder.path("/posts/{id}").buildAndExpand(post.getId()).toUri());
@@ -101,11 +97,11 @@ public class PostsRestController {
     
 	@Loggable
     @RequestMapping(value = "/posts/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<Post> updatePost(@PathVariable("id") long id, @RequestBody @Valid Post post) {
+    public ResponseEntity<Post> updatePost(@PathVariable("id") long id, @RequestBody @Valid PostRequest postRequest) {
         System.out.println("Updating Post " + id);
          
-        boolean updated = postDAO.update(post);
-        if(updated){
+        Post post = blogService.updatePost(postRequest, postRequest.getId());
+        if(post != null){
         	return new ResponseEntity<Post>(post, HttpStatus.OK);
         }else{
             System.out.println("Post with id " + id + " not found");
@@ -121,7 +117,7 @@ public class PostsRestController {
     public ResponseEntity<Post> deletePost(@PathVariable("id") long id) {
         System.out.println("Fetching & Deleting Post with id " + id);
         
-        boolean deleted = postDAO.delete(id);
+        boolean deleted = blogService.deletePost(id);
         if(deleted){
         	return new ResponseEntity<Post>(HttpStatus.NO_CONTENT);
         }
