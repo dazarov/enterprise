@@ -21,8 +21,8 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.daniel.blog.annotations.Loggable;
 import com.daniel.blog.model.Post;
-import com.daniel.blog.model.validators.PostRequestValidator;
 import com.daniel.blog.requests.PostRequest;
+import com.daniel.blog.requests.validators.PostRequestValidator;
 import com.daniel.blog.services.PhotoBlogService;
 
 //GET /posts       - Retrieves a list of posts

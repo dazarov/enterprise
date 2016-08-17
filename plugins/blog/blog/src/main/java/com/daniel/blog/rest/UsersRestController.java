@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.daniel.blog.model.validators.UserRequestValidator;
+import com.daniel.blog.requests.validators.UserRequestValidator;
  
  
 //@RestController

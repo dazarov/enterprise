@@ -1,4 +1,4 @@
-package com.daniel.blog.model.validators;
+package com.daniel.blog.requests.validators;
 
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
