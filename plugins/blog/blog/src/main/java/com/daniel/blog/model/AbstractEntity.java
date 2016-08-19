@@ -30,9 +30,6 @@ public abstract class AbstractEntity implements Comparable<AbstractEntity>{
 	@Convert(converter = StatusConverter.class)
 	private Status status;
 	
-	@Column(name="VISITED")
-	private long visited;
-	
 	// Methods
 	
 	public Long getId(){
@@ -55,14 +52,6 @@ public abstract class AbstractEntity implements Comparable<AbstractEntity>{
 		return status;
 	}
 	
-	public void setVisited(long visited){
-		this.visited = visited;
-	}
-	
-	public long getVisited(){
-		return visited;
-	}
-
 	@Override
 	public int hashCode(){
 		if(id == null){

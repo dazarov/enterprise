@@ -16,6 +16,8 @@ import org.hibernate.validator.constraints.Length;
 public class User extends AbstractEntity{
 	
 	// Fields
+	@Column(name="LOGGED_IN")
+	private Integer logged_id;
 	
 	@Column(name="NAME")
 	@Length(max = 100)

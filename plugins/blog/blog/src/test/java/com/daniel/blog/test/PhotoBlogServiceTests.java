@@ -29,7 +29,7 @@ public class PhotoBlogServiceTests {
 		Post post1 = new Post();
 		post1.setCreationTime(LocalDateTime.of(1980, 1, 12, 20, 30));
 		post1.setStatus(Status.ENTRY_NOTPUBLISHED);
-		post1.setVisited(256);
+		post1.setVisited(256l);
 		post1.setSubject("Subject 1");
 		post1.setDescription("Description 1");
 		post1.setBody("Body 1");
@@ -42,7 +42,7 @@ public class PhotoBlogServiceTests {
 		Post post2 = new Post();
 		post2.setCreationTime(LocalDateTime.of(2006, 6, 24, 15, 15));
 		post2.setStatus(Status.ENTRY_PUBLIC);
-		post2.setVisited(348);
+		post2.setVisited(348l);
 		post2.setSubject("Subject 2");
 		post2.setDescription("Description 2");
 		post2.setBody("Body 2");

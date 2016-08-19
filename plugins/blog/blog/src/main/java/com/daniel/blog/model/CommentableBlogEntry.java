@@ -25,6 +25,9 @@ public class CommentableBlogEntry extends AbstractEntity {
 	
 	// Fields
 	
+	@Column(name="VISITED")
+	private Long visited;
+	
 	@OneToMany(mappedBy = "blogEntry", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH}, orphanRemoval = false)
 	Set<Comment> comments = new TreeSet<>();
 	
@@ -34,10 +37,19 @@ public class CommentableBlogEntry extends AbstractEntity {
 	private Language language;
 	
 	@ManyToOne
-    @JoinColumn(name="USER_ID", nullable=true, foreignKey = @ForeignKey(name = "USER_ID"))
-	private User user;
+    @JoinColumn(name="BLOG_ID", nullable=true, foreignKey = @ForeignKey(name = "BLOG_ID"))
+	private Blog blog;
 	
 	// Methods
+	
+	public void setVisited(Long visited){
+		this.visited = visited;
+	}
+	
+	public Long getVisited(){
+		return visited;
+	}
+
 	
 	public Set<Comment> getComments(){
 		return comments;
@@ -61,12 +73,12 @@ public class CommentableBlogEntry extends AbstractEntity {
 		return language;
 	}
 	
-	public void setUser(User user){
-		this.user = user;
+	public void setBlog(Blog blog){
+		this.blog = blog;
 	}
 	
-	public User getUser(){
-		return user;
+	public Blog getBlog(){
+		return blog;
 	}
 
 }

@@ -22,10 +22,6 @@ public class Photo extends CommentableBlogEntry{
 	@Length(max = 255)
 	private String description;
 	
-//	@ManyToOne
-//    @JoinColumn(name="USER_ID", nullable=true)
-//	private User user;
-
 	@ManyToOne
     @JoinColumn(name="IMAGE_ID", nullable=true)
 	private PhotoImage photoImage;
