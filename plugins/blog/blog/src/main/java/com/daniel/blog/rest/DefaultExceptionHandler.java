@@ -1,79 +1,53 @@
 package com.daniel.blog.rest;
 
+import java.io.IOException;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.daniel.blog.errors.PhotoBlogError;
+import com.daniel.blog.errors.PhotoBlogException;
+
+@Controller
 public class DefaultExceptionHandler {
-	//private static final Logger LOGGER = LoggerFactory.getLogger(DefaultExceptionHandler.class);
-
-    /**
- * General purpose exception handler. Returns HTTP 500
- */
-@ExceptionHandler(value={Exception.class})
-@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-@ResponseBody
-public ErrorResponse handleException(Exception exception, HttpServletRequest request, HttpServletResponse response) throws IOException {
- String errorRef = UUID.randomUUID().toString();
-    LOGGER.error("errorRef:{}-{} ",errorRef, exception);
-    return new ErrorResponse(exception.getMessage(), errorRef); 
-      
-}
-
-
-/**
- * Wrong input parameters. Return Http 422
- */
-@ExceptionHandler(value={TransactionServerException.class})
-@ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
-@ResponseBody
-public ErrorResponse handleIllegalArgumentException(TransactionServerException exception, HttpServletRequest request, HttpServletResponse response) throws IOException {
- String errorRef = UUID.randomUUID().toString();
-    LOGGER.error("errorRef:{}-{} ",errorRef, exception);
-    return new ErrorResponse(exception.getMessage(), errorRef, true); 
-}
-
-
-
-/**
- * Duplicate transaction. Return Http 409 
- */
-@ExceptionHandler(value={DuplicatePaymentException.class})
-@ResponseStatus(HttpStatus.CONFLICT)
-@ResponseBody
-public ErrorResponse handleDuplicateTransactionException(Exception exception, HttpServletRequest request, HttpServletResponse response) throws IOException {
- String errorRef = UUID.randomUUID().toString();
-    LOGGER.error("errorRef:{}-{} ",errorRef, exception);
-    return new ErrorResponse("Duplicate transaction"); 
-}
-
-
-/**
- * Failured from services. Return Http 400 
- */
-@ExceptionHandler(value={PaymentGatewayException.class, ServiceFailedException.class})
-@ResponseStatus(HttpStatus.BAD_REQUEST)
-@ResponseBody
-public ErrorResponse handleProcessorResponseException(PaymentGatewayException exception, HttpServletRequest request, HttpServletResponse response) throws IOException {
- String errorRef = UUID.randomUUID().toString();
-    LOGGER.error("errorRef:{}-{} ",errorRef, exception);
-    return new ErrorResponse(exception.getMessage(), errorRef, true); 
-}
-
-
-
-/**
- * Wrong input parameters. Return Http 400 
- */
-@ExceptionHandler(value={IllegalArgumentException.class})
-@ResponseStatus(HttpStatus.BAD_REQUEST)
-@ResponseBody
-public ErrorResponse handleIllegalArgumentException(IllegalArgumentException exception, HttpServletRequest request, HttpServletResponse response) throws IOException {
- String errorRef = UUID.randomUUID().toString();
-    LOGGER.error("errorRef:{}-{} ",errorRef, exception);
-    return new ErrorResponse(exception.getMessage(), errorRef, true); 
-}
-
-
-
-
+	
+	/**
+	 * General purpose exception handler. Returns HTTP 500
+	 */
+	@ExceptionHandler(value={Exception.class})
+	@ResponseBody
+	public ResponseEntity<PhotoBlogError> handleException(Exception exception, HttpServletRequest request, HttpServletResponse response) throws IOException {
+		PhotoBlogError error = new PhotoBlogError(1, exception);
+	    return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR); 
+	      
+	}
+	
+	/**
+	 * General purpose exception handler. Returns HTTP 500
+	 */
+	@ExceptionHandler(value={PhotoBlogException.class})
+	@ResponseBody
+	public ResponseEntity<PhotoBlogError> handlePhotoBlogException(PhotoBlogException exception, HttpServletRequest request, HttpServletResponse response) throws IOException {
+		PhotoBlogError error = new PhotoBlogError(exception);
+	    return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR); 
+	      
+	}
+	
+	/**
+	* Wrong input parameters. Return Http 400 
+	*/
+	@ExceptionHandler(value={IllegalArgumentException.class})
+	@ResponseBody
+	public ResponseEntity<PhotoBlogError> handleIllegalArgumentException(IllegalArgumentException exception, HttpServletRequest request, HttpServletResponse response) throws IOException {
+		PhotoBlogError error = new PhotoBlogError(2, exception);
+	    return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST); 
+	      
+	}
 
 }

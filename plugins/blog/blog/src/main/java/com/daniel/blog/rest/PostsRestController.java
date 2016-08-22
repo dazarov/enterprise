@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.daniel.blog.annotations.Loggable;
+import com.daniel.blog.errors.BlogEntityNotFoundException;
 import com.daniel.blog.model.Post;
 import com.daniel.blog.requests.PostRequest;
 import com.daniel.blog.requests.validators.PostRequestValidator;
@@ -57,11 +58,11 @@ public class PostsRestController {
 	
 	@Loggable
 	@RequestMapping(method = RequestMethod.GET, value = "/posts", produces = MediaType.APPLICATION_JSON_VALUE) 
-    public ResponseEntity<List<Post>> getPosts(@RequestParam("_start") int start, @RequestParam("_number") int number){
+    public ResponseEntity<List<Post>> getPosts(@RequestParam("_start") int start, @RequestParam("_number") int number) throws BlogEntityNotFoundException {
 		List<Post> posts =  blogService.getPosts(start, number);
 		
 		if(posts.isEmpty()){
-            return new ResponseEntity<List<Post>>(HttpStatus.NOT_FOUND);//You many decide to return HttpStatus.NOT_FOUND
+            throw new BlogEntityNotFoundException("Posts not found!");
         }
         return new ResponseEntity<List<Post>>(posts, HttpStatus.OK);
 	}
@@ -70,11 +71,11 @@ public class PostsRestController {
 	
 	@Loggable
 	@RequestMapping(method = RequestMethod.GET, value = "/posts/{id}", produces = MediaType.APPLICATION_JSON_VALUE) 
-    public ResponseEntity<Post> getPost(@PathVariable("id") long id){
+    public ResponseEntity<Post> getPost(@PathVariable("id") long id) throws BlogEntityNotFoundException {
 		Post post = blogService.getPost(id);
         if (post == null) {
             System.out.println("User with id " + id + " not found");
-            return new ResponseEntity<Post>(HttpStatus.NOT_FOUND);
+            throw new BlogEntityNotFoundException("Post not found for id - "+id);
         }
         return new ResponseEntity<Post>(post, HttpStatus.OK);
 	}

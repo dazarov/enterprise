@@ -22,11 +22,30 @@ public class Blog extends AbstractEntity{
 	)
 	private Set<User> users = new HashSet<>();
 	
+	@ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
+	@JoinTable(name = "BLOCKED_USERS",
+		joinColumns = {@JoinColumn(name="BLOG_ID")},
+		inverseJoinColumns = {@JoinColumn(name="USER_ID")}
+	)
+	private Set<User> blockedUsers = new HashSet<>();
+	
 	@Column(name="MODERATED")
 	private Boolean moderated;
 	
 	public Set<User> getUsers(){
 		return users;
+	}
+
+	public Set<User> getBlockedUsers(){
+		return blockedUsers;
+	}
+	
+	public boolean isModerated(){
+		return moderated;
+	}
+	
+	public void setModerated(boolean moderated){
+		this.moderated = moderated;
 	}
 
 }

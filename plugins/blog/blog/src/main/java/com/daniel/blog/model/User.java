@@ -1,11 +1,16 @@
 package com.daniel.blog.model;
 
+import java.util.HashSet;
 import java.util.Set;
 import java.util.TreeSet;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -33,6 +38,13 @@ public class User extends AbstractEntity{
 	
 	@OneToMany(fetch = FetchType.LAZY)
 	private Set<CommentableBlogEntry> blogEntries = new TreeSet<>();
+	
+	@ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
+	@JoinTable(name = "USER_ROLES",
+		joinColumns = {@JoinColumn(name="ROLE_ID")},
+		inverseJoinColumns = {@JoinColumn(name="USER_ID")}
+	)
+	private Set<UserRole> roles = new HashSet<>();
 	
 	// Methods
 	
@@ -62,6 +74,10 @@ public class User extends AbstractEntity{
 	
 	public Set<CommentableBlogEntry> getBlogEntries(){
 		return blogEntries;
+	}
+	
+	public Set<UserRole> getRoles(){
+		return roles;
 	}
 	
 }

@@ -12,7 +12,7 @@ import javax.persistence.Table;
 import com.daniel.blog.model.converters.RoleConverter;
 
 @Entity
-@Table(name="USER_ROLE")
+@Table(name="ROLE")
 public class UserRole {
 	// Fields
 	
