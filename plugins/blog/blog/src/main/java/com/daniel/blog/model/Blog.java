@@ -12,9 +12,15 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import org.hibernate.validator.constraints.Length;
+
 @Entity
 @Table(name="BLOG")
 public class Blog extends AbstractEntity{
+	@Column(name="NAME")
+	@Length(max = 100)
+	private String name;
+	
 	@ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
 	@JoinTable(name = "USER_BLOG",
 		joinColumns = {@JoinColumn(name="BLOG_ID")},
@@ -31,6 +37,14 @@ public class Blog extends AbstractEntity{
 	
 	@Column(name="MODERATED")
 	private Boolean moderated;
+	
+	public void setName(String name){
+		this.name = name;
+	}
+	
+	public String getName(){
+		return name;
+	}
 	
 	public Set<User> getUsers(){
 		return users;

@@ -3,51 +3,57 @@ package com.daniel.blog.rest;
 import java.io.IOException;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
-import com.daniel.blog.errors.PhotoBlogError;
+import com.daniel.blog.annotations.Loggable;
+import com.daniel.blog.errors.BlogEntityNotFoundException;
+import com.daniel.blog.errors.PhotoBlogErrorInfo;
 import com.daniel.blog.errors.PhotoBlogException;
 
-@Controller
+@ControllerAdvice
 public class DefaultExceptionHandler {
 	
 	/**
 	 * General purpose exception handler. Returns HTTP 500
 	 */
+	@Loggable
 	@ExceptionHandler(value={Exception.class})
+	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	@ResponseBody
-	public ResponseEntity<PhotoBlogError> handleException(Exception exception, HttpServletRequest request, HttpServletResponse response) throws IOException {
-		PhotoBlogError error = new PhotoBlogError(1, exception);
-	    return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR); 
-	      
+	public PhotoBlogErrorInfo handleException(Exception exception, HttpServletRequest request) throws IOException {
+		return new PhotoBlogErrorInfo(1, request.getRequestURL().toString(), exception);
 	}
 	
-	/**
-	 * General purpose exception handler. Returns HTTP 500
-	 */
+	@Loggable
 	@ExceptionHandler(value={PhotoBlogException.class})
+	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	@ResponseBody
-	public ResponseEntity<PhotoBlogError> handlePhotoBlogException(PhotoBlogException exception, HttpServletRequest request, HttpServletResponse response) throws IOException {
-		PhotoBlogError error = new PhotoBlogError(exception);
-	    return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR); 
-	      
+	public PhotoBlogErrorInfo handlePhotoBlogException(PhotoBlogException exception, HttpServletRequest request) throws IOException {
+		return new PhotoBlogErrorInfo(request.getRequestURL().toString(), exception);
+	}
+
+	@Loggable
+	@ExceptionHandler(value={BlogEntityNotFoundException.class})
+	@ResponseStatus(HttpStatus.NOT_FOUND)
+	@ResponseBody
+	public PhotoBlogErrorInfo handleBlogEntityNotFoundException(BlogEntityNotFoundException exception, HttpServletRequest request) throws IOException {
+		return new PhotoBlogErrorInfo(request.getRequestURL().toString(), exception);
 	}
 	
 	/**
 	* Wrong input parameters. Return Http 400 
 	*/
+	@Loggable
 	@ExceptionHandler(value={IllegalArgumentException.class})
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	@ResponseBody
-	public ResponseEntity<PhotoBlogError> handleIllegalArgumentException(IllegalArgumentException exception, HttpServletRequest request, HttpServletResponse response) throws IOException {
-		PhotoBlogError error = new PhotoBlogError(2, exception);
-	    return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST); 
-	      
+	public PhotoBlogErrorInfo handleIllegalArgumentException(IllegalArgumentException exception, HttpServletRequest request) throws IOException {
+		return new PhotoBlogErrorInfo(1, request.getRequestURL().toString(), exception);
 	}
 
 }

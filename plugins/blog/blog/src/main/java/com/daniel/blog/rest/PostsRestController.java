@@ -26,13 +26,14 @@ import com.daniel.blog.requests.PostRequest;
 import com.daniel.blog.requests.validators.PostRequestValidator;
 import com.daniel.blog.services.PhotoBlogService;
 
-//GET /posts       - Retrieves a list of posts
-//GET /posts?_start=20&_number=10
-//GET /posts/12    - Retrieves a specific post
-//POST /posts      - Creates a new post
-//PUT /posts/12    - Updates a specific post (more then one field)
-//PATCH /posts/12  - Partially updates a specific post (one field)
-//DELETE /posts/12 - Deletes a specific post
+//GET	/{blog_name}/posts       										- Retrieves a list of posts
+//GET	/{blog_name}/posts?page={page_number}							- Retrieves a page of posts
+//GET	/{blog_name}/posts/{post_id}    								- Retrieves a specific post
+//GET	/{blog_name}/posts/{post_id}/comments?page={page_number}   	- Retrieves a specific post with page of comments
+//POST	/{blog_name}/posts      										- Creates a new post in the blog
+//PUT	/{blog_name}/posts/{post_id}    								- Updates a specific post (more then one field)
+//PATCH	/{blog_name}/posts/{post_id}  								- Partially updates a specific post (one field)
+//DELETE /{blog_name}/posts/12 										- Deletes a specific post
 
 //GET /photos      - Retrieves a list of photos
 //GET /photos/12   - Retrieves a specific photo
@@ -48,8 +49,8 @@ public class PostsRestController {
 	@Autowired
     private PhotoBlogService blogService;
 	
-	@InitBinder
 	@Loggable
+	@InitBinder
     protected void initBinder(WebDataBinder binder) {
         binder.setValidator(new PostRequestValidator());
     }

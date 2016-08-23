@@ -420,3 +420,28 @@ console.log('HasName: '+hasName);
 console.log('HasDate: '+hasDate);
 
 console.log('16------------------------------------------------');
+
+
+// Encapsulation:::
+
+
+var person = (function () {
+	// private members
+  var fullName = "Jason Shapiro";
+  var reg = new RegExp(/\d+/);
+ 
+  return {
+	  // public members
+    setFullName : function (newValue) {
+      if( reg.test(newValue) ) {
+        alert("Invalid Name");
+      }
+      else {
+        fullName = newValue;
+      }
+    },
+    getFullName : function () {
+     return fullName; 
+    }
+  }; // end of the return
+}());
