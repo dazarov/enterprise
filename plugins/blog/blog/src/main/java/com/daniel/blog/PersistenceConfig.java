@@ -61,6 +61,7 @@ public class PersistenceConfig {
     	properties.put("hibernate.current_session_context_class", "thread");
     	properties.put("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
     	properties.put("hibernate.show_sql", "true");
+    	properties.put("hibernate.hbm2ddl.auto", "update");
     	
     	return properties;
     }

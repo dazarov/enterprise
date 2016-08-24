@@ -11,7 +11,13 @@ public enum Status {
 	// Statuses for Users
 	USER_REMOVED(105),
 	USER_ACTIVE(106),
-	USER_BLOCKED(107)
+	USER_BLOCKED(107),
+	
+	// Statuses for Blogs
+	BLOG_REMOVED(505),
+	BLOG_ACTIVE(506),
+	BLOG_BLOCKED(507)
+
 	;
 
 	private int id;

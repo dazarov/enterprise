@@ -8,11 +8,13 @@ public enum Role {
 					// can create/update/delete posts, photos and photo_images in a blog
 					// can block/unblock users for particular blog
 	
-	ADMIN(2), 		// can block/unblock users 
+	MODERATOR(2),	// can moderate (publish) commetns for moderated blogs
+	
+	ADMIN(3) 		// can block/unblock users 
 					// can block/unblock blogs
 					// can edit adverts
 	
-	MODERATOR(3)	// can moderate (publish) commetns for moderated blogs
+	
 	;
 
 	private int id;

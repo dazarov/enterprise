@@ -26,6 +26,7 @@ public class DefaultExceptionHandler {
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	@ResponseBody
 	public PhotoBlogErrorInfo handleException(Exception exception, HttpServletRequest request) throws IOException {
+		deal(exception);
 		return new PhotoBlogErrorInfo(1, request.getRequestURL().toString(), exception);
 	}
 	
@@ -34,6 +35,7 @@ public class DefaultExceptionHandler {
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	@ResponseBody
 	public PhotoBlogErrorInfo handlePhotoBlogException(PhotoBlogException exception, HttpServletRequest request) throws IOException {
+		deal(exception);
 		return new PhotoBlogErrorInfo(request.getRequestURL().toString(), exception);
 	}
 
@@ -42,6 +44,7 @@ public class DefaultExceptionHandler {
 	@ResponseStatus(HttpStatus.NOT_FOUND)
 	@ResponseBody
 	public PhotoBlogErrorInfo handleBlogEntityNotFoundException(BlogEntityNotFoundException exception, HttpServletRequest request) throws IOException {
+		deal(exception);
 		return new PhotoBlogErrorInfo(request.getRequestURL().toString(), exception);
 	}
 	
@@ -53,7 +56,12 @@ public class DefaultExceptionHandler {
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	@ResponseBody
 	public PhotoBlogErrorInfo handleIllegalArgumentException(IllegalArgumentException exception, HttpServletRequest request) throws IOException {
+		deal(exception);
 		return new PhotoBlogErrorInfo(1, request.getRequestURL().toString(), exception);
+	}
+	
+	private void deal(Exception ex){
+		ex.printStackTrace();
 	}
 
 }
