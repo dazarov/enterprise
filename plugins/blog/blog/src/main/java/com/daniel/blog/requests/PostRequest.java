@@ -1,20 +1,16 @@
 package com.daniel.blog.requests;
 
 public class PostRequest {
-	private long id;
-	
 	private String subject;
 	
 	private String description;
 	
 	private String body;
 	
-	public long getId() {
-		return id;
-	}
-
-	public void setId(long id) {
-		this.id = id;
+	public PostRequest(String subject, String description, String body){
+		this.subject = subject;
+		this.description = description;
+		this.body = body;
 	}
 	
 	public String getSubject() {

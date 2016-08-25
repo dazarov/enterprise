@@ -1,6 +1,6 @@
 package com.daniel.blog.errors;
 
-public class PhotoBlogErrorInfo {
+public final class PhotoBlogErrorInfo {
 	private final int id;
 	
 	private final String url;

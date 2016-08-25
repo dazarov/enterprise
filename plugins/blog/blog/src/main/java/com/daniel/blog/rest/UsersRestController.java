@@ -20,6 +20,13 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.daniel.blog.requests.validators.UserRequestValidator;
  
+//GET /users															- Retrieves a list of users
+//GET /users?page={page_number}											- Retrieves a page of users
+//GET /users/{user_id}													- Retrieves a specific user
+
+//POST /users															- Creates a new user
+//PUT /users/{user_id}													- Updates a specific user (more then one property)
+//DELETE /users/{user_id}												- Deletes a specific user
  
 //@RestController
 public class UsersRestController {

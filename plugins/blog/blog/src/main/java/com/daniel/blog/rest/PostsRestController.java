@@ -28,20 +28,11 @@ import com.daniel.blog.services.PhotoBlogService;
 
 //GET	/{blog_name}/posts       										- Retrieves a list of posts
 //GET	/{blog_name}/posts?page={page_number}							- Retrieves a page of posts
-//GET	/{blog_name}/posts/{post_id}    								- Retrieves a specific post
-//GET	/{blog_name}/posts/{post_id}/comments?page={page_number}   	- Retrieves a specific post with page of comments
+//GET	/posts/{post_id}			    								- Retrieves a specific post
+
 //POST	/{blog_name}/posts      										- Creates a new post in the blog
-//PUT	/{blog_name}/posts/{post_id}    								- Updates a specific post (more then one field)
-//PATCH	/{blog_name}/posts/{post_id}  								- Partially updates a specific post (one field)
-//DELETE /{blog_name}/posts/12 										- Deletes a specific post
-
-//GET /photos      - Retrieves a list of photos
-//GET /photos/12   - Retrieves a specific photo
-//POST /photos     - Creates/Upload a new photo
-//PUT /photos/12   - Updates a specific photo
-//PATCH /photos/12 - Partially updates (one field) a specific photo
-//DELETE /photos/12- Deletes a specific photo
-
+//PUT	/posts/{post_id}    											- Updates a specific post (more then one property)
+//DELETE /posts/{post_id} 												- Deletes a specific post
 
 @RestController
 public class PostsRestController {
@@ -71,8 +62,8 @@ public class PostsRestController {
 	//-------------------Retrieve Single Post--------------------------------------------------------
 	
 	@Loggable
-	@RequestMapping(method = RequestMethod.GET, value = "/posts/{id}", produces = MediaType.APPLICATION_JSON_VALUE) 
-    public ResponseEntity<Post> getPost(@PathVariable("id") long id) throws BlogEntityNotFoundException {
+	@RequestMapping(method = RequestMethod.GET, value = "/{blogName}/posts/{id}", produces = MediaType.APPLICATION_JSON_VALUE) 
+    public ResponseEntity<Post> getPost(@PathVariable("blogName") String blogName, @PathVariable("id") long id) throws BlogEntityNotFoundException {
 		Post post = blogService.getPost(id);
         if (post == null) {
             System.out.println("User with id " + id + " not found");
@@ -84,11 +75,11 @@ public class PostsRestController {
 	//-------------------Create a Post--------------------------------------------------------
 
 	@Loggable
-	@RequestMapping(value = "/posts/", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> createPost(@RequestBody @Valid PostRequest post, UriComponentsBuilder ucBuilder) {
-        System.out.println("Creating Post " + post.getSubject());
+	@RequestMapping(value = "/{blogName}/posts/", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Void> createPost(@PathVariable("blogName") String blogName, @RequestBody @Valid PostRequest postRequest, UriComponentsBuilder ucBuilder) throws BlogEntityNotFoundException {
+        System.out.println("Creating Post " + postRequest.getSubject());
  
-        blogService.createPost(post);
+        Post post = blogService.createPost(blogName, postRequest);
  
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(ucBuilder.path("/posts/{id}").buildAndExpand(post.getId()).toUri());
@@ -98,11 +89,11 @@ public class PostsRestController {
     //------------------- Update a Post --------------------------------------------------------
     
 	@Loggable
-    @RequestMapping(value = "/posts/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<Post> updatePost(@PathVariable("id") long id, @RequestBody @Valid PostRequest postRequest) {
+    @RequestMapping(value = "/{blogName}/posts/{id}", method = RequestMethod.PUT)
+    public ResponseEntity<Post> updatePost(@PathVariable("blogName") String blogName, @PathVariable("id") long id, @RequestBody @Valid PostRequest postRequest) throws BlogEntityNotFoundException {
         System.out.println("Updating Post " + id);
          
-        Post post = blogService.updatePost(postRequest, postRequest.getId());
+        Post post = blogService.updatePost(id, postRequest);
         if(post != null){
         	return new ResponseEntity<Post>(post, HttpStatus.OK);
         }else{
@@ -115,8 +106,8 @@ public class PostsRestController {
   //------------------- Delete a Post --------------------------------------------------------
     
 	@Loggable
-    @RequestMapping(value = "/posts/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<Post> deletePost(@PathVariable("id") long id) {
+    @RequestMapping(value = "/{blogName}/posts/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity<Post> deletePost(@PathVariable("blogName") String blogName, @PathVariable("id") long id) {
         System.out.println("Fetching & Deleting Post with id " + id);
         
         boolean deleted = blogService.deletePost(id);
