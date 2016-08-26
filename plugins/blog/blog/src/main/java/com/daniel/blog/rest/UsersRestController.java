@@ -15,12 +15,18 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.daniel.blog.annotations.Loggable;
+import com.daniel.blog.errors.BlogEntityNotFoundException;
+import com.daniel.blog.model.User;
+import com.daniel.blog.requests.UserRequest;
 import com.daniel.blog.requests.validators.UserRequestValidator;
- 
-//GET /users															- Retrieves a list of users
+import com.daniel.blog.services.PhotoBlogService;
+
+//GET /users															- Retrieves a list of all users
 //GET /users?page={page_number}											- Retrieves a page of users
 //GET /users/{user_id}													- Retrieves a specific user
 
@@ -28,110 +34,75 @@ import com.daniel.blog.requests.validators.UserRequestValidator;
 //PUT /users/{user_id}													- Updates a specific user (more then one property)
 //DELETE /users/{user_id}												- Deletes a specific user
  
-//@RestController
+@RestController
 public class UsersRestController {
-// 
-//    @Autowired
-//    UserDAO userService;  //Service which will do all data retrieval/manipulation work
-//    
-//    @InitBinder
-//    protected void initBinder(WebDataBinder binder) {
-//        binder.setValidator(new UserValidator());
-//    }
-// 
-//     
-//    //-------------------Retrieve All Users--------------------------------------------------------
-//     
-//    @RequestMapping(value = "/users/", method = RequestMethod.GET)
-//    public ResponseEntity<List<User>> listAllUsers() {
-//        List<User> users = userService.findAllUsers();
-//        if(users.isEmpty()){
-//            return new ResponseEntity<List<User>>(HttpStatus.NO_CONTENT);//You many decide to return HttpStatus.NOT_FOUND
-//        }
-//        return new ResponseEntity<List<User>>(users, HttpStatus.OK);
-//    }
-// 
-// 
-//    //-------------------Retrieve Single User--------------------------------------------------------
-//     
-//    @RequestMapping(value = "/users/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-//    public ResponseEntity<User> getUser(@PathVariable("id") long id) {
-//        System.out.println("Fetching User with id " + id);
-//        User user = userService.getUser(id);
-//        if (user == null) {
-//            System.out.println("User with id " + id + " not found");
-//            return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
-//        }
-//        return new ResponseEntity<User>(user, HttpStatus.OK);
-//    }
-// 
-//     
-//     
-//    //-------------------Create a User--------------------------------------------------------
-//     
-//    @RequestMapping(value = "/users/", method = RequestMethod.POST)
-//    public ResponseEntity<Void> createUser(@RequestBody @Valid User user,    UriComponentsBuilder ucBuilder) {
-//        System.out.println("Creating User " + user.getName());
-// 
-//        if (userService.isUserExist(user)) {
-//            System.out.println("A User with name " + user.getName() + " already exist");
-//            return new ResponseEntity<Void>(HttpStatus.CONFLICT);
-//        }
-// 
-//        userService.saveUser(user);
-// 
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.setLocation(ucBuilder.path("/user/{id}").buildAndExpand(user.getId()).toUri());
-//        return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
-//    }
-// 
-//     
-//    //------------------- Update a User --------------------------------------------------------
-//     
-//    @RequestMapping(value = "/users/{id}", method = RequestMethod.PUT)
-//    public ResponseEntity<User> updateUser(@PathVariable("id") long id, @RequestBody @Valid User user) {
-//        System.out.println("Updating User " + id);
-//         
-//        User currentUser = userService.getUser(id);
-//         
-//        if (currentUser==null) {
-//            System.out.println("User with id " + id + " not found");
-//            return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
-//        }
-// 
-//        currentUser.setName(user.getName());
-//        //currentUser.setAge(user.getAge());
-//        //currentUser.setSalary(user.getSalary());
-//         
-//        userService.updateUser(currentUser);
-//        return new ResponseEntity<User>(currentUser, HttpStatus.OK);
-//    }
-// 
-//    //------------------- Delete a User --------------------------------------------------------
-//     
-//    @RequestMapping(value = "/users/{id}", method = RequestMethod.DELETE)
-//    public ResponseEntity<User> deleteUser(@PathVariable("id") long id) {
-//        System.out.println("Fetching & Deleting User with id " + id);
-// 
-//        User user = userService.getUser(id);
-//        if (user == null) {
-//            System.out.println("Unable to delete. User with id " + id + " not found");
-//            return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
-//        }
-// 
-//        userService.deleteUserById(id);
-//        return new ResponseEntity<User>(HttpStatus.NO_CONTENT);
-//    }
-// 
-//     
-//    //------------------- Delete All Users --------------------------------------------------------
-//     
-//    @RequestMapping(value = "/users/", method = RequestMethod.DELETE)
-//    public ResponseEntity<User> deleteAllUsers() {
-//        System.out.println("Deleting All Users");
-// 
-//        userService.deleteAllUsers();
-//        return new ResponseEntity<User>(HttpStatus.NO_CONTENT);
-//    }
+	
+	@Autowired
+    private PhotoBlogService blogService;
+	
+	@Loggable
+	@InitBinder
+    protected void initBinder(WebDataBinder binder) {
+        binder.setValidator(new UserRequestValidator());
+    }
+	
+	//GET /users															- Retrieves a list of all users
+	//GET /users?page={page_number}											- Retrieves a page of users
+	@Loggable
+	@RequestMapping(method = RequestMethod.GET, value = "/users", produces = MediaType.APPLICATION_JSON_VALUE) 
+    public ResponseEntity<List<User>> getUsers(@RequestParam(value = "page", required = false, defaultValue = "0") int pageNumber) throws BlogEntityNotFoundException {
+		List<User> users;
+		if(pageNumber == 0){
+			users = blogService.getAllUsers();
+		}else{
+			users = blogService.getUsers(pageNumber);
+		}
+		
+		if(users.isEmpty()){
+            throw new BlogEntityNotFoundException("Blogs not found!");
+        }
+        return new ResponseEntity<>(users, HttpStatus.OK);
+	}
+	
+	//GET /users/{user_id}													- Retrieves a specific user
+	@Loggable
+	@RequestMapping(method = RequestMethod.GET, value = "/users/{id}", produces = MediaType.APPLICATION_JSON_VALUE) 
+    public ResponseEntity<User> getUser(@PathVariable("id") long userId) throws BlogEntityNotFoundException {
+		User user =  blogService.getUserById(userId);
+		
+        return new ResponseEntity<>(user, HttpStatus.OK);
+	}
+
+	//POST /users															- Creates a new user
+	@Loggable
+	@RequestMapping(value = "/users/", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Void> createUser(@RequestBody @Valid UserRequest userRequest, UriComponentsBuilder ucBuilder) throws BlogEntityNotFoundException {
+        User user = blogService.createUser(userRequest);
  
+        HttpHeaders headers = new HttpHeaders();
+        headers.setLocation(ucBuilder.path("/blogs/{id}").buildAndExpand(user.getId()).toUri());
+        
+        return new ResponseEntity<>(headers, HttpStatus.CREATED);
+    }
+	
+	//PUT /users/{user_id}													- Updates a specific user (more then one property)
+	@Loggable
+    @RequestMapping(value = "/users/{id}", method = RequestMethod.PUT)
+    public ResponseEntity<User> updateUser(@PathVariable("id") long id, @RequestBody @Valid UserRequest blogRequest) throws BlogEntityNotFoundException {
+        User user = blogService.updateUser(id, blogRequest);
+        
+       	return new ResponseEntity<>(user, HttpStatus.OK);
+    }
+	
+	//DELETE /users/{user_id}												- Deletes a specific user
+	@Loggable
+    @RequestMapping(value = "/users/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity<User> deleteUser(@PathVariable("id") long id) throws BlogEntityNotFoundException {
+        boolean deleted = blogService.deleteUser(id);
+        if(!deleted){
+        	throw new BlogEntityNotFoundException("User not found!");
+        }
+        
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 }

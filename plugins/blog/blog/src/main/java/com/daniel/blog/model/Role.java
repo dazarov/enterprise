@@ -2,7 +2,7 @@ package com.daniel.blog.model;
 
 public enum Role {
 	
-	USER(0), 		// can leave/edit/delete own comments
+	COMMENTATOR(0), 		// can leave/edit/delete own comments
 	
 	BLOG_OWNER(1),  // can create/edit/delete blogs  
 					// can create/update/delete posts, photos and photo_images in a blog

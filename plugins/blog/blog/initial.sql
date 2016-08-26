@@ -117,6 +117,7 @@ VALUES (10, 2, 2, 2, 'Post 10 Subject', 'Post 10 Description', 'Post 10 Body');
 
 /* -------------- COMMENTABLE ------------------ */
 
+/*
 select 'INSERT INTO COMMENTABLE TABLE' AS '';
 
 INSERT INTO COMMENTABLE (ID, BLOG_ID, STATUS, LANGUAGE)
@@ -139,6 +140,7 @@ INSERT INTO COMMENTABLE (ID, BLOG_ID, STATUS, LANGUAGE)
 VALUES (9, 2, 2, 2);
 INSERT INTO COMMENTABLE (ID, BLOG_ID, STATUS, LANGUAGE)
 VALUES (10, 2, 2, 2);
+*/
 
 /* -------------- COMMENT ------------------ */
 

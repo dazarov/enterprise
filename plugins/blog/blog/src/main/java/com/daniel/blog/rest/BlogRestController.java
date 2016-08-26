@@ -1,18 +1,44 @@
 package com.daniel.blog.rest;
 
+import java.util.List;
+
+import javax.validation.Valid;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import com.daniel.blog.annotations.Loggable;
+import com.daniel.blog.errors.BlogEntityNotFoundException;
+import com.daniel.blog.model.Blog;
+import com.daniel.blog.requests.BlogRequest;
+import com.daniel.blog.requests.validators.BlogRequestValidator;
+import com.daniel.blog.services.PhotoBlogService;
+
 // ------------------------ BlogRestController:
 //GET /blogs/init														- Creates some test entities
 
-//GET /blogs															- Retrieves a list of blogs
+//GET /blogs															- Retrieves a list of all blogs
 //GET /blogs?page={page_number}											- Retrieves a page of blogs
 //GET /blogs/{blog_id}													- Retrieves a specific blog
 
 //POST /blogs															- Creates a new blog
-//UPDATE /blogs/{blog_id}												- Updates a specific blog
+//PUT /blogs/{blog_id}													- Updates a specific blog
 //DELETE /blogs/{blog_id}												- Deletes a specific blog
 
 //------------------------ UserRestController:
-//GET /users															- Retrieves a list of users
+//GET /users															- Retrieves a list of all users
 //GET /users?page={page_number}											- Retrieves a page of users
 //GET /users/{user_id}													- Retrieves a specific user
 
@@ -22,7 +48,7 @@ package com.daniel.blog.rest;
 //DELETE /users/{user_id}												- Deletes a specific user
 
 //------------------------ PostsRestController:
-//GET	/{blog_name}/posts       										- Retrieves a list of posts
+//----GET	/{blog_name}/posts       										- Retrieves a list of posts
 //GET	/{blog_name}/posts?page={page_number}							- Retrieves a page of posts
 //GET	/posts/{post_id}			    								- Retrieves a specific post
 
@@ -32,7 +58,7 @@ package com.daniel.blog.rest;
 //DELETE /posts/{post_id} 												- Deletes a specific post
 
 //------------------------ PhotosRestController:
-//GET	/{blog_name}/photos       										- Retrieves a list of photos
+//----GET	/{blog_name}/photos       										- Retrieves a list of photos
 //GET	/{blog_name}/photos?page={page_number}							- Retrieves a page of photos
 //GET	/photos/{photo_id} 				   								- Retrieves a specific photo
 
@@ -53,6 +79,86 @@ package com.daniel.blog.rest;
 //PUT /comments/{comment_id}											- Updates a specific comment
 //DELETE /comments/{comment_id}											- Deletes a specific comment
 
+@RestController
 public class BlogRestController {
+	
+	@Autowired
+    private PhotoBlogService blogService;
+	
+	@Loggable
+	@InitBinder
+    protected void initBinder(WebDataBinder binder) {
+        binder.setValidator(new BlogRequestValidator());
+    }
+	
+	//GET /blogs/init														- Creates some test entities
+	@Loggable
+	@RequestMapping(method = RequestMethod.GET, value = "/blogs/init", produces = MediaType.APPLICATION_JSON_VALUE) 
+    public ResponseEntity<Object> init() throws BlogEntityNotFoundException {
+		
+		blogService.init();
+		
+        return new ResponseEntity<>(new Object(), HttpStatus.OK);
+	}
+	
+	//GET /blogs															- Retrieves a list of all blogs
+	//GET /blogs?page={page_number}											- Retrieves a page of blogs
+	@Loggable
+	@RequestMapping(method = RequestMethod.GET, value = "/blogs", produces = MediaType.APPLICATION_JSON_VALUE) 
+    public ResponseEntity<List<Blog>> getBlogs(@RequestParam(value = "page", required = false, defaultValue = "0") int pageNumber) throws BlogEntityNotFoundException {
+		List<Blog> blogs;
+		if(pageNumber == 0){
+			blogs = blogService.getAllBlogs();
+		}else{
+			blogs = blogService.getBlogs(pageNumber);
+		}
+		
+		if(blogs.isEmpty()){
+            throw new BlogEntityNotFoundException("Blogs not found!");
+        }
+        return new ResponseEntity<>(blogs, HttpStatus.OK);
+	}
+	
+	//GET /blogs/{blog_id}													- Retrieves a specific blog
+	@Loggable
+	@RequestMapping(method = RequestMethod.GET, value = "/blogs/{id}", produces = MediaType.APPLICATION_JSON_VALUE) 
+    public ResponseEntity<Blog> getBlog(@PathVariable("id") long blogId) throws BlogEntityNotFoundException {
+		Blog blog =  blogService.getBlogById(blogId);
+		
+        return new ResponseEntity<>(blog, HttpStatus.OK);
+	}
+
+	//POST /blogs															- Creates a new blog
+	@Loggable
+	@RequestMapping(value = "/blogs/", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Void> createBlog(@RequestBody @Valid BlogRequest blogRequest, UriComponentsBuilder ucBuilder) throws BlogEntityNotFoundException {
+        Blog blog = blogService.createBlog(blogRequest);
+ 
+        HttpHeaders headers = new HttpHeaders();
+        headers.setLocation(ucBuilder.path("/blogs/{id}").buildAndExpand(blog.getId()).toUri());
+        
+        return new ResponseEntity<>(headers, HttpStatus.CREATED);
+    }
+
+	//PUT /blogs/{blog_id}													- Updates a specific blog
+	@Loggable
+    @RequestMapping(value = "/blogs/{id}", method = RequestMethod.PUT)
+    public ResponseEntity<Blog> updateBlog(@PathVariable("id") long id, @RequestBody @Valid BlogRequest blogRequest) throws BlogEntityNotFoundException {
+        Blog blog = blogService.updateBlog(id, blogRequest);
+        
+       	return new ResponseEntity<>(blog, HttpStatus.OK);
+    }
+    
+	//DELETE /blogs/{blog_id}												- Deletes a specific blog    
+	@Loggable
+    @RequestMapping(value = "/blogs/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity<Blog> deleteBlog(@PathVariable("id") long id) throws BlogEntityNotFoundException {
+        boolean deleted = blogService.deleteBlog(id);
+        if(!deleted){
+        	throw new BlogEntityNotFoundException("Blog not found!");
+        }
+        
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 
 }

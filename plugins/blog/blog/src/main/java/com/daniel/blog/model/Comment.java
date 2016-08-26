@@ -12,8 +12,11 @@ import org.hibernate.validator.constraints.Length;
 public class Comment extends CommentableBlogEntry{
 	
 	// Fields
+	@Column(name="USER_ID")
+	private User user;
 	
 	@ManyToOne
+	@Column(name="BLOG_ENTRY_ID")
 	private CommentableBlogEntry blogEntry; 
 	
 	@Column(name="BODY")
@@ -22,6 +25,14 @@ public class Comment extends CommentableBlogEntry{
 	
 	
 	// Methods
+	
+	public void setUser(User user){
+		this.user = user;
+	}
+	
+	public User getUser(){
+		return user;
+	}
 	
 	public void setBlogEntry(CommentableBlogEntry blogEntry){
 		this.blogEntry = blogEntry;

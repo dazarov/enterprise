@@ -74,11 +74,11 @@ public interface PhotoBlogService {
 	
 	// Comment operations
 	
-	public List<Comment> getCommentsByPostId(long postId, int pageNUmber) throws BlogEntityNotFoundException;
+	public List<Comment> getCommentsByPostId(long postId, int pageNumber) throws BlogEntityNotFoundException;
 	
-	public List<Comment> getCommentsByPhotoId(long photoId, int pageNUmber) throws BlogEntityNotFoundException;
+	public List<Comment> getCommentsByPhotoId(long photoId, int pageNumber) throws BlogEntityNotFoundException;
 	
-	public List<Comment> getCommentsByParentCommentId(long parentCommentId, int pageNUmber) throws BlogEntityNotFoundException;
+	public List<Comment> getCommentsByParentCommentId(long parentCommentId, int pageNumber) throws BlogEntityNotFoundException;
 	
 	public Comment createCommentForPost(long postId, CommentRequest commentRequest) throws BlogEntityNotFoundException;
 	
