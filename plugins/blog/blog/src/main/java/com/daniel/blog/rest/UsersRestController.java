@@ -50,7 +50,7 @@ public class UsersRestController {
 	//GET /users?page={page_number}											- Retrieves a page of users
 	@Loggable
 	@RequestMapping(method = RequestMethod.GET, value = "/users", produces = MediaType.APPLICATION_JSON_VALUE) 
-    public ResponseEntity<List<User>> getUsers(@RequestParam(value = "page", required = false, defaultValue = "0") int pageNumber) throws BlogEntityNotFoundException {
+    public ResponseEntity<List<User>> getUsers(@RequestParam(value = "page", required = false, defaultValue = "0") Integer pageNumber) throws BlogEntityNotFoundException {
 		List<User> users;
 		if(pageNumber == 0){
 			users = blogService.getAllUsers();

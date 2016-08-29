@@ -105,7 +105,7 @@ public class BlogRestController {
 	//GET /blogs?page={page_number}											- Retrieves a page of blogs
 	@Loggable
 	@RequestMapping(method = RequestMethod.GET, value = "/blogs", produces = MediaType.APPLICATION_JSON_VALUE) 
-    public ResponseEntity<List<Blog>> getBlogs(@RequestParam(value = "page", required = false, defaultValue = "0") int pageNumber) throws BlogEntityNotFoundException {
+    public ResponseEntity<List<Blog>> getBlogs(@RequestParam(value = "page", required = false, defaultValue = "0") Integer pageNumber) throws BlogEntityNotFoundException {
 		List<Blog> blogs;
 		if(pageNumber == 0){
 			blogs = blogService.getAllBlogs();

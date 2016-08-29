@@ -53,7 +53,7 @@ public class CommentsRestController {
 	//GET	/posts/{post_id}/comments?page={page_number}   					- Retrieves a page of comments for specific post
 	@Loggable
 	@RequestMapping(method = RequestMethod.GET, value = "/posts/{post_id}/comments", produces = MediaType.APPLICATION_JSON_VALUE) 
-    public ResponseEntity<List<Comment>> getCommentsForPost(@PathVariable("post_id") long postId, @RequestParam(value = "page", required = false) int pageNumber) throws BlogEntityNotFoundException {
+    public ResponseEntity<List<Comment>> getCommentsForPost(@PathVariable("post_id") long postId, @RequestParam(value = "page", required = false, defaultValue="0") Integer pageNumber) throws BlogEntityNotFoundException {
 		List<Comment> comments =  blogService.getCommentsByPostId(postId, pageNumber);
 		
 		if(comments.isEmpty()){
@@ -65,7 +65,7 @@ public class CommentsRestController {
 	//GET	/photos/{photo_id}/comments?page={page_number} 					- Retrieves a page of comments for specific photo
 	@Loggable
 	@RequestMapping(method = RequestMethod.GET, value = "/photos/{photo_id}/comments", produces = MediaType.APPLICATION_JSON_VALUE) 
-    public ResponseEntity<List<Comment>> getCommentsForPhoto(@PathVariable("photo_id") long photoId, @RequestParam(value = "page", required = false) int pageNumber) throws BlogEntityNotFoundException {
+    public ResponseEntity<List<Comment>> getCommentsForPhoto(@PathVariable("photo_id") long photoId, @RequestParam(value = "page", required = false, defaultValue="0") Integer pageNumber) throws BlogEntityNotFoundException {
 		List<Comment> comments =  blogService.getCommentsByPhotoId(photoId, pageNumber);
 		
 		if(comments.isEmpty()){
@@ -77,7 +77,7 @@ public class CommentsRestController {
 	//GET	/comments/{parent_comment_id}?page={page_number} 				- Retrieves a page of child comments for specific comment
 	@Loggable
 	@RequestMapping(method = RequestMethod.GET, value = "/comments/{parent_id}", produces = MediaType.APPLICATION_JSON_VALUE) 
-    public ResponseEntity<List<Comment>> getCommentsForParentComment(@PathVariable("parent_id") long parentId, @RequestParam(value = "page", required = false) int pageNumber) throws BlogEntityNotFoundException {
+    public ResponseEntity<List<Comment>> getCommentsForParentComment(@PathVariable("parent_id") long parentId, @RequestParam(value = "page", required = false, defaultValue="0") Integer pageNumber) throws BlogEntityNotFoundException {
 		List<Comment> comments =  blogService.getCommentsByParentCommentId(parentId, pageNumber);
 		
 		if(comments.isEmpty()){

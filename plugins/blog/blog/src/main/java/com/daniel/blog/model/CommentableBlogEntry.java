@@ -8,6 +8,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ForeignKey;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
@@ -17,6 +18,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.daniel.blog.model.converters.LanguageConverter;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name="COMMENTABLE")
@@ -28,7 +30,9 @@ public class CommentableBlogEntry extends AbstractEntity {
 	@Column(name="VISITED")
 	private Long visited;
 	
-	@OneToMany(mappedBy = "blogEntry", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH}, orphanRemoval = false)
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "blogEntry", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH}, orphanRemoval = false)
+	//@JsonIgnore
+	@JsonManagedReference
 	Set<Comment> comments = new TreeSet<>();
 	
 	@Column(name="LANGUAGE")

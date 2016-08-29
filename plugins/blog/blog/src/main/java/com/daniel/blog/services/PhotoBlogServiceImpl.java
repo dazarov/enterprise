@@ -154,9 +154,13 @@ public class PhotoBlogServiceImpl implements PhotoBlogService {
 		post2.setDescription("Blog 1 Post 2 Description");
 		post2.setBody("Blog 1 Post 2 Body");
 		post2.setBlog(blog1);
-		post2.getComments().add(comment1);
-		post2.getComments().add(comment2);
+		//post2.getComments().add(comment1);
+		//post2.getComments().add(comment2);
+		comment1.setBlogEntry(post2);
+		comment2.setBlogEntry(post2);
 		postRepository.save(post2);
+		commentRepository.save(comment1);
+		commentRepository.save(comment2);
 
 		Post post3 = new Post();
 		post3.setSubject("Blog 2 Post 1 Subject");

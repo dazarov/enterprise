@@ -2,21 +2,28 @@ package com.daniel.blog.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.validator.constraints.Length;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 @Table(name="COMMENT")
 public class Comment extends CommentableBlogEntry{
 	
 	// Fields
-	@Column(name="USER_ID")
+	@ManyToOne
+	@JoinColumn(name="USER_ID")
+	//@Column(name="USER_ID")
 	private User user;
 	
 	@ManyToOne
-	@Column(name="BLOG_ENTRY_ID")
+	@JoinColumn(name="BLOG_ENTRY_ID")
+	//@JsonIgnore
+	@JsonBackReference
 	private CommentableBlogEntry blogEntry; 
 	
 	@Column(name="BODY")

@@ -48,7 +48,7 @@ public class PostsRestController {
 	//GET	/{blog_name}/posts?page={page_number}							- Retrieves a page of posts
 	@Loggable
 	@RequestMapping(method = RequestMethod.GET, value = "/{blogName}/posts", produces = MediaType.APPLICATION_JSON_VALUE) 
-    public ResponseEntity<List<Post>> getPosts(@PathVariable("blogName") String blogName, @RequestParam(value = "page", required = false) int pageNumber) throws BlogEntityNotFoundException {
+    public ResponseEntity<List<Post>> getPosts(@PathVariable("blogName") String blogName, @RequestParam(value = "page", required = false, defaultValue="0") Integer pageNumber) throws BlogEntityNotFoundException {
 		List<Post> posts =  blogService.getPostsByBlogName(blogName, pageNumber);
 		
 		if(posts.isEmpty()){
