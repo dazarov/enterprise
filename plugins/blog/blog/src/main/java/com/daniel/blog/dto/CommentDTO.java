@@ -3,6 +3,7 @@ package com.daniel.blog.dto;
 import com.daniel.blog.model.Comment;
 
 public class CommentDTO {
+	private long id;
 	private String body;
 	
 	public CommentDTO(String body){
@@ -10,7 +11,12 @@ public class CommentDTO {
 	}
 	
 	public CommentDTO(Comment comment){
+		this.id = comment.getId();
 		this.body = comment.getBody();
+	}
+	
+	public long getId(){
+		return id;
 	}
 
 	public String getBody() {

@@ -3,6 +3,8 @@ package com.daniel.blog.dto;
 import com.daniel.blog.model.Post;
 
 public class PostDTO {
+	private long id;
+	
 	private String subject;
 	
 	private String description;
@@ -16,9 +18,14 @@ public class PostDTO {
 	}
 	
 	public PostDTO(Post post){
+		this.id = post.getId();
 		this.subject = post.getSubject();
 		this.description = post.getDescription();
 		this.body = post.getBody();
+	}
+	
+	public long getId(){
+		return id;
 	}
 	
 	public String getSubject() {

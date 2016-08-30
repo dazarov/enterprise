@@ -3,6 +3,7 @@ package com.daniel.blog.dto;
 import com.daniel.blog.model.Photo;
 
 public class PhotoDTO {
+	private long id;
 	private String location;
 	private String description;
 	
@@ -11,8 +12,13 @@ public class PhotoDTO {
 	}
 	
 	public PhotoDTO(Photo photo){
+		this.id = photo.getId();
 		this.location = photo.getLocation();
 		this.description = photo.getDescription();
+	}
+	
+	public long getId(){
+		return id;
 	}
 	
 	public String getLocation() {
