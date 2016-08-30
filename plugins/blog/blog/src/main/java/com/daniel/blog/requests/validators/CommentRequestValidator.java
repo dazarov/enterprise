@@ -4,13 +4,13 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
-import com.daniel.blog.requests.CommentRequest;
+import com.daniel.blog.dto.CommentDTO;
 
 public class CommentRequestValidator implements Validator {
 
 	@Override
 	public boolean supports(Class<?> clazz) {
-		return CommentRequest.class.equals(clazz);
+		return CommentDTO.class.equals(clazz);
 	}
 
 	@Override

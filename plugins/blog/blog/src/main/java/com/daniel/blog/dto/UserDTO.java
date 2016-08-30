@@ -1,14 +1,21 @@
-package com.daniel.blog.requests;
+package com.daniel.blog.dto;
 
-public class UserRequest {
+import com.daniel.blog.model.User;
+
+public class UserDTO {
 	private String name;
 	private String email;
 	private String password;
 	
-	public UserRequest(String name, String email, String password){
+	public UserDTO(String name, String email, String password){
 		this.name = name;
 		this.email = email;
 		this.password = password;
+	}
+	
+	public UserDTO(User user){
+		this.name = user.getName();
+		this.email = user.getEmail();
 	}
 	
 	public String getName() {

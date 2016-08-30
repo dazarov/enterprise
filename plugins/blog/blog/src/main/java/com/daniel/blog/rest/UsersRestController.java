@@ -1,5 +1,6 @@
 package com.daniel.blog.rest;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -20,9 +21,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.daniel.blog.annotations.Loggable;
+import com.daniel.blog.dto.UserDTO;
 import com.daniel.blog.errors.BlogEntityNotFoundException;
 import com.daniel.blog.model.User;
-import com.daniel.blog.requests.UserRequest;
 import com.daniel.blog.requests.validators.UserRequestValidator;
 import com.daniel.blog.services.PhotoBlogService;
 
@@ -50,7 +51,7 @@ public class UsersRestController {
 	//GET /users?page={page_number}											- Retrieves a page of users
 	@Loggable
 	@RequestMapping(method = RequestMethod.GET, value = "/users", produces = MediaType.APPLICATION_JSON_VALUE) 
-    public ResponseEntity<List<User>> getUsers(@RequestParam(value = "page", required = false, defaultValue = "0") Integer pageNumber) throws BlogEntityNotFoundException {
+    public ResponseEntity<List<UserDTO>> getUsers(@RequestParam(value = "page", required = false, defaultValue = "0") Integer pageNumber) throws BlogEntityNotFoundException {
 		List<User> users;
 		if(pageNumber == 0){
 			users = blogService.getAllUsers();
@@ -61,22 +62,26 @@ public class UsersRestController {
 		if(users.isEmpty()){
             throw new BlogEntityNotFoundException("Blogs not found!");
         }
-        return new ResponseEntity<>(users, HttpStatus.OK);
+		
+		List<UserDTO> userDTOs = new ArrayList<>();
+		users.forEach(p -> userDTOs.add(new UserDTO(p)));
+		
+        return new ResponseEntity<>(userDTOs, HttpStatus.OK);
 	}
 	
 	//GET /users/{user_id}													- Retrieves a specific user
 	@Loggable
 	@RequestMapping(method = RequestMethod.GET, value = "/users/{id}", produces = MediaType.APPLICATION_JSON_VALUE) 
-    public ResponseEntity<User> getUser(@PathVariable("id") long userId) throws BlogEntityNotFoundException {
+    public ResponseEntity<UserDTO> getUser(@PathVariable("id") long userId) throws BlogEntityNotFoundException {
 		User user =  blogService.getUserById(userId);
 		
-        return new ResponseEntity<>(user, HttpStatus.OK);
+        return new ResponseEntity<>(new UserDTO(user), HttpStatus.OK);
 	}
 
 	//POST /users															- Creates a new user
 	@Loggable
 	@RequestMapping(value = "/users/", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> createUser(@RequestBody @Valid UserRequest userRequest, UriComponentsBuilder ucBuilder) throws BlogEntityNotFoundException {
+    public ResponseEntity<Void> createUser(@RequestBody @Valid UserDTO userRequest, UriComponentsBuilder ucBuilder) throws BlogEntityNotFoundException {
         User user = blogService.createUser(userRequest);
  
         HttpHeaders headers = new HttpHeaders();
@@ -88,16 +93,16 @@ public class UsersRestController {
 	//PUT /users/{user_id}													- Updates a specific user (more then one property)
 	@Loggable
     @RequestMapping(value = "/users/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<User> updateUser(@PathVariable("id") long id, @RequestBody @Valid UserRequest blogRequest) throws BlogEntityNotFoundException {
+    public ResponseEntity<UserDTO> updateUser(@PathVariable("id") long id, @RequestBody @Valid UserDTO blogRequest) throws BlogEntityNotFoundException {
         User user = blogService.updateUser(id, blogRequest);
         
-       	return new ResponseEntity<>(user, HttpStatus.OK);
+       	return new ResponseEntity<>(new UserDTO(user), HttpStatus.OK);
     }
 	
 	//DELETE /users/{user_id}												- Deletes a specific user
 	@Loggable
     @RequestMapping(value = "/users/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<User> deleteUser(@PathVariable("id") long id) throws BlogEntityNotFoundException {
+    public ResponseEntity<UserDTO> deleteUser(@PathVariable("id") long id) throws BlogEntityNotFoundException {
         boolean deleted = blogService.deleteUser(id);
         if(!deleted){
         	throw new BlogEntityNotFoundException("User not found!");

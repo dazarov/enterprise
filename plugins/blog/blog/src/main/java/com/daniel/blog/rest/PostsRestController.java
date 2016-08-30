@@ -1,5 +1,6 @@
 package com.daniel.blog.rest;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -20,9 +21,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.daniel.blog.annotations.Loggable;
+import com.daniel.blog.dto.PostDTO;
 import com.daniel.blog.errors.BlogEntityNotFoundException;
 import com.daniel.blog.model.Post;
-import com.daniel.blog.requests.PostRequest;
 import com.daniel.blog.requests.validators.PostRequestValidator;
 import com.daniel.blog.services.PhotoBlogService;
 
@@ -48,28 +49,32 @@ public class PostsRestController {
 	//GET	/{blog_name}/posts?page={page_number}							- Retrieves a page of posts
 	@Loggable
 	@RequestMapping(method = RequestMethod.GET, value = "/{blogName}/posts", produces = MediaType.APPLICATION_JSON_VALUE) 
-    public ResponseEntity<List<Post>> getPosts(@PathVariable("blogName") String blogName, @RequestParam(value = "page", required = false, defaultValue="0") Integer pageNumber) throws BlogEntityNotFoundException {
+    public ResponseEntity<List<PostDTO>> getPosts(@PathVariable("blogName") String blogName, @RequestParam(value = "page", required = false, defaultValue="0") Integer pageNumber) throws BlogEntityNotFoundException {
 		List<Post> posts =  blogService.getPostsByBlogName(blogName, pageNumber);
 		
 		if(posts.isEmpty()){
             throw new BlogEntityNotFoundException("Posts not found!");
         }
-        return new ResponseEntity<>(posts, HttpStatus.OK);
+		
+		List<PostDTO> postDTOs = new ArrayList<>();
+		posts.forEach(p -> postDTOs.add(new PostDTO(p)));
+		
+        return new ResponseEntity<>(postDTOs, HttpStatus.OK);
 	}
 	
 	//GET	/posts/{post_id}			    								- Retrieves a specific post
 	@Loggable
 	@RequestMapping(method = RequestMethod.GET, value = "/posts/{id}", produces = MediaType.APPLICATION_JSON_VALUE) 
-    public ResponseEntity<Post> getPost(@PathVariable("id") long id) throws BlogEntityNotFoundException {
+    public ResponseEntity<PostDTO> getPost(@PathVariable("id") long id) throws BlogEntityNotFoundException {
 		Post post = blogService.getPost(id);
 		
-        return new ResponseEntity<>(post, HttpStatus.OK);
+        return new ResponseEntity<>(new PostDTO(post), HttpStatus.OK);
 	}
 	
 	//POST	/{blog_name}/posts      										- Creates a new post in the blog
 	@Loggable
 	@RequestMapping(value = "/{blogName}/posts", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> createPost(@PathVariable("blogName") String blogName, @RequestBody @Valid PostRequest postRequest, UriComponentsBuilder ucBuilder) throws BlogEntityNotFoundException {
+    public ResponseEntity<Void> createPost(@PathVariable("blogName") String blogName, @RequestBody @Valid PostDTO postRequest, UriComponentsBuilder ucBuilder) throws BlogEntityNotFoundException {
         Post post = blogService.createPost(blogName, postRequest);
  
         HttpHeaders headers = new HttpHeaders();
@@ -81,18 +86,18 @@ public class PostsRestController {
 	//PUT	/posts/{post_id}    											- Updates a specific post
 	@Loggable
     @RequestMapping(value = "/posts/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<Post> updatePost(@PathVariable("id") long id, @RequestBody @Valid PostRequest postRequest) throws BlogEntityNotFoundException {
+    public ResponseEntity<PostDTO> updatePost(@PathVariable("id") long id, @RequestBody @Valid PostDTO postRequest) throws BlogEntityNotFoundException {
         System.out.println("Updating Post " + id);
          
         Post post = blogService.updatePost(id, postRequest);
         
-       	return new ResponseEntity<>(post, HttpStatus.OK);
+       	return new ResponseEntity<>(new PostDTO(post), HttpStatus.OK);
     }
     
 	//DELETE /posts/{post_id} 												- Deletes a specific post
 	@Loggable
     @RequestMapping(value = "/posts/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<Post> deletePost(@PathVariable("id") long id) throws BlogEntityNotFoundException {
+    public ResponseEntity<PostDTO> deletePost(@PathVariable("id") long id) throws BlogEntityNotFoundException {
         boolean deleted = blogService.deletePost(id);
         if(!deleted){
         	throw new BlogEntityNotFoundException("Post with id "+id+" not found!");

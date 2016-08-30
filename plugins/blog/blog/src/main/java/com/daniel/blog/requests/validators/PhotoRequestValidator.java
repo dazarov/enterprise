@@ -4,13 +4,13 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
-import com.daniel.blog.requests.PhotoRequest;
+import com.daniel.blog.dto.PhotoDTO;
 
 public class PhotoRequestValidator implements Validator {
 
 	@Override
 	public boolean supports(Class<?> clazz) {
-		return PhotoRequest.class.equals(clazz);
+		return PhotoDTO.class.equals(clazz);
 	}
 
 	@Override

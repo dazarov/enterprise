@@ -4,13 +4,13 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
-import com.daniel.blog.requests.BlogRequest;
+import com.daniel.blog.dto.BlogDTO;
 
 public class BlogRequestValidator implements Validator {
 
 	@Override
 	public boolean supports(Class<?> clazz) {
-		return BlogRequest.class.equals(clazz);
+		return BlogDTO.class.equals(clazz);
 	}
 
 	@Override

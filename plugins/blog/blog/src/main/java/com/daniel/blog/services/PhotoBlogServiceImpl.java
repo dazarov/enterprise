@@ -10,6 +10,11 @@ import org.springframework.stereotype.Service;
 
 import com.daniel.blog.PhotoBlogConstants;
 import com.daniel.blog.annotations.Loggable;
+import com.daniel.blog.dto.BlogDTO;
+import com.daniel.blog.dto.CommentDTO;
+import com.daniel.blog.dto.PhotoDTO;
+import com.daniel.blog.dto.PostDTO;
+import com.daniel.blog.dto.UserDTO;
 import com.daniel.blog.errors.BlogEntityNotFoundException;
 import com.daniel.blog.model.Blog;
 import com.daniel.blog.model.Comment;
@@ -24,11 +29,6 @@ import com.daniel.blog.repositories.PhotoRepository;
 import com.daniel.blog.repositories.PostRepository;
 import com.daniel.blog.repositories.UserRepository;
 import com.daniel.blog.repositories.UserRoleRepository;
-import com.daniel.blog.requests.BlogRequest;
-import com.daniel.blog.requests.CommentRequest;
-import com.daniel.blog.requests.PhotoRequest;
-import com.daniel.blog.requests.PostRequest;
-import com.daniel.blog.requests.UserRequest;
 
 @Service
 public class PhotoBlogServiceImpl implements PhotoBlogService {
@@ -222,7 +222,7 @@ public class PhotoBlogServiceImpl implements PhotoBlogService {
 
 	@Loggable
 	@Override
-	public Blog createBlog(BlogRequest blogRequest) {
+	public Blog createBlog(BlogDTO blogRequest) {
 		Blog blog = new Blog();
 		
 		updateBlog(blog, blogRequest);
@@ -232,7 +232,7 @@ public class PhotoBlogServiceImpl implements PhotoBlogService {
 
 	@Loggable
 	@Override
-	public Blog updateBlog(long blogId, BlogRequest blogRequest) throws BlogEntityNotFoundException {
+	public Blog updateBlog(long blogId, BlogDTO blogRequest) throws BlogEntityNotFoundException {
 		Blog blog = blogRepository.findOne(blogId);
 		if(blog == null){
 			throw new BlogEntityNotFoundException("Blog with id "+blogId+" not found!");
@@ -288,7 +288,7 @@ public class PhotoBlogServiceImpl implements PhotoBlogService {
 
 	@Loggable
 	@Override
-	public User createUser(UserRequest userRequest) {
+	public User createUser(UserDTO userRequest) {
 		User user = new User();
 		
 		updateUser(user, userRequest);
@@ -298,7 +298,7 @@ public class PhotoBlogServiceImpl implements PhotoBlogService {
 
 	@Loggable
 	@Override
-	public User updateUser(long userId, UserRequest userRequest) throws BlogEntityNotFoundException {
+	public User updateUser(long userId, UserDTO userRequest) throws BlogEntityNotFoundException {
 		User user = userRepository.findOne(userId);
 		if(user == null){
 			throw new BlogEntityNotFoundException("User with id "+userId+" not found!");
@@ -349,7 +349,7 @@ public class PhotoBlogServiceImpl implements PhotoBlogService {
 	
 	@Loggable
 	@Override
-	public Post createPost(String blogName, PostRequest postRequest) throws BlogEntityNotFoundException {
+	public Post createPost(String blogName, PostDTO postRequest) throws BlogEntityNotFoundException {
 		Blog blog = blogRepository.findOneByName(blogName);
 		if(blog == null){
 			throw new BlogEntityNotFoundException("Blog with name "+blogName+" not found!");
@@ -366,7 +366,7 @@ public class PhotoBlogServiceImpl implements PhotoBlogService {
 
 	@Loggable
 	@Override
-	public Post updatePost(long postId, PostRequest postRequest) throws BlogEntityNotFoundException {
+	public Post updatePost(long postId, PostDTO postRequest) throws BlogEntityNotFoundException {
 		Post post = postRepository.findOne(postId);
 		if(post == null){
 			throw new BlogEntityNotFoundException("Post with id "+postId+" not found!");
@@ -416,7 +416,7 @@ public class PhotoBlogServiceImpl implements PhotoBlogService {
 
 	@Loggable
 	@Override
-	public Photo createPhoto(String blogName, PhotoRequest photoRequest) throws BlogEntityNotFoundException {
+	public Photo createPhoto(String blogName, PhotoDTO photoRequest) throws BlogEntityNotFoundException {
 		Blog blog = blogRepository.findOneByName(blogName);
 		if(blog == null){
 			throw new BlogEntityNotFoundException("Blog with name "+blogName+" not found!");
@@ -433,7 +433,7 @@ public class PhotoBlogServiceImpl implements PhotoBlogService {
 
 	@Loggable
 	@Override
-	public Photo updatePhoto(long photoId, PhotoRequest photoRequest) throws BlogEntityNotFoundException {
+	public Photo updatePhoto(long photoId, PhotoDTO photoRequest) throws BlogEntityNotFoundException {
 		Photo photo = photoRepository.findOne(photoId);
 		if(photo == null){
 			throw new BlogEntityNotFoundException("Photo with id "+photoId+" not found!");
@@ -501,7 +501,7 @@ public class PhotoBlogServiceImpl implements PhotoBlogService {
 
 	@Loggable
 	@Override
-	public Comment createCommentForPost(long postId, CommentRequest commentRequest) throws BlogEntityNotFoundException {
+	public Comment createCommentForPost(long postId, CommentDTO commentRequest) throws BlogEntityNotFoundException {
 		Post post = postRepository.findOne(postId);
 		if(post == null){
 			throw new BlogEntityNotFoundException("Post with id "+postId+" not found!");
@@ -517,7 +517,7 @@ public class PhotoBlogServiceImpl implements PhotoBlogService {
 
 	@Loggable
 	@Override
-	public Comment createCommentForPhoto(long photoId, CommentRequest commentRequest) throws BlogEntityNotFoundException {
+	public Comment createCommentForPhoto(long photoId, CommentDTO commentRequest) throws BlogEntityNotFoundException {
 		Photo photo = photoRepository.findOne(photoId);
 		if(photo == null){
 			throw new BlogEntityNotFoundException("Photo with id "+photoId+" not found!");
@@ -533,7 +533,7 @@ public class PhotoBlogServiceImpl implements PhotoBlogService {
 
 	@Loggable
 	@Override
-	public Comment createCommentForParentComment(long parentCommentId, CommentRequest commentRequest) throws BlogEntityNotFoundException {
+	public Comment createCommentForParentComment(long parentCommentId, CommentDTO commentRequest) throws BlogEntityNotFoundException {
 		Comment parent = commentRepository.findOne(parentCommentId);
 		if(parent == null){
 			throw new BlogEntityNotFoundException("Comment with id "+parentCommentId+" not found!");
@@ -549,7 +549,7 @@ public class PhotoBlogServiceImpl implements PhotoBlogService {
 
 	@Loggable
 	@Override
-	public Comment updateComment(long commentId, CommentRequest commentRequest) throws BlogEntityNotFoundException {
+	public Comment updateComment(long commentId, CommentDTO commentRequest) throws BlogEntityNotFoundException {
 		Comment comment = commentRepository.findOne(commentId);
 		if(comment == null){
 			throw new BlogEntityNotFoundException("Comment with id "+commentId+" not found!");
@@ -571,28 +571,28 @@ public class PhotoBlogServiceImpl implements PhotoBlogService {
 		return false;
 	}
 	
-	private void updateBlog(Blog blog, BlogRequest blogRequest){
+	private void updateBlog(Blog blog, BlogDTO blogRequest){
 		blog.setName(blogRequest.getName());
 	}
 	
-	private void updateUser(User user, UserRequest userRequest){
+	private void updateUser(User user, UserDTO userRequest){
 		user.setName(userRequest.getName());
 		user.setEmail(userRequest.getEmail());
 		user.setPassword(userRequest.getPassword());
 	}
 	
-	private void updatePost(Post post, PostRequest postRequest){
+	private void updatePost(Post post, PostDTO postRequest){
 		post.setBody(postRequest.getBody());
 		post.setSubject(postRequest.getSubject());
 		post.setDescription(postRequest.getDescription());
 	}
 
-	private void updatePhoto(Photo photo, PhotoRequest photoRequest){
+	private void updatePhoto(Photo photo, PhotoDTO photoRequest){
 		photo.setDescription(photoRequest.getDescription());
 		photo.setLocation(photoRequest.getLocation());
 	}
 	
-	private void updateComment(Comment comment, CommentRequest commentRequest){
+	private void updateComment(Comment comment, CommentDTO commentRequest){
 		comment.setBody(commentRequest.getBody());
 	}
 	

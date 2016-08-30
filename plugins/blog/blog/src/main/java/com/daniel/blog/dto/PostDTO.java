@@ -1,16 +1,24 @@
-package com.daniel.blog.requests;
+package com.daniel.blog.dto;
 
-public class PostRequest {
+import com.daniel.blog.model.Post;
+
+public class PostDTO {
 	private String subject;
 	
 	private String description;
 	
 	private String body;
 	
-	public PostRequest(String subject, String description, String body){
+	public PostDTO(String subject, String description, String body){
 		this.subject = subject;
 		this.description = description;
 		this.body = body;
+	}
+	
+	public PostDTO(Post post){
+		this.subject = post.getSubject();
+		this.description = post.getDescription();
+		this.body = post.getBody();
 	}
 	
 	public String getSubject() {

@@ -31,7 +31,6 @@ public class CommentableBlogEntry extends AbstractEntity {
 	private Long visited;
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "blogEntry", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH}, orphanRemoval = false)
-	//@JsonIgnore
 	@JsonManagedReference
 	Set<Comment> comments = new TreeSet<>();
 	

@@ -1,5 +1,6 @@
 package com.daniel.blog.rest;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -20,9 +21,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.daniel.blog.annotations.Loggable;
+import com.daniel.blog.dto.BlogDTO;
 import com.daniel.blog.errors.BlogEntityNotFoundException;
 import com.daniel.blog.model.Blog;
-import com.daniel.blog.requests.BlogRequest;
 import com.daniel.blog.requests.validators.BlogRequestValidator;
 import com.daniel.blog.services.PhotoBlogService;
 
@@ -105,33 +106,36 @@ public class BlogRestController {
 	//GET /blogs?page={page_number}											- Retrieves a page of blogs
 	@Loggable
 	@RequestMapping(method = RequestMethod.GET, value = "/blogs", produces = MediaType.APPLICATION_JSON_VALUE) 
-    public ResponseEntity<List<Blog>> getBlogs(@RequestParam(value = "page", required = false, defaultValue = "0") Integer pageNumber) throws BlogEntityNotFoundException {
+    public ResponseEntity<List<BlogDTO>> getBlogs(@RequestParam(value = "page", required = false, defaultValue = "0") Integer pageNumber) throws BlogEntityNotFoundException {
 		List<Blog> blogs;
 		if(pageNumber == 0){
 			blogs = blogService.getAllBlogs();
 		}else{
 			blogs = blogService.getBlogs(pageNumber);
 		}
-		
 		if(blogs.isEmpty()){
             throw new BlogEntityNotFoundException("Blogs not found!");
         }
-        return new ResponseEntity<>(blogs, HttpStatus.OK);
+		
+		List<BlogDTO> blogDTOs = new ArrayList<>();
+		blogs.forEach(b -> blogDTOs.add(new BlogDTO(b)));
+		
+        return new ResponseEntity<>(blogDTOs, HttpStatus.OK);
 	}
 	
 	//GET /blogs/{blog_id}													- Retrieves a specific blog
 	@Loggable
 	@RequestMapping(method = RequestMethod.GET, value = "/blogs/{id}", produces = MediaType.APPLICATION_JSON_VALUE) 
-    public ResponseEntity<Blog> getBlog(@PathVariable("id") long blogId) throws BlogEntityNotFoundException {
+    public ResponseEntity<BlogDTO> getBlog(@PathVariable("id") long blogId) throws BlogEntityNotFoundException {
 		Blog blog =  blogService.getBlogById(blogId);
 		
-        return new ResponseEntity<>(blog, HttpStatus.OK);
+        return new ResponseEntity<>(new BlogDTO(blog), HttpStatus.OK);
 	}
 
 	//POST /blogs															- Creates a new blog
 	@Loggable
 	@RequestMapping(value = "/blogs/", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> createBlog(@RequestBody @Valid BlogRequest blogRequest, UriComponentsBuilder ucBuilder) throws BlogEntityNotFoundException {
+    public ResponseEntity<Void> createBlog(@RequestBody @Valid BlogDTO blogRequest, UriComponentsBuilder ucBuilder) throws BlogEntityNotFoundException {
         Blog blog = blogService.createBlog(blogRequest);
  
         HttpHeaders headers = new HttpHeaders();
@@ -143,16 +147,16 @@ public class BlogRestController {
 	//PUT /blogs/{blog_id}													- Updates a specific blog
 	@Loggable
     @RequestMapping(value = "/blogs/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<Blog> updateBlog(@PathVariable("id") long id, @RequestBody @Valid BlogRequest blogRequest) throws BlogEntityNotFoundException {
+    public ResponseEntity<BlogDTO> updateBlog(@PathVariable("id") long id, @RequestBody @Valid BlogDTO blogRequest) throws BlogEntityNotFoundException {
         Blog blog = blogService.updateBlog(id, blogRequest);
         
-       	return new ResponseEntity<>(blog, HttpStatus.OK);
+       	return new ResponseEntity<>(new BlogDTO(blog), HttpStatus.OK);
     }
     
 	//DELETE /blogs/{blog_id}												- Deletes a specific blog    
 	@Loggable
     @RequestMapping(value = "/blogs/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<Blog> deleteBlog(@PathVariable("id") long id) throws BlogEntityNotFoundException {
+    public ResponseEntity<BlogDTO> deleteBlog(@PathVariable("id") long id) throws BlogEntityNotFoundException {
         boolean deleted = blogService.deleteBlog(id);
         if(!deleted){
         	throw new BlogEntityNotFoundException("Blog not found!");

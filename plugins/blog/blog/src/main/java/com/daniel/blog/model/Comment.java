@@ -8,8 +8,6 @@ import javax.persistence.Table;
 
 import org.hibernate.validator.constraints.Length;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-
 @Entity
 @Table(name="COMMENT")
 public class Comment extends CommentableBlogEntry{
@@ -17,13 +15,10 @@ public class Comment extends CommentableBlogEntry{
 	// Fields
 	@ManyToOne
 	@JoinColumn(name="USER_ID")
-	//@Column(name="USER_ID")
 	private User user;
 	
 	@ManyToOne
 	@JoinColumn(name="BLOG_ENTRY_ID")
-	//@JsonIgnore
-	@JsonBackReference
 	private CommentableBlogEntry blogEntry; 
 	
 	@Column(name="BODY")

@@ -1,8 +1,19 @@
-package com.daniel.blog.requests;
+package com.daniel.blog.dto;
 
-public class PhotoRequest {
+import com.daniel.blog.model.Photo;
+
+public class PhotoDTO {
 	private String location;
 	private String description;
+	
+	public PhotoDTO(){
+		
+	}
+	
+	public PhotoDTO(Photo photo){
+		this.location = photo.getLocation();
+		this.description = photo.getDescription();
+	}
 	
 	public String getLocation() {
 		return location;

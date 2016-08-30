@@ -2,17 +2,17 @@ package com.daniel.blog.services;
 
 import java.util.List;
 
+import com.daniel.blog.dto.BlogDTO;
+import com.daniel.blog.dto.CommentDTO;
+import com.daniel.blog.dto.PhotoDTO;
+import com.daniel.blog.dto.PostDTO;
+import com.daniel.blog.dto.UserDTO;
 import com.daniel.blog.errors.BlogEntityNotFoundException;
 import com.daniel.blog.model.Blog;
 import com.daniel.blog.model.Comment;
 import com.daniel.blog.model.Photo;
 import com.daniel.blog.model.Post;
 import com.daniel.blog.model.User;
-import com.daniel.blog.requests.BlogRequest;
-import com.daniel.blog.requests.CommentRequest;
-import com.daniel.blog.requests.PhotoRequest;
-import com.daniel.blog.requests.PostRequest;
-import com.daniel.blog.requests.UserRequest;
 
 public interface PhotoBlogService {
 	// test
@@ -28,9 +28,9 @@ public interface PhotoBlogService {
 	
 	public Blog getBlogByName(String blogName) throws BlogEntityNotFoundException;
 	
-	public Blog createBlog(BlogRequest blogRequest);
+	public Blog createBlog(BlogDTO blogRequest);
 	
-	public Blog updateBlog(long blogId, BlogRequest blogRequest) throws BlogEntityNotFoundException;
+	public Blog updateBlog(long blogId, BlogDTO blogRequest) throws BlogEntityNotFoundException;
 	
 	public boolean deleteBlog(long blogId);
 	
@@ -42,9 +42,9 @@ public interface PhotoBlogService {
 	
 	public User getUserById(long userId) throws BlogEntityNotFoundException;
 	
-	public User createUser(UserRequest userRequest);
+	public User createUser(UserDTO userRequest);
 	
-	public User updateUser(long userId, UserRequest userRequest) throws BlogEntityNotFoundException;
+	public User updateUser(long userId, UserDTO userRequest) throws BlogEntityNotFoundException;
 	
 	public boolean deleteUser(long userId);
 	
@@ -54,9 +54,9 @@ public interface PhotoBlogService {
 	
 	public Post getPost(long postId) throws BlogEntityNotFoundException;
 	
-	public Post createPost(String blogName, PostRequest postRequest) throws BlogEntityNotFoundException;
+	public Post createPost(String blogName, PostDTO postRequest) throws BlogEntityNotFoundException;
 	
-	public Post updatePost(long postId, PostRequest postRequest) throws BlogEntityNotFoundException;
+	public Post updatePost(long postId, PostDTO postRequest) throws BlogEntityNotFoundException;
 	
 	public boolean deletePost(long postId);
 	
@@ -66,9 +66,9 @@ public interface PhotoBlogService {
 	
 	public Photo getPhoto(long photoId) throws BlogEntityNotFoundException;
 	
-	public Photo createPhoto(String blogName, PhotoRequest photoRequest) throws BlogEntityNotFoundException;
+	public Photo createPhoto(String blogName, PhotoDTO photoRequest) throws BlogEntityNotFoundException;
 	
-	public Photo updatePhoto(long photoId, PhotoRequest photoRequest) throws BlogEntityNotFoundException;
+	public Photo updatePhoto(long photoId, PhotoDTO photoRequest) throws BlogEntityNotFoundException;
 	
 	public boolean deletePhoto(long photoId);
 	
@@ -80,13 +80,13 @@ public interface PhotoBlogService {
 	
 	public List<Comment> getCommentsByParentCommentId(long parentCommentId, int pageNumber) throws BlogEntityNotFoundException;
 	
-	public Comment createCommentForPost(long postId, CommentRequest commentRequest) throws BlogEntityNotFoundException;
+	public Comment createCommentForPost(long postId, CommentDTO commentRequest) throws BlogEntityNotFoundException;
 	
-	public Comment createCommentForPhoto(long photoId, CommentRequest commentRequest) throws BlogEntityNotFoundException;
+	public Comment createCommentForPhoto(long photoId, CommentDTO commentRequest) throws BlogEntityNotFoundException;
 	
-	public Comment createCommentForParentComment(long parentCommentId, CommentRequest commentRequest) throws BlogEntityNotFoundException;
+	public Comment createCommentForParentComment(long parentCommentId, CommentDTO commentRequest) throws BlogEntityNotFoundException;
 	
-	public Comment updateComment(long commentId, CommentRequest commentRequest) throws BlogEntityNotFoundException;
+	public Comment updateComment(long commentId, CommentDTO commentRequest) throws BlogEntityNotFoundException;
 	
 	public boolean deleteComment(long commentId);
 	
