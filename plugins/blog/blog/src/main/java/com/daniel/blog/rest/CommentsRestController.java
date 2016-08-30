@@ -22,9 +22,9 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.daniel.blog.annotations.Loggable;
 import com.daniel.blog.dto.CommentDTO;
+import com.daniel.blog.dto.validators.CommentDTOValidator;
 import com.daniel.blog.errors.BlogEntityNotFoundException;
 import com.daniel.blog.model.Comment;
-import com.daniel.blog.requests.validators.CommentRequestValidator;
 import com.daniel.blog.services.PhotoBlogService;
 
 //GET	/posts/{post_id}/comments?page={page_number}   					- Retrieves a page of comments for specific post
@@ -47,7 +47,7 @@ public class CommentsRestController {
 	@Loggable
 	@InitBinder
     protected void initBinder(WebDataBinder binder) {
-        binder.setValidator(new CommentRequestValidator());
+        binder.setValidator(new CommentDTOValidator());
     }
 	
 	//GET	/posts/{post_id}/comments?page={page_number}   					- Retrieves a page of comments for specific post

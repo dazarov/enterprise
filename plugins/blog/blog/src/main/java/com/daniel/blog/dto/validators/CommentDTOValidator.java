@@ -1,21 +1,21 @@
-package com.daniel.blog.requests.validators;
+package com.daniel.blog.dto.validators;
 
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
-import com.daniel.blog.dto.BlogDTO;
+import com.daniel.blog.dto.CommentDTO;
 
-public class BlogRequestValidator implements Validator {
+public class CommentDTOValidator implements Validator {
 
 	@Override
 	public boolean supports(Class<?> clazz) {
-		return BlogDTO.class.equals(clazz);
+		return CommentDTO.class.equals(clazz);
 	}
 
 	@Override
 	public void validate(Object target, Errors errors) {
-		ValidationUtils.rejectIfEmpty(errors, "name", "name.empty");
+		ValidationUtils.rejectIfEmpty(errors, "body", "body.empty");
 	}
 
 }

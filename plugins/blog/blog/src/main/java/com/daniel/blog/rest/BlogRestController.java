@@ -22,9 +22,9 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.daniel.blog.annotations.Loggable;
 import com.daniel.blog.dto.BlogDTO;
+import com.daniel.blog.dto.validators.BlogDTOValidator;
 import com.daniel.blog.errors.BlogEntityNotFoundException;
 import com.daniel.blog.model.Blog;
-import com.daniel.blog.requests.validators.BlogRequestValidator;
 import com.daniel.blog.services.PhotoBlogService;
 
 // ------------------------ BlogRestController:
@@ -89,7 +89,7 @@ public class BlogRestController {
 	@Loggable
 	@InitBinder
     protected void initBinder(WebDataBinder binder) {
-        binder.setValidator(new BlogRequestValidator());
+        binder.setValidator(new BlogDTOValidator());
     }
 	
 	//GET /blogs/init														- Creates some test entities

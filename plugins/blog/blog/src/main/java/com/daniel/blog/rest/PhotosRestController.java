@@ -3,7 +3,7 @@ package com.daniel.blog.rest;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 
-import com.daniel.blog.requests.validators.PhotoRequestValidator;
+import com.daniel.blog.dto.validators.PhotoDTOValidator;
 
 //GET	/{blog_name}/photos       										- Retrieves a list of photos
 //GET	/{blog_name}/photos?page={page_number}							- Retrieves a page of photos
@@ -16,6 +16,6 @@ import com.daniel.blog.requests.validators.PhotoRequestValidator;
 public class PhotosRestController {
 	@InitBinder
     protected void initBinder(WebDataBinder binder) {
-        binder.setValidator(new PhotoRequestValidator());
+        binder.setValidator(new PhotoDTOValidator());
     }
 }

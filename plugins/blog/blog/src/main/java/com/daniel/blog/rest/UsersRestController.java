@@ -22,9 +22,9 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.daniel.blog.annotations.Loggable;
 import com.daniel.blog.dto.UserDTO;
+import com.daniel.blog.dto.validators.UserDTOValidator;
 import com.daniel.blog.errors.BlogEntityNotFoundException;
 import com.daniel.blog.model.User;
-import com.daniel.blog.requests.validators.UserRequestValidator;
 import com.daniel.blog.services.PhotoBlogService;
 
 //GET /users															- Retrieves a list of all users
@@ -44,7 +44,7 @@ public class UsersRestController {
 	@Loggable
 	@InitBinder
     protected void initBinder(WebDataBinder binder) {
-        binder.setValidator(new UserRequestValidator());
+        binder.setValidator(new UserDTOValidator());
     }
 	
 	//GET /users															- Retrieves a list of all users

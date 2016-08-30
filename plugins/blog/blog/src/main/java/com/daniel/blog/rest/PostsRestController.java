@@ -22,9 +22,9 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.daniel.blog.annotations.Loggable;
 import com.daniel.blog.dto.PostDTO;
+import com.daniel.blog.dto.validators.PostDTOValidator;
 import com.daniel.blog.errors.BlogEntityNotFoundException;
 import com.daniel.blog.model.Post;
-import com.daniel.blog.requests.validators.PostRequestValidator;
 import com.daniel.blog.services.PhotoBlogService;
 
 //GET	/{blog_name}/posts?page={page_number}							- Retrieves a page of posts
@@ -43,7 +43,7 @@ public class PostsRestController {
 	@Loggable
 	@InitBinder
     protected void initBinder(WebDataBinder binder) {
-        binder.setValidator(new PostRequestValidator());
+        binder.setValidator(new PostDTOValidator());
     }
 	
 	//GET	/{blog_name}/posts?page={page_number}							- Retrieves a page of posts

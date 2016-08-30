@@ -1,4 +1,4 @@
-package com.daniel.blog.requests.validators;
+package com.daniel.blog.dto.validators;
 
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
@@ -6,7 +6,7 @@ import org.springframework.validation.Validator;
 
 import com.daniel.blog.dto.UserDTO;
 
-public class UserRequestValidator implements Validator {
+public class UserDTOValidator implements Validator {
 
 	@Override
 	public boolean supports(Class<?> clazz) {
