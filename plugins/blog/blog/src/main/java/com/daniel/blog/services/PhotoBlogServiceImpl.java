@@ -12,6 +12,7 @@ import com.daniel.blog.PhotoBlogConstants;
 import com.daniel.blog.annotations.Loggable;
 import com.daniel.blog.dto.BlogDTO;
 import com.daniel.blog.dto.CommentDTO;
+import com.daniel.blog.dto.DTOConverter;
 import com.daniel.blog.dto.PhotoDTO;
 import com.daniel.blog.dto.PostDTO;
 import com.daniel.blog.dto.UserDTO;
@@ -225,7 +226,7 @@ public class PhotoBlogServiceImpl implements PhotoBlogService {
 	public Blog createBlog(BlogDTO blogRequest) {
 		Blog blog = new Blog();
 		
-		updateBlog(blog, blogRequest);
+		DTOConverter.update(blog, blogRequest);
 		
 		return blogRepository.save(blog);
 	}
@@ -238,7 +239,7 @@ public class PhotoBlogServiceImpl implements PhotoBlogService {
 			throw new BlogEntityNotFoundException("Blog with id "+blogId+" not found!");
 		}
 		
-		updateBlog(blog, blogRequest);
+		DTOConverter.update(blog, blogRequest);
 		
 		return blogRepository.save(blog);
 	}
@@ -291,7 +292,7 @@ public class PhotoBlogServiceImpl implements PhotoBlogService {
 	public User createUser(UserDTO userRequest) {
 		User user = new User();
 		
-		updateUser(user, userRequest);
+		DTOConverter.update(user, userRequest);
 		
 		return userRepository.save(user);
 	}
@@ -304,7 +305,7 @@ public class PhotoBlogServiceImpl implements PhotoBlogService {
 			throw new BlogEntityNotFoundException("User with id "+userId+" not found!");
 		}
 		
-		updateUser(user, userRequest);
+		DTOConverter.update(user, userRequest);
 		
 		return userRepository.save(user);
 	}
@@ -359,7 +360,7 @@ public class PhotoBlogServiceImpl implements PhotoBlogService {
 		
 		post.setBlog(blog);
 
-		updatePost(post, postRequest);
+		DTOConverter.update(post, postRequest);
 		
 		return postRepository.save(post);
 	}
@@ -372,7 +373,7 @@ public class PhotoBlogServiceImpl implements PhotoBlogService {
 			throw new BlogEntityNotFoundException("Post with id "+postId+" not found!");
 		}
 		
-		updatePost(post, postRequest);
+		DTOConverter.update(post, postRequest);
 		
 		return postRepository.save(post);
 	}
@@ -426,7 +427,7 @@ public class PhotoBlogServiceImpl implements PhotoBlogService {
 		
 		photo.setBlog(blog);
 
-		updatePhoto(photo, photoRequest);
+		DTOConverter.update(photo, photoRequest);
 		
 		return photoRepository.save(photo);
 	}
@@ -439,7 +440,7 @@ public class PhotoBlogServiceImpl implements PhotoBlogService {
 			throw new BlogEntityNotFoundException("Photo with id "+photoId+" not found!");
 		}
 		
-		updatePhoto(photo, photoRequest);
+		DTOConverter.update(photo, photoRequest);
 		
 		return photoRepository.save(photo);
 	}
@@ -510,7 +511,7 @@ public class PhotoBlogServiceImpl implements PhotoBlogService {
 		Comment comment = new Comment();
 		comment.setBlogEntry(post);
 		
-		updateComment(comment, commentRequest);
+		DTOConverter.update(comment, commentRequest);
 		
 		return commentRepository.save(comment);
 	}
@@ -526,7 +527,7 @@ public class PhotoBlogServiceImpl implements PhotoBlogService {
 		Comment comment = new Comment();
 		comment.setBlogEntry(photo);
 		
-		updateComment(comment, commentRequest);
+		DTOConverter.update(comment, commentRequest);
 		
 		return commentRepository.save(comment);
 	}
@@ -542,7 +543,7 @@ public class PhotoBlogServiceImpl implements PhotoBlogService {
 		Comment comment = new Comment();
 		comment.setBlogEntry(parent);
 		
-		updateComment(comment, commentRequest);
+		DTOConverter.update(comment, commentRequest);
 		
 		return commentRepository.save(comment);
 	}
@@ -555,7 +556,7 @@ public class PhotoBlogServiceImpl implements PhotoBlogService {
 			throw new BlogEntityNotFoundException("Comment with id "+commentId+" not found!");
 		}
 		
-		updateComment(comment, commentRequest);
+		DTOConverter.update(comment, commentRequest);
 		
 		return commentRepository.save(comment);
 	}
@@ -571,29 +572,5 @@ public class PhotoBlogServiceImpl implements PhotoBlogService {
 		return false;
 	}
 	
-	private void updateBlog(Blog blog, BlogDTO blogRequest){
-		blog.setName(blogRequest.getName());
-	}
-	
-	private void updateUser(User user, UserDTO userRequest){
-		user.setName(userRequest.getName());
-		user.setEmail(userRequest.getEmail());
-		user.setPassword(userRequest.getPassword());
-	}
-	
-	private void updatePost(Post post, PostDTO postRequest){
-		post.setBody(postRequest.getBody());
-		post.setSubject(postRequest.getSubject());
-		post.setDescription(postRequest.getDescription());
-	}
-
-	private void updatePhoto(Photo photo, PhotoDTO photoRequest){
-		photo.setDescription(photoRequest.getDescription());
-		photo.setLocation(photoRequest.getLocation());
-	}
-	
-	private void updateComment(Comment comment, CommentDTO commentRequest){
-		comment.setBody(commentRequest.getBody());
-	}
 	
 }

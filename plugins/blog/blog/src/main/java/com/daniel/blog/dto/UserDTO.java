@@ -1,7 +1,5 @@
 package com.daniel.blog.dto;
 
-import com.daniel.blog.model.User;
-
 public class UserDTO {
 	private long id;
 	private String name;
@@ -14,10 +12,11 @@ public class UserDTO {
 		this.password = password;
 	}
 	
-	public UserDTO(User user){
-		this.id = user.getId();
-		this.name = user.getName();
-		this.email = user.getEmail();
+	public UserDTO(){
+	}
+	
+	public void setId(long id){
+		this.id = id;
 	}
 	
 	public long getId(){

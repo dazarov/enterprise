@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.daniel.blog.annotations.Loggable;
+import com.daniel.blog.dto.DTOConverter;
 import com.daniel.blog.dto.PostDTO;
 import com.daniel.blog.dto.validators.PostDTOValidator;
 import com.daniel.blog.errors.BlogEntityNotFoundException;
@@ -57,7 +58,7 @@ public class PostsRestController {
         }
 		
 		List<PostDTO> postDTOs = new ArrayList<>();
-		posts.forEach(p -> postDTOs.add(new PostDTO(p)));
+		posts.forEach(p -> postDTOs.add(DTOConverter.convert(p)));
 		
         return new ResponseEntity<>(postDTOs, HttpStatus.OK);
 	}
@@ -68,7 +69,7 @@ public class PostsRestController {
     public ResponseEntity<PostDTO> getPost(@PathVariable("id") long id) throws BlogEntityNotFoundException {
 		Post post = blogService.getPost(id);
 		
-        return new ResponseEntity<>(new PostDTO(post), HttpStatus.OK);
+        return new ResponseEntity<>(DTOConverter.convert(post), HttpStatus.OK);
 	}
 	
 	//POST	/{blog_name}/posts      										- Creates a new post in the blog
@@ -91,7 +92,7 @@ public class PostsRestController {
          
         Post post = blogService.updatePost(id, postRequest);
         
-       	return new ResponseEntity<>(new PostDTO(post), HttpStatus.OK);
+       	return new ResponseEntity<>(DTOConverter.convert(post), HttpStatus.OK);
     }
     
 	//DELETE /posts/{post_id} 												- Deletes a specific post

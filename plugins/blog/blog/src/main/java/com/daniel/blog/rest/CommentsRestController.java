@@ -22,6 +22,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.daniel.blog.annotations.Loggable;
 import com.daniel.blog.dto.CommentDTO;
+import com.daniel.blog.dto.DTOConverter;
 import com.daniel.blog.dto.validators.CommentDTOValidator;
 import com.daniel.blog.errors.BlogEntityNotFoundException;
 import com.daniel.blog.model.Comment;
@@ -61,7 +62,7 @@ public class CommentsRestController {
         }
 		
 		List<CommentDTO> commentDTOs = new ArrayList<>();
-		comments.forEach(c -> commentDTOs.add(new CommentDTO(c)));
+		comments.forEach(c -> commentDTOs.add(DTOConverter.convert(c)));
 		
         return new ResponseEntity<>(commentDTOs, HttpStatus.OK);
 	}
@@ -77,7 +78,7 @@ public class CommentsRestController {
         }
 		
 		List<CommentDTO> commentDTOs = new ArrayList<>();
-		comments.forEach(c -> commentDTOs.add(new CommentDTO(c)));
+		comments.forEach(c -> commentDTOs.add(DTOConverter.convert(c)));
 		
         return new ResponseEntity<>(commentDTOs, HttpStatus.OK);
 	}
@@ -93,7 +94,7 @@ public class CommentsRestController {
         }
 		
 		List<CommentDTO> commentDTOs = new ArrayList<>();
-		comments.forEach(c -> commentDTOs.add(new CommentDTO(c)));
+		comments.forEach(c -> commentDTOs.add(DTOConverter.convert(c)));
 		
         return new ResponseEntity<>(commentDTOs, HttpStatus.OK);
 	}
@@ -140,7 +141,7 @@ public class CommentsRestController {
     public ResponseEntity<CommentDTO> updateComment(@PathVariable("id") long id, @RequestBody @Valid CommentDTO commentRequest) throws BlogEntityNotFoundException {
         Comment comment = blogService.updateComment(id, commentRequest);
         
-       	return new ResponseEntity<>(new CommentDTO(comment), HttpStatus.OK);
+       	return new ResponseEntity<>(DTOConverter.convert(comment), HttpStatus.OK);
     }
 	
 	//DELETE /comments/{comment_id}											- Deletes a specific comment

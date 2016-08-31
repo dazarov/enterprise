@@ -22,6 +22,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.daniel.blog.annotations.Loggable;
 import com.daniel.blog.dto.BlogDTO;
+import com.daniel.blog.dto.DTOConverter;
 import com.daniel.blog.dto.validators.BlogDTOValidator;
 import com.daniel.blog.errors.BlogEntityNotFoundException;
 import com.daniel.blog.model.Blog;
@@ -118,7 +119,7 @@ public class BlogRestController {
         }
 		
 		List<BlogDTO> blogDTOs = new ArrayList<>();
-		blogs.forEach(b -> blogDTOs.add(new BlogDTO(b)));
+		blogs.forEach(b -> blogDTOs.add(DTOConverter.convert(b)));
 		
         return new ResponseEntity<>(blogDTOs, HttpStatus.OK);
 	}
@@ -129,7 +130,7 @@ public class BlogRestController {
     public ResponseEntity<BlogDTO> getBlog(@PathVariable("id") long blogId) throws BlogEntityNotFoundException {
 		Blog blog =  blogService.getBlogById(blogId);
 		
-        return new ResponseEntity<>(new BlogDTO(blog), HttpStatus.OK);
+        return new ResponseEntity<>(DTOConverter.convert(blog), HttpStatus.OK);
 	}
 
 	//POST /blogs															- Creates a new blog
@@ -150,7 +151,7 @@ public class BlogRestController {
     public ResponseEntity<BlogDTO> updateBlog(@PathVariable("id") long id, @RequestBody @Valid BlogDTO blogRequest) throws BlogEntityNotFoundException {
         Blog blog = blogService.updateBlog(id, blogRequest);
         
-       	return new ResponseEntity<>(new BlogDTO(blog), HttpStatus.OK);
+       	return new ResponseEntity<>(DTOConverter.convert(blog), HttpStatus.OK);
     }
     
 	//DELETE /blogs/{blog_id}												- Deletes a specific blog    

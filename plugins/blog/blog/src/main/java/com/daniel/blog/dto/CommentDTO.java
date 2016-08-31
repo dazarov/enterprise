@@ -1,7 +1,5 @@
 package com.daniel.blog.dto;
 
-import com.daniel.blog.model.Comment;
-
 public class CommentDTO {
 	private long id;
 	private String body;
@@ -10,9 +8,11 @@ public class CommentDTO {
 		this.body = body;
 	}
 	
-	public CommentDTO(Comment comment){
-		this.id = comment.getId();
-		this.body = comment.getBody();
+	public CommentDTO(){
+	}
+	
+	public void setId(long id){
+		this.id = id;
 	}
 	
 	public long getId(){

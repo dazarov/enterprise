@@ -1,7 +1,5 @@
 package com.daniel.blog.dto;
 
-import com.daniel.blog.model.Photo;
-
 public class PhotoDTO {
 	private long id;
 	private String location;
@@ -11,10 +9,8 @@ public class PhotoDTO {
 		
 	}
 	
-	public PhotoDTO(Photo photo){
-		this.id = photo.getId();
-		this.location = photo.getLocation();
-		this.description = photo.getDescription();
+	public void setId(long id){
+		this.id = id;
 	}
 	
 	public long getId(){

@@ -1,7 +1,5 @@
 package com.daniel.blog.dto;
 
-import com.daniel.blog.model.Post;
-
 public class PostDTO {
 	private long id;
 	
@@ -17,11 +15,11 @@ public class PostDTO {
 		this.body = body;
 	}
 	
-	public PostDTO(Post post){
-		this.id = post.getId();
-		this.subject = post.getSubject();
-		this.description = post.getDescription();
-		this.body = post.getBody();
+	public PostDTO(){
+	}
+	
+	public void setId(long id){
+		this.id = id;
 	}
 	
 	public long getId(){

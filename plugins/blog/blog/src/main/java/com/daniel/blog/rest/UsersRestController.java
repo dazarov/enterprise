@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.daniel.blog.annotations.Loggable;
+import com.daniel.blog.dto.DTOConverter;
 import com.daniel.blog.dto.UserDTO;
 import com.daniel.blog.dto.validators.UserDTOValidator;
 import com.daniel.blog.errors.BlogEntityNotFoundException;
@@ -64,7 +65,7 @@ public class UsersRestController {
         }
 		
 		List<UserDTO> userDTOs = new ArrayList<>();
-		users.forEach(p -> userDTOs.add(new UserDTO(p)));
+		users.forEach(p -> userDTOs.add(DTOConverter.convert(p)));
 		
         return new ResponseEntity<>(userDTOs, HttpStatus.OK);
 	}
@@ -75,7 +76,7 @@ public class UsersRestController {
     public ResponseEntity<UserDTO> getUser(@PathVariable("id") long userId) throws BlogEntityNotFoundException {
 		User user =  blogService.getUserById(userId);
 		
-        return new ResponseEntity<>(new UserDTO(user), HttpStatus.OK);
+        return new ResponseEntity<>(DTOConverter.convert(user), HttpStatus.OK);
 	}
 
 	//POST /users															- Creates a new user
@@ -96,7 +97,7 @@ public class UsersRestController {
     public ResponseEntity<UserDTO> updateUser(@PathVariable("id") long id, @RequestBody @Valid UserDTO blogRequest) throws BlogEntityNotFoundException {
         User user = blogService.updateUser(id, blogRequest);
         
-       	return new ResponseEntity<>(new UserDTO(user), HttpStatus.OK);
+       	return new ResponseEntity<>(DTOConverter.convert(user), HttpStatus.OK);
     }
 	
 	//DELETE /users/{user_id}												- Deletes a specific user
