@@ -81,7 +81,7 @@ public class UsersRestController {
 
 	//POST /users															- Creates a new user
 	@Loggable
-	@RequestMapping(value = "/users/", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/users", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> createUser(@RequestBody @Valid UserDTO userRequest, UriComponentsBuilder ucBuilder) throws BlogEntityNotFoundException {
         User user = blogService.createUser(userRequest);
  

@@ -1,6 +1,19 @@
 "use strict";
 
+var blogModel = {
+	    id: "Photo Blog"
+};
+
 angular.module("photoBlog", ["ngRoute"])
+.value('blogName', {value: 'Blog1'})
+.run(function ($http) {
+	//angular.element(document.getElementById('controllerContainer')).scope().updateBlogs();
+	//angular.element($('#AppCtrl')).scope().updateBlogs();
+	//$scope.updateBlogs();
+    $http.get("/blogs").success(function (data) {
+        blogModel.blogList = data;
+    });
+})
 .config(function($routeProvider){
 	
 	$routeProvider.when("/", {
@@ -43,96 +56,49 @@ angular.module("photoBlog", ["ngRoute"])
   };
 })
 .controller('AppCtrl', function($scope, $http, $route, $rootScope, $location) {
-	$scope.uid;
-	$scope.email;
-	$scope.givenname;
-	$scope.questions;
-	$scope.answers;
 	
-	$scope.showFooter = true;
+	$scope.blog = blogModel;
 	
-	// if false then it is recover User ID
-	$scope.restorePassword = true;
+	$scope.blogName = 'Blog1';
 	
-	$scope.error;
+	$scope.updateBlogs = function(){
+		console.log('get blog list...');
+        $http.get("/blogs").success(function (data) {
+        	console.log('success');
+        	blogModel.blogList = data;
+
+        	$scope.blog = blogModel;
+        });
+    }
 	
-	//$rootScope.$on( "$routeChangeStart", function(event, next, current) {
-	//	$scope.showFooter = next.templateUrl == "/views/home.html";
-	//});
+	$scope.updatePosts = function(){
+		console.log('get post list...');
+        $http.get("/"+$scope.blogName+"/posts").success(function (data) {
+        	console.log('success');
+        	blogModel.postList = data;
+
+        	$scope.blog = blogModel;
+        });
+    }
 	
-	$scope.getQuestions = function(uid, email){
-		$scope.restorePassword = true;
-		$scope.uid = uid;
-		$scope.email = email;
-		if(!angular.isUndefined($scope.uid) && !angular.isUndefined($scope.email)){
-			var req = {
-				method: 'POST',
-				url: '/idm/mhs2/endpoint/restore?_action=securityQuestionsForUserName',
-				headers: {
-				   'uid': $scope.uid,
-				   'email': $scope.email
-				},
-				data: { test: 'test' }
-			}
-			$http(req).then(function successCallback(response){
-				$scope.error = '';
-				$scope.questions = response.data;
-				$location.path('/answer_questions/');
-			}, function errorCallback(response){
-				$scope.error = 'Request failed';
-				$location.path('/error/');
-			});
-		}
-	}
+	$scope.addBlog = function (blog){
+        console.log('add blog...');
+
+        var jsonString = JSON.stringify(blog);
+        console.log('client addGrocery string - '+jsonString);
+
+        $http.post("/blogs", jsonString).success(function(data){
+            // ok
+            $scope.updateBlogs();
+            blog.name = '';
+            $scope.addBlogForm.$setPristine();
+        });
+    }
 	
-	$scope.checkAnswers = function(answers){
-		$scope.restorePassword = true;
-		$scope.answers = answers;
-		if(!angular.isUndefined($scope.uid) && !angular.isUndefined($scope.email)){
-			var req = {
-				method: 'POST',
-				url: '/idm/mhs2/endpoint/restore?_action=checkSecurityAnswersForUserName',
-				headers: {
-				   'uid': $scope.uid,
-				   'email': $scope.email,
-				   'answer1': $scope.answers[0],
-				   'answer2': $scope.answers[1],
-				   'answer3': $scope.answers[2],
-				},
-				data: { test: 'test' }
-			}
-			$http(req).then(function successCallback(response){
-				$scope.error = '';
-				$location.path('/congrat/');
-			}, function errorCallback(response){
-				$scope.error = 'Request failed';
-				$location.path('/error/');
-			});
-		}
-	}
-	
-	$scope.restoreUserID = function(email, givenname){
-		$scope.restorePassword = false;
-		$scope.email = email;
-		$scope.givenname = givenname;
-		if(!angular.isUndefined($scope.givenname) && !angular.isUndefined($scope.email)){
-			var req = {
-				method: 'POST',
-				url: '/idm/mhs2/endpoint/restore?_action=restoreUserId',
-				headers: {
-				   'email': $scope.email,
-				   'givenname': $scope.givenname
-				},
-				data: { test: 'test' }
-			}
-			$http(req).then(function successCallback(response){
-				$scope.error = '';
-				$location.path('/congrat/');
-			}, function errorCallback(response){
-				$scope.error = 'Request failed';
-				$location.path('/error/');
-			});
-		}
+	$scope.goPosts = function (blogName){
+		$scope.blogName = blogName;
+		$scope.updatePosts();
+		$location.path('/posts');
 	}
 	
 	$scope.$back = function() { 

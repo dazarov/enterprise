@@ -135,7 +135,7 @@ public class BlogRestController {
 
 	//POST /blogs															- Creates a new blog
 	@Loggable
-	@RequestMapping(value = "/blogs/", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/blogs", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> createBlog(@RequestBody @Valid BlogDTO blogRequest, UriComponentsBuilder ucBuilder) throws BlogEntityNotFoundException {
         Blog blog = blogService.createBlog(blogRequest);
  
