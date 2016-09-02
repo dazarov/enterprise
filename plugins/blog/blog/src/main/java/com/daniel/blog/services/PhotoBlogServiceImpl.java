@@ -34,7 +34,6 @@ import com.daniel.blog.repositories.UserRoleRepository;
 @Service
 public class PhotoBlogServiceImpl implements PhotoBlogService {
 	
-
 	@Autowired
 	private BlogRepository blogRepository;
 	
@@ -214,7 +213,22 @@ public class PhotoBlogServiceImpl implements PhotoBlogService {
 	@Loggable
 	@Override
 	public Blog getBlogByName(String blogName) throws BlogEntityNotFoundException {
-		Blog blog = blogRepository.findOneByName(blogName);
+		long blogId = -1;
+		try{
+			blogId = Long.parseLong(blogName);
+		}catch(NumberFormatException e){
+			// do nothing
+		}
+		Blog blog = null;
+		
+		if(blogId >= 0){
+			blog = blogRepository.findOne(blogId);
+		}
+		
+		if(blog == null){
+			blog = blogRepository.findOneByName(blogName);
+		}
+		
 		if(blog == null){
 			throw new BlogEntityNotFoundException("Blog with name "+blogName+" not found!");
 		}
@@ -326,14 +340,13 @@ public class PhotoBlogServiceImpl implements PhotoBlogService {
 	@Loggable
 	@Override
 	public List<Post> getPostsByBlogName(String blogName, int pageNumber) throws BlogEntityNotFoundException {
-		Blog blog = blogRepository.findOneByName(blogName);
-		if(blog == null){
-			throw new BlogEntityNotFoundException("Blog with name "+blogName+" not found!");
-		}
+		Blog blog = getBlogByName(blogName);
+		
 		pageNumber--;
 		if(pageNumber < 0){
 			pageNumber = 0;
 		}
+		
 		return postRepository.findByBlog(blog, new PageRequest(pageNumber*PhotoBlogConstants.NUMBER_OF_POSTS_ON_PAGE, PhotoBlogConstants.NUMBER_OF_POSTS_ON_PAGE));
 	}
 
@@ -351,10 +364,7 @@ public class PhotoBlogServiceImpl implements PhotoBlogService {
 	@Loggable
 	@Override
 	public Post createPost(String blogName, PostDTO postRequest) throws BlogEntityNotFoundException {
-		Blog blog = blogRepository.findOneByName(blogName);
-		if(blog == null){
-			throw new BlogEntityNotFoundException("Blog with name "+blogName+" not found!");
-		}
+		Blog blog = getBlogByName(blogName);
 		
 		Post post = new Post();
 		
@@ -394,10 +404,8 @@ public class PhotoBlogServiceImpl implements PhotoBlogService {
 	@Loggable
 	@Override
 	public List<Photo> getPhotosByBlogName(String blogName, int pageNumber) throws BlogEntityNotFoundException {
-		Blog blog = blogRepository.findOneByName(blogName);
-		if(blog == null){
-			throw new BlogEntityNotFoundException("Blog with name "+blogName+" not found!");
-		}
+		Blog blog = getBlogByName(blogName);
+		
 		pageNumber--;
 		if(pageNumber < 0){
 			pageNumber = 0;
@@ -418,10 +426,7 @@ public class PhotoBlogServiceImpl implements PhotoBlogService {
 	@Loggable
 	@Override
 	public Photo createPhoto(String blogName, PhotoDTO photoRequest) throws BlogEntityNotFoundException {
-		Blog blog = blogRepository.findOneByName(blogName);
-		if(blog == null){
-			throw new BlogEntityNotFoundException("Blog with name "+blogName+" not found!");
-		}
+		Blog blog = getBlogByName(blogName);
 		
 		Photo photo = new Photo();
 		

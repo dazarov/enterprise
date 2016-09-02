@@ -1,3 +1,10 @@
+TODO
+
+1. Add Commentable Status - 1. No comments, 2. Comments allowed 3. Moderated comments
+
+2. Increase post and comment field size 
+
+
 Photo-Blog
 
 Front - AngularJS

@@ -23,6 +23,10 @@ angular.module("photoBlog", ["ngRoute"])
 	$routeProvider.when("/posts", {
 		templateUrl: "/views/posts/posts.html"
 	});
+
+	$routeProvider.when("/post", {
+		templateUrl: "/views/posts/post.html"
+	});
 	
 	$routeProvider.when("/photos", {
 		templateUrl: "/views/photos/photos.html"
@@ -63,21 +67,57 @@ angular.module("photoBlog", ["ngRoute"])
 	
 	$scope.updateBlogs = function(){
 		console.log('get blog list...');
-        $http.get("/blogs").success(function (data) {
+        $http.get("/blogs")
+        .success(function (data) {
         	console.log('success');
         	blogModel.blogList = data;
 
         	$scope.blog = blogModel;
+        })
+        .error(function(){
+        	blogModel.blogList = null;
         });
     }
 	
 	$scope.updatePosts = function(){
 		console.log('get post list...');
-        $http.get("/"+$scope.blogName+"/posts").success(function (data) {
+        $http.get("/"+$scope.blogName+"/posts")
+        .success(function (data) {
         	console.log('success');
         	blogModel.postList = data;
 
         	$scope.blog = blogModel;
+        })
+        .error(function(){
+        	blogModel.postList = null;
+        });
+    }
+
+	$scope.updatePost = function(){
+		console.log('get post...');
+        $http.get("/posts/"+$scope.postId)
+        .success(function (data) {
+        	console.log('success');
+        	blogModel.post = data;
+
+        	$scope.blog = blogModel;
+        })
+        .error(function(){
+        	blogModel.post = null;
+        });
+    }
+
+	$scope.updateComments = function(){
+		console.log('get comment list...');
+        $http.get("/posts/"+$scope.postId+"/comments")
+        .success(function (data) {
+        	console.log('success');
+        	blogModel.commentList = data;
+
+        	$scope.blog = blogModel;
+        })
+        .error(function(){
+        	blogModel.commentList = null;
         });
     }
 	
@@ -85,7 +125,7 @@ angular.module("photoBlog", ["ngRoute"])
         console.log('add blog...');
 
         var jsonString = JSON.stringify(blog);
-        console.log('client addGrocery string - '+jsonString);
+        console.log('client addBlog string - '+jsonString);
 
         $http.post("/blogs", jsonString).success(function(data){
             // ok
@@ -95,10 +135,47 @@ angular.module("photoBlog", ["ngRoute"])
         });
     }
 	
+	$scope.addPost = function (post){
+        console.log('add post...');
+
+        var jsonString = JSON.stringify(post);
+        console.log('client addPost string - '+jsonString);
+
+        $http.post("/"+$scope.blogName+"/posts", jsonString).success(function(data){
+            // ok
+            $scope.updatePosts();
+            post.subject = 
+            post.description = 
+            post.body = '';
+            $scope.addPostForm.$setPristine();
+        });
+    }
+
+	$scope.addComment = function (comment){
+        console.log('add comment...');
+
+        var jsonString = JSON.stringify(comment);
+        console.log('client addComment string - '+jsonString);
+
+        $http.post("/posts/"+$scope.postId+"/comments", jsonString).success(function(data){
+            // ok
+            $scope.updateComments();
+            comment.body = '';
+            $scope.addCommentForm.$setPristine();
+        });
+    }
+	
 	$scope.goPosts = function (blogName){
 		$scope.blogName = blogName;
 		$scope.updatePosts();
 		$location.path('/posts');
+	}
+
+	$scope.goPost = function (postId){
+		$scope.postId = postId;
+		$scope.updatePost();
+		$scope.updateComments();
+		$location.path('/post');
 	}
 	
 	$scope.$back = function() { 

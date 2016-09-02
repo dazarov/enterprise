@@ -2,8 +2,11 @@
 	<h1>Photo Blog Home Page</h1>
 </div>
 <div class="well">
+	<div class="well">
+        <h3>Blogs:</h3>
+    </div>
 	<div ng-repeat="blog in blog.blogList">
-		<a ng-click="goPosts(blog.name)"><i>{{blog.id}}</i> <b>{{blog.name}}</b></a>
+		<a ng-href="" ng-click="goPosts(blog.name)" style="cursor: pointer;"><i>{{blog.id}}</i> <b>{{blog.name}}</b></a>
 	</div>
 	<div class="well">
         <h3>Add New Blog</h3>
@@ -13,7 +16,7 @@
         <div class="form-group">
             <label class="control-label col-sm-2" for="name">Name:</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" id="name" name="name" required ng-model="newBlog.name">
+                <input type="text" class="form-control" id="name" name="name" required ng-model="newBlog.name" />
             </div>
         </div>
         <!-- Add Button -->

@@ -1,15 +1,16 @@
 <div class="page-header">
-	<h1>Posts of {{blogName}} blog</h1>
+	<h1>{{blogName}}</h1>
 </div>
 <div class="well">
+	<div class="well">
+        <h3>Posts:</h3>
+    </div>
 	<div ng-repeat="post in blog.postList" class="well">
 		<div>
 			<span><i>{{post.id}}</i> <b>{{post.subject}}</b></span>
 		</div>
 		<br>
-		<div>{{post.description}}</div>
-		<br>
-		<a>See the whole post</a>
+		<div>{{post.description}} (<a  ng-href="" ng-click="goPost(post.id)" style="cursor: pointer;">Full article...</a>)</div>
 	</div>
 	
 	<div class="well">
@@ -20,7 +21,7 @@
         <div class="form-group">
             <label class="control-label col-sm-2" for="subject">Subject:</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" id="subject" name="subject" required ng-model="newPost.subject">
+                <input type="text" class="form-control" id="subject" name="subject" required ng-model="newPost.subject" />
             </div>
         </div>
         
@@ -28,7 +29,7 @@
         <div class="form-group">
             <label class="control-label col-sm-2" for="description">Description:</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" id="description" name="description" required ng-model="newPost.description">
+                <input type="text" class="form-control" id="description" name="description" required ng-model="newPost.description" />
             </div>
         </div>
         
@@ -36,7 +37,7 @@
         <div class="form-group">
             <label class="control-label col-sm-2" for="body">Body:</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" id="body" name="body" required ng-model="newPost.body">
+                <textarea type="text" class="form-control" id="body" name="body" rows="10" required ng-model="newPost.body"></textarea>
             </div>
         </div>
         
