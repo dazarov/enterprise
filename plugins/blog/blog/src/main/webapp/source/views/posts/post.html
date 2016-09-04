@@ -1,7 +1,9 @@
-<div class="page-header">
-	<h1><i>{{blog.post.id}}</i> <b>{{blog.post.subject}}</b></h1>
-</div>
-<div class="well">
+
+<div ng-controller="PostCtrl" class="well">
+	<div class="page-header">
+		<h1><i>{{blog.post.id}}</i> <b>{{blog.post.subject}}</b></h1>
+	</div>
+	
 	<div class="well">{{blog.post.body}}</div>
 	
 	<div class="well">

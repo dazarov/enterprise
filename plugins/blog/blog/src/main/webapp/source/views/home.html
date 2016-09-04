@@ -1,12 +1,12 @@
 <div class="page-header">
 	<h1>Photo Blog Home Page</h1>
 </div>
-<div class="well">
+<div ng-controller="HomeCtrl" class="well">
 	<div class="well">
         <h3>Blogs:</h3>
     </div>
 	<div ng-repeat="blog in blog.blogList">
-		<a ng-href="" ng-click="goPosts(blog.name)" style="cursor: pointer;"><i>{{blog.id}}</i> <b>{{blog.name}}</b></a>
+		<a ng-href="" ng-click="goBlog(blog.name)" style="cursor: pointer;"><i>{{blog.id}}</i> <b>{{blog.name}}</b></a>
 	</div>
 	<div class="well">
         <h3>Add New Blog</h3>
