@@ -29,11 +29,10 @@ module.exports = function (grunt) {
 
   // application js files start here
   appJS = [
-    'index.js'
-    //'views/grocery/grocery.js',
-   // 'pages/photos/photos.js',
-   //'pages/forms/forms.js',
-    //'pages/groceryDB/groceryDB.js'
+    'index.js',
+    'views/HomeCtrl.js',
+    'views/blog/BlogCtrl.js',
+    'views/post/PostCtrl.js'
   ];
   // application js files ends here
 
