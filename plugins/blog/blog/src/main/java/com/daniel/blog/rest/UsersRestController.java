@@ -61,7 +61,8 @@ public class UsersRestController {
 		}
 		
 		if(users.isEmpty()){
-            throw new BlogEntityNotFoundException("Blogs not found!");
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            //throw new BlogEntityNotFoundException("Blogs not found!");
         }
 		
 		List<UserDTO> userDTOs = new ArrayList<>();

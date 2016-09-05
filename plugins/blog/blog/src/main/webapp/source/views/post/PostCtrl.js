@@ -13,8 +13,11 @@ angular.module("PhotoBlog")
     	console.log('success');
     	$scope.blog.post = data;
     })
-    .error(function(){
+    .error(function(error){
+    	console.log('error '+JSON.stringify(error));
     	$scope.blog.post = null;
+    	$rootScope.error = error;
+        $location.path('/error');
     });
     
     $scope.updateComments = function (){
@@ -24,8 +27,11 @@ angular.module("PhotoBlog")
 	    	console.log('success');
 	    	$scope.blog.commentList = data;
 	    })
-	    .error(function(){
+	    .error(function(error){
+	    	console.log('error '+JSON.stringify(error));
 	    	$scope.blog.commentList = null;
+	    	$rootScope.error = error;
+        	$location.path('/error');
 	    });
     }
     
@@ -38,11 +44,14 @@ angular.module("PhotoBlog")
         console.log('client addComment string - '+jsonString);
 
         $http.post("/posts/"+$routeParams.postId+"/comments", jsonString).success(function(data){
+        	console.log('success');
             comment.body = '';
             $scope.addCommentForm.$setPristine();
             $scope.updateComments();
         })
-        .error(function(){
+        .error(function(error){
+        	console.log('error '+JSON.stringify(error));
+	    	$rootScope.error = error;
         	$location.path('/error');
         });
     }

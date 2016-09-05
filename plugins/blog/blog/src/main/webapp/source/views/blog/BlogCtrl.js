@@ -16,8 +16,11 @@ angular.module("PhotoBlog")
 	    	console.log('success');
 	    	$scope.blog.postList = data;
 	    })
-	    .error(function(){
+	    .error(function(error){
+	    	console.log('error '+JSON.stringify(error));
 	    	$scope.blog.postList = null;
+	    	$rootScope.error = error;
+        	$location.path('/error');
 	    });
     }
     
@@ -27,18 +30,22 @@ angular.module("PhotoBlog")
         console.log('add post...');
 
         var jsonString = JSON.stringify(post);
+        
         console.log('client addPost string - '+jsonString);
 
         $http.post("/"+$routeParams.blogName+"/posts", jsonString).success(function(data){
-            // ok
+            console.log('success');
             post.subject = 
             post.description = 
             post.body = '';
             $scope.addPostForm.$setPristine();
             $scope.updateBlog();
         })
-        .error(function(){
+        .error(function(error){
+        	console.log('error '+JSON.stringify(error));
     		$scope.blog.postList = null;
+    		$rootScope.error = error;
+        	$location.path('/error');
     	});
     }
     

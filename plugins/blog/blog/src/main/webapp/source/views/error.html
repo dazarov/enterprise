@@ -1,18 +1,7 @@
-<div id="noQuestions">
-	<h1 ng-hide="restorePassword">User ID cannot be restored!</h1>
-
-    <p class="paragraph" ng-hide="restorePassword">User ID cannot be restored at this time. Try again later.</p>
-
-	<h1 ng-show="restorePassword">Password cannot be reset!</h1>
-
-    <p class="paragraph" ng-show="restorePassword">Password cannot be reset at this time. Try again later.</p>
-    <p>
-    	<b>1-888-474-4262</b> or <a href="mailto:cacd.support@mckesson.com">cacd.support@mckesson.com</a>
-    </p>
-
-    <div class="form-wrapper">
-    	<div class="basic-form">
-        	<button name="backToLogin" go-click="/">Return to Sign In Page</button>
-        </div>
-    </div>
+<div ng-controller="ErrorCtrl" class="well alert alert-danger" >
+	<h1><span class="glyphicon glyphicon-warning-sign glyphicon-align-left" aria-hidden="true">
+	<br>Something went wrong!</h1>
+	<div class="well">URL: {{getURL()}}</div>
+	<div class="well">Message: {{getMessage()}}</div>
+	<div class="well">Error id: {{getId()}}</div>
 </div>

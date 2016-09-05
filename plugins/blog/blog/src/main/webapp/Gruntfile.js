@@ -31,6 +31,7 @@ module.exports = function (grunt) {
   appJS = [
     'index.js',
     'views/HomeCtrl.js',
+    'views/ErrorCtrl.js',
     'views/blog/BlogCtrl.js',
     'views/post/PostCtrl.js'
   ];

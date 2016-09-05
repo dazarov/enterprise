@@ -58,7 +58,8 @@ public class CommentsRestController {
 		List<Comment> comments =  blogService.getCommentsByPostId(postId, pageNumber);
 		
 		if(comments.isEmpty()){
-            throw new BlogEntityNotFoundException("Comments not found!");
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            //throw new BlogEntityNotFoundException("Comments not found!");
         }
 		
 		List<CommentDTO> commentDTOs = new ArrayList<>();
@@ -74,7 +75,8 @@ public class CommentsRestController {
 		List<Comment> comments =  blogService.getCommentsByPhotoId(photoId, pageNumber);
 		
 		if(comments.isEmpty()){
-            throw new BlogEntityNotFoundException("Comments not found!");
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            //throw new BlogEntityNotFoundException("Comments not found!");
         }
 		
 		List<CommentDTO> commentDTOs = new ArrayList<>();
@@ -90,7 +92,8 @@ public class CommentsRestController {
 		List<Comment> comments =  blogService.getCommentsByParentCommentId(parentId, pageNumber);
 		
 		if(comments.isEmpty()){
-            throw new BlogEntityNotFoundException("Comments not found!");
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            //throw new BlogEntityNotFoundException("Comments not found!");
         }
 		
 		List<CommentDTO> commentDTOs = new ArrayList<>();

@@ -94,14 +94,14 @@ public class BlogRestController {
     }
 	
 	//GET /blogs/init														- Creates some test entities
-	@Loggable
-	@RequestMapping(method = RequestMethod.GET, value = "/blogs/init", produces = MediaType.APPLICATION_JSON_VALUE) 
-    public ResponseEntity<Object> init() throws BlogEntityNotFoundException {
-		
-		blogService.init();
-		
-        return new ResponseEntity<>(new Object(), HttpStatus.OK);
-	}
+	//@Loggable
+	//@RequestMapping(method = RequestMethod.GET, value = "/blogs/init", produces = MediaType.APPLICATION_JSON_VALUE) 
+    //public ResponseEntity<Object> init() throws BlogEntityNotFoundException {
+	//	
+	//	blogService.init();
+	//	
+    //    return new ResponseEntity<>(new Object(), HttpStatus.OK);
+	//}
 	
 	//GET /blogs															- Retrieves a list of all blogs
 	//GET /blogs?page={page_number}											- Retrieves a page of blogs
@@ -115,7 +115,8 @@ public class BlogRestController {
 			blogs = blogService.getBlogs(pageNumber);
 		}
 		if(blogs.isEmpty()){
-            throw new BlogEntityNotFoundException("Blogs not found!");
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            //throw new BlogEntityNotFoundException("Blogs not found!");
         }
 		
 		List<BlogDTO> blogDTOs = new ArrayList<>();

@@ -31,7 +31,8 @@ angular.module("PhotoBlog", ["ngRoute"])
 	})
 	
 	.when("/error", {
-		templateUrl: "/views/error.html"
+		templateUrl: "/views/error.html",
+		controller: 'ErrorCtrl'
 	})
 	
 	.otherwise({

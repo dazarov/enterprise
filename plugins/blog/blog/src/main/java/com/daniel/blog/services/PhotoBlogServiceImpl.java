@@ -21,9 +21,7 @@ import com.daniel.blog.model.Blog;
 import com.daniel.blog.model.Comment;
 import com.daniel.blog.model.Photo;
 import com.daniel.blog.model.Post;
-import com.daniel.blog.model.Role;
 import com.daniel.blog.model.User;
-import com.daniel.blog.model.UserRole;
 import com.daniel.blog.repositories.BlogRepository;
 import com.daniel.blog.repositories.CommentRepository;
 import com.daniel.blog.repositories.PhotoRepository;
@@ -55,126 +53,126 @@ public class PhotoBlogServiceImpl implements PhotoBlogService {
 	@Loggable
 	@Override
 	public void init() {
-		// Comments init
-		Comment comment1 = new Comment();
-		comment1.setBody("Comment 1");
-		commentRepository.save(comment1);
-
-		Comment comment2 = new Comment();
-		comment2.setBody("Comment 2");
-		commentRepository.save(comment2);
-
-		// UserRoles init
-		UserRole commentatorRole = new UserRole();
-		commentatorRole.setRole(Role.COMMENTATOR);
-		userRoleRepository.save(commentatorRole);
-
-		UserRole blogOwnerRole = new UserRole();
-		blogOwnerRole.setRole(Role.BLOG_OWNER);
-		userRoleRepository.save(blogOwnerRole);
-		
-		UserRole moderatorRole = new UserRole();
-		moderatorRole.setRole(Role.MODERATOR);
-		userRoleRepository.save(moderatorRole);
-
-		UserRole adminRole = new UserRole();
-		adminRole.setRole(Role.ADMIN);
-		userRoleRepository.save(adminRole);
-		
-		// Users init
-		User admin = new User();
-		admin.setName("Admin");
-		admin.setEmail("admin@domain.com");
-		admin.setPassword("password");
-		admin.getRoles().add(commentatorRole);
-		admin.getRoles().add(blogOwnerRole);
-		admin.getRoles().add(moderatorRole);
-		admin.getRoles().add(adminRole);
-		userRepository.save(admin);
-		
-		User owner1 = new User();
-		owner1.setName("Owner 1");
-		owner1.setEmail("owner1@domain.com");
-		owner1.setPassword("password");
-		owner1.getRoles().add(blogOwnerRole);
-		userRepository.save(owner1);
-
-		User owner2 = new User();
-		owner2.setName("Owner 2");
-		owner2.setEmail("owner2@domain.com");
-		owner2.setPassword("password");
-		owner2.getRoles().add(blogOwnerRole);
-		userRepository.save(owner2);
-
-		User moderator = new User();
-		moderator.setName("Moderator");
-		moderator.setEmail("moderator@domain.com");
-		moderator.setPassword("password");
-		moderator.getRoles().add(moderatorRole);
-		userRepository.save(moderator);
-
-		User commentator1 = new User();
-		commentator1.setName("Commentator 1");
-		commentator1.setEmail("commentator1@domain.com");
-		commentator1.setPassword("password");
-		commentator1.getRoles().add(commentatorRole);
-		userRepository.save(commentator1);
-
-		User commentator2 = new User();
-		commentator2.setName("Commentator 2");
-		commentator2.setEmail("commentator2@domain.com");
-		commentator2.setPassword("password");
-		commentator2.getRoles().add(commentatorRole);
-		userRepository.save(commentator2);
-		
-		// Blogs init
-		Blog blog1 = new Blog();
-		blog1.setName("Blog1");
-		blog1.getUsers().add(owner1);
-		blog1.getUsers().add(moderator);
-		blog1.setModerated(true);
-		blogRepository.save(blog1);
-		
-		Blog blog2 = new Blog();
-		blog2.setName("Blog2");
-		blog2.getUsers().add(owner2);
-		blog2.setModerated(false);
-		blogRepository.save(blog2);
-		
-		// Posts init
-		Post post1 = new Post();
-		post1.setSubject("Blog 1 Post 1 Subject");
-		post1.setDescription("Blog 1 Post 1 Description");
-		post1.setBody("Blog 1 Post 1 Body");
-		post1.setBlog(blog1);
-		postRepository.save(post1);
-		
-		Post post2 = new Post();
-		post2.setSubject("Blog 1 Post 2 Subject");
-		post2.setDescription("Blog 1 Post 2 Description");
-		post2.setBody("Blog 1 Post 2 Body");
-		post2.setBlog(blog1);
-		//post2.getComments().add(comment1);
-		//post2.getComments().add(comment2);
-		comment1.setBlogEntry(post2);
-		comment2.setBlogEntry(post2);
-		postRepository.save(post2);
-		commentRepository.save(comment1);
-		commentRepository.save(comment2);
-
-		Post post3 = new Post();
-		post3.setSubject("Blog 2 Post 1 Subject");
-		post3.setDescription("Blog 2 Post 1 Description");
-		post3.setBody("Blog 2 Post 1 Body");
-		post3.setBlog(blog2);
-		postRepository.save(post3);
-
-		Post post4 = new Post();
-		post4.setSubject("Blog 2 Post 2 Subject");
-		post4.setDescription("Blog 2 Post 2 Description");
-		post4.setBody("Blog 2 Post 2 Body");
-		post4.setBlog(blog2);
-		postRepository.save(post4);
+//		// Comments init
+//		Comment comment1 = new Comment();
+//		comment1.setBody("Comment 1");
+//		commentRepository.save(comment1);
+//
+//		Comment comment2 = new Comment();
+//		comment2.setBody("Comment 2");
+//		commentRepository.save(comment2);
+//
+//		// UserRoles init
+//		UserRole commentatorRole = new UserRole();
+//		commentatorRole.setRole(Role.COMMENTATOR);
+//		userRoleRepository.save(commentatorRole);
+//
+//		UserRole blogOwnerRole = new UserRole();
+//		blogOwnerRole.setRole(Role.BLOG_OWNER);
+//		userRoleRepository.save(blogOwnerRole);
+//		
+//		UserRole moderatorRole = new UserRole();
+//		moderatorRole.setRole(Role.MODERATOR);
+//		userRoleRepository.save(moderatorRole);
+//
+//		UserRole adminRole = new UserRole();
+//		adminRole.setRole(Role.ADMIN);
+//		userRoleRepository.save(adminRole);
+//		
+//		// Users init
+//		User admin = new User();
+//		admin.setName("Admin");
+//		admin.setEmail("admin@domain.com");
+//		admin.setPassword("password");
+//		admin.getRoles().add(commentatorRole);
+//		admin.getRoles().add(blogOwnerRole);
+//		admin.getRoles().add(moderatorRole);
+//		admin.getRoles().add(adminRole);
+//		userRepository.save(admin);
+//		
+//		User owner1 = new User();
+//		owner1.setName("Owner 1");
+//		owner1.setEmail("owner1@domain.com");
+//		owner1.setPassword("password");
+//		owner1.getRoles().add(blogOwnerRole);
+//		userRepository.save(owner1);
+//
+//		User owner2 = new User();
+//		owner2.setName("Owner 2");
+//		owner2.setEmail("owner2@domain.com");
+//		owner2.setPassword("password");
+//		owner2.getRoles().add(blogOwnerRole);
+//		userRepository.save(owner2);
+//
+//		User moderator = new User();
+//		moderator.setName("Moderator");
+//		moderator.setEmail("moderator@domain.com");
+//		moderator.setPassword("password");
+//		moderator.getRoles().add(moderatorRole);
+//		userRepository.save(moderator);
+//
+//		User commentator1 = new User();
+//		commentator1.setName("Commentator 1");
+//		commentator1.setEmail("commentator1@domain.com");
+//		commentator1.setPassword("password");
+//		commentator1.getRoles().add(commentatorRole);
+//		userRepository.save(commentator1);
+//
+//		User commentator2 = new User();
+//		commentator2.setName("Commentator 2");
+//		commentator2.setEmail("commentator2@domain.com");
+//		commentator2.setPassword("password");
+//		commentator2.getRoles().add(commentatorRole);
+//		userRepository.save(commentator2);
+//		
+//		// Blogs init
+//		Blog blog1 = new Blog();
+//		blog1.setName("Blog1");
+//		blog1.getUsers().add(owner1);
+//		blog1.getUsers().add(moderator);
+//		blog1.setModerated(true);
+//		blogRepository.save(blog1);
+//		
+//		Blog blog2 = new Blog();
+//		blog2.setName("Blog2");
+//		blog2.getUsers().add(owner2);
+//		blog2.setModerated(false);
+//		blogRepository.save(blog2);
+//		
+//		// Posts init
+//		Post post1 = new Post();
+//		post1.setSubject("Blog 1 Post 1 Subject");
+//		post1.setDescription("Blog 1 Post 1 Description");
+//		post1.setBody("Blog 1 Post 1 Body");
+//		post1.setBlog(blog1);
+//		postRepository.save(post1);
+//		
+//		Post post2 = new Post();
+//		post2.setSubject("Blog 1 Post 2 Subject");
+//		post2.setDescription("Blog 1 Post 2 Description");
+//		post2.setBody("Blog 1 Post 2 Body");
+//		post2.setBlog(blog1);
+//		//post2.getComments().add(comment1);
+//		//post2.getComments().add(comment2);
+//		comment1.setBlogEntry(post2);
+//		comment2.setBlogEntry(post2);
+//		postRepository.save(post2);
+//		commentRepository.save(comment1);
+//		commentRepository.save(comment2);
+//
+//		Post post3 = new Post();
+//		post3.setSubject("Blog 2 Post 1 Subject");
+//		post3.setDescription("Blog 2 Post 1 Description");
+//		post3.setBody("Blog 2 Post 1 Body");
+//		post3.setBlog(blog2);
+//		postRepository.save(post3);
+//
+//		Post post4 = new Post();
+//		post4.setSubject("Blog 2 Post 2 Subject");
+//		post4.setDescription("Blog 2 Post 2 Description");
+//		post4.setBody("Blog 2 Post 2 Body");
+//		post4.setBlog(blog2);
+//		postRepository.save(post4);
 		
 	}
 	

@@ -54,7 +54,8 @@ public class PostsRestController {
 		List<Post> posts =  blogService.getPostsByBlogName(blogName, pageNumber);
 		
 		if(posts.isEmpty()){
-            throw new BlogEntityNotFoundException("Posts not found!");
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            //throw new BlogEntityNotFoundException("Posts not found!");
         }
 		
 		List<PostDTO> postDTOs = new ArrayList<>();
