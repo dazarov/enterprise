@@ -1,5 +1,7 @@
 angular.module("PhotoBlog")
-.controller('BlogCtrl', function($scope, $http, $route, $rootScope, $location, $routeParams) {
+.controller('BlogCtrl', function($scope, $http, $route, $rootScope, $location, $routeParams, $controller) {
+	$controller('BaseCtrl', { $scope: $scope });
+	
 	$scope.blog = {
     	id: "PhotoBlog"
 	};

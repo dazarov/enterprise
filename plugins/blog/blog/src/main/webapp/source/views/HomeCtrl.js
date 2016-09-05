@@ -1,5 +1,7 @@
 angular.module("PhotoBlog")
-.controller('HomeCtrl', function($scope, $http, $route, $rootScope, $location) {
+.controller('HomeCtrl', function($scope, $http, $route, $rootScope, $location, $controller) {
+	$controller('BaseCtrl', { $scope: $scope });
+	
 	$scope.blog = {
     	id: "PhotoBlog"
 	};
@@ -45,8 +47,4 @@ angular.module("PhotoBlog")
 	$scope.goBlog = function (blogName){
 		$location.path('/'+blogName+'/posts/page/1');
 	}
-	
-	$scope.$back = function() { 
-		window.history.back();
-	};
 });

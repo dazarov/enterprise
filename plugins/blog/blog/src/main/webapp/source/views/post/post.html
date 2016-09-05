@@ -42,16 +42,20 @@
     
 	<form class="form-horizontal" name="addCommentForm" novalidate ng-submit="addComment(newComment)">
         <!-- body -->
-        <div class="form-group">
-            <label class="control-label col-sm-2" for="name">Name:</label>
+        <div class="form-group" ng-class="getValidationClass(addCommentForm.comment.$valid, addCommentForm.comment.$dirty)">
+            <label class="control-label col-sm-2" for="name">Comment:</label>
             <div class="col-sm-10">
-                <textarea type="text" class="form-control" id="body" name="body" rows="10" maxlength="3000" required ng-model="newComment.body"></textarea>
+                <textarea type="text" class="form-control" id="comment" name="comment" rows="10" maxlength="3000" aria-describedby="commentStatus" placeholder="Comment" required ng-model="newComment.body"></textarea>
+            	<span ng-show="addCommentForm.comment.$dirty"
+                	ng-class="addCommentForm.comment.$valid ? 'glyphicon glyphicon-ok form-control-feedback' : 'glyphicon glyphicon-remove form-control-feedback'" aria-hidden="true"></span>
+            	<span ng-show="addCommentForm.comment.$dirty" id="commentStatus"
+                	class="sr-only">{{addCommentForm.comment.$valid ? '(success)' : '(error)'}}</span>
             </div>
         </div>
         <!-- Add Button -->
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
-                <button type="submit" class="btn btn-default">Add</button>
+                <button type="submit" class="btn btn-default" ng-disabled="addCommentForm.$invalid">Add</button>
             </div>
         </div>
     </form>
