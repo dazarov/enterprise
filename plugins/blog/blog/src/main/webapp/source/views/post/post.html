@@ -8,28 +8,28 @@
 	
 	<div class="well">
         <h3>Comments:</h3>
-    	<nav class="navbar navbar-default">
+    	<nav class="navbar navbar-default" ng-show="(page > 1 || blog.commentList.length > 10)">
   			<div class="container-fluid">
   				<div class="navbar-header navbar-left">
   					<button type="button" class="btn btn-default navbar-btn" ng-show="page > 1" ng-click="goPrevPage()">Prev Page</button>
   				</div>
   				<div class="navbar-header navbar-right">
-  					<button type="button" class="btn btn-default navbar-btn" ng-click="goNextPage()">Next Page</button>
+  					<button type="button" class="btn btn-default navbar-btn" ng-show="blog.commentList.length > 10" ng-click="goNextPage()">Next Page</button>
         		</div>
   			</div>
   		</nav>
     
-		<div ng-repeat="comment in blog.commentList" class="well">
+		<div ng-repeat="comment in blog.commentList | limitTo:10" class="well">
 			<i>{{comment.id}}</i> <b>{{comment.body}}</b>
 		</div>
 		
-		<nav class="navbar navbar-default">
+		<nav class="navbar navbar-default" ng-show="(page > 1 || blog.commentList.length > 10)">
   			<div class="container-fluid">
   				<div class="navbar-header navbar-left">
   					<button type="button" class="btn btn-default navbar-btn" ng-show="page > 1" ng-click="goPrevPage()">Prev Page</button>
   				</div>
   				<div class="navbar-header navbar-right">
-  					<button type="button" class="btn btn-default navbar-btn" ng-click="goNextPage()">Next Page</button>
+  					<button type="button" class="btn btn-default navbar-btn" ng-show="blog.commentList.length > 10" ng-click="goNextPage()">Next Page</button>
         		</div>
   			</div>
   		</nav>

@@ -194,7 +194,7 @@ public class PhotoBlogServiceImpl implements PhotoBlogService {
 		if(pageNumber < 0){
 			pageNumber = 0;
 		}
-		Page<Blog> page = blogRepository.findAll(new PageRequest(pageNumber*PhotoBlogConstants.NUMBER_OF_BLOGS_ON_PAGE, PhotoBlogConstants.NUMBER_OF_BLOGS_ON_PAGE));
+		Page<Blog> page = blogRepository.findAll(new PageRequest(pageNumber*PhotoBlogConstants.NUMBER_OF_BLOGS_ON_PAGE, PhotoBlogConstants.NUMBER_OF_BLOGS_ON_PAGE+1));
 		return page.getContent();
 	}
 
@@ -285,7 +285,7 @@ public class PhotoBlogServiceImpl implements PhotoBlogService {
 		if(pageNumber < 0){
 			pageNumber = 0;
 		}
-		Page<User> page = userRepository.findAll(new PageRequest(pageNumber*PhotoBlogConstants.NUMBER_OF_USERS_ON_PAGE, PhotoBlogConstants.NUMBER_OF_USERS_ON_PAGE));
+		Page<User> page = userRepository.findAll(new PageRequest(pageNumber*PhotoBlogConstants.NUMBER_OF_USERS_ON_PAGE, PhotoBlogConstants.NUMBER_OF_USERS_ON_PAGE+1));
 		return page.getContent();
 	}
 
@@ -345,7 +345,7 @@ public class PhotoBlogServiceImpl implements PhotoBlogService {
 			pageNumber = 0;
 		}
 		
-		return postRepository.findByBlog(blog, new PageRequest(pageNumber*PhotoBlogConstants.NUMBER_OF_POSTS_ON_PAGE, PhotoBlogConstants.NUMBER_OF_POSTS_ON_PAGE));
+		return postRepository.findByBlog(blog, new PageRequest(pageNumber*PhotoBlogConstants.NUMBER_OF_POSTS_ON_PAGE, PhotoBlogConstants.NUMBER_OF_POSTS_ON_PAGE+1));
 	}
 
 	
@@ -408,7 +408,7 @@ public class PhotoBlogServiceImpl implements PhotoBlogService {
 		if(pageNumber < 0){
 			pageNumber = 0;
 		}
-		return photoRepository.findByBlog(blog, new PageRequest(pageNumber*PhotoBlogConstants.NUMBER_OF_PHOTOS_ON_PAGE, PhotoBlogConstants.NUMBER_OF_PHOTOS_ON_PAGE));
+		return photoRepository.findByBlog(blog, new PageRequest(pageNumber*PhotoBlogConstants.NUMBER_OF_PHOTOS_ON_PAGE, PhotoBlogConstants.NUMBER_OF_PHOTOS_ON_PAGE+1));
 	}
 
 	@Loggable
@@ -472,7 +472,7 @@ public class PhotoBlogServiceImpl implements PhotoBlogService {
 		if(pageNumber < 0){
 			pageNumber = 0;
 		}
-		return commentRepository.findByBlogEntry(post, new PageRequest(pageNumber*PhotoBlogConstants.NUMBER_OF_COMMENTS_ON_PAGE, PhotoBlogConstants.NUMBER_OF_COMMENTS_ON_PAGE));
+		return commentRepository.findByBlogEntry(post, new PageRequest(pageNumber*PhotoBlogConstants.NUMBER_OF_COMMENTS_ON_PAGE, PhotoBlogConstants.NUMBER_OF_COMMENTS_ON_PAGE+1));
 	}
 
 	@Loggable
@@ -486,7 +486,7 @@ public class PhotoBlogServiceImpl implements PhotoBlogService {
 		if(pageNumber < 0){
 			pageNumber = 0;
 		}
-		return commentRepository.findByBlogEntry(photo, new PageRequest(pageNumber*PhotoBlogConstants.NUMBER_OF_COMMENTS_ON_PAGE, PhotoBlogConstants.NUMBER_OF_COMMENTS_ON_PAGE));
+		return commentRepository.findByBlogEntry(photo, new PageRequest(pageNumber*PhotoBlogConstants.NUMBER_OF_COMMENTS_ON_PAGE, PhotoBlogConstants.NUMBER_OF_COMMENTS_ON_PAGE+1));
 	}
 
 	@Loggable
@@ -500,7 +500,7 @@ public class PhotoBlogServiceImpl implements PhotoBlogService {
 		if(pageNumber < 0){
 			pageNumber = 0;
 		}
-		return commentRepository.findByBlogEntry(parent, new PageRequest(pageNumber*PhotoBlogConstants.NUMBER_OF_COMMENTS_ON_PAGE, PhotoBlogConstants.NUMBER_OF_COMMENTS_ON_PAGE));
+		return commentRepository.findByBlogEntry(parent, new PageRequest(pageNumber*PhotoBlogConstants.NUMBER_OF_COMMENTS_ON_PAGE, PhotoBlogConstants.NUMBER_OF_COMMENTS_ON_PAGE+1));
 	}
 
 	@Loggable

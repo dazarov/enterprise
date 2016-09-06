@@ -5,30 +5,31 @@
 	</div>
 	<div class="well">
         <h3>Posts:</h3>
-        <nav class="navbar navbar-default">
+        <nav class="navbar navbar-default" ng-show="(page > 1 || blog.postList.length > 10)">
   			<div class="container-fluid">
   				<div class="navbar-header navbar-left">
   					<button type="button" class="btn btn-default navbar-btn" ng-show="page > 1" ng-click="goPrevPage()">Prev Page</button>
   				</div>
   				<div class="navbar-header navbar-right">
-  					<button type="button" class="btn btn-default navbar-btn" ng-click="goNextPage()">Next Page</button>
+  					<button type="button" class="btn btn-default navbar-btn" ng-show="blog.postList.length > 10" ng-click="goNextPage()">Next Page</button>
         		</div>
   			</div>
   		</nav>
-		<div ng-repeat="post in blog.postList" class="well">
+  		
+		<div ng-repeat="post in blog.postList | limitTo:10" class="well">
 			<div>
 				<span><i>{{post.id}}</i> <b>{{post.subject}}</b></span>
 			</div>
 			<br>
 			<div>{{post.description}} (<a  ng-href="" ng-click="goPost(post.id)" style="cursor: pointer;">Full article...</a>)</div>
 		</div>
-		<nav class="navbar navbar-default">
+		<nav class="navbar navbar-default" ng-show="(page > 1 || blog.postList.length > 10)">
   			<div class="container-fluid">
   				<div class="navbar-header navbar-left">
   					<button type="button" class="btn btn-default navbar-btn" ng-show="page > 1" ng-click="goPrevPage()">Prev Page</button>
   				</div>
   				<div class="navbar-header navbar-right">
-  					<button type="button" class="btn btn-default navbar-btn" ng-click="goNextPage()">Next Page</button>
+  					<button type="button" class="btn btn-default navbar-btn" ng-show="blog.postList.length > 10" ng-click="goNextPage()">Next Page</button>
         		</div>
   			</div>
   		</nav>
