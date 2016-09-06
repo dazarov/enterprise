@@ -29,7 +29,7 @@ public class Post extends CommentableBlogEntry{
 	private String description;
 	
 	@Column(name="BODY")
-	@Length(max = 3000)
+	@Length(max = 10_000)
 	private String body;
 	
 	@ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})

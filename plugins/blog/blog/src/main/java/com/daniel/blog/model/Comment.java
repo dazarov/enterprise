@@ -22,9 +22,8 @@ public class Comment extends CommentableBlogEntry{
 	private CommentableBlogEntry blogEntry; 
 	
 	@Column(name="BODY")
-	@Length(max = 3000)
+	@Length(max = 5_000)
 	private String body;
-	
 	
 	// Methods
 	

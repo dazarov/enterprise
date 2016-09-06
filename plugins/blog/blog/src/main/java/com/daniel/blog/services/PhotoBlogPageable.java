@@ -3,11 +3,11 @@ package com.daniel.blog.services;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
-public class PhotoBlogPagable implements Pageable {
+public class PhotoBlogPageable implements Pageable {
 	private int pageNumber;
 	private int pageSize;
 	
-	public PhotoBlogPagable(int pageNumber, int pageSize){
+	public PhotoBlogPageable(int pageNumber, int pageSize){
 		this.pageNumber = pageNumber;
 		this.pageSize = pageSize;
 	}
@@ -34,7 +34,7 @@ public class PhotoBlogPagable implements Pageable {
 
 	@Override
 	public Pageable next() {
-		return new PhotoBlogPagable(pageNumber+1, pageSize);
+		return new PhotoBlogPageable(pageNumber+1, pageSize);
 	}
 
 	@Override
@@ -43,12 +43,12 @@ public class PhotoBlogPagable implements Pageable {
 		if(newPage < 0){
 			newPage = 0;
 		}
-		return new PhotoBlogPagable(newPage, pageSize);
+		return new PhotoBlogPageable(newPage, pageSize);
 	}
 
 	@Override
 	public Pageable first() {
-		return new PhotoBlogPagable(0, pageSize);
+		return new PhotoBlogPageable(0, pageSize);
 	}
 
 	@Override

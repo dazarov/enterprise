@@ -45,7 +45,7 @@
         <div class="form-group" ng-class="getValidationClass(addCommentForm.comment.$valid, addCommentForm.comment.$dirty)">
             <label class="control-label col-sm-2" for="name">Comment:</label>
             <div class="col-sm-10">
-                <textarea type="text" class="form-control" id="comment" name="comment" rows="10" maxlength="3000" aria-describedby="commentStatus" placeholder="Comment" required ng-model="newComment.body"></textarea>
+                <textarea type="text" class="form-control" id="comment" name="comment" rows="20" maxlength="5000" aria-describedby="commentStatus" placeholder="Comment" required ng-model="newComment.body"></textarea>
             	<span ng-show="addCommentForm.comment.$dirty"
                 	ng-class="addCommentForm.comment.$valid ? 'glyphicon glyphicon-ok form-control-feedback' : 'glyphicon glyphicon-remove form-control-feedback'" aria-hidden="true"></span>
             	<span ng-show="addCommentForm.comment.$dirty" id="commentStatus"

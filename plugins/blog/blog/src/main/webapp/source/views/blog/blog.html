@@ -67,7 +67,7 @@
         <div class="form-group" ng-class="getValidationClass(addPostForm.body.$valid, addPostForm.body.$dirty)">
             <label class="control-label col-sm-2" for="body">Text:</label>
             <div class="col-sm-10">
-                <textarea type="text" class="form-control" id="body" name="body" rows="10" maxlength="3000" aria-describedby="bodyStatus" placeholder="Text" required ng-model="newPost.body"></textarea>
+                <textarea type="text" class="form-control" id="body" name="body" rows="30" maxlength="10000" aria-describedby="bodyStatus" placeholder="Text" required ng-model="newPost.body"></textarea>
 	            <span ng-show="addPostForm.body.$dirty"
 	                ng-class="addPostForm.body.$valid ? 'glyphicon glyphicon-ok form-control-feedback' : 'glyphicon glyphicon-remove form-control-feedback'" aria-hidden="true"></span>
 	            <span ng-show="addPostForm.body.$dirty" id="bodyStatus"
