@@ -87,7 +87,6 @@ angular.module("PhotoBlog", ["ngRoute"])
                 cls = 'has-error has-feedback';
             }
         }
-
         return cls;
     }
 

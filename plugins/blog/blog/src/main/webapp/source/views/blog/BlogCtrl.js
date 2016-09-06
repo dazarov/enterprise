@@ -13,17 +13,19 @@ angular.module("PhotoBlog")
 	$scope.updateBlog = function (){
 		console.log('get post list...');
 		
-	    $http.get("/"+$routeParams.blogName+"/posts?page="+$routeParams.page)
-	    .success(function (data) {
-	    	console.log('success');
-	    	$scope.blog.postList = data;
-	    })
-	    .error(function(error){
-	    	console.log('error '+JSON.stringify(error));
-	    	$scope.blog.postList = null;
-	    	$rootScope.error = error;
-        	$location.path('/error');
-	    });
+		$http({
+			method: 'GET',
+			url: '/'+$routeParams.blogName+'/posts?page='+$routeParams.page
+		}).then(function successCallback(response) {
+			console.log('success, received - '+response.data.length);
+			$scope.blog.postList = response.data;
+	    }, function errorCallback(response) {
+	    	console.log('error '+JSON.stringify(response.data));
+	    	$scope.blog.blogList = null;
+	    	$rootScope.error = response.data;
+	    	$rootScope.error.status = response.status;
+	    	$location.path('/error');
+		});
     }
     
     $scope.updateBlog();
@@ -34,21 +36,28 @@ angular.module("PhotoBlog")
         var jsonString = JSON.stringify(post);
         
         console.log('client addPost string - '+jsonString);
-
-        $http.post("/"+$routeParams.blogName+"/posts", jsonString).success(function(data){
-            console.log('success');
-            post.subject = 
-            post.description = 
-            post.body = '';
-            $scope.addPostForm.$setPristine();
-            $scope.updateBlog();
-        })
-        .error(function(error){
-        	console.log('error '+JSON.stringify(error));
-    		$scope.blog.postList = null;
-    		$rootScope.error = error;
-        	$location.path('/error');
-    	});
+        
+        $http({
+        	method: 'POST',
+        	url: '/'+$routeParams.blogName+'/posts',
+        	headers: {
+        		'Content-Type': 'application/json'
+        	},
+        	data: jsonString
+		}).then(function successCallback(response) {
+			console.log('success');
+			post.subject = 
+	        post.description = 
+	        post.body = '';
+	        $scope.addPostForm.$setPristine();
+	        $scope.updateBlog();
+	    }, function errorCallback(response) {
+	    	console.log('error '+JSON.stringify(response.data));
+	    	$scope.blog.blogList = null;
+	    	$rootScope.error = response.data;
+	    	$rootScope.error.status = response.status;
+	    	$location.path('/error');
+		});
     }
     
     $scope.goPost = function (postId){

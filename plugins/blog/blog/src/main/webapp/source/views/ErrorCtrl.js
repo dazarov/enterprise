@@ -1,9 +1,11 @@
 angular.module("PhotoBlog")
 .controller('ErrorCtrl', function($scope, $rootScope) {
-	//$scope.error = $rootScope.error;
-	
 	$scope.getURL = function (){
 		return $rootScope.error.url;
+	}
+
+	$scope.getStatus = function (){
+		return $rootScope.error.status;
 	}
 	
 	$scope.getMessage = function (){

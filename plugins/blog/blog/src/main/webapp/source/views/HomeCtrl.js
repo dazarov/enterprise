@@ -8,18 +8,20 @@ angular.module("PhotoBlog")
 	
 	$scope.updateBlogs = function (){
 		console.log('get blog list...');
-	
-	    $http.get("/blogs")
-	    .success(function (data) {
-	    	console.log('success');
-	    	$scope.blog.blogList = data;
-	    })
-	    .error(function(error){
-	    	console.log('error '+JSON.stringify(error));
+		
+		$http({
+			method: 'GET',
+			url: '/blogs'
+		}).then(function successCallback(response) {
+			console.log('success, received - '+response.data.length);
+	    	$scope.blog.blogList = response.data;
+	    }, function errorCallback(response) {
+	    	console.log('error '+JSON.stringify(response.data));
 	    	$scope.blog.blogList = null;
-	    	$rootScope.error = error;
+	    	$rootScope.error = response.data;
+	    	$rootScope.error.status = response.status;
 	    	$location.path('/error');
-	    });
+		});
     }
     
     $scope.updateBlogs();
@@ -30,18 +32,26 @@ angular.module("PhotoBlog")
         var jsonString = JSON.stringify(blog);
         
         console.log('client addBlog string - '+jsonString);
-
-        $http.post("/blogs", jsonString).success(function(data){
-            console.log('success');
-            blog.name = '';
+        
+        $http({
+        	method: 'POST',
+  		  	url: '/blogs',
+  		  	headers: {
+  		  		'Content-Type': 'application/json'
+  		  	},
+  		  	data: jsonString
+  		}).then(function successCallback(response) {
+  			console.log('success');
+  			blog.name = '';
             $scope.addBlogForm.$setPristine();
             $scope.updateBlogs();
-        })
-        .error(function(error){
-        	console.log('error '+JSON.stringify(error));
-        	$rootScope.error = error;
-        	$location.path('/error');
-        });
+  	    }, function errorCallback(response) {
+  	    	console.log('error '+JSON.stringify(response.data));
+  	    	$scope.blog.blogList = null;
+  	    	$rootScope.error = response.data;
+  	    	$rootScope.error.status = response.status;
+  	    	$location.path('/error');
+  		});
     }
 	
 	$scope.goBlog = function (blogName){

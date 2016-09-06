@@ -9,32 +9,35 @@ angular.module("PhotoBlog")
 	$scope.page = $routeParams.page;
 	
 	console.log('get post...');
-	
-    $http.get("/posts/"+$routeParams.postId)
-    .success(function (data) {
-    	console.log('success');
-    	$scope.blog.post = data;
-    })
-    .error(function(error){
-    	console.log('error '+JSON.stringify(error));
-    	$scope.blog.post = null;
-    	$rootScope.error = error;
-        $location.path('/error');
-    });
+	$http({
+		method: 'GET',
+		url: '/posts/'+$routeParams.postId
+	}).then(function successCallback(response) {
+		console.log('success');
+		$scope.blog.post = response.data;
+    }, function errorCallback(response) {
+    	console.log('error '+JSON.stringify(response.data));
+    	$scope.blog.blogList = null;
+    	$rootScope.error = response.data;
+    	$rootScope.error.status = response.status;
+    	$location.path('/error');
+	});
     
     $scope.updateComments = function (){
 		console.log('get comment list...');
-	    $http.get("/posts/"+$routeParams.postId+"/comments?page="+$routeParams.page)
-	    .success(function (data) {
-	    	console.log('success');
-	    	$scope.blog.commentList = data;
-	    })
-	    .error(function(error){
-	    	console.log('error '+JSON.stringify(error));
-	    	$scope.blog.commentList = null;
-	    	$rootScope.error = error;
-        	$location.path('/error');
-	    });
+		$http({
+			method: 'GET',
+			url: '/posts/'+$routeParams.postId+'/comments?page='+$routeParams.page
+		}).then(function successCallback(response) {
+			console.log('success, received - '+response.data.length);
+			$scope.blog.commentList = response.data;
+	    }, function errorCallback(response) {
+	    	console.log('error '+JSON.stringify(response.data));
+	    	$scope.blog.blogList = null;
+	    	$rootScope.error = response.data;
+	    	$rootScope.error.status = response.status;
+	    	$location.path('/error');
+		});
     }
     
     $scope.updateComments();
@@ -43,19 +46,28 @@ angular.module("PhotoBlog")
         console.log('add comment...');
 
         var jsonString = JSON.stringify(comment);
+        
         console.log('client addComment string - '+jsonString);
-
-        $http.post("/posts/"+$routeParams.postId+"/comments", jsonString).success(function(data){
-        	console.log('success');
-            comment.body = '';
+        
+        $http({
+        	method: 'POST',
+        	url: '/posts/'+$routeParams.postId+'/comments',
+        	headers: {
+        		'Content-Type': 'application/json'
+        	},
+        	data: jsonString
+		}).then(function successCallback(response) {
+			console.log('success');
+			comment.body = '';
             $scope.addCommentForm.$setPristine();
             $scope.updateComments();
-        })
-        .error(function(error){
-        	console.log('error '+JSON.stringify(error));
-	    	$rootScope.error = error;
-        	$location.path('/error');
-        });
+	    }, function errorCallback(response) {
+	    	console.log('error '+JSON.stringify(response.data));
+	    	$scope.blog.blogList = null;
+	    	$rootScope.error = response.data;
+	    	$rootScope.error.status = response.status;
+	    	$location.path('/error');
+		});
     }
     
 	$scope.goPrevPage = function (){
