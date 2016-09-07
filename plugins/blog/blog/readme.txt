@@ -1,3 +1,9 @@
+Bower
+
+cd /git/enterprise/plugins/blog/blog/src/main/webapp
+npm install
+npm start
+
 TODO
 
 1. Add Commentable Status - 1. No comments, 2. Comments allowed 3. Moderated comments

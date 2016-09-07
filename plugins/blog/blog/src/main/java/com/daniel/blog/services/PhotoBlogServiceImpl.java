@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.daniel.blog.PhotoBlogConstants;
 import com.daniel.blog.annotations.Loggable;
@@ -179,6 +180,7 @@ public class PhotoBlogServiceImpl implements PhotoBlogService {
 	
 	@Loggable
 	@Override
+	@Transactional(readOnly = true)
 	public List<Blog> getAllBlogs() {
 		Iterable<Blog> blogs = blogRepository.findAll();
 		List<Blog> blogList = new ArrayList<>();
@@ -188,6 +190,7 @@ public class PhotoBlogServiceImpl implements PhotoBlogService {
 
 	@Loggable
 	@Override
+	@Transactional(readOnly = true)
 	public List<Blog> getBlogs(int pageNumber) {
 		pageNumber--;
 		if(pageNumber < 0){
@@ -199,6 +202,7 @@ public class PhotoBlogServiceImpl implements PhotoBlogService {
 
 	@Loggable
 	@Override
+	@Transactional(readOnly = true)
 	public Blog getBlogById(long blogId) throws BlogEntityNotFoundException {
 		Blog blog = blogRepository.findOne(blogId);
 		if(blog == null){
@@ -209,6 +213,7 @@ public class PhotoBlogServiceImpl implements PhotoBlogService {
 
 	@Loggable
 	@Override
+	@Transactional(readOnly = true)
 	public Blog getBlogByName(String blogName) throws BlogEntityNotFoundException {
 		long blogId = -1;
 		try{
@@ -234,6 +239,7 @@ public class PhotoBlogServiceImpl implements PhotoBlogService {
 
 	@Loggable
 	@Override
+	@Transactional(readOnly = false)
 	public Blog createBlog(BlogDTO blogRequest) {
 		Blog blog = new Blog();
 		
@@ -244,6 +250,7 @@ public class PhotoBlogServiceImpl implements PhotoBlogService {
 
 	@Loggable
 	@Override
+	@Transactional(readOnly = false)
 	public Blog updateBlog(long blogId, BlogDTO blogRequest) throws BlogEntityNotFoundException {
 		Blog blog = blogRepository.findOne(blogId);
 		if(blog == null){
@@ -257,6 +264,7 @@ public class PhotoBlogServiceImpl implements PhotoBlogService {
 
 	@Loggable
 	@Override
+	@Transactional(readOnly = false)
 	public boolean deleteBlog(long blogId) {
 		Blog blog = blogRepository.findOne(blogId);
 		if(blog != null){
@@ -270,6 +278,7 @@ public class PhotoBlogServiceImpl implements PhotoBlogService {
 
 	@Loggable
 	@Override
+	@Transactional(readOnly = true)
 	public List<User> getAllUsers() {
 		Iterable<User> users = userRepository.findAll();
 		List<User> userList = new ArrayList<>();
@@ -279,6 +288,7 @@ public class PhotoBlogServiceImpl implements PhotoBlogService {
 
 	@Loggable
 	@Override
+	@Transactional(readOnly = true)
 	public List<User> getUsers(int pageNumber) {
 		pageNumber--;
 		if(pageNumber < 0){
@@ -290,6 +300,7 @@ public class PhotoBlogServiceImpl implements PhotoBlogService {
 
 	@Loggable
 	@Override
+	@Transactional(readOnly = true)
 	public User getUserById(long userId) throws BlogEntityNotFoundException {
 		User user = userRepository.findOne(userId);
 		if(user == null){
@@ -300,6 +311,7 @@ public class PhotoBlogServiceImpl implements PhotoBlogService {
 
 	@Loggable
 	@Override
+	@Transactional(readOnly = false)
 	public User createUser(UserDTO userRequest) {
 		User user = new User();
 		
@@ -310,6 +322,7 @@ public class PhotoBlogServiceImpl implements PhotoBlogService {
 
 	@Loggable
 	@Override
+	@Transactional(readOnly = false)
 	public User updateUser(long userId, UserDTO userRequest) throws BlogEntityNotFoundException {
 		User user = userRepository.findOne(userId);
 		if(user == null){
@@ -323,6 +336,7 @@ public class PhotoBlogServiceImpl implements PhotoBlogService {
 
 	@Loggable
 	@Override
+	@Transactional(readOnly = false)
 	public boolean deleteUser(long userId) {
 		User user = userRepository.findOne(userId);
 		if(user != null){
@@ -336,6 +350,7 @@ public class PhotoBlogServiceImpl implements PhotoBlogService {
 	
 	@Loggable
 	@Override
+	@Transactional(readOnly = true)
 	public List<Post> getPostsByBlogName(String blogName, int pageNumber) throws BlogEntityNotFoundException {
 		Blog blog = getBlogByName(blogName);
 		
@@ -350,6 +365,7 @@ public class PhotoBlogServiceImpl implements PhotoBlogService {
 	
 	@Loggable
 	@Override
+	@Transactional(readOnly = true)
 	public Post getPost(long postId) throws BlogEntityNotFoundException {
 		Post post = postRepository.findOne(postId);
 		if(post == null){
@@ -360,6 +376,7 @@ public class PhotoBlogServiceImpl implements PhotoBlogService {
 	
 	@Loggable
 	@Override
+	@Transactional(readOnly = false)
 	public Post createPost(String blogName, PostDTO postRequest) throws BlogEntityNotFoundException {
 		Blog blog = getBlogByName(blogName);
 		
@@ -374,6 +391,7 @@ public class PhotoBlogServiceImpl implements PhotoBlogService {
 
 	@Loggable
 	@Override
+	@Transactional(readOnly = false)
 	public Post updatePost(long postId, PostDTO postRequest) throws BlogEntityNotFoundException {
 		Post post = postRepository.findOne(postId);
 		if(post == null){
@@ -387,6 +405,7 @@ public class PhotoBlogServiceImpl implements PhotoBlogService {
 
 	@Loggable
 	@Override
+	@Transactional(readOnly = false)
 	public boolean deletePost(long postId){
 		Post post = postRepository.findOne(postId);
 		if(post != null){
@@ -400,6 +419,7 @@ public class PhotoBlogServiceImpl implements PhotoBlogService {
 
 	@Loggable
 	@Override
+	@Transactional(readOnly = true)
 	public List<Photo> getPhotosByBlogName(String blogName, int pageNumber) throws BlogEntityNotFoundException {
 		Blog blog = getBlogByName(blogName);
 		
@@ -412,6 +432,7 @@ public class PhotoBlogServiceImpl implements PhotoBlogService {
 
 	@Loggable
 	@Override
+	@Transactional(readOnly = true)
 	public Photo getPhoto(long photoId) throws BlogEntityNotFoundException {
 		Photo photo = photoRepository.findOne(photoId);
 		if(photo == null){
@@ -422,6 +443,7 @@ public class PhotoBlogServiceImpl implements PhotoBlogService {
 
 	@Loggable
 	@Override
+	@Transactional(readOnly = false)
 	public Photo createPhoto(String blogName, PhotoDTO photoRequest) throws BlogEntityNotFoundException {
 		Blog blog = getBlogByName(blogName);
 		
@@ -436,6 +458,7 @@ public class PhotoBlogServiceImpl implements PhotoBlogService {
 
 	@Loggable
 	@Override
+	@Transactional(readOnly = false)
 	public Photo updatePhoto(long photoId, PhotoDTO photoRequest) throws BlogEntityNotFoundException {
 		Photo photo = photoRepository.findOne(photoId);
 		if(photo == null){
@@ -449,6 +472,7 @@ public class PhotoBlogServiceImpl implements PhotoBlogService {
 
 	@Loggable
 	@Override
+	@Transactional(readOnly = false)
 	public boolean deletePhoto(long photoId) {
 		Photo photo = photoRepository.findOne(photoId);
 		if(photo != null){
@@ -462,6 +486,7 @@ public class PhotoBlogServiceImpl implements PhotoBlogService {
 	
 	@Loggable
 	@Override
+	@Transactional(readOnly = true)
 	public List<Comment> getCommentsByPostId(long postId, int pageNumber) throws BlogEntityNotFoundException {
 		Post post = postRepository.findOne(postId);
 		if(post == null){
@@ -476,6 +501,7 @@ public class PhotoBlogServiceImpl implements PhotoBlogService {
 
 	@Loggable
 	@Override
+	@Transactional(readOnly = true)
 	public List<Comment> getCommentsByPhotoId(long photoId, int pageNumber) throws BlogEntityNotFoundException {
 		Photo photo = photoRepository.findOne(photoId);
 		if(photo == null){
@@ -490,6 +516,7 @@ public class PhotoBlogServiceImpl implements PhotoBlogService {
 
 	@Loggable
 	@Override
+	@Transactional(readOnly = true)
 	public List<Comment> getCommentsByParentCommentId(long parentCommentId, int pageNumber) throws BlogEntityNotFoundException {
 		Comment parent = commentRepository.findOne(parentCommentId);
 		if(parent == null){
@@ -504,6 +531,7 @@ public class PhotoBlogServiceImpl implements PhotoBlogService {
 
 	@Loggable
 	@Override
+	@Transactional(readOnly = false)
 	public Comment createCommentForPost(long postId, CommentDTO commentRequest) throws BlogEntityNotFoundException {
 		Post post = postRepository.findOne(postId);
 		if(post == null){
@@ -520,6 +548,7 @@ public class PhotoBlogServiceImpl implements PhotoBlogService {
 
 	@Loggable
 	@Override
+	@Transactional(readOnly = false)
 	public Comment createCommentForPhoto(long photoId, CommentDTO commentRequest) throws BlogEntityNotFoundException {
 		Photo photo = photoRepository.findOne(photoId);
 		if(photo == null){
@@ -536,6 +565,7 @@ public class PhotoBlogServiceImpl implements PhotoBlogService {
 
 	@Loggable
 	@Override
+	@Transactional(readOnly = false)
 	public Comment createCommentForParentComment(long parentCommentId, CommentDTO commentRequest) throws BlogEntityNotFoundException {
 		Comment parent = commentRepository.findOne(parentCommentId);
 		if(parent == null){
@@ -552,6 +582,7 @@ public class PhotoBlogServiceImpl implements PhotoBlogService {
 
 	@Loggable
 	@Override
+	@Transactional(readOnly = false)
 	public Comment updateComment(long commentId, CommentDTO commentRequest) throws BlogEntityNotFoundException {
 		Comment comment = commentRepository.findOne(commentId);
 		if(comment == null){
@@ -565,6 +596,7 @@ public class PhotoBlogServiceImpl implements PhotoBlogService {
 
 	@Loggable
 	@Override
+	@Transactional(readOnly = false)
 	public boolean deleteComment(long commentId) {
 		Comment comment = commentRepository.findOne(commentId);
 		if(comment != null){

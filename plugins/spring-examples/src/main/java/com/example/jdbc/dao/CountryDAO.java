@@ -1,4 +1,4 @@
-package com.example.model.dao;
+package com.example.jdbc.dao;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -9,20 +9,20 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.example.model.Country;
+import com.example.jdbc.model.Country;
 
-public class CountryDAOJdbcImpl implements CountryDAO{
+
+public class CountryDAO {
 	static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";  
 	static final String DB_URL = "jdbc:mysql://localhost/CountryDB";
 
 	static final String USER = "username";
 	static final String PASS = "password";
 	   
-	public CountryDAOJdbcImpl() throws ClassNotFoundException{
+	public CountryDAO() throws ClassNotFoundException{
 		Class.forName(JDBC_DRIVER);
 	}
 
-	@Override
 	public void addCountry(Country country){
 		try(Connection connection = DriverManager.getConnection(DB_URL,USER,PASS)){
 			String sql = "INSERT INTO Country (name) VALUES (?)";
@@ -35,11 +35,10 @@ public class CountryDAOJdbcImpl implements CountryDAO{
 			    System.out.println("A new country was inserted successfully!");
 			}
 		}catch(SQLException ex){
-			
+			ex.printStackTrace();
 		}
 	}
 
-	@Override
 	public void updateCountry(Country country) {
 		try(Connection connection = DriverManager.getConnection(DB_URL,USER,PASS)){
 			String sql = "UPDATE Country SET name = ?";
@@ -52,11 +51,10 @@ public class CountryDAOJdbcImpl implements CountryDAO{
 			    System.out.println("A new country was inserted successfully!");
 			}
 		}catch(SQLException ex){
-			
+			ex.printStackTrace();
 		}
 	}
 
-	@Override
 	public List<Country> listCountries() {
 		List<Country> countryList = new ArrayList<>();
 		try(Connection connection = DriverManager.getConnection(DB_URL,USER,PASS)){
@@ -72,13 +70,12 @@ public class CountryDAOJdbcImpl implements CountryDAO{
 				countryList.add(new Country(id, name));
 			}
 		}catch(SQLException ex){
-			
+			ex.printStackTrace();
 		}
 		return countryList;
 	}
 
-	@Override
-	public Country getCountryById(int countryId) {
+	public Country getCountryById(long countryId) {
 		try(Connection connection = DriverManager.getConnection(DB_URL,USER,PASS)){
 			String sql = "SELECT name FROM Country WHERE id = ?";
 			 
@@ -93,13 +90,12 @@ public class CountryDAOJdbcImpl implements CountryDAO{
 				return new Country(countryId, name);
 			}
 		}catch(SQLException ex){
-			
+			ex.printStackTrace();
 		}
 		return null;
 	}
 
-	@Override
-	public void removeCountry(int countryId) {
+	public void removeCountry(long countryId) {
 		try(Connection connection = DriverManager.getConnection(DB_URL,USER,PASS)){
 			String sql = "DELETE FROM Country WHERE id = ?";
 			 
@@ -111,7 +107,7 @@ public class CountryDAOJdbcImpl implements CountryDAO{
 			    System.out.println("A user was deleted successfully!");
 			}
 		}catch(SQLException ex){
-			
+			ex.printStackTrace();
 		}
 	}
 

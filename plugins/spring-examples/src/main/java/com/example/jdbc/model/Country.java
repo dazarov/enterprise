@@ -1,8 +1,8 @@
-package com.example.model;
+package com.example.jdbc.model;
 
 import java.util.Objects;
 
-//@Entity
+
 public class Country {
 	private Long id;
 	
