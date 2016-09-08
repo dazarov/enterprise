@@ -1,10 +1,18 @@
 <div>
-	<select>
+	<hr>
+	<h2>Selected country: <span ng-bind="selectedCountry" /></h2>
+	<h2>Selected country: <span ng:bind="selectedCountry" /></h2>
+	<h2>Selected country: <span ng_bind="selectedCountry" /></h2>
+	<h2>Selected country: <span data-ng-bind="selectedCountry" /></h2>
+	<h2>Selected country: <span x-ng:bind="selectedCountry" /></h2> 
+	<h2>Selected country: {{selectedCountry}}</h2>
+	<select ng-model="selectedCountry">
+		<option value="Not Selected yet">Not Selected yet</option>
 		<option ng-repeat="country in list" value="{{country}}">{{country}}</option>
 	</select>
-	
-	<ul>
+	<hr>
+	<!--ul>
 		<li ng-repeat="country in list">{{country}}</li>
-	</ul>
+	</ul-->
 </div>
 

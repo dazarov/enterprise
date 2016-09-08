@@ -2,9 +2,7 @@ angular.module("PhotoBlog")
 .controller('HomeCtrl', function($scope, $http, $route, $rootScope, $location, $controller) {
 	$controller('BaseCtrl', { $scope: $scope });
 	
-	$scope.blog = {
-    	id: "PhotoBlog"
-	};
+	$scope.blog = {};
 	
 	$scope.updateBlogs = function (){
 		console.log('get blog list...');

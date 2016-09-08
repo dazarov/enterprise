@@ -2,9 +2,7 @@ angular.module("PhotoBlog")
 .controller('PostCtrl', function($scope, $http, $route, $rootScope, $location, $routeParams, $controller) {
 	$controller('BaseCtrl', { $scope: $scope });
 	
-	$scope.blog = {
-    	id: "PhotoBlog"
-	};
+	$scope.blog = {};
 	
 	$scope.page = $routeParams.page;
 	
