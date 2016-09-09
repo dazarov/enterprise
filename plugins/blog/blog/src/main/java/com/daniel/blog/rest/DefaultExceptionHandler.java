@@ -4,6 +4,8 @@ import java.io.IOException;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.slf4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -17,6 +19,8 @@ import com.daniel.blog.errors.PhotoBlogException;
 
 @ControllerAdvice
 public class DefaultExceptionHandler {
+	@Autowired
+	private Logger logger;
 	
 	/**
 	 * General purpose exception handler. Returns HTTP 500
@@ -61,7 +65,7 @@ public class DefaultExceptionHandler {
 	}
 	
 	private void deal(Exception ex){
-		ex.printStackTrace();
+		logger.trace("an exception was thrown", ex);
 	}
 
 }

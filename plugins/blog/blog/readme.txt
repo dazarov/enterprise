@@ -1,3 +1,19 @@
+to show image in AngularJS - <img ng-src="data:image/JPEG;base64,{{image}}">
+
+to upload file:
+<input type="file" id="file" name="file"/>
+<button ng-click="add()">Add</button>
+
+$scope.add = function(){
+  var f = document.getElementById('file').files[0],
+      r = new FileReader();
+  r.onloadend = function(e){
+    var data = e.target.result;
+    //send your binary data via $http or $resource or do anything else with it
+  }
+  r.readAsArrayBuffer(f);
+}
+
 Bower
 
 cd /git/enterprise/plugins/blog/blog/src/main/webapp
