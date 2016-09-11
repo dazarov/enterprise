@@ -3,6 +3,8 @@ angular.module("PhotoBlog")
 	$controller('BaseCtrl', { $scope: $scope });
 	
 	$scope.blog = {};
+	$scope.newBlog = {};
+	$scope.newBlog.commentAllowance = 'COMMENTS_ALLOWED';
 	
 	$scope.updateBlogs = function (){
 		console.log('get blog list...');
@@ -41,6 +43,7 @@ angular.module("PhotoBlog")
   		}).then(function successCallback(response) {
   			console.log('success');
   			blog.name = '';
+  			blog.commentAllowance = 'COMMENTS_ALLOWED';
             $scope.addBlogForm.$setPristine();
             $scope.updateBlogs();
   	    }, function errorCallback(response) {

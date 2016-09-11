@@ -1,20 +1,11 @@
 package com.daniel.blog.dto;
 
-public class PhotoDTO {
-	private long id;
+public class PhotoDTO extends CommentableDTO{
 	private String location;
 	private String description;
 	
 	public PhotoDTO(){
 		
-	}
-	
-	public void setId(long id){
-		this.id = id;
-	}
-	
-	public long getId(){
-		return id;
 	}
 	
 	public String getLocation() {

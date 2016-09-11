@@ -16,7 +16,11 @@ public enum Status {
 	// Statuses for Blogs
 	BLOG_REMOVED(505),
 	BLOG_ACTIVE(506),
-	BLOG_BLOCKED(507)
+	BLOG_BLOCKED(507),
+	
+	COMMENT_REMOVED(701),
+	COMMENT_NOTPUBLISHED(702),
+	COMMENT_PUBLISHED(703)
 
 	;
 
@@ -33,6 +37,15 @@ public enum Status {
 	public static Status byId(int id){
 		for(Status s: Status.values()){
 			if(s.getId() == id){
+				return s;
+			}
+		}
+		return null;
+	}
+	
+	public static Status byName(String name){
+		for(Status s: Status.values()){
+			if(s.toString().equals(name)){
 				return s;
 			}
 		}

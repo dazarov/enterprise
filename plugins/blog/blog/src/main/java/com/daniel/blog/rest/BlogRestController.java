@@ -25,6 +25,7 @@ import com.daniel.blog.dto.BlogDTO;
 import com.daniel.blog.dto.DTOConverter;
 import com.daniel.blog.dto.validators.BlogDTOValidator;
 import com.daniel.blog.errors.BlogEntityNotFoundException;
+import com.daniel.blog.errors.PhotoBlogException;
 import com.daniel.blog.model.Blog;
 import com.daniel.blog.services.PhotoBlogService;
 
@@ -107,7 +108,7 @@ public class BlogRestController {
 	//GET /blogs?page={page_number}											- Retrieves a page of blogs
 	@Loggable
 	@RequestMapping(method = RequestMethod.GET, value = "/blogs", produces = MediaType.APPLICATION_JSON_VALUE) 
-    public ResponseEntity<List<BlogDTO>> getBlogs(@RequestParam(value = "page", required = false, defaultValue = "0") Integer pageNumber) throws BlogEntityNotFoundException {
+    public ResponseEntity<List<BlogDTO>> getBlogs(@RequestParam(value = "page", required = false, defaultValue = "0") Integer pageNumber) throws PhotoBlogException {
 		List<Blog> blogs;
 		if(pageNumber == 0){
 			blogs = blogService.getAllBlogs();
@@ -126,10 +127,11 @@ public class BlogRestController {
 	}
 	
 	//GET /blogs/{blog_id}													- Retrieves a specific blog
+	//GET /blogs/{blog_name}
 	@Loggable
-	@RequestMapping(method = RequestMethod.GET, value = "/blogs/{id}", produces = MediaType.APPLICATION_JSON_VALUE) 
-    public ResponseEntity<BlogDTO> getBlog(@PathVariable("id") long blogId) throws BlogEntityNotFoundException {
-		Blog blog =  blogService.getBlogById(blogId);
+	@RequestMapping(method = RequestMethod.GET, value = "/blogs/{blogName}", produces = MediaType.APPLICATION_JSON_VALUE) 
+    public ResponseEntity<BlogDTO> getBlog(@PathVariable("blogName") String blogName) throws PhotoBlogException {
+		Blog blog =  blogService.getBlogByName(blogName);
 		
         return new ResponseEntity<>(DTOConverter.convert(blog), HttpStatus.OK);
 	}
@@ -137,7 +139,7 @@ public class BlogRestController {
 	//POST /blogs															- Creates a new blog
 	@Loggable
 	@RequestMapping(value = "/blogs", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> createBlog(@RequestBody @Valid BlogDTO blogRequest, UriComponentsBuilder ucBuilder) throws BlogEntityNotFoundException {
+    public ResponseEntity<Void> createBlog(@RequestBody @Valid BlogDTO blogRequest, UriComponentsBuilder ucBuilder) throws PhotoBlogException {
         Blog blog = blogService.createBlog(blogRequest);
  
         HttpHeaders headers = new HttpHeaders();
@@ -149,7 +151,7 @@ public class BlogRestController {
 	//PUT /blogs/{blog_id}													- Updates a specific blog
 	@Loggable
     @RequestMapping(value = "/blogs/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<BlogDTO> updateBlog(@PathVariable("id") long id, @RequestBody @Valid BlogDTO blogRequest) throws BlogEntityNotFoundException {
+    public ResponseEntity<BlogDTO> updateBlog(@PathVariable("id") long id, @RequestBody @Valid BlogDTO blogRequest) throws PhotoBlogException {
         Blog blog = blogService.updateBlog(id, blogRequest);
         
        	return new ResponseEntity<>(DTOConverter.convert(blog), HttpStatus.OK);

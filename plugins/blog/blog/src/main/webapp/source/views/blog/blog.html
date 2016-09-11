@@ -55,7 +55,7 @@
         <div class="form-group" ng-class="getValidationClass(addPostForm.description.$valid, addPostForm.description.$dirty)">
             <label class="control-label col-sm-2" for="description">Description:</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" id="description" name="description" maxlength="200" aria-describedby="descriptionStatus" placeholder="Description" required ng-model="newPost.description" />
+                <textarea type="text" class="form-control" id="description" name="description" rows="10" maxlength="1000" aria-describedby="descriptionStatus" placeholder="Description" required ng-model="newPost.description"></textarea>
 	            <span ng-show="addPostForm.description.$dirty"
 	                ng-class="addPostForm.description.$valid ? 'glyphicon glyphicon-ok form-control-feedback' : 'glyphicon glyphicon-remove form-control-feedback'" aria-hidden="true"></span>
 	            <span ng-show="addPostForm.description.$dirty" id="descriptionStatus"

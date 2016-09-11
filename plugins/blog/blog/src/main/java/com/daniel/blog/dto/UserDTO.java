@@ -1,7 +1,6 @@
 package com.daniel.blog.dto;
 
-public class UserDTO {
-	private long id;
+public class UserDTO extends PhotoBlogDTO{
 	private String name;
 	private String email;
 	private String password;
@@ -13,14 +12,6 @@ public class UserDTO {
 	}
 	
 	public UserDTO(){
-	}
-	
-	public void setId(long id){
-		this.id = id;
-	}
-	
-	public long getId(){
-		return id;
 	}
 	
 	public String getName() {

@@ -25,6 +25,7 @@ import com.daniel.blog.dto.CommentDTO;
 import com.daniel.blog.dto.DTOConverter;
 import com.daniel.blog.dto.validators.CommentDTOValidator;
 import com.daniel.blog.errors.BlogEntityNotFoundException;
+import com.daniel.blog.errors.PhotoBlogException;
 import com.daniel.blog.model.Comment;
 import com.daniel.blog.services.PhotoBlogService;
 
@@ -54,7 +55,7 @@ public class CommentsRestController {
 	//GET	/posts/{post_id}/comments?page={page_number}   					- Retrieves a page of comments for specific post
 	@Loggable
 	@RequestMapping(method = RequestMethod.GET, value = "/posts/{post_id}/comments", produces = MediaType.APPLICATION_JSON_VALUE) 
-    public ResponseEntity<List<CommentDTO>> getCommentsForPost(@PathVariable("post_id") long postId, @RequestParam(value = "page", required = false, defaultValue="0") Integer pageNumber) throws BlogEntityNotFoundException {
+    public ResponseEntity<List<CommentDTO>> getCommentsForPost(@PathVariable("post_id") long postId, @RequestParam(value = "page", required = false, defaultValue="0") Integer pageNumber) throws PhotoBlogException {
 		List<Comment> comments =  blogService.getCommentsByPostId(postId, pageNumber);
 		
 		if(comments.isEmpty()){
@@ -71,7 +72,7 @@ public class CommentsRestController {
 	//GET	/photos/{photo_id}/comments?page={page_number} 					- Retrieves a page of comments for specific photo
 	@Loggable
 	@RequestMapping(method = RequestMethod.GET, value = "/photos/{photo_id}/comments", produces = MediaType.APPLICATION_JSON_VALUE) 
-    public ResponseEntity<List<CommentDTO>> getCommentsForPhoto(@PathVariable("photo_id") long photoId, @RequestParam(value = "page", required = false, defaultValue="0") Integer pageNumber) throws BlogEntityNotFoundException {
+    public ResponseEntity<List<CommentDTO>> getCommentsForPhoto(@PathVariable("photo_id") long photoId, @RequestParam(value = "page", required = false, defaultValue="0") Integer pageNumber) throws PhotoBlogException {
 		List<Comment> comments =  blogService.getCommentsByPhotoId(photoId, pageNumber);
 		
 		if(comments.isEmpty()){
@@ -88,7 +89,7 @@ public class CommentsRestController {
 	//GET	/comments/{parent_comment_id}?page={page_number} 				- Retrieves a page of child comments for specific comment
 	@Loggable
 	@RequestMapping(method = RequestMethod.GET, value = "/comments/{parent_id}", produces = MediaType.APPLICATION_JSON_VALUE) 
-    public ResponseEntity<List<CommentDTO>> getCommentsForParentComment(@PathVariable("parent_id") long parentId, @RequestParam(value = "page", required = false, defaultValue="0") Integer pageNumber) throws BlogEntityNotFoundException {
+    public ResponseEntity<List<CommentDTO>> getCommentsForParentComment(@PathVariable("parent_id") long parentId, @RequestParam(value = "page", required = false, defaultValue="0") Integer pageNumber) throws PhotoBlogException {
 		List<Comment> comments =  blogService.getCommentsByParentCommentId(parentId, pageNumber);
 		
 		if(comments.isEmpty()){
@@ -105,7 +106,7 @@ public class CommentsRestController {
 	//POST /posts/{post_id}/comments										- Creates a new comment for specific post
 	@Loggable
 	@RequestMapping(value = "/posts/{post_id}/comments", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> createCommentForPost(@PathVariable("post_id") long postId, @RequestBody @Valid CommentDTO commentRequest, UriComponentsBuilder ucBuilder) throws BlogEntityNotFoundException {
+    public ResponseEntity<Void> createCommentForPost(@PathVariable("post_id") long postId, @RequestBody @Valid CommentDTO commentRequest, UriComponentsBuilder ucBuilder) throws PhotoBlogException {
         blogService.createCommentForPost(postId, commentRequest);
  
         HttpHeaders headers = new HttpHeaders();
@@ -117,7 +118,7 @@ public class CommentsRestController {
 	//POST /photos/{photo_id}/comments										- Creates a new comment for specific photo
 	@Loggable
 	@RequestMapping(value = "/photos/{photo_id}/comments", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> createCommentForPhoto(@PathVariable("photo_id") long photoId, @RequestBody @Valid CommentDTO commentRequest, UriComponentsBuilder ucBuilder) throws BlogEntityNotFoundException {
+    public ResponseEntity<Void> createCommentForPhoto(@PathVariable("photo_id") long photoId, @RequestBody @Valid CommentDTO commentRequest, UriComponentsBuilder ucBuilder) throws PhotoBlogException {
         blogService.createCommentForPhoto(photoId, commentRequest);
  
         HttpHeaders headers = new HttpHeaders();
@@ -129,7 +130,7 @@ public class CommentsRestController {
 	//POST /comments/{parent_comment_id}									- Creates a new child comment for specific comment
 	@Loggable
 	@RequestMapping(value = "/comments/{parent_id}", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> createCommentForParentComment(@PathVariable("parent_id") long parentId, @RequestBody @Valid CommentDTO commentRequest, UriComponentsBuilder ucBuilder) throws BlogEntityNotFoundException {
+    public ResponseEntity<Void> createCommentForParentComment(@PathVariable("parent_id") long parentId, @RequestBody @Valid CommentDTO commentRequest, UriComponentsBuilder ucBuilder) throws PhotoBlogException {
         blogService.createCommentForParentComment(parentId, commentRequest);
  
         HttpHeaders headers = new HttpHeaders();
@@ -141,7 +142,7 @@ public class CommentsRestController {
 	//PUT /comments/{comment_id}											- Updates a specific comment
 	@Loggable
     @RequestMapping(value = "/comments/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<CommentDTO> updateComment(@PathVariable("id") long id, @RequestBody @Valid CommentDTO commentRequest) throws BlogEntityNotFoundException {
+    public ResponseEntity<CommentDTO> updateComment(@PathVariable("id") long id, @RequestBody @Valid CommentDTO commentRequest) throws PhotoBlogException {
         Comment comment = blogService.updateComment(id, commentRequest);
         
        	return new ResponseEntity<>(DTOConverter.convert(comment), HttpStatus.OK);
@@ -150,7 +151,7 @@ public class CommentsRestController {
 	//DELETE /comments/{comment_id}											- Deletes a specific comment
 	@Loggable
     @RequestMapping(value = "/comments/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<CommentDTO> deleteComment(@PathVariable("id") long id) throws BlogEntityNotFoundException {
+    public ResponseEntity<CommentDTO> deleteComment(@PathVariable("id") long id) throws PhotoBlogException {
         boolean deleted = blogService.deleteComment(id);
         if(!deleted){
         	throw new BlogEntityNotFoundException("Comment with id "+id+" not found!");

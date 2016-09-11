@@ -1,23 +1,60 @@
 package com.daniel.blog.dto;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
+
+import com.daniel.blog.model.AbstractEntity;
 import com.daniel.blog.model.Blog;
 import com.daniel.blog.model.Comment;
+import com.daniel.blog.model.CommentAllowance;
+import com.daniel.blog.model.CommentableBlogEntry;
 import com.daniel.blog.model.Photo;
 import com.daniel.blog.model.Post;
+import com.daniel.blog.model.Status;
 import com.daniel.blog.model.User;
 
 public class DTOConverter {
+	private static void basicConvert(PhotoBlogDTO dto, AbstractEntity entity){
+		dto.setId(entity.getId());
+		if(entity.getCreationTime() != null){
+			dto.setDateTime(entity.getCreationTime().format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT)));
+		}
+		if(entity.getStatus() != null){
+			dto.setStatus(entity.getStatus().toString());
+		}
+	}
+	
+	private static void commentableConvert(CommentableDTO commentableDTO, CommentableBlogEntry commentableEntry){
+		basicConvert(commentableDTO, commentableEntry);
+		
+		if(commentableEntry.getCommentAllowance() != null){
+			commentableDTO.setCommentAllowance(commentableEntry.getCommentAllowance().toString());
+		}else{
+			commentableDTO.setCommentAllowance(commentableEntry.getBlog().getCommentAllowance().toString());
+		}
+	}
+	
 	public static BlogDTO convert(Blog blog){
 		BlogDTO blogDTO = new BlogDTO();
 		
-		blogDTO.setId(blog.getId());
+		basicConvert(blogDTO, blog);
+		
 		blogDTO.setName(blog.getName());
+		
+		if(blog.getCommentAllowance() != null){
+			blogDTO.setCommentAllowance(blog.getCommentAllowance().toString());
+		}else{
+			blogDTO.setCommentAllowance(CommentAllowance.COMMENTS_ALLOWED.toString());
+		}
 		
 		return blogDTO;
 	}
 	
 	public static UserDTO convert(User user){
 		UserDTO userDTO = new UserDTO();
+		
+		basicConvert(userDTO, user);
 		
 		userDTO.setId(user.getId());
 		userDTO.setName(user.getName());
@@ -29,7 +66,8 @@ public class DTOConverter {
 	public static PostDTO convert(Post post){
 		PostDTO postDTO = new PostDTO();
 		
-		postDTO.setId(post.getId());
+		commentableConvert(postDTO, post);
+		
 		postDTO.setSubject(post.getSubject());
 		postDTO.setDescription(post.getDescription());
 		postDTO.setBody(post.getBody());
@@ -40,7 +78,8 @@ public class DTOConverter {
 	public static PhotoDTO convert(Photo photo){
 		PhotoDTO photoDTO = new PhotoDTO();
 		
-		photoDTO.setId(photo.getId());
+		commentableConvert(photoDTO, photo);
+		
 		photoDTO.setLocation(photo.getLocation());
 		photoDTO.setDescription(photo.getDescription());
 		
@@ -50,7 +89,8 @@ public class DTOConverter {
 	public static CommentDTO convert(Comment comment){
 		CommentDTO commentDTO = new CommentDTO();
 		
-		commentDTO.setId(comment.getId());
+		commentableConvert(commentDTO, comment);
+		
 		commentDTO.setBody(comment.getBody());
 		
 		return commentDTO;
@@ -86,29 +126,55 @@ public class DTOConverter {
 		return comment;
 	}
 	
-	public static void update(Blog blog, BlogDTO blogRequest){
-		blog.setName(blogRequest.getName());
+	private static void basicUpdate(AbstractEntity entity, PhotoBlogDTO dto){
+		if(dto.getDateTime() != null){
+			entity.setCreationTime(LocalDateTime.parse(dto.getDateTime()));
+		}
+		if(dto.getStatus() != null){
+			entity.setStatus(Status.byName(dto.getStatus()));
+		}
 	}
 	
-	public static void update(User user, UserDTO userRequest){
-		user.setName(userRequest.getName());
-		user.setEmail(userRequest.getEmail());
-		user.setPassword(userRequest.getPassword());
+	private static void commentableUpdate(CommentableBlogEntry commentableEntry, CommentableDTO commentableDTO){
+		basicUpdate(commentableEntry, commentableDTO);
+		
+		commentableEntry.setCommentAllowance(CommentAllowance.byName(commentableDTO.getCommentAllowance()));
 	}
 	
-	public static void update(Post post, PostDTO postRequest){
-		post.setBody(postRequest.getBody());
-		post.setSubject(postRequest.getSubject());
-		post.setDescription(postRequest.getDescription());
+	public static void update(Blog blog, BlogDTO blogDTO){
+		basicUpdate(blog, blogDTO);
+		
+		blog.setName(blogDTO.getName());
+		blog.setCommentAllowance(CommentAllowance.byName(blogDTO.getCommentAllowance()));
+	}
+	
+	public static void update(User user, UserDTO userDTO){
+		basicUpdate(user, userDTO);
+		
+		user.setName(userDTO.getName());
+		user.setEmail(userDTO.getEmail());
+		user.setPassword(userDTO.getPassword());
+	}
+	
+	public static void update(Post post, PostDTO postDTO){
+		commentableUpdate(post, postDTO);
+		
+		post.setBody(postDTO.getBody());
+		post.setSubject(postDTO.getSubject());
+		post.setDescription(postDTO.getDescription());
 	}
 
-	public static void update(Photo photo, PhotoDTO photoRequest){
-		photo.setDescription(photoRequest.getDescription());
-		photo.setLocation(photoRequest.getLocation());
+	public static void update(Photo photo, PhotoDTO photoDTO){
+		commentableUpdate(photo, photoDTO);
+		
+		photo.setDescription(photoDTO.getDescription());
+		photo.setLocation(photoDTO.getLocation());
 	}
 	
-	public static void update(Comment comment, CommentDTO commentRequest){
-		comment.setBody(commentRequest.getBody());
+	public static void update(Comment comment, CommentDTO commentDTO){
+		commentableUpdate(comment, commentDTO);
+		
+		comment.setBody(commentDTO.getBody());
 	}
 
 }

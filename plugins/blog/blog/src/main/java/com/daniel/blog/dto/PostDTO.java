@@ -1,8 +1,6 @@
 package com.daniel.blog.dto;
 
-public class PostDTO {
-	private long id;
-	
+public class PostDTO extends CommentableDTO{
 	private String subject;
 	
 	private String description;
@@ -18,13 +16,6 @@ public class PostDTO {
 	public PostDTO(){
 	}
 	
-	public void setId(long id){
-		this.id = id;
-	}
-	
-	public long getId(){
-		return id;
-	}
 	
 	public String getSubject() {
 		return subject;

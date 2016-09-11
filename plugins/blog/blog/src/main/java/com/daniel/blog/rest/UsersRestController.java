@@ -25,6 +25,7 @@ import com.daniel.blog.dto.DTOConverter;
 import com.daniel.blog.dto.UserDTO;
 import com.daniel.blog.dto.validators.UserDTOValidator;
 import com.daniel.blog.errors.BlogEntityNotFoundException;
+import com.daniel.blog.errors.PhotoBlogException;
 import com.daniel.blog.model.User;
 import com.daniel.blog.services.PhotoBlogService;
 
@@ -52,7 +53,7 @@ public class UsersRestController {
 	//GET /users?page={page_number}											- Retrieves a page of users
 	@Loggable
 	@RequestMapping(method = RequestMethod.GET, value = "/users", produces = MediaType.APPLICATION_JSON_VALUE) 
-    public ResponseEntity<List<UserDTO>> getUsers(@RequestParam(value = "page", required = false, defaultValue = "0") Integer pageNumber) throws BlogEntityNotFoundException {
+    public ResponseEntity<List<UserDTO>> getUsers(@RequestParam(value = "page", required = false, defaultValue = "0") Integer pageNumber) throws PhotoBlogException {
 		List<User> users;
 		if(pageNumber == 0){
 			users = blogService.getAllUsers();
@@ -74,7 +75,7 @@ public class UsersRestController {
 	//GET /users/{user_id}													- Retrieves a specific user
 	@Loggable
 	@RequestMapping(method = RequestMethod.GET, value = "/users/{id}", produces = MediaType.APPLICATION_JSON_VALUE) 
-    public ResponseEntity<UserDTO> getUser(@PathVariable("id") long userId) throws BlogEntityNotFoundException {
+    public ResponseEntity<UserDTO> getUser(@PathVariable("id") long userId) throws PhotoBlogException {
 		User user =  blogService.getUserById(userId);
 		
         return new ResponseEntity<>(DTOConverter.convert(user), HttpStatus.OK);
@@ -83,7 +84,7 @@ public class UsersRestController {
 	//POST /users															- Creates a new user
 	@Loggable
 	@RequestMapping(value = "/users", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> createUser(@RequestBody @Valid UserDTO userRequest, UriComponentsBuilder ucBuilder) throws BlogEntityNotFoundException {
+    public ResponseEntity<Void> createUser(@RequestBody @Valid UserDTO userRequest, UriComponentsBuilder ucBuilder) throws PhotoBlogException {
         User user = blogService.createUser(userRequest);
  
         HttpHeaders headers = new HttpHeaders();
@@ -95,7 +96,7 @@ public class UsersRestController {
 	//PUT /users/{user_id}													- Updates a specific user (more then one property)
 	@Loggable
     @RequestMapping(value = "/users/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<UserDTO> updateUser(@PathVariable("id") long id, @RequestBody @Valid UserDTO blogRequest) throws BlogEntityNotFoundException {
+    public ResponseEntity<UserDTO> updateUser(@PathVariable("id") long id, @RequestBody @Valid UserDTO blogRequest) throws PhotoBlogException {
         User user = blogService.updateUser(id, blogRequest);
         
        	return new ResponseEntity<>(DTOConverter.convert(user), HttpStatus.OK);

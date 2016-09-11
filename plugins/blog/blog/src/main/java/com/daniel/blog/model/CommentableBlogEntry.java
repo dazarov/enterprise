@@ -17,6 +17,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.daniel.blog.model.converters.CommentAllowanceConverter;
 import com.daniel.blog.model.converters.LanguageConverter;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
@@ -26,9 +27,6 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 public class CommentableBlogEntry extends AbstractEntity {
 	
 	// Fields
-	
-	@Column(name="VISITED")
-	private Long visited;
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "blogEntry", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH}, orphanRemoval = false)
 	@JsonManagedReference
@@ -43,16 +41,13 @@ public class CommentableBlogEntry extends AbstractEntity {
     @JoinColumn(name="BLOG_ID", nullable=true, foreignKey = @ForeignKey(name = "BLOG_ID"))
 	private Blog blog;
 	
+	@Column(name="COMMENT_ALLOWANCE")
+	@Basic
+	@Convert(converter = CommentAllowanceConverter.class)
+	private CommentAllowance commentAllowance;
+	
 	// Methods
 	
-	public void setVisited(Long visited){
-		this.visited = visited;
-	}
-	
-	public Long getVisited(){
-		return visited;
-	}
-
 	
 	public Set<Comment> getComments(){
 		return comments;
@@ -83,5 +78,12 @@ public class CommentableBlogEntry extends AbstractEntity {
 	public Blog getBlog(){
 		return blog;
 	}
-
+	
+	public CommentAllowance getCommentAllowance(){
+		return commentAllowance;
+	}
+	
+	public void setCommentAllowance(CommentAllowance commentAllowance){
+		this.commentAllowance = commentAllowance;
+	}
 }

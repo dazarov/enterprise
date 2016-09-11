@@ -14,6 +14,13 @@ $scope.add = function(){
   r.readAsArrayBuffer(f);
 }
 
+
+MySQL:
+
+command line:
+start mySQL - mysql -u root -p 
+run script - source setup.sql; 
+
 Bower
 
 cd /git/enterprise/plugins/blog/blog/src/main/webapp
@@ -23,6 +30,7 @@ npm start
 TODO
 
 1. Add Commentable Status - 1. No comments, 2. Comments allowed 3. Moderated comments
+	Default property in Blog, concrete property in Post
 
 2. Increase post and comment field size 
 

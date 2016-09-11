@@ -1,7 +1,6 @@
 package com.daniel.blog.dto;
 
-public class CommentDTO {
-	private long id;
+public class CommentDTO extends CommentableDTO{
 	private String body;
 	
 	public CommentDTO(String body){
@@ -11,14 +10,6 @@ public class CommentDTO {
 	public CommentDTO(){
 	}
 	
-	public void setId(long id){
-		this.id = id;
-	}
-	
-	public long getId(){
-		return id;
-	}
-
 	public String getBody() {
 		return body;
 	}

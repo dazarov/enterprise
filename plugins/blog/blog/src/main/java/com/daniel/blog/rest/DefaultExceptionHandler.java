@@ -66,6 +66,7 @@ public class DefaultExceptionHandler {
 	
 	private void deal(Exception ex){
 		logger.trace("an exception was thrown", ex);
+		ex.printStackTrace();
 	}
 
 }

@@ -3,8 +3,10 @@ package com.daniel.blog.model;
 import java.util.Set;
 import java.util.TreeSet;
 
+import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
@@ -13,6 +15,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 import org.hibernate.validator.constraints.Length;
+
+import com.daniel.blog.model.converters.CommentAllowanceConverter;
 
 @Entity
 @Table(name="POST")
@@ -25,7 +29,7 @@ public class Post extends CommentableBlogEntry{
 	private String subject;
 	
 	@Column(name="DESCRIPTION")
-	@Length(max = 200)
+	@Length(max = 1_000)
 	private String description;
 	
 	@Column(name="BODY")

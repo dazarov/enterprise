@@ -3,8 +3,10 @@ package com.daniel.blog.model;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
@@ -13,6 +15,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 import org.hibernate.validator.constraints.Length;
+
+import com.daniel.blog.model.converters.CommentAllowanceConverter;
 
 @Entity
 @Table(name="BLOG")
@@ -35,8 +39,11 @@ public class Blog extends AbstractEntity{
 	)
 	private Set<User> blockedUsers = new HashSet<>();
 	
-	@Column(name="MODERATED")
-	private Boolean moderated;
+	// Default value for all commentables in the blog
+	@Column(name="COMMENT_ALLOWANCE")
+	@Basic
+	@Convert(converter = CommentAllowanceConverter.class)
+	private CommentAllowance commentAllowance;
 	
 	public void setName(String name){
 		this.name = name;
@@ -54,12 +61,12 @@ public class Blog extends AbstractEntity{
 		return blockedUsers;
 	}
 	
-	public boolean isModerated(){
-		return moderated;
+	public CommentAllowance getCommentAllowance(){
+		return commentAllowance;
 	}
 	
-	public void setModerated(boolean moderated){
-		this.moderated = moderated;
+	public void setCommentAllowance(CommentAllowance commentAllowance){
+		this.commentAllowance = commentAllowance;
 	}
 
 }

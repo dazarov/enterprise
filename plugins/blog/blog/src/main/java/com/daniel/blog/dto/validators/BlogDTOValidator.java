@@ -6,6 +6,7 @@ import org.springframework.validation.Validator;
 
 import com.daniel.blog.PhotoBlogConstants;
 import com.daniel.blog.dto.BlogDTO;
+import com.daniel.blog.model.CommentAllowance;
 
 public class BlogDTOValidator implements Validator {
 
@@ -21,6 +22,11 @@ public class BlogDTOValidator implements Validator {
 		BlogDTO blog = (BlogDTO)target;
 		if(blog.getName().length() > PhotoBlogConstants.MAX_BLOG_NAME_LENGTH){
 			errors.rejectValue("name", "name.tooLong");
+		}
+		if(!blog.getCommentAllowance().equals(CommentAllowance.COMMENTS_ALLOWED.toString()) &&
+				!blog.getCommentAllowance().equals(CommentAllowance.COMMENTS_NOT_ALLOWED.toString()) &&
+				!blog.getCommentAllowance().equals(CommentAllowance.COMMENTS_MODERATED.toString())){
+			errors.rejectValue("commentAllowance", "commentAllowance.notCorrect");
 		}
 	}
 
