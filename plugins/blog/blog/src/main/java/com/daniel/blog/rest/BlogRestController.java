@@ -117,7 +117,6 @@ public class BlogRestController {
 		}
 		if(blogs.isEmpty()){
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            //throw new BlogEntityNotFoundException("Blogs not found!");
         }
 		
 		List<BlogDTO> blogDTOs = new ArrayList<>();
@@ -138,7 +137,7 @@ public class BlogRestController {
 
 	//POST /blogs															- Creates a new blog
 	@Loggable
-	@RequestMapping(value = "/blogs", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/blogs", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<Void> createBlog(@RequestBody @Valid BlogDTO blogRequest, UriComponentsBuilder ucBuilder) throws PhotoBlogException {
         Blog blog = blogService.createBlog(blogRequest);
  

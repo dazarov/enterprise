@@ -76,13 +76,13 @@
         </div>
         
         <!-- Date time -->
-        <div class="form-group" ng-class="getValidationClass(addPostForm.dateTime.$valid, addPostForm.dateTime.$dirty)">
+        <div class="form-group" ng-class="getValidationClass(addPostForm.dateTime.$valid, true)">
             <label class="control-label col-sm-2" for="dateTime">Date:</label>
             <div class="col-sm-10">
-                <input type="date" class="form-control" id="dateTime" name="dateTime" maxlength="100" aria-describedby="dateTimeStatus" required ng-model="newPost.dateTime" />
-	            <span ng-show="addPostForm.dateTime.$dirty"
+                <input type="datetime-local" class="form-control" id="dateTime" name="dateTime" aria-describedby="dateTimeStatus" required ng-model="newPost.dateTime" />
+	            <span
 	                ng-class="addPostForm.dateTime.$valid ? 'glyphicon glyphicon-ok form-control-feedback' : 'glyphicon glyphicon-remove form-control-feedback'" aria-hidden="true"></span>
-	            <span ng-show="addPostForm.dateTime.$dirty" id="dateTimeStatus"
+	            <span id="dateTimeStatus"
 	                class="sr-only">{{addPostForm.subject.$valid ? '(success)' : '(error)'}}</span>
             </div>
         </div>

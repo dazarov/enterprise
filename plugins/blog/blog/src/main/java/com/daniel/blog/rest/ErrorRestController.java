@@ -1,6 +1,7 @@
 package com.daniel.blog.rest;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -8,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class ErrorRestController {
-	@RequestMapping(method = RequestMethod.GET, value = "/error", produces = "text/html") 
+	@RequestMapping(method = RequestMethod.GET, value = "/error", produces = MediaType.TEXT_HTML_VALUE) 
     public ResponseEntity<String> getErrorPage(){
 		StringBuilder builder = new StringBuilder();
 		builder
