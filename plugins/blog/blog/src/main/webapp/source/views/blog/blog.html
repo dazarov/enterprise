@@ -1,7 +1,7 @@
 
 <div ng-controller="BlogCtrl" class="well">
 	<div class="page-header">
-		<h1>{{blogName}}</h1>
+		<h1>{{blog.id}} {{blog.name}}</h1>
 	</div>
 	<div class="well">
         <h3>Posts:</h3>
@@ -75,6 +75,68 @@
             </div>
         </div>
         
+        <!-- Date time -->
+        <div class="form-group" ng-class="getValidationClass(addPostForm.dateTime.$valid, addPostForm.dateTime.$dirty)">
+            <label class="control-label col-sm-2" for="dateTime">Date:</label>
+            <div class="col-sm-10">
+                <input type="date" class="form-control" id="dateTime" name="dateTime" maxlength="100" aria-describedby="dateTimeStatus" required ng-model="newPost.dateTime" />
+	            <span ng-show="addPostForm.dateTime.$dirty"
+	                ng-class="addPostForm.dateTime.$valid ? 'glyphicon glyphicon-ok form-control-feedback' : 'glyphicon glyphicon-remove form-control-feedback'" aria-hidden="true"></span>
+	            <span ng-show="addPostForm.dateTime.$dirty" id="dateTimeStatus"
+	                class="sr-only">{{addPostForm.subject.$valid ? '(success)' : '(error)'}}</span>
+            </div>
+        </div>
+        
+        <!-- Status -->
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="status">Publication Options:</label>
+            <div class="col-sm-10">
+            <div class="radio">
+  				<label>
+    				<input type="radio" name="status" ng-model="newPost.status" id="optionsRadios1" value="ENTRY_PUBLIC">
+    				Publish now
+  				</label>
+			</div>
+			<div class="radio">
+  				<label>
+    				<input type="radio" name="status" ng-model="newPost.status" id="optionsRadios1" value="ENTRY_NOTPUBLISHED">
+    				Publish later
+  				</label>
+			</div>
+			<div class="radio">
+  				<label>
+    				<input type="radio" name="status" ng-model="newPost.status" id="optionsRadios1" value="ENTRY_PRIVATE">
+    				Private post
+  				</label>
+			</div>
+			
+			</div>
+        </div>
+        
+        <!-- Comment allowance -->
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="comments">Comment Allowance:</label>
+            <div class="col-sm-10">
+            <div class="radio">
+  				<label>
+    				<input type="radio" name="comments" ng-model="newPost.commentAllowance" id="optionsRadios1" value="COMMENTS_NOT_ALLOWED">
+    				Comments are not allowed
+  				</label>
+			</div>
+			<div class="radio">
+  				<label>
+    				<input type="radio" name="comments" ng-model="newPost.commentAllowance" id="optionsRadios1" value="COMMENTS_ALLOWED">
+    				Comments are allowed
+  				</label>
+			</div>
+			<div class="radio">
+  				<label>
+    				<input type="radio" name="comments" ng-model="newPost.commentAllowance" id="optionsRadios1" value="COMMENTS_MODERATED">
+    				Comments are moderated
+  				</label>
+			</div>
+			</div>
+        </div>
         <!-- Add Button -->
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">

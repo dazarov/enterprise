@@ -1,18 +1,30 @@
 angular.module("PhotoBlog")
 .controller('ErrorCtrl', function($scope, $rootScope) {
 	$scope.getURL = function (){
-		return $rootScope.error.url;
+		if (typeof $rootScope.error === "undefined") {
+			return 'Undefined';
+		}
+		return $rootScope.error.url || 'Undefined' ;
 	}
 
 	$scope.getStatus = function (){
-		return $rootScope.error.status;
+		if (typeof $rootScope.error === "undefined") {
+			return 'Undefined';
+		}
+		return $rootScope.error.status || 'Undefined';
 	}
 	
 	$scope.getMessage = function (){
-		return $rootScope.error.message;
+		if (typeof $rootScope.error === "undefined") {
+			return 'Undefined';
+		}
+		return $rootScope.error.message || 'Undefined';
 	}
 	
 	$scope.getId = function (){
-		return $rootScope.error.id;
+		if (typeof $rootScope.error === "undefined") {
+			return 'Undefined';
+		}
+		return $rootScope.error.id || 'Undefined';
 	}
 });

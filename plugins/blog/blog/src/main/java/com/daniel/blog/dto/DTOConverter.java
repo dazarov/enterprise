@@ -1,6 +1,6 @@
 package com.daniel.blog.dto;
 
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 
@@ -128,7 +128,7 @@ public class DTOConverter {
 	
 	private static void basicUpdate(AbstractEntity entity, PhotoBlogDTO dto){
 		if(dto.getDateTime() != null){
-			entity.setCreationTime(LocalDateTime.parse(dto.getDateTime()));
+			entity.setCreationTime(ZonedDateTime.parse(dto.getDateTime()));
 		}
 		if(dto.getStatus() != null){
 			entity.setStatus(Status.byName(dto.getStatus()));

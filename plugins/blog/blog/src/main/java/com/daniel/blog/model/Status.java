@@ -16,12 +16,8 @@ public enum Status {
 	// Statuses for Blogs
 	BLOG_REMOVED(505),
 	BLOG_ACTIVE(506),
-	BLOG_BLOCKED(507),
+	BLOG_BLOCKED(507)
 	
-	COMMENT_REMOVED(701),
-	COMMENT_NOTPUBLISHED(702),
-	COMMENT_PUBLISHED(703)
-
 	;
 
 	private int id;

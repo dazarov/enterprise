@@ -3,12 +3,30 @@ angular.module("PhotoBlog")
 	$controller('BaseCtrl', { $scope: $scope });
 	
 	$scope.blog = {};
-	
-	$scope.blogName = $routeParams.blogName;
+	$scope.newPost = {};
+	$scope.newPost.dateTime = new Date();
+	$scope.newPost.status = 'ENTRY_PUBLIC';
 	
 	$scope.page = $routeParams.page;
 	
 	$scope.updateBlog = function (){
+		console.log('get blog...');
+		
+		$http({
+			method: 'GET',
+			url: '/blogs/'+$routeParams.blogName
+		}).then(function successCallback(response) {
+			console.log('success');
+			$scope.blog = response.data;
+			$scope.newPost.commentAllowance = response.data.commentAllowance;
+	    }, function errorCallback(response) {
+	    	console.log('error '+JSON.stringify(response.data));
+	    	$scope.blog.blogList = null;
+	    	$rootScope.error = response.data;
+	    	$rootScope.error.status = response.status;
+	    	$location.path('/error');
+		});
+		
 		console.log('get post list...');
 		
 		$http({
@@ -47,6 +65,11 @@ angular.module("PhotoBlog")
 			post.subject = 
 	        post.description = 
 	        post.body = '';
+			
+			post.commentAllowance = $scope.blog.commentAllowance;
+			post.dateTime = new Date();
+			post.status = 'ENTRY_PUBLIC';
+			
 	        $scope.addPostForm.$setPristine();
 	        $scope.updateBlog();
 	    }, function errorCallback(response) {

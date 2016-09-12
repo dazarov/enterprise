@@ -1,8 +1,13 @@
-<div ng-controller="ErrorCtrl" class="well alert alert-danger" >
-	<h1><span class="glyphicon glyphicon-warning-sign glyphicon-align-left" aria-hidden="true">
-	<br>Something went wrong!</h1>
-	<div class="well">URL: {{getURL()}}</div>
-	<div class="well">Status: {{getStatus()}}</div>
-	<div class="well">Message: {{getMessage()}}</div>
-	<div class="well">Error id: {{getId()}}</div>
+<div ng-controller="ErrorCtrl" class="alert alert-danger" role="alert">
+	<h1><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+  	<span class="sr-only">Error:</span>
+	Error:</h1>
+	<hr>
+	<h2>{{getMessage()}}</h2>
+	<hr>
+	<h3>URL: {{getURL()}}</h3>
+	<hr>
+	<h3>HTTP Response Status Code: {{getStatus()}}</h3>
+	<hr>
+	<h3>Error id: {{getId()}}</h3>
 </div>

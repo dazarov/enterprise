@@ -434,7 +434,7 @@ public class PhotoBlogServiceImpl implements PhotoBlogService {
 		}
 		
 		if(post.getCommentAllowance() == CommentAllowance.COMMENTS_MODERATED){
-			commentDAO.setStatus(Status.COMMENT_NOTPUBLISHED.toString());
+			commentDAO.setStatus(Status.ENTRY_NOTPUBLISHED.toString());
 		}
 		
 		Comment comment = new Comment();
@@ -459,7 +459,7 @@ public class PhotoBlogServiceImpl implements PhotoBlogService {
 		}
 		
 		if(photo.getCommentAllowance() == CommentAllowance.COMMENTS_MODERATED){
-			commentDAO.setStatus(Status.COMMENT_NOTPUBLISHED.toString());
+			commentDAO.setStatus(Status.ENTRY_NOTPUBLISHED.toString());
 		}
 		
 		Comment comment = new Comment();
@@ -484,7 +484,7 @@ public class PhotoBlogServiceImpl implements PhotoBlogService {
 		}
 		
 		if(parent.getCommentAllowance() == CommentAllowance.COMMENTS_MODERATED){
-			commentDAO.setStatus(Status.COMMENT_NOTPUBLISHED.toString());
+			commentDAO.setStatus(Status.ENTRY_NOTPUBLISHED.toString());
 		}
 		
 		Comment comment = new Comment();
