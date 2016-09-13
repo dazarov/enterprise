@@ -14,8 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.hibernate.dao.CountryDAO;
 import com.example.hibernate.model.CountryEntity;
 
-
-
 @RestController
 @RequestMapping(value = "/hibernate/api")
 public class CountryRestController {

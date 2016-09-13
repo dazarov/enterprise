@@ -25,7 +25,7 @@ public class CountryDAO {
 
 	public void addCountry(Country country){
 		try(Connection connection = DriverManager.getConnection(DB_URL,USER,PASS)){
-			String sql = "INSERT INTO Country (name) VALUES (?)";
+			String sql = "INSERT INTO COUNTRY (name) VALUES (?)";
 			 
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setString(1, country.getName());
@@ -41,7 +41,7 @@ public class CountryDAO {
 
 	public void updateCountry(Country country) {
 		try(Connection connection = DriverManager.getConnection(DB_URL,USER,PASS)){
-			String sql = "UPDATE Country SET name = ?";
+			String sql = "UPDATE COUNTRY SET name = ?";
 			 
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setString(1, country.getName());
@@ -58,7 +58,7 @@ public class CountryDAO {
 	public List<Country> listCountries() {
 		List<Country> countryList = new ArrayList<>();
 		try(Connection connection = DriverManager.getConnection(DB_URL,USER,PASS)){
-			String sql = "SELECT id, name FROM Country";
+			String sql = "SELECT id, name FROM COUNTRY";
 			 
 			Statement statement = connection.createStatement();
 			ResultSet result = statement.executeQuery(sql);
@@ -77,7 +77,7 @@ public class CountryDAO {
 
 	public Country getCountryById(long countryId) {
 		try(Connection connection = DriverManager.getConnection(DB_URL,USER,PASS)){
-			String sql = "SELECT name FROM Country WHERE id = ?";
+			String sql = "SELECT name FROM COUNTRY WHERE id = ?";
 			 
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setLong(1, countryId);
@@ -97,7 +97,7 @@ public class CountryDAO {
 
 	public void removeCountry(long countryId) {
 		try(Connection connection = DriverManager.getConnection(DB_URL,USER,PASS)){
-			String sql = "DELETE FROM Country WHERE id = ?";
+			String sql = "DELETE FROM COUNTRY WHERE id = ?";
 			 
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setLong(1, countryId);

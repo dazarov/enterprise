@@ -29,9 +29,9 @@ public class LinkedListQueue<E> implements Iterable<E> {
 		if(isEmpty()){
 			first = last;
 		}else{
-			oldLast.next = null;
+			oldLast.next = last;
 		}
-		n--;
+		n++;
 	}
 	
 	public E dequeue(){
