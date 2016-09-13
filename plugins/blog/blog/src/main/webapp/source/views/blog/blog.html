@@ -18,7 +18,7 @@
   		
 		<div ng-repeat="post in blog.postList | limitTo:10" class="well">
 			<div>
-				<span><i>{{post.id}}</i> <b>{{post.subject}}</b></span>
+				<span><i>{{post.id}}</i> <b>{{post.subject}}</b> {{getDate(post.dateTime)}}</span>
 			</div>
 			<br>
 			<div>{{post.description}} (<a  ng-href="" ng-click="goPost(post.id)" style="cursor: pointer;">Full article...</a>)</div>

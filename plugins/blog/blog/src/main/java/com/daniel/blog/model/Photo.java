@@ -8,6 +8,8 @@ import javax.persistence.Table;
 
 import org.hibernate.validator.constraints.Length;
 
+import com.daniel.blog.PhotoBlogConstants;
+
 @Entity
 @Table(name="PHOTO")
 public class Photo extends CommentableBlogEntry{
@@ -15,11 +17,11 @@ public class Photo extends CommentableBlogEntry{
 	// Fields
 	
 	@Column(name="LOCATION")
-	@Length(max = 255)
+	@Length(max = PhotoBlogConstants.MAX_PHOTO_LOCATION_LENGTH)
 	private String location;
 
 	@Column(name="DESCRIPTION")
-	@Length(max = 255)
+	@Length(max = PhotoBlogConstants.MAX_PHOTO_DESCRIPTION_LENGTH)
 	private String description;
 	
 	@ManyToOne

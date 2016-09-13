@@ -29,9 +29,9 @@ public interface PhotoBlogConstants {
 	
 	int MAX_POST_SUBJECT_LENGTH = 100;
 	
-	int MAX_POST_DESCRIPTION_LENGTH = 200;
+	int MAX_POST_DESCRIPTION_LENGTH = 1_000;
 	
-	int MAX_POST_BODY_LENGTH = 3000;
+	int MAX_POST_BODY_LENGTH = 10_000;
 	
 	// Photo
 	
@@ -41,5 +41,5 @@ public interface PhotoBlogConstants {
 	
 	// Comment
 	
-	int MAX_COMMENT_BODY_LENGTH = 3000;
+	int MAX_COMMENT_BODY_LENGTH = 5_000;
 }

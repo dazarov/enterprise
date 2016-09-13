@@ -97,4 +97,8 @@ angular.module("PhotoBlog", ["ngRoute"])
             return '(warning)';
         }
     }
+    
+    $scope.getDate = function(dateTime){
+    	return new Date(dateTime).toLocaleDateString();
+    }
 });

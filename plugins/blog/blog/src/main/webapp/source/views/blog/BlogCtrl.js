@@ -4,8 +4,12 @@ angular.module("PhotoBlog")
 	
 	$scope.blog = {};
 	$scope.newPost = {};
-	$scope.newPost.dateTime = new Date();
-	$scope.newPost.status = 'ENTRY_PUBLIC';
+	
+	$scope.initPost = function (post){
+    	post.commentAllowance = $scope.blog.commentAllowance;
+		post.dateTime = new Date();
+		post.status = 'ENTRY_PUBLIC';
+    }
 	
 	$scope.page = $routeParams.page;
 	
@@ -18,7 +22,8 @@ angular.module("PhotoBlog")
 		}).then(function successCallback(response) {
 			console.log('success');
 			$scope.blog = response.data;
-			$scope.newPost.commentAllowance = response.data.commentAllowance;
+			
+			$scope.initPost($scope.newPost);
 	    }, function errorCallback(response) {
 	    	console.log('error '+JSON.stringify(response.data));
 	    	$scope.blog.blogList = null;
@@ -46,6 +51,8 @@ angular.module("PhotoBlog")
     
     $scope.updateBlog();
     
+    
+    
     $scope.addPost = function (post){
         console.log('add post...');
 
@@ -66,9 +73,7 @@ angular.module("PhotoBlog")
 	        post.description = 
 	        post.body = '';
 			
-			post.commentAllowance = $scope.blog.commentAllowance;
-			post.dateTime = new Date();
-			post.status = 'ENTRY_PUBLIC';
+			$scope.initPost(post);
 			
 	        $scope.addPostForm.$setPristine();
 	        $scope.updateBlog();

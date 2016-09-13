@@ -16,6 +16,8 @@ import javax.persistence.Table;
 
 import org.hibernate.validator.constraints.Length;
 
+import com.daniel.blog.PhotoBlogConstants;
+
 @Entity
 @Table(name="USER")
 public class User extends AbstractEntity{
@@ -25,15 +27,15 @@ public class User extends AbstractEntity{
 	private Integer logged_id;
 	
 	@Column(name="NAME")
-	@Length(max = 100)
+	@Length(max = PhotoBlogConstants.MAX_USER_NAME_LENGTH)
 	private String name;
 	
 	@Column(name="EMAIL")
-	@Length(max = 100)
+	@Length(max = PhotoBlogConstants.MAX_USER_EMAIL_LENGTH)
 	private String email;
 	
 	@Column(name="PASSWORD")
-	@Length(max = 100)
+	@Length(max = PhotoBlogConstants.MAX_USER_PASSWORD_LENGTH)
 	private String password;
 	
 	@OneToMany(fetch = FetchType.LAZY)

@@ -16,6 +16,7 @@ import javax.persistence.Table;
 
 import org.hibernate.validator.constraints.Length;
 
+import com.daniel.blog.PhotoBlogConstants;
 import com.daniel.blog.model.converters.CommentAllowanceConverter;
 
 @Entity
@@ -25,15 +26,15 @@ public class Post extends CommentableBlogEntry{
 	// Fields
 	
 	@Column(name="SUBJECT")
-	@Length(max = 100)
+	@Length(max = PhotoBlogConstants.MAX_POST_SUBJECT_LENGTH)
 	private String subject;
 	
 	@Column(name="DESCRIPTION")
-	@Length(max = 1_000)
+	@Length(max = PhotoBlogConstants.MAX_POST_DESCRIPTION_LENGTH)
 	private String description;
 	
 	@Column(name="BODY")
-	@Length(max = 10_000)
+	@Length(max = PhotoBlogConstants.MAX_POST_BODY_LENGTH)
 	private String body;
 	
 	@ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})

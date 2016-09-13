@@ -8,6 +8,8 @@ import javax.persistence.Table;
 
 import org.hibernate.validator.constraints.Length;
 
+import com.daniel.blog.PhotoBlogConstants;
+
 @Entity
 @Table(name="COMMENT")
 public class Comment extends CommentableBlogEntry{
@@ -22,7 +24,7 @@ public class Comment extends CommentableBlogEntry{
 	private CommentableBlogEntry blogEntry; 
 	
 	@Column(name="BODY")
-	@Length(max = 5_000)
+	@Length(max = PhotoBlogConstants.MAX_COMMENT_BODY_LENGTH)
 	private String body;
 	
 	// Methods

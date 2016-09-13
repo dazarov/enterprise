@@ -16,13 +16,14 @@ import javax.persistence.Table;
 
 import org.hibernate.validator.constraints.Length;
 
+import com.daniel.blog.PhotoBlogConstants;
 import com.daniel.blog.model.converters.CommentAllowanceConverter;
 
 @Entity
 @Table(name="BLOG")
 public class Blog extends AbstractEntity{
 	@Column(name="NAME")
-	@Length(max = 100)
+	@Length(max = PhotoBlogConstants.MAX_BLOG_NAME_LENGTH)
 	private String name;
 	
 	@ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})

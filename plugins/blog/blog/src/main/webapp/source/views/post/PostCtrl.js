@@ -39,7 +39,7 @@ angular.module("PhotoBlog")
     }
     
     $scope.updateComments();
-        
+    
     $scope.addComment = function (comment){
         console.log('add comment...');
 
