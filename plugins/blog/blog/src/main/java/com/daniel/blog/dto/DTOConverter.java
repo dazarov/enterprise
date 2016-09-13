@@ -1,8 +1,6 @@
 package com.daniel.blog.dto;
 
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
+import java.time.Instant;
 
 import com.daniel.blog.model.AbstractEntity;
 import com.daniel.blog.model.Blog;
@@ -18,7 +16,7 @@ public class DTOConverter {
 	private static void basicConvert(PhotoBlogDTO dto, AbstractEntity entity){
 		dto.setId(entity.getId());
 		if(entity.getCreationTime() != null){
-			dto.setDateTime(entity.getCreationTime().format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT)));
+			dto.setDateTime(entity.getCreationTime().toEpochMilli());
 		}
 		if(entity.getStatus() != null){
 			dto.setStatus(entity.getStatus().toString());
@@ -128,7 +126,7 @@ public class DTOConverter {
 	
 	private static void basicUpdate(AbstractEntity entity, PhotoBlogDTO dto){
 		if(dto.getDateTime() != null){
-			entity.setCreationTime(ZonedDateTime.parse(dto.getDateTime()));
+			entity.setCreationTime(Instant.ofEpochMilli(dto.getDateTime()));
 		}
 		if(dto.getStatus() != null){
 			entity.setStatus(Status.byName(dto.getStatus()));

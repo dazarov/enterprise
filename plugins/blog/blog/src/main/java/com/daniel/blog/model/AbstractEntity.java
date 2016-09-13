@@ -1,5 +1,6 @@
 package com.daniel.blog.model;
 
+import java.time.Instant;
 import java.time.ZonedDateTime;
 
 import javax.persistence.Basic;
@@ -23,7 +24,7 @@ public abstract class AbstractEntity implements Comparable<AbstractEntity>{
 	private Long id;
 	
 	@Column(name="CREATION_TIME")
-	private ZonedDateTime creationTime;
+	private Instant creationTime;
 	
 	@Column(name="STATUS")
 	@Basic
@@ -36,11 +37,11 @@ public abstract class AbstractEntity implements Comparable<AbstractEntity>{
 		return id;
 	}
 	
-	public ZonedDateTime getCreationTime(){
+	public Instant getCreationTime(){
 		return creationTime;
 	}
 	
-	public void setCreationTime(ZonedDateTime creationTime){
+	public void setCreationTime(Instant creationTime){
 		this.creationTime = creationTime;
 	}
 	
