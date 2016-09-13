@@ -7,7 +7,7 @@ angular.module("PhotoBlog")
 	
 	$scope.initPost = function (post){
     	post.commentAllowance = $scope.blog.commentAllowance;
-		post.dateTime = new Date();
+		post.time = new Date();
 		post.status = 'ENTRY_PUBLIC';
     }
 	
@@ -55,6 +55,7 @@ angular.module("PhotoBlog")
     
     $scope.addPost = function (post){
         console.log('add post...');
+        post.dateTime = new Date(post.time).getUTCMilliseconds();
 
         var jsonString = JSON.stringify(post);
         

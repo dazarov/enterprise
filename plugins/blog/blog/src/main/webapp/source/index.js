@@ -99,6 +99,8 @@ angular.module("PhotoBlog", ["ngRoute"])
     }
     
     $scope.getDate = function(dateTime){
-    	return new Date(dateTime).toLocaleDateString();
+    	var date = new Date();
+    	date.setUTCMilliseconds(dateTime);
+    	return date.toLocaleDateString();
     }
 });
