@@ -8,12 +8,14 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 
 @Configuration
 @ComponentScan({"com.daniel.blog", "com.daniel.blog.model", "com.daniel.blog.services"})
 @EnableAutoConfiguration
 @SpringBootApplication
+@EnableScheduling
 public class PhotoBlogApp {
 
 

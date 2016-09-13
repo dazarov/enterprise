@@ -31,7 +31,7 @@ public class DefaultExceptionHandler {
 	@ResponseBody
 	public PhotoBlogErrorInfo handleException(Exception exception, HttpServletRequest request) throws IOException {
 		deal(exception);
-		return new PhotoBlogErrorInfo(1, request.getRequestURL().toString(), exception);
+		return new PhotoBlogErrorInfo(PhotoBlogException.EXCEPTION_ID, request.getRequestURL().toString(), exception);
 	}
 	
 	@Loggable
@@ -61,7 +61,7 @@ public class DefaultExceptionHandler {
 	@ResponseBody
 	public PhotoBlogErrorInfo handleIllegalArgumentException(IllegalArgumentException exception, HttpServletRequest request) throws IOException {
 		deal(exception);
-		return new PhotoBlogErrorInfo(1, request.getRequestURL().toString(), exception);
+		return new PhotoBlogErrorInfo(PhotoBlogException.ILLEGAL_ARGUMENT_ID, request.getRequestURL().toString(), exception);
 	}
 	
 	private void deal(Exception ex){
