@@ -55,7 +55,7 @@ angular.module("PhotoBlog")
     
     $scope.addPost = function (post){
         console.log('add post...');
-        post.dateTime = new Date(post.time).getUTCMilliseconds();
+        post.dateTime = new Date(post.time).getTime();
 
         var jsonString = JSON.stringify(post);
         

@@ -2,10 +2,12 @@ package com.daniel.blog.services;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 
 public class PhotoBlogPageable implements Pageable {
 	private int pageNumber;
 	private int pageSize;
+	private Sort sort = new Sort(Direction.DESC, "creationTime");
 	
 	public PhotoBlogPageable(int pageNumber, int pageSize){
 		this.pageNumber = pageNumber;
@@ -29,7 +31,7 @@ public class PhotoBlogPageable implements Pageable {
 
 	@Override
 	public Sort getSort() {
-		return null;
+		return sort;
 	}
 
 	@Override

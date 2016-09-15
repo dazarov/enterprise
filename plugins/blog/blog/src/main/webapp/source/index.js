@@ -100,7 +100,7 @@ angular.module("PhotoBlog", ["ngRoute"])
     
     $scope.getDate = function(dateTime){
     	var date = new Date();
-    	date.setUTCMilliseconds(dateTime);
+    	date.setTime(dateTime);
     	return date.toLocaleDateString();
     }
 });
