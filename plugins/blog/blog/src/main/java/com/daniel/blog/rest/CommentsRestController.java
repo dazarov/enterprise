@@ -41,6 +41,7 @@ import com.daniel.blog.services.PhotoBlogService;
 //DELETE /comments/{comment_id}											- Deletes a specific comment
 
 @RestController
+@RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 public class CommentsRestController {
 	
 	@Autowired
@@ -54,7 +55,7 @@ public class CommentsRestController {
 	
 	//GET	/posts/{post_id}/comments?page={page_number}   					- Retrieves a page of comments for specific post
 	@Loggable
-	@RequestMapping(method = RequestMethod.GET, value = "/posts/{post_id}/comments", produces = MediaType.APPLICATION_JSON_VALUE) 
+	@RequestMapping(method = RequestMethod.GET, value = "/posts/{post_id}/comments") 
     public ResponseEntity<List<CommentDTO>> getCommentsForPost(@PathVariable("post_id") long postId, @RequestParam(value = "page", required = false, defaultValue="0") Integer pageNumber) throws PhotoBlogException {
 		List<Comment> comments =  blogService.getCommentsByPostId(postId, pageNumber);
 		
@@ -71,7 +72,7 @@ public class CommentsRestController {
 	
 	//GET	/photos/{photo_id}/comments?page={page_number} 					- Retrieves a page of comments for specific photo
 	@Loggable
-	@RequestMapping(method = RequestMethod.GET, value = "/photos/{photo_id}/comments", produces = MediaType.APPLICATION_JSON_VALUE) 
+	@RequestMapping(method = RequestMethod.GET, value = "/photos/{photo_id}/comments") 
     public ResponseEntity<List<CommentDTO>> getCommentsForPhoto(@PathVariable("photo_id") long photoId, @RequestParam(value = "page", required = false, defaultValue="0") Integer pageNumber) throws PhotoBlogException {
 		List<Comment> comments =  blogService.getCommentsByPhotoId(photoId, pageNumber);
 		
@@ -88,7 +89,7 @@ public class CommentsRestController {
 	
 	//GET	/comments/{parent_comment_id}?page={page_number} 				- Retrieves a page of child comments for specific comment
 	@Loggable
-	@RequestMapping(method = RequestMethod.GET, value = "/comments/{parent_id}", produces = MediaType.APPLICATION_JSON_VALUE) 
+	@RequestMapping(method = RequestMethod.GET, value = "/comments/{parent_id}") 
     public ResponseEntity<List<CommentDTO>> getCommentsForParentComment(@PathVariable("parent_id") long parentId, @RequestParam(value = "page", required = false, defaultValue="0") Integer pageNumber) throws PhotoBlogException {
 		List<Comment> comments =  blogService.getCommentsByParentCommentId(parentId, pageNumber);
 		

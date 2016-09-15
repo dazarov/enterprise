@@ -11,4 +11,8 @@ public class BlogEntityNotFoundException extends PhotoBlogException{
 	public BlogEntityNotFoundException(String message) {
 		super(ENTITY_NOT_FOUND, message);
 	}
+	
+	public BlogEntityNotFoundException(int id, String message) {
+		super(id, message);
+	}
 }

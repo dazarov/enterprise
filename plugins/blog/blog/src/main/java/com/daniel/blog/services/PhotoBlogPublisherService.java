@@ -8,7 +8,6 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.daniel.blog.annotations.Loggable;
-import com.daniel.blog.errors.PhotoBlogException;
 import com.daniel.blog.model.Blog;
 
 @Service
@@ -26,14 +25,10 @@ public class PhotoBlogPublisherService {
 		logger.info("Publisher started");
 		try {
 			List<Blog> allBlogs = blogService.getAllBlogs();
-		} catch (PhotoBlogException e1) {
-			logger.trace("an exception was thrown", e1);
-		}
-		try {
 			
-			Thread.currentThread().sleep(10000); // simulate the work
-		} catch (InterruptedException e) {
-			logger.trace("an exception was thrown", e);
+			Thread.sleep(10000); // simulate the work
+		} catch (Exception ex) {
+			logger.error(ex.getMessage(), ex);
 		}
 		logger.info("Publisher stoped");
 	}

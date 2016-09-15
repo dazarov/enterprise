@@ -24,7 +24,7 @@ import com.daniel.blog.annotations.Loggable;
 import com.daniel.blog.dto.BlogDTO;
 import com.daniel.blog.dto.DTOConverter;
 import com.daniel.blog.dto.validators.BlogDTOValidator;
-import com.daniel.blog.errors.BlogEntityNotFoundException;
+import com.daniel.blog.errors.BlogNotFoundException;
 import com.daniel.blog.errors.PhotoBlogException;
 import com.daniel.blog.model.Blog;
 import com.daniel.blog.services.PhotoBlogService;
@@ -83,6 +83,7 @@ import com.daniel.blog.services.PhotoBlogService;
 //DELETE /comments/{comment_id}											- Deletes a specific comment
 
 @RestController
+@RequestMapping(value = "/blogs", produces = MediaType.APPLICATION_JSON_VALUE)
 public class BlogRestController {
 	
 	@Autowired
@@ -94,20 +95,10 @@ public class BlogRestController {
         binder.setValidator(new BlogDTOValidator());
     }
 	
-	//GET /blogs/init														- Creates some test entities
-	//@Loggable
-	//@RequestMapping(method = RequestMethod.GET, value = "/blogs/init", produces = MediaType.APPLICATION_JSON_VALUE) 
-    //public ResponseEntity<Object> init() throws BlogEntityNotFoundException {
-	//	
-	//	blogService.init();
-	//	
-    //    return new ResponseEntity<>(new Object(), HttpStatus.OK);
-	//}
-	
 	//GET /blogs															- Retrieves a list of all blogs
 	//GET /blogs?page={page_number}											- Retrieves a page of blogs
 	@Loggable
-	@RequestMapping(method = RequestMethod.GET, value = "/blogs", produces = MediaType.APPLICATION_JSON_VALUE) 
+	@RequestMapping(method = RequestMethod.GET) 
     public ResponseEntity<List<BlogDTO>> getBlogs(@RequestParam(value = "page", required = false, defaultValue = "0") Integer pageNumber) throws PhotoBlogException {
 		List<Blog> blogs;
 		if(pageNumber == 0){
@@ -128,7 +119,7 @@ public class BlogRestController {
 	//GET /blogs/{blog_id}													- Retrieves a specific blog
 	//GET /blogs/{blog_name}
 	@Loggable
-	@RequestMapping(method = RequestMethod.GET, value = "/blogs/{blogName}", produces = MediaType.APPLICATION_JSON_VALUE) 
+	@RequestMapping(method = RequestMethod.GET, value = "/{blogName}") 
     public ResponseEntity<BlogDTO> getBlog(@PathVariable("blogName") String blogName) throws PhotoBlogException {
 		Blog blog =  blogService.getBlogByName(blogName);
 		
@@ -137,7 +128,7 @@ public class BlogRestController {
 
 	//POST /blogs															- Creates a new blog
 	@Loggable
-	@RequestMapping(value = "/blogs", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<Void> createBlog(@RequestBody @Valid BlogDTO blogRequest, UriComponentsBuilder ucBuilder) throws PhotoBlogException {
         Blog blog = blogService.createBlog(blogRequest);
  
@@ -148,21 +139,23 @@ public class BlogRestController {
     }
 
 	//PUT /blogs/{blog_id}													- Updates a specific blog
+	//PUT /blogs/{blog_name}
 	@Loggable
-    @RequestMapping(value = "/blogs/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<BlogDTO> updateBlog(@PathVariable("id") long id, @RequestBody @Valid BlogDTO blogRequest) throws PhotoBlogException {
-        Blog blog = blogService.updateBlog(id, blogRequest);
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    public ResponseEntity<BlogDTO> updateBlog(@PathVariable("id") String blogName, @RequestBody @Valid BlogDTO blogRequest) throws PhotoBlogException {
+        Blog blog = blogService.updateBlog(blogName, blogRequest);
         
        	return new ResponseEntity<>(DTOConverter.convert(blog), HttpStatus.OK);
     }
     
-	//DELETE /blogs/{blog_id}												- Deletes a specific blog    
+	//DELETE /blogs/{blog_id}												- Deletes a specific blog
+	//DELETE /blogs/{blog_name}
 	@Loggable
-    @RequestMapping(value = "/blogs/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<BlogDTO> deleteBlog(@PathVariable("id") long id) throws BlogEntityNotFoundException {
-        boolean deleted = blogService.deleteBlog(id);
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity<BlogDTO> deleteBlog(@PathVariable("id") String blogName) throws PhotoBlogException {
+        boolean deleted = blogService.deleteBlog(blogName);
         if(!deleted){
-        	throw new BlogEntityNotFoundException("Blog not found!");
+        	throw new BlogNotFoundException(blogName);
         }
         
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);

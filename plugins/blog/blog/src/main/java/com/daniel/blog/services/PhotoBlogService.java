@@ -7,7 +7,6 @@ import com.daniel.blog.dto.CommentDTO;
 import com.daniel.blog.dto.PhotoDTO;
 import com.daniel.blog.dto.PostDTO;
 import com.daniel.blog.dto.UserDTO;
-import com.daniel.blog.errors.BlogNameNotUniqueException;
 import com.daniel.blog.errors.PhotoBlogException;
 import com.daniel.blog.model.Blog;
 import com.daniel.blog.model.Comment;
@@ -22,15 +21,13 @@ public interface PhotoBlogService {
 	
 	public List<Blog> getBlogs(int pageNumber) throws PhotoBlogException;
 	
-	public Blog getBlogById(long blogId) throws PhotoBlogException;
-	
 	public Blog getBlogByName(String blogName) throws PhotoBlogException;
 	
 	public Blog createBlog(BlogDTO blogRequest) throws PhotoBlogException;
 	
-	public Blog updateBlog(long blogId, BlogDTO blogRequest) throws PhotoBlogException;
+	public Blog updateBlog(String blogName, BlogDTO blogRequest) throws PhotoBlogException;
 	
-	public boolean deleteBlog(long blogId);
+	public boolean deleteBlog(String blogName) throws PhotoBlogException;
 	
 	// User operations
 	

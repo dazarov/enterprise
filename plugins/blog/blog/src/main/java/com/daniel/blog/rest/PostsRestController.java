@@ -37,6 +37,7 @@ import com.daniel.blog.services.PhotoBlogService;
 //DELETE /posts/{post_id} 												- Deletes a specific post
 
 @RestController
+@RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 public class PostsRestController {
 	
 	@Autowired
@@ -50,7 +51,7 @@ public class PostsRestController {
 	
 	//GET	/{blog_name}/posts?page={page_number}							- Retrieves a page of posts
 	@Loggable
-	@RequestMapping(method = RequestMethod.GET, value = "/{blogName}/posts", produces = MediaType.APPLICATION_JSON_VALUE) 
+	@RequestMapping(method = RequestMethod.GET, value = "/{blogName}/posts") 
     public ResponseEntity<List<PostDTO>> getPosts(@PathVariable("blogName") String blogName, @RequestParam(value = "page", required = false, defaultValue="0") Integer pageNumber) throws PhotoBlogException {
 		List<Post> posts =  blogService.getPostsByBlogName(blogName, pageNumber);
 		
@@ -67,7 +68,7 @@ public class PostsRestController {
 	
 	//GET	/posts/{post_id}			    								- Retrieves a specific post
 	@Loggable
-	@RequestMapping(method = RequestMethod.GET, value = "/posts/{id}", produces = MediaType.APPLICATION_JSON_VALUE) 
+	@RequestMapping(method = RequestMethod.GET, value = "/posts/{id}") 
     public ResponseEntity<PostDTO> getPost(@PathVariable("id") long id) throws PhotoBlogException {
 		Post post = blogService.getPost(id);
 		

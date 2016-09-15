@@ -38,6 +38,7 @@ import com.daniel.blog.services.PhotoBlogService;
 //DELETE /users/{user_id}												- Deletes a specific user
  
 @RestController
+@RequestMapping(value = "/users", produces = MediaType.APPLICATION_JSON_VALUE)
 public class UsersRestController {
 	
 	@Autowired
@@ -52,7 +53,7 @@ public class UsersRestController {
 	//GET /users															- Retrieves a list of all users
 	//GET /users?page={page_number}											- Retrieves a page of users
 	@Loggable
-	@RequestMapping(method = RequestMethod.GET, value = "/users", produces = MediaType.APPLICATION_JSON_VALUE) 
+	@RequestMapping(method = RequestMethod.GET) 
     public ResponseEntity<List<UserDTO>> getUsers(@RequestParam(value = "page", required = false, defaultValue = "0") Integer pageNumber) throws PhotoBlogException {
 		List<User> users;
 		if(pageNumber == 0){
@@ -63,7 +64,6 @@ public class UsersRestController {
 		
 		if(users.isEmpty()){
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            //throw new BlogEntityNotFoundException("Blogs not found!");
         }
 		
 		List<UserDTO> userDTOs = new ArrayList<>();
@@ -74,7 +74,7 @@ public class UsersRestController {
 	
 	//GET /users/{user_id}													- Retrieves a specific user
 	@Loggable
-	@RequestMapping(method = RequestMethod.GET, value = "/users/{id}", produces = MediaType.APPLICATION_JSON_VALUE) 
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET) 
     public ResponseEntity<UserDTO> getUser(@PathVariable("id") long userId) throws PhotoBlogException {
 		User user =  blogService.getUserById(userId);
 		
@@ -83,7 +83,7 @@ public class UsersRestController {
 
 	//POST /users															- Creates a new user
 	@Loggable
-	@RequestMapping(value = "/users", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> createUser(@RequestBody @Valid UserDTO userRequest, UriComponentsBuilder ucBuilder) throws PhotoBlogException {
         User user = blogService.createUser(userRequest);
  
@@ -95,7 +95,7 @@ public class UsersRestController {
 	
 	//PUT /users/{user_id}													- Updates a specific user (more then one property)
 	@Loggable
-    @RequestMapping(value = "/users/{id}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public ResponseEntity<UserDTO> updateUser(@PathVariable("id") long id, @RequestBody @Valid UserDTO blogRequest) throws PhotoBlogException {
         User user = blogService.updateUser(id, blogRequest);
         
@@ -104,7 +104,7 @@ public class UsersRestController {
 	
 	//DELETE /users/{user_id}												- Deletes a specific user
 	@Loggable
-    @RequestMapping(value = "/users/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<UserDTO> deleteUser(@PathVariable("id") long id) throws BlogEntityNotFoundException {
         boolean deleted = blogService.deleteUser(id);
         if(!deleted){
