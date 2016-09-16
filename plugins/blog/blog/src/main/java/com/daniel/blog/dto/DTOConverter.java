@@ -28,7 +28,7 @@ public class DTOConverter {
 		
 		if(commentableEntry.getCommentAllowance() != null){
 			commentableDTO.setCommentAllowance(commentableEntry.getCommentAllowance().toString());
-		}else{
+		}else if(commentableEntry.getBlog() != null){
 			commentableDTO.setCommentAllowance(commentableEntry.getBlog().getCommentAllowance().toString());
 		}
 	}

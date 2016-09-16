@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
@@ -25,7 +26,7 @@ public class PersistenceConfig {
     	BasicDataSource dataSource = new BasicDataSource();
 
         dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://localhost/PhotoBlog");
+        dataSource.setUrl("jdbc:mysql://localhost/PhotoBlog?autoReconnect=true&amp;useUnicode=true&amp;createDatabaseIfNotExist=true&amp;characterEncoding=utf-8");
         dataSource.setUsername("testUser");
         dataSource.setPassword("testPassword");
 
@@ -35,8 +36,11 @@ public class PersistenceConfig {
     @Bean
     public EntityManagerFactory entityManagerFactory() {
 
-      //HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
-      //vendorAdapter.setGenerateDdl(true);
+    	HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
+        vendorAdapter.setGenerateDdl(true); 
+        vendorAdapter.setShowSql(true);
+        //if (Arrays.asList(environment.getActiveProfiles()).contains("prod"))
+            vendorAdapter.setDatabasePlatform(CustomMysqlDialect.class.getName());
 
       LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
       //factory.setJpaVendorAdapter(vendorAdapter);
@@ -45,6 +49,7 @@ public class PersistenceConfig {
       factory.setDataSource(dataSource());
       factory.setJpaProperties(hibernateProperties());
       factory.afterPropertiesSet();
+      factory.setJpaVendorAdapter(vendorAdapter);
 
       return factory.getObject();
     }
@@ -53,9 +58,13 @@ public class PersistenceConfig {
     	Properties properties = new Properties();
     	
     	properties.put("hibernate.current_session_context_class", "thread");
-    	properties.put("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
+    	properties.put("hibernate.dialect", "com.daniel.blog.CustomMysqlDialect");
     	properties.put("hibernate.show_sql", "true");
     	properties.put("hibernate.hbm2ddl.auto", "update");
+    	
+    	properties.put("hibernate.connection.CharSet", "utf-8");
+    	properties.put("hibernate.connection.characterEncoding", "utf-8");
+    	properties.put("hibernate.connection.useUnicode", "true");
     	
     	return properties;
     }

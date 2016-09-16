@@ -2,7 +2,14 @@
 -- start mySQL - mysql -u root -p 
 -- run script - source setup.sql; 
 
-CREATE database PhotoBlog;
+set global character_set_server = utf8;
+set session character_set_server = utf8;
+set global character_set_database = utf8;
+set session character_set_database = utf8;
+
+
+CREATE DATABASE PhotoBlog CHARACTER SET utf8 COLLATE utf8_general_ci;
+
 create user 'testUser'@'localhost' identified by 'testPassword';
 grant all on PhotoBlog.* to 'testUser'@'localhost';
 
@@ -19,7 +26,7 @@ CREATE TABLE IF NOT EXISTS USER (
 	EMAIL VARCHAR(100),
 	PASSWORD VARCHAR(100),
 	PRIMARY KEY (ID)
-);
+)CHARACTER SET utf8 COLLATE utf8_general_ci;
 
 select 'Creating ROLE table' AS '';
 
@@ -27,7 +34,7 @@ CREATE TABLE IF NOT EXISTS ROLE (
 	ID INT NOT NULL AUTO_INCREMENT,
 	ROLE TINYINT,
 	PRIMARY KEY (ID)
-);
+)CHARACTER SET utf8 COLLATE utf8_general_ci;
 
 select 'Creating USER_ROLE table' AS '';
 
@@ -36,7 +43,7 @@ CREATE TABLE IF NOT EXISTS USER_ROLE (
 	ROLE_ID INT,
 	FOREIGN KEY (USER_ID) REFERENCES USER(ID),
 	FOREIGN KEY (ROLE_ID) REFERENCES ROLE(ID)
-);
+)CHARACTER SET utf8 COLLATE utf8_general_ci;
 
 select 'Creating BLOG table' AS '';
 
@@ -48,7 +55,7 @@ CREATE TABLE IF NOT EXISTS BLOG (
 	COMMENT_ALLOWANCE TINYINT,
 	PRIMARY KEY (ID),
 	INDEX(name(10))
-);
+)CHARACTER SET utf8 COLLATE utf8_general_ci;
 
 select 'Creating USER_BLOG table' AS '';
 
@@ -57,7 +64,7 @@ CREATE TABLE IF NOT EXISTS USER_BLOG (
 	BLOG_ID INT,
 	FOREIGN KEY (USER_ID) REFERENCES USER(ID),
 	FOREIGN KEY (BLOG_ID) REFERENCES BLOG(ID)
-);
+)CHARACTER SET utf8 COLLATE utf8_general_ci;
 
 select 'Creating IMAGE table' AS '';
 
@@ -67,7 +74,7 @@ CREATE TABLE IF NOT EXISTS IMAGE (
 	STATUS TINYINT,
 	IMAGE LONGBLOB NOT NULL,
 	PRIMARY KEY (ID)
-);
+)CHARACTER SET utf8 COLLATE utf8_general_ci;
 
 select 'Creating POST table' AS '';
 
@@ -84,7 +91,7 @@ CREATE TABLE IF NOT EXISTS POST (
 	PRIMARY KEY (ID),
 	FOREIGN KEY (BLOG_ID) REFERENCES BLOG(ID),
 	INDEX(BLOG_ID, CREATION_TIME, STATUS)
-);
+)CHARACTER SET utf8 COLLATE utf8_general_ci;
 
 select 'Creating COMMENTABLE table' AS '';
 
@@ -98,7 +105,7 @@ CREATE TABLE IF NOT EXISTS COMMENTABLE (
 	PRIMARY KEY (ID),
 	FOREIGN KEY (BLOG_ID) REFERENCES BLOG(ID),
 	INDEX(BLOG_ID, CREATION_TIME, STATUS)
-);
+)CHARACTER SET utf8 COLLATE utf8_general_ci;
 
 select 'Creating PHOTO table' AS '';
 
@@ -116,7 +123,7 @@ CREATE TABLE IF NOT EXISTS PHOTO (
 	FOREIGN KEY (BLOG_ID) REFERENCES BLOG(ID),
 	FOREIGN KEY (IMAGE_ID) REFERENCES IMAGE(ID),
 	INDEX(BLOG_ID, CREATION_TIME, STATUS)
-);
+)CHARACTER SET utf8 COLLATE utf8_general_ci;
 
 select 'Creating POST_IMAGE table' AS '';
 
@@ -125,7 +132,7 @@ CREATE TABLE IF NOT EXISTS POST_IMAGE (
 	IMAGE_ID INT,
 	FOREIGN KEY (POST_ID) REFERENCES POST(ID),
 	FOREIGN KEY (IMAGE_ID) REFERENCES IMAGE(ID)
-);
+)CHARACTER SET utf8 COLLATE utf8_general_ci;
 
 select 'Creating COMMENT table' AS '';
 
@@ -141,7 +148,7 @@ CREATE TABLE IF NOT EXISTS COMMENT (
 	PRIMARY KEY (ID),
 	FOREIGN KEY (USER_ID) REFERENCES USER(ID),
 	INDEX(BLOG_ENTRY_ID)
-);
+)CHARACTER SET utf8 COLLATE utf8_general_ci;
 
 select 'Creating BLOCKED_USERS table' AS '';
 
@@ -150,7 +157,7 @@ CREATE TABLE IF NOT EXISTS BLOCKED_USERS (
 	USER_ID INT,
 	FOREIGN KEY (BLOG_ID) REFERENCES BLOG(ID),
 	FOREIGN KEY (USER_ID) REFERENCES USER(ID)
-);
+)CHARACTER SET utf8 COLLATE utf8_general_ci;
 
 select 'Creating ADVERT table' AS '';
 
@@ -159,7 +166,7 @@ CREATE TABLE IF NOT EXISTS ADVERT (
 	CREATION_TIME TIMESTAMP,
 	STATUS TINYINT,
 	PRIMARY KEY (ID)
-);
+)CHARACTER SET utf8 COLLATE utf8_general_ci;
 
 select 'Creating hibernate_sequences table' AS '';
 

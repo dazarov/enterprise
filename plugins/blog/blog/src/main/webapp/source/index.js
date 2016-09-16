@@ -103,4 +103,10 @@ angular.module("PhotoBlog", ["ngRoute"])
     	date.setTime(dateTime);
     	return date.toLocaleDateString();
     }
+    
+    $scope.getDateTime = function(dateTime){
+    	var date = new Date();
+    	date.setTime(dateTime);
+    	return date.toLocaleDateString()+' '+date.toLocaleTimeString();
+    }
 });

@@ -2,15 +2,16 @@
 	<h1>Photo Blog Home Page</h1>
 </div>
 <div ng-controller="HomeCtrl" class="well">
-	<div class="well">
-        <h3>Blogs:</h3>
-    </div>
-	<div ng-repeat="blog in blog.blogList">
-		<a ng-href="" ng-click="goBlog(blog.name)" style="cursor: pointer;"><i>{{blog.id}}</i> <b>{{blog.name}}</b></a>
+	<div class="panel panel-primary">
+        <div class="panel-heading">Blogs:</div>
+        
+		<div  class="panel-body" ng-repeat="blog in blog.blogList">
+			<a ng-href="" ng-click="goBlog(blog.name)" style="cursor: pointer;"><b>{{blog.name}}</b></a>
+		</div>
 	</div>
-	<div class="well">
-        <h3>Add New Blog</h3>
-    </div>
+	<div class="panel panel-info">
+        <div class="panel-heading">Add New Blog</div>
+    	<div class="panel-body">
 	<form class="form-horizontal" name="addBlogForm" novalidate ng-submit="addBlog(newBlog)">
         <!-- name -->
         <div class="form-group" ng-class="getValidationClass(addBlogForm.name.$valid, addBlogForm.name.$dirty)">
@@ -53,4 +54,6 @@
             </div>
         </div>
     </form>
+    </div>
+    </div>
 </div>

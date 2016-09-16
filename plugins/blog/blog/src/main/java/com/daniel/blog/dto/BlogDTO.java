@@ -18,4 +18,9 @@ public class BlogDTO extends CommentableDTO{
 	public String getName(){
 		return name;
 	}
+	
+	@Override
+	public String toString(){
+		return "BlogDTO name: "+name;
+	}
 }

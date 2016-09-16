@@ -17,4 +17,9 @@ public class CommentDTO extends CommentableDTO{
 	public void setBody(String body) {
 		this.body = body;
 	}
+	
+	@Override
+	public String toString(){
+		return "CommentDTO body: "+body;
+	}
 }
