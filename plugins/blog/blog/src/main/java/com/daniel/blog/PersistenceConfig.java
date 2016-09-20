@@ -26,7 +26,7 @@ public class PersistenceConfig {
     	BasicDataSource dataSource = new BasicDataSource();
 
         dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://localhost/PhotoBlog?autoReconnect=true&amp;useUnicode=true&amp;createDatabaseIfNotExist=true&amp;characterEncoding=utf-8");
+        dataSource.setUrl("jdbc:mysql://localhost/PhotoBlog?autoReconnect=true&amp;useUnicode=true&amp;createDatabaseIfNotExist=true&amp;characterEncoding=UTF-8");
         dataSource.setUsername("testUser");
         dataSource.setPassword("testPassword");
 

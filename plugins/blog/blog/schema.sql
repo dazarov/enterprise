@@ -4,8 +4,13 @@
 
 set global character_set_server = utf8;
 set session character_set_server = utf8;
+
 set global character_set_database = utf8;
 set session character_set_database = utf8;
+
+set global collation_server = utf8_general_ci;
+set session collation_server = utf8_general_ci;
+
 
 
 CREATE DATABASE PhotoBlog CHARACTER SET utf8 COLLATE utf8_general_ci;

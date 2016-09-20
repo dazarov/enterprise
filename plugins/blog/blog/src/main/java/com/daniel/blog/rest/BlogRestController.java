@@ -128,7 +128,7 @@ public class BlogRestController {
 
 	//POST /blogs															- Creates a new blog
 	@Loggable
-	@RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> createBlog(@RequestBody @Valid BlogDTO blogRequest, UriComponentsBuilder ucBuilder) throws PhotoBlogException {
         Blog blog = blogService.createBlog(blogRequest);
  
