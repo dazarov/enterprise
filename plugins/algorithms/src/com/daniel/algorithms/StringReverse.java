@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class StringReverse {
 	public static String swapReverse(String input) {
@@ -56,6 +57,11 @@ public class StringReverse {
 		
 		return builder.toString();
 	}
+	
+//	public static String streamStringReverse(String input){
+//		int[] tempArray = input.chars().toArray();
+//		return input.chars().map(i -> tempArray[tempArray.length - i]).
+//	}
 
 	public static void main(String[] args) {
 		final String input = "Convert the input string into character!";

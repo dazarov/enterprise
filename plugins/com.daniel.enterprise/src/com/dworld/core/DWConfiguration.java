@@ -24,19 +24,12 @@ public class DWConfiguration {
 	public static final int ACTION_LOAD_BACKUP = 1;
 	public static final int ACTION_LOAD_TEST = 2;
 	
-	private static volatile DWConfiguration instance;
-	
 	private boolean fightActive = false;
 	private boolean defenseActive = true;
 	
+	private static final DWConfiguration instance= new DWConfiguration();
+	
 	public static DWConfiguration getInstance(){
-		if(instance == null){
-			synchronized (DWConfiguration.class) {
-				if(instance == null){
-					instance = new DWConfiguration();
-				}
-			}
-		}
 		return instance;
 	}
 	
