@@ -8,6 +8,7 @@ import static com.musicbox.Utils.format;
 import static com.musicbox.Utils.getCommand;
 import static com.musicbox.Utils.move;
 import static com.musicbox.Utils.out;
+import static com.musicbox.Utils.printErrors;
 import static com.musicbox.Utils.waitForCommand;
 
 import java.io.IOException;
@@ -57,6 +58,8 @@ public class MusicBoxSynchronizer {
 			out(log, e.getMessage());
 			e.printStackTrace();
 		}
+		
+		printErrors();
 		
 		Duration duration = Duration.between(startDateTime, LocalDateTime.now());
 		out(log, "Processing time: "+format(duration));
@@ -178,12 +181,12 @@ public class MusicBoxSynchronizer {
 			if(command == 1){  // Copy file from mobile device
 				out(log, "Copy file "+filePath.getFileName()+" <------ to the main repository...");
 				
-				//copy(mobileRoot, filePath, root, false);
+				copy(mobileRoot, filePath, root, false);
 				
 				out(log, "Folder successfully copied!");
 			}else if(command == 3){ // Delete the file
 				out(log, "Deleting the file "+filePath);
-				//Files.delete(filePath);
+				Files.delete(filePath);
 				out(log, "File successfully deleted!");
 			}else if(command == 0){
 				System.exit(0);

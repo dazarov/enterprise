@@ -2,6 +2,8 @@ package com.musicbox;
 
 import static com.musicbox.Utils.format;
 import static com.musicbox.Utils.out;
+import static com.musicbox.Utils.error;
+import static com.musicbox.Utils.printErrors;
 import static com.musicbox.Utils.waitForCommand;
 
 import java.io.BufferedWriter;
@@ -39,6 +41,32 @@ public class MusicBoxValidator {
 	private long totalLength = 0;
 	private List<String> artistFolders = new ArrayList<>();
 	
+	private List<Move> laterMoves = new ArrayList<>();
+	
+	static class Move{
+		Path source, target;
+		
+		public Move(Path source, Path target){
+			this.source = source;
+			this.target = target;
+		}
+	}
+	
+	void moveLater(Path source, Path target){
+		laterMoves.add(new Move(source, target));
+	}
+	
+	void laterMove(Writer logFile) throws IOException{
+		for(Move move : laterMoves){
+			String fileName = move.source.getFileName().toString();
+			out(logFile, fileName+" Song in All forder, but there is a specific folder for this artist! Moving...");
+			Files.move(move.source, move.target);
+			out(logFile, "File successfully moved!");
+		}
+		
+		laterMoves.clear();
+	}
+	
 	MusicBoxValidator(MusicBoxCollection collection){
 		this.collection = collection;
 	}
@@ -62,6 +90,8 @@ public class MusicBoxValidator {
 			out(log, root+" is not a folder!");
 		}
 		
+		laterMove(log);
+		
 		moveToSeparateFolder(log);
 		
 		createSongListFile(format(startDateTime));
@@ -74,6 +104,10 @@ public class MusicBoxValidator {
 		out(log, hours+":"+min+":"+sec);
 		
 		out(log, "Artists: "+collection.getNumberOFArtists());
+		
+		// print errors
+		printErrors();
+		
 		Duration duration = Duration.between(startDateTime, LocalDateTime.now());
 		out(log, "Processing time: "+format(duration));
 	}
@@ -135,7 +169,7 @@ public class MusicBoxValidator {
 		try {
 		
 			if(!Files.isWritable(file)){
-				out(logFile, fileName+" File is read-only!");
+				error(logFile, fileName+" File is read-only!");
 				return;
 			}
 			
@@ -167,7 +201,7 @@ public class MusicBoxValidator {
 			
 			AudioHeader header = audioFile.getAudioHeader();
 			if(header == null){
-				out(logFile, fileName+" HEADER is null!");
+				error(logFile, fileName+" HEADER is null!");
 			}else{
 				int trackLength = header.getTrackLength();
 				totalLength += trackLength;
@@ -223,14 +257,14 @@ public class MusicBoxValidator {
 			
 			if(folderArtist == null){
 				if(artistFolders.contains(fileNameInfo.artist.toLowerCase())){
-					out(logFile, fileName+" Song in All forder, but there is a specific folder for this artist! Moving...");
+					
 					Path dir = findArtistFolder(root, fileNameInfo.artist.toLowerCase());
 					if(dir != null){
 						Path newFile = Paths.get(dir.toString(), fileNameInfo.artist.trim()+" - "+fileNameInfo.title.trim()+".mp3");
-						Files.move(file, newFile);
-						out(logFile, "File successfully moved!");
+						moveLater(file, newFile);
+						//out(logFile, "File successfully moved!");
 					}else{
-						out(logFile, "Internal error - folder not found!!!!");
+						error(logFile, fileNameInfo.artist.toLowerCase()+" Internal error - folder not found!!!!");
 					}
 				}
 				if(collection.nonFolderArtists.containsKey(fileNameInfo.artist.toLowerCase())){
@@ -261,7 +295,7 @@ public class MusicBoxValidator {
 		int mp3Position = fileName.indexOf(".mp3");
 		
 		if(delimeter < 0 || mp3Position < 0){
-			out(logFile, fileName+" Delimiter or .mp3 not found!");
+			error(logFile, fileName+" Delimiter or .mp3 not found!");
 			return null;
 		}
 		
@@ -270,12 +304,12 @@ public class MusicBoxValidator {
 		info.title = fileName.substring(delimeter+3, mp3Position);
 		
 		if(info.artist.isEmpty()){
-			out(logFile, fileName+" Artist is empty!");
+			error(logFile, fileName+" Artist is empty!");
 			return null;
 		}
 		
 		if(info.title.isEmpty()){
-			out(logFile, fileName+" Title is empty!");
+			error(logFile, fileName+" Title is empty!");
 			return null;
 		}
 		

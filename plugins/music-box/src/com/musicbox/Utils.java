@@ -11,11 +11,29 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Utils {
 	static final int WAITER_ID_SYNCHRONIZE_ROOTS = 1;
 	static final int WAITER_ID_CHECK_INFO_1 = 2;
 	static final int WAITER_ID_CHECK_INFO_2 = 3;
+	
+	static Set<String> errors = new HashSet<>(); 
+	
+	static void error(Writer logFile, String message){
+		out(logFile, message);
+		errors.add(message);
+	}
+	
+	static void printErrors(){
+		System.out.println("\n\nErrors:");
+		
+		errors.forEach(System.out::println);
+		errors.clear();
+		
+		System.out.println("\n\n");
+	}
 	
 	static void out(Writer logFile, String message){
 		System.out.println(message);

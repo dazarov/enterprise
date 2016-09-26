@@ -1,11 +1,14 @@
 package com.musicbox;
 
+import static com.musicbox.Utils.error;
 import static com.musicbox.Utils.out;
+import static com.musicbox.Utils.waitForCommand;
 
 import java.io.IOException;
 import java.io.Writer;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,7 +23,7 @@ public class MusicBoxCollection {
 	public Map<String, List<Path>> nonFolderArtists = new HashMap<>();
 	private Map<String, FileInfo> filesInfo = new HashMap<>();
 	
-	void addSong(Writer logFile, String fileName, String artist, String title){
+	void addSong(Writer logFile, String fileName, String artist, String title) throws IOException{
 		if(artist == null || title == null || artist.isEmpty() || title.isEmpty()){
 			nonArtists.add(fileName);
 		} else {
@@ -36,7 +39,24 @@ public class MusicBoxCollection {
 				artists.put(artistId, songs);
 			}else{
 				if(songs.containsKey(titleId)){
-					out(logFile, fileName+" Song with this name already exist!");
+					Song existing = songs.get(titleId);
+					out(logFile, fileName+" Song with similar name already exist - "+existing.fileName+"!");
+					System.out.println("1 - Delete file - "+existing.fileName);
+					System.out.println("2 - Delete file - "+fileName);
+					System.out.println("3 - Skip");
+					System.out.println("0 - Exit");
+					int command = waitForCommand("Input:");
+					if(command == 1){
+						out(logFile, "Deleting the file "+existing.fileName);
+						Files.delete(Paths.get(existing.fileName));
+						out(logFile, "File successfully deleted!");
+					}else if(command == 2){
+						out(logFile, "Deleting the file "+fileName);
+						Files.delete(Paths.get(fileName));
+						out(logFile, "File successfully deleted!");
+					}else if(command == 0){
+						System.exit(0);
+					}
 				}else{
 					songs.put(titleId, song);
 				}
@@ -94,7 +114,7 @@ public class MusicBoxCollection {
 		//System.out.println("collectInfo "+filePath);
 		System.out.print(".");
 		if(filesInfo.containsKey(filePath.getFileName().toString())){
-			out(log, "\nFile: "+filePath+" already in the list! You should do normalizarion before synchronizing!");
+			error(log, "\nFile: "+filePath+" already in the list! You should do normalizarion before synchronizing!");
 		}else{
 			filesInfo.put(filePath.getFileName().toString(),
 				new FileInfo(
