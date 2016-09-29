@@ -26,13 +26,4 @@ public enum CommentAllowance {
 		}
 		return null;
 	}
-	
-	public static CommentAllowance byName(String name){
-		for(CommentAllowance a: CommentAllowance.values()){
-			if(a.toString().equals(name)){
-				return a;
-			}
-		}
-		return null;
-	}
 }

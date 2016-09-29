@@ -129,21 +129,21 @@ public class DTOConverter {
 			entity.setCreationTime(Instant.ofEpochMilli(dto.getDateTime()));
 		}
 		if(dto.getStatus() != null){
-			entity.setStatus(Status.byName(dto.getStatus()));
+			entity.setStatus(Status.valueOf(dto.getStatus()));
 		}
 	}
 	
 	private static void commentableUpdate(CommentableBlogEntry commentableEntry, CommentableDTO commentableDTO){
 		basicUpdate(commentableEntry, commentableDTO);
 		
-		commentableEntry.setCommentAllowance(CommentAllowance.byName(commentableDTO.getCommentAllowance()));
+		commentableEntry.setCommentAllowance(CommentAllowance.valueOf(commentableDTO.getCommentAllowance()));
 	}
 	
 	public static void update(Blog blog, BlogDTO blogDTO){
 		basicUpdate(blog, blogDTO);
 		
 		blog.setName(blogDTO.getName());
-		blog.setCommentAllowance(CommentAllowance.byName(blogDTO.getCommentAllowance()));
+		blog.setCommentAllowance(CommentAllowance.valueOf(blogDTO.getCommentAllowance()));
 	}
 	
 	public static void update(User user, UserDTO userDTO){
