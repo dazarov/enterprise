@@ -15,7 +15,9 @@ public class UnitLogic {
 	protected int state = STAY_MODE;
 	
 	private IActive unit;
+	@SuppressWarnings("rawtypes")
 	private ArrayList<Rule> highRules = new ArrayList<Rule>();
+	@SuppressWarnings("rawtypes")
 	private ArrayList<Rule> lowRules = new ArrayList<Rule>();
 
 	
@@ -23,6 +25,7 @@ public class UnitLogic {
 		this.unit = unit;
 	}
 	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void addRule(Rule rule){
 		rule.setUnit(unit);
 		if(rule.getPriority() == MovementRule.HIGHT_PRIORITY){
@@ -32,6 +35,7 @@ public class UnitLogic {
 		}
 	}
 	
+	@SuppressWarnings("rawtypes")
 	public boolean looked(){
 		for(Rule rule : highRules){
 			if(!rule.process()){

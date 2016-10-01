@@ -8,7 +8,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.EnumSet;
-import java.util.HashSet;
 import java.util.Set;
 
 import com.dworld.ui.IProgressMonitor;
@@ -461,62 +460,59 @@ public enum Land {
 	 * list of codes which should be replaced by water code during the save procedure
 	 * they are codes of flying objects above the water
 	 */
-	private static Set<Land> waterList = new HashSet<>();
-	static {
-		waterList.add(Bullet_Water);
-		waterList.add(CannonBall_Water);
-		waterList.add(Bomb_Water);
-		waterList.add(RocketNorth_Water);
-		waterList.add(RocketSouth_Water);
-		waterList.add(RocketEast_Water);
-		waterList.add(RocketWest_Water);
-		waterList.add(RocketNorthEast_Water);
-		waterList.add(RocketNorthWest_Water);
-		waterList.add(RocketSouthEast_Water);
-		waterList.add(RocketSouthWest_Water);
-	}
+	private static Set<Land> waterList = EnumSet.of(
+		Bullet_Water,
+		CannonBall_Water,
+		Bomb_Water,
+		RocketNorth_Water,
+		RocketSouth_Water,
+		RocketEast_Water,
+		RocketWest_Water,
+		RocketNorthEast_Water,
+		RocketNorthWest_Water,
+		RocketSouthEast_Water,
+		RocketSouthWest_Water
+	);
 	
 	/**
 	 * list of codes which should be replaced by Sand code during the save procedure
 	 * they are codes of flying objects above the sand
 	 */
-	private static Set<Land> sandList = new HashSet<>();
-	static {
-		sandList.add(Sand);
-		sandList.add(Bullet_Sand);
-		sandList.add(CannonBall_Sand);
-		sandList.add(Bomb_Sand);
-		sandList.add(RocketNorth_Sand);
-		sandList.add(RocketSouth_Sand);
-		sandList.add(RocketEast_Sand);
-		sandList.add(RocketWest_Sand);
-		sandList.add(RocketNorthEast_Sand);
-		sandList.add(RocketNorthWest_Sand);
-		sandList.add(RocketSouthEast_Sand);
-		sandList.add(RocketSouthWest_Sand);
-	}
+	private static Set<Land> sandList = EnumSet.of(
+		Sand,
+		Bullet_Sand,
+		CannonBall_Sand,
+		Bomb_Sand,
+		RocketNorth_Sand,
+		RocketSouth_Sand,
+		RocketEast_Sand,
+		RocketWest_Sand,
+		RocketNorthEast_Sand,
+		RocketNorthWest_Sand,
+		RocketSouthEast_Sand,
+		RocketSouthWest_Sand
+	);
 	
-	private static Set<Land> sandExplList = new HashSet<>();
-	static {
-		sandExplList.add(Hero_Sand);
-		sandExplList.add(Mine_Sand);
-		sandExplList.add(GoodSoldier_Sand);
-		sandExplList.add(GoodOfficer_Sand);
-		sandExplList.add(GoodGeneral_Sand);
-		sandExplList.add(GoodTank_Sand);
-		sandExplList.add(GoodBunker_Sand);
-		sandExplList.add(GoodRadar_Sand);
-		sandExplList.add(BadSoldier_Sand);
-		sandExplList.add(BadTank_Sand);
-		sandExplList.add(BadBunker_Sand);
-		sandExplList.add(BadRadar_Sand);
-		sandExplList.add(BadOfficer_Sand);
-		sandExplList.add(BadGeneral_Sand);
-		sandExplList.add(Dark_Knight_Sand);
-		sandExplList.add(Peasant_Sand);
-	}
+	private static Set<Land> sandExplList = EnumSet.of(
+		Hero_Sand,
+		Mine_Sand,
+		GoodSoldier_Sand,
+		GoodOfficer_Sand,
+		GoodGeneral_Sand,
+		GoodTank_Sand,
+		GoodBunker_Sand,
+		GoodRadar_Sand,
+		BadSoldier_Sand,
+		BadTank_Sand,
+		BadBunker_Sand,
+		BadRadar_Sand,
+		BadOfficer_Sand,
+		BadGeneral_Sand,
+		Dark_Knight_Sand,
+		Peasant_Sand
+	);
 
-	private static Set<Land> unsaveList = new HashSet<>();
+	private static Set<Land> unsaveList = EnumSet.noneOf(Land.class);
 	static {
 		unsaveList.addAll(bulletList);
 
@@ -525,118 +521,117 @@ public enum Land {
 		unsaveList.addAll(rocketList);
 	}
 
-	private static Set<Land> forBulletList = new HashSet<>();
+	private static Set<Land> forBulletList = EnumSet.of(Grenade);
 	static {
 		forBulletList.addAll(rocketList);
-		forBulletList.add(Grenade);
 	}
 
-	private static Set<Land> forRocketList = new HashSet<>();
+	private static Set<Land> forRocketList = EnumSet.noneOf(Land.class);
 	static {
 		forRocketList.addAll(forBulletList);
 		forRocketList.addAll(bulletList);
 	}
 	
-	public final static Set<Land> armoredEnemyList = new HashSet<>();
-	static {
-		armoredEnemyList.add(BadTank);
-		armoredEnemyList.add(BadTank_Grass);
-		armoredEnemyList.add(BadTank_Sand);
+	public final static Set<Land> armoredEnemyList = EnumSet.of(
+		BadTank,
+		BadTank_Grass,
+		BadTank_Sand,
 		
-		armoredEnemyList.add(BadBunker);
-		armoredEnemyList.add(BadBunker_Grass);
-		armoredEnemyList.add(BadBunker_Sand);
+		BadBunker,
+		BadBunker_Grass,
+		BadBunker_Sand,
 		
-		armoredEnemyList.add(BadRadar);
-		armoredEnemyList.add(BadRadar_Grass);
-		armoredEnemyList.add(BadRadar_Sand);
-	}
+		BadRadar,
+		BadRadar_Grass,
+		BadRadar_Sand
+	);
 
-	public final static Set<Land> enemyList = new HashSet<>();
+	public final static Set<Land> enemyList = EnumSet.of(
+		BadSoldier,
+		BadSoldier_Grass,
+		BadSoldier_Sand,
+		BadOfficer,
+		BadOfficer_Grass,
+		BadOfficer_Sand,
+		BadGeneral,
+		BadGeneral_Grass,
+		BadGeneral_Sand,
+		Dark_Knight,
+		Dark_Knight_Grass,
+		Dark_Knight_Sand
+	);
 	static {
 		enemyList.addAll(armoredEnemyList);
-		enemyList.add(BadSoldier);
-		enemyList.add(BadSoldier_Grass);
-		enemyList.add(BadSoldier_Sand);
-		enemyList.add(BadOfficer);
-		enemyList.add(BadOfficer_Grass);
-		enemyList.add(BadOfficer_Sand);
-		enemyList.add(BadGeneral);
-		enemyList.add(BadGeneral_Grass);
-		enemyList.add(BadGeneral_Sand);
-		enemyList.add(Dark_Knight);
-		enemyList.add(Dark_Knight_Grass);
-		enemyList.add(Dark_Knight_Sand);
 	}
 	
-	public static final Set<Land> armoredCitizenList = new HashSet<>();
+	public static final Set<Land> armoredCitizenList = EnumSet.of(
+		GoodTank,
+		GoodTank_Grass,
+		GoodTank_Sand,
+		
+		GoodRadar,
+		GoodRadar_Grass,
+		GoodRadar_Sand,
+		
+		GoodBunker,
+		GoodBunker_Grass,
+		GoodBunker_Sand
+	);
 	static {
-		armoredCitizenList.add(GoodTank);
-		armoredCitizenList.add(GoodTank_Grass);
-		armoredCitizenList.add(GoodTank_Sand);
-		
-		armoredCitizenList.add(GoodRadar);
-		armoredCitizenList.add(GoodRadar_Grass);
-		armoredCitizenList.add(GoodRadar_Sand);
-		
-		armoredCitizenList.add(GoodBunker);
-		armoredCitizenList.add(GoodBunker_Grass);
-		armoredCitizenList.add(GoodBunker_Sand);
-		
 		armoredCitizenList.addAll(trainList);
 	}
 
-	public static final Set<Land> citizenList = new HashSet<>();
+	public static final Set<Land> citizenList = EnumSet.of(
+		GoodSoldier,
+		GoodSoldier_Grass,
+		GoodSoldier_Sand,
+
+		GoodOfficer,
+		GoodOfficer_Grass,
+		GoodOfficer_Sand,
+
+		GoodGeneral,
+		GoodGeneral_Grass,
+		GoodGeneral_Sand,
+			
+		Peasant,
+		Peasant_Grass,
+		Peasant_Sand
+	);
 	static {
 		citizenList.addAll(armoredCitizenList);
 		
 		citizenList.addAll(heroList);
-		
-		citizenList.add(GoodSoldier);
-		citizenList.add(GoodSoldier_Grass);
-		citizenList.add(GoodSoldier_Sand);
-
-		citizenList.add(GoodOfficer);
-		citizenList.add(GoodOfficer_Grass);
-		citizenList.add(GoodOfficer_Sand);
-
-		citizenList.add(GoodGeneral);
-		citizenList.add(GoodGeneral_Grass);
-		citizenList.add(GoodGeneral_Sand);
-		
-		citizenList.add(Peasant);
-		citizenList.add(Peasant_Grass);
-		citizenList.add(Peasant_Sand);
 	}
 	
-	public static final Set<Land> gateList = new HashSet<>();
-	static {
-		gateList.add(OpenedHorizontalSteelGate);
-		gateList.add(ClosedHorizontalSteelGate);
-		gateList.add(OpenedVerticalSteelGate);
-		gateList.add(ClosedVerticalSteelGate);
-		gateList.add(OpenedHorizontalConcreteGate);
-		gateList.add(ClosedHorizontalConcreteGate);
-		gateList.add(OpenedVerticalConcreteGate);
-		gateList.add(ClosedVerticalConcreteGate);
+	public static final Set<Land> gateList = EnumSet.of(
+		OpenedHorizontalSteelGate,
+		ClosedHorizontalSteelGate,
+		OpenedVerticalSteelGate,
+		ClosedVerticalSteelGate,
+		OpenedHorizontalConcreteGate,
+		ClosedHorizontalConcreteGate,
+		OpenedVerticalConcreteGate,
+		ClosedVerticalConcreteGate,
 
-		gateList.add(OpenedHorizontalWoodGate);
-		gateList.add(ClosedHorizontalWoodGate);
-		gateList.add(OpenedVerticalWoodGate);
-		gateList.add(ClosedVerticalWoodGate);
-		gateList.add(OpenedHorizontalBrickGate);
-		gateList.add(ClosedHorizontalBrickGate);
-		gateList.add(OpenedVerticalBrickGate);
-		gateList.add(ClosedVerticalBrickGate);
-	}
+		OpenedHorizontalWoodGate,
+		ClosedHorizontalWoodGate,
+		OpenedVerticalWoodGate,
+		ClosedVerticalWoodGate,
+		OpenedHorizontalBrickGate,
+		ClosedHorizontalBrickGate,
+		OpenedVerticalBrickGate,
+		ClosedVerticalBrickGate
+	);
 
-	public static final Set<Land> saveList = new HashSet<>();
+	public static final Set<Land> saveList = EnumSet.of(
+		Mine,
+		Mine_Grass,
+		Mine_Sand
+	);
 	static {
 		saveList.addAll(enemyList);
 		saveList.addAll(citizenList);
-		saveList.add(Mine);
-		saveList.add(Mine_Grass);
-		saveList.add(Mine_Sand);
 		saveList.addAll(gateList);
 	}
 	
@@ -646,9 +641,9 @@ public enum Land {
 
 	@SuppressWarnings("incomplete-switch")
 	public static Land getTurnedLand(Location location) {
-		Land code = getLand(location.getX(), location.getY());
-		if(gateList.contains(code)){
-			switch(code){
+		Land land = getLand(location.getX(), location.getY());
+		if(gateList.contains(land)){
+			switch(land){
 			case ClosedHorizontalSteelGate:
 				return ClosedVerticalSteelGate;
 			case ClosedVerticalSteelGate:
@@ -667,7 +662,7 @@ public enum Land {
 				return ClosedHorizontalBrickGate;
 			}
 		}
-		return code;
+		return land;
 	}
 
 	public static Land getLand(int x, int y) {
@@ -677,24 +672,24 @@ public enum Land {
 		if (x < DWConstants.MIN_X || y < DWConstants.MIN_Y) {
 			return Vacuum;
 		}
-		Land code;
+		Land land;
 		synchronized(Land.class){
-			code = landMap[x][y];
+			land = landMap[x][y];
 		}
 		
-		return code;
+		return land;
 	}
 
-	public static Land setLand(Location location, Land code) {
-		return setLand(location.getX(), location.getY(), code);
+	public static Land setLand(Location location, Land land) {
+		return setLand(location.getX(), location.getY(), land);
 	}
 	
-	public static Land setLand(int x, int y, Land code) {
-		Land oldCode = getLand(x, y);
+	public static Land setLand(int x, int y, Land land) {
+		Land oldLand = getLand(x, y);
 		synchronized(Land.class){
-			landMap[x][y] = code;
+			landMap[x][y] = land;
 		}
-		return oldCode;
+		return oldLand;
 	}
 
 	public static Land setLand(Location location, MovableUnit unit) {
@@ -707,9 +702,9 @@ public enum Land {
 	}
 
 	public static void initLand(Location location, Land beneath, MovableUnit unit) {
-		Land newCode = unit.getLand(beneath);
+		Land newLand = unit.getLand(beneath);
 		synchronized(Land.class){
-			landMap[location.getX()][location.getY()] = newCode;
+			landMap[location.getX()][location.getY()] = newLand;
 		}
 	}
 
@@ -815,11 +810,11 @@ public enum Land {
 	public static void explode(final Location location) {
 		for (int x = location.getX() - 1; x < location.getX() + 2; x++) {
 			for (int y = location.getY() - 1; y < location.getY() + 2; y++) {
-				Land code = getLand(x, y);
-				if (!unexplosiveList.contains(code)) {
-					if (waterList.contains(code))
+				Land land = getLand(x, y);
+				if (!unexplosiveList.contains(land)) {
+					if (waterList.contains(land))
 						setLand(new Location(x, y), Water);
-					else if (sandExplList.contains(code))
+					else if (sandExplList.contains(land))
 						setLand(new Location(x, y), Sand);
 					else
 						setLand(new Location(x, y), Empty);
@@ -841,8 +836,8 @@ public enum Land {
 	}
 
 	
-	private static boolean loadUnit(Land code, int x, int y,	InputStream stream) throws IOException {
-		IUnit unit = DWUnitFactory.createUnit(code, x, y);
+	private static boolean loadUnit(Land land, int x, int y,	InputStream stream) throws IOException {
+		IUnit unit = DWUnitFactory.createUnit(land, x, y);
 		if(unit != null){
 			unit.load(stream);
 			return true;
@@ -899,13 +894,8 @@ public enum Land {
 				for (int y = 0; y < DWConstants.MAX_Y; y++) {
 					int code = stream.read();
 					if(code == -1){
-						throw new RuntimeException("End of Stream reached");
+						throw new RuntimeException("End of File reached");
 					}
-					if(code >= 186){
-						code -= 6;
-					}
-					code++;
-					
 					
 					if(x == heroX && y == heroY){
 						loadMan(x, y, Land.values()[code], stream);
@@ -945,22 +935,22 @@ public enum Land {
 					progressMonitor.progress(progress);	
 				}
 				for (int y = 0; y < DWConstants.MAX_Y; y++) {
-					Land code;
+					Land land;
 					synchronized(Land.class){
-						code = landMap[x][y];
+						land = landMap[x][y];
 					}
-					if (unsaveList.contains(code)) {
-						if (waterList.contains(code))
-							code = Water;
-						else if (grassList.contains(code))
-							code = Grass;
-						else if (sandList.contains(code))
-							code = Sand;
+					if (unsaveList.contains(land)) {
+						if (waterList.contains(land))
+							land = Water;
+						else if (grassList.contains(land))
+							land = Grass;
+						else if (sandList.contains(land))
+							land = Sand;
 						else
-							code = Empty;
+							land = Empty;
 					}
-					stream.write(code.ordinal());
-					if (saveList.contains(code)) {
+					stream.write(land.ordinal());
+					if (saveList.contains(land)) {
 						IUnit unit = DWConfiguration.getInstance().getEngine().findUnit(new Location(x, y));
 						if (unit != null)
 							unit.save(stream);

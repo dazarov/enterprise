@@ -58,6 +58,7 @@ public class DWEngine implements Runnable {
 					}
 				}
 				loop();
+				refreshMinimap();
 			}else{
 				current = 0;
 				time = 0;
@@ -68,7 +69,7 @@ public class DWEngine implements Runnable {
 					return;
 				}
 			}
-			refreshMinimap();
+			
 			DWConfiguration.getInstance().getUI().repaint();
 			frameID++;
 			if(frameID == Long.MAX_VALUE){
