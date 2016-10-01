@@ -1,11 +1,12 @@
 package com.dworld.units;
 
 import com.dworld.core.DWConstants;
+import com.dworld.core.Land;
 
 public abstract class Tank extends MovableUnit {
 
-	public Tank(int x, int y, int code) {
-		super(x, y, code, DWConstants.TANK_SPEED);
+	public Tank(int x, int y, Land land) {
+		super(x, y, land, DWConstants.TANK_SPEED);
 	}
 	
 	@Override

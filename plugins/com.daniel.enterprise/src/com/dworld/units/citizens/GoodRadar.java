@@ -8,12 +8,12 @@ import com.dworld.units.weapon.Rocket;
 
 public class GoodRadar extends Radar {
 
-	public GoodRadar(int x, int y, int code) {
-		super(x, y, code);
+	public GoodRadar(int x, int y, Land land) {
+		super(x, y, land);
 	}
 	
 	@Override
-	protected Set<Integer> getListToFightWith(){
+	protected Set<Land> getListToFightWith(){
 		return Land.enemyList;
 	}
 	

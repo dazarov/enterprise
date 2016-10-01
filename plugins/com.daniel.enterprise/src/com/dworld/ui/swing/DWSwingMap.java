@@ -192,7 +192,7 @@ public class DWSwingMap {
 		BufferedImage image = new BufferedImage(Land.getMaxX(), Land.getMaxY(), BufferedImage.TYPE_INT_ARGB);
 		LongRunningTask task = new LongRunningTask( m -> {
 			Graphics g = image.createGraphics();
-			drawRegion(g, 0,0,Land.getMaxX(), Land.getMaxY(), m);
+			drawRegion(g, 0, 0, Land.getMaxX(), Land.getMaxY(), m);
 		} );
 		DWSwingProgressMonitor monitor = new DWSwingProgressMonitor("Map creating...");
 		task.addPropertyChangeListener(new PropertyChangeListener() {
@@ -228,81 +228,81 @@ public class DWSwingMap {
 				monitor.progress(progress);	
 			}
 			for(int y = startY, windowY = 0; y < (startY+height); y++, windowY++){
-				int code = Land.getLand(x, y);
-				if(code != Land.Empty){
-					switch(code){
-					case Land.Brick:
-					case Land.ClosedHorizontalBrickGate:
-					case Land.OpenedHorizontalBrickGate:
-					case Land.ClosedVerticalBrickGate:
-					case Land.OpenedVerticalBrickGate:
-					case Land.ClosedHorizontalWoodGate:
-					case Land.OpenedHorizontalWoodGate:
-					case Land.ClosedVerticalWoodGate:
-					case Land.OpenedVerticalWoodGate:
+				Land land = Land.getLand(x, y);
+				if(land != Land.Empty){
+					switch(land){
+					case Brick:
+					case ClosedHorizontalBrickGate:
+					case OpenedHorizontalBrickGate:
+					case ClosedVerticalBrickGate:
+					case OpenedVerticalBrickGate:
+					case ClosedHorizontalWoodGate:
+					case OpenedHorizontalWoodGate:
+					case ClosedVerticalWoodGate:
+					case OpenedVerticalWoodGate:
 						
 						g.setColor(Color.red);
 						break;
 						
-					case Land.Wall:
-					case Land.ClosedHorizontalSteelGate:
-					case Land.OpenedHorizontalSteelGate:
-					case Land.ClosedVerticalSteelGate:
-					case Land.OpenedVerticalSteelGate:
-					case Land.ClosedHorizontalConcreteGate:
-					case Land.OpenedHorizontalConcreteGate:
-					case Land.ClosedVerticalConcreteGate:
-					case Land.OpenedVerticalConcreteGate:
-					case Land.Rail_Vertical:
-					case Land.Rail_Horizontal:
-					case Land.Rail_Diagonal_Up:
-					case Land.Rail_Diagonal_Down:
-					case Land.Rail_Up_Right:
-					case Land.Rail_Up_Left:
-					case Land.Rail_Down_Right:
-					case Land.Rail_Down_Left:
-					case Land.Rail_Right_Up:
-					case Land.Rail_Right_Down:
-					case Land.Rail_Left_Up:
-					case Land.Rail_Left_Down:
-					case Land.Rail_Vertical_Cross:
-					case Land.Rail_Diagonal_Cross:
-					case Land.Station_Horizontal:
-					case Land.Station_Vertical:
+					case Wall:
+					case ClosedHorizontalSteelGate:
+					case OpenedHorizontalSteelGate:
+					case ClosedVerticalSteelGate:
+					case OpenedVerticalSteelGate:
+					case ClosedHorizontalConcreteGate:
+					case OpenedHorizontalConcreteGate:
+					case ClosedVerticalConcreteGate:
+					case OpenedVerticalConcreteGate:
+					case Rail_Vertical:
+					case Rail_Horizontal:
+					case Rail_Diagonal_Up:
+					case Rail_Diagonal_Down:
+					case Rail_Up_Right:
+					case Rail_Up_Left:
+					case Rail_Down_Right:
+					case Rail_Down_Left:
+					case Rail_Right_Up:
+					case Rail_Right_Down:
+					case Rail_Left_Up:
+					case Rail_Left_Down:
+					case Rail_Vertical_Cross:
+					case Rail_Diagonal_Cross:
+					case Station_Horizontal:
+					case Station_Vertical:
 						
 						g.setColor(Color.gray);
 						break;
 						
-					case Land.Grass:
+					case Grass:
 						g.setColor(Color.green);
 						break;
 						
-					case Land.Water:
+					case Water:
 						g.setColor(Color.blue);
 						break;
 						
-					case Land.Sand:
+					case Sand:
 						g.setColor(Color.yellow);
 						break;
-					case Land.Mountain:
+					case Mountain:
 						g.setColor(Color.magenta);
 						break;
-					case Land.Wood1:
-					case Land.Wood2:
-					case Land.Wood3:
-					case Land.Wood4:
+					case Wood1:
+					case Wood2:
+					case Wood3:
+					case Wood4:
 						g.setColor(Color.orange);
 						break;
 						
-					case Land.Tree1:
-					case Land.Tree2:
-					case Land.Tree3:
+					case Tree1:
+					case Tree2:
+					case Tree3:
 						g.setColor(new Color(0,100,0));
 						break;
 
-					case Land.Ammo:
-					case Land.Grenade:
-					case Land.Rocket:
+					case Ammo:
+					case Grenade:
+					case Rocket:
 						g.setColor(Color.pink);
 						break;
 						

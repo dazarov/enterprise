@@ -3,16 +3,16 @@ package com.dworld.units.citizens;
 import com.dworld.core.Land;
 
 public class GoodOfficer extends GoodSoldier {
-	public GoodOfficer(int x, int y, int code) {
-		super(x, y, code);
+	public GoodOfficer(int x, int y, Land land) {
+		super(x, y, land);
 	}
 	
 	@Override
-	public int getCode(int beneath){
+	public Land getLand(Land beneath){
 		switch(beneath){
-		case Land.Grass:
+		case Grass:
 			return Land.GoodOfficer_Grass;
-		case Land.Sand:
+		case Sand:
 			return Land.GoodOfficer_Sand;
 		default:
 			return Land.GoodOfficer;

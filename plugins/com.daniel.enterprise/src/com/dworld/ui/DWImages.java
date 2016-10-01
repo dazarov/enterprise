@@ -8,7 +8,7 @@ import com.dworld.core.Location;
 
 public abstract class DWImages<T> {
 	protected int startX = 0, startY = 0;
-	private Map<Integer, T> images = new HashMap<>();
+	private Map<Land, T> images = new HashMap<>();
 
 	public DWImages() {
 		T image;
@@ -589,8 +589,8 @@ public abstract class DWImages<T> {
 		images.put(Land.Mountain, image);
 	}
 
-	public T getImage(int code) {
-		return images.get(code);
+	public T getImage(Land land) {
+		return images.get(land);
 	}
 
 	abstract protected T loadImage(String path);

@@ -5,12 +5,12 @@ import com.dworld.units.MovableUnit;
 
 public abstract class MovableWeapon extends MovableUnit{
 
-	public MovableWeapon(int x, int y, int code, double speed) {
-		super(x, y, code, speed);
+	public MovableWeapon(int x, int y, Land land, double speed) {
+		super(x, y, land, speed);
 	}
 
 	@Override
-	protected int getDefaultBeneath(int code) {
+	protected Land getDefaultBeneath(Land land) {
 		return Land.getLand(getLocation());
 	}
 

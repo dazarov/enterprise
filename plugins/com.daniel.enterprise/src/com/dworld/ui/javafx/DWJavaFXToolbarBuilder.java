@@ -1,6 +1,7 @@
 package com.dworld.ui.javafx;
 
 import com.dworld.core.DWConfiguration;
+import com.dworld.core.Land;
 import com.dworld.ui.DWToolbarStructure;
 import com.dworld.ui.DWToolbarStructure.DWButton;
 import com.dworld.ui.DWToolbarStructure.DWToolbar;
@@ -39,7 +40,7 @@ public class DWJavaFXToolbarBuilder {
 					@Override
 					public void requestFocus(){}
 				};
-				if(dButton.imageCode != -1){
+				if(dButton.imageCode != Land.Vacuum){
 					button.setGraphic(new ImageView(getImage(dButton.imageCode)));
 				} else if(dButton.imagePath != null){
 					button.setGraphic(new ImageView(loadImage(dButton.imagePath)));
@@ -52,8 +53,8 @@ public class DWJavaFXToolbarBuilder {
 		return toolbar;
 	}
 	
-	private static Image getImage(int code){
-		return DWConfiguration.getInstance().getUI().getImages(DWJavaFXImages.class).getImage(code);
+	private static Image getImage(Land land){
+		return DWConfiguration.getInstance().getUI().getImages(DWJavaFXImages.class).getImage(land);
 	}
 
 	private static Image loadImage(String path){

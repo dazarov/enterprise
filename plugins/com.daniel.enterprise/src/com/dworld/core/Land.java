@@ -7,6 +7,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -15,249 +16,251 @@ import com.dworld.units.ControlledUnit;
 import com.dworld.units.MovableUnit;
 import com.dworld.units.weapon.Bullet;
 
-public class Land {
-	private static final int FILE_KEY = 200;
+public enum Land {
+	
 	
 	/*******************************************************************************************************************************
 	 * Land codes section begin
 	 */
 	
-	public static final int Vacuum = -1;
-	public static final int Empty = 0;
-	public static final int Wall = 1;
-	public static final int Brick = 2;
-	public static final int Grenade = 3;
-	public static final int Ammo = 4;
-	public static final int BadSoldier = 5;
-	public static final int BadTank = 6;
-	public static final int Hero = 7;
-	public static final int Bomb = 8;
-	public static final int Bullet = 9;
-	public static final int Patron = 10;
-	public static final int Grave = 11;
-	public static final int Enemy = 12;
-	public static final int RocketNorth = 13;
-	public static final int RocketSouth = 14;
-	public static final int RocketEast = 15;
-	public static final int RocketWest = 16;
-	public static final int RocketNorthEast = 17;
-	public static final int RocketNorthWest = 18;
-	public static final int RocketSouthEast = 19;
-	public static final int RocketSouthWest = 20;
-	public static final int Rocket = 22;
-	public static final int Food = 21;
-	public static final int OpenedDoor = 23;
-	public static final int ClosedDoor = 24;
-	public static final int RobotGrave = 25;
-	public static final int TankGrave = 26;
-	public static final int BadBunker = 27;
-	public static final int BadRadar = 28;
+	Vacuum, // -1 -> 0
+	Empty,	// 0 -> 1
+	Wall,	// 1 -> 2
+	Brick,
+	Grenade,
+	Ammo,
+	BadSoldier,
+	BadTank,
+	Hero,
+	Bomb,
+	Bullet,
+	Patron,
+	Grave,
+	Enemy,
+	RocketNorth,
+	RocketSouth,
+	RocketEast,
+	RocketWest,
+	RocketNorthEast,
+	RocketNorthWest,
+	RocketSouthEast,
+	RocketSouthWest,
+	Food,
+	Rocket,
+	OpenedDoor,
+	ClosedDoor,
+	RobotGrave,
+	TankGrave,
+	BadBunker,
+	BadRadar,
 
-	public static final int OpenedHorizontalWoodGate = 29;
-	public static final int ClosedHorizontalWoodGate = 30;
-	public static final int OpenedVerticalWoodGate = 31;
-	public static final int ClosedVerticalWoodGate = 32;
-	public static final int OpenedHorizontalSteelGate = 33;
-	public static final int ClosedHorizontalSteelGate = 34;
-	public static final int OpenedVerticalSteelGate = 35;
-	public static final int ClosedVerticalSteelGate = 36;
+	OpenedHorizontalWoodGate,
+	ClosedHorizontalWoodGate,
+	OpenedVerticalWoodGate,
+	ClosedVerticalWoodGate,
+	OpenedHorizontalSteelGate,
+	ClosedHorizontalSteelGate,
+	OpenedVerticalSteelGate,
+	ClosedVerticalSteelGate,
 
-	public static final int OpenedVerticalConcreteGate = 37;
-	public static final int ClosedVerticalConcreteGate = 38;
-	public static final int OpenedHorizontalConcreteGate = 39;
-	public static final int ClosedHorizontalConcreteGate = 40;
-	public static final int OpenedVerticalBrickGate = 41;
-	public static final int ClosedVerticalBrickGate = 42;
-	public static final int OpenedHorizontalBrickGate = 43;
-	public static final int ClosedHorizontalBrickGate = 44;
+	OpenedVerticalConcreteGate,
+	ClosedVerticalConcreteGate,
+	OpenedHorizontalConcreteGate,
+	ClosedHorizontalConcreteGate,
+	OpenedVerticalBrickGate,
+	ClosedVerticalBrickGate,
+	OpenedHorizontalBrickGate,
+	ClosedHorizontalBrickGate,
 
-	public static final int Grass = 45;
-	public static final int Hero_Grass = 46;
-	public static final int Bullet_Grass = 47;
-	public static final int Bomb_Grass = 48;
-	public static final int BadSoldier_Grass = 49;
-	public static final int BadTank_Grass = 50;
-	public static final int RocketNorth_Grass = 51;
-	public static final int RocketSouth_Grass = 52;
-	public static final int RocketEast_Grass = 53;
-	public static final int RocketWest_Grass = 54;
-	public static final int RocketNorthEast_Grass = 55;
-	public static final int RocketNorthWest_Grass = 56;
-	public static final int RocketSouthEast_Grass = 57;
-	public static final int RocketSouthWest_Grass = 58;
+	Grass,
+	Hero_Grass,
+	Bullet_Grass,
+	Bomb_Grass,
+	BadSoldier_Grass,
+	BadTank_Grass,
+	RocketNorth_Grass,
+	RocketSouth_Grass,
+	RocketEast_Grass,
+	RocketWest_Grass,
+	RocketNorthEast_Grass,
+	RocketNorthWest_Grass,
+	RocketSouthEast_Grass,
+	RocketSouthWest_Grass,
 
-	public static final int Water = 59;
-	public static final int Bullet_Water = 60;
-	public static final int Bomb_Water = 61;
-	public static final int RocketNorth_Water = 62;
-	public static final int RocketSouth_Water = 63;
-	public static final int RocketEast_Water = 64;
-	public static final int RocketWest_Water = 65;
-	public static final int RocketNorthEast_Water = 66;
-	public static final int RocketNorthWest_Water = 67;
-	public static final int RocketSouthEast_Water = 68;
-	public static final int RocketSouthWest_Water = 69;
+	Water,
+	Bullet_Water,
+	Bomb_Water,
+	RocketNorth_Water,
+	RocketSouth_Water,
+	RocketEast_Water,
+	RocketWest_Water,
+	RocketNorthEast_Water,
+	RocketNorthWest_Water,
+	RocketSouthEast_Water,
+	RocketSouthWest_Water,
 
-	public static final int GoodSoldier = 70;
-	public static final int GoodSoldier_Grass = 71;
-	public static final int GoodTank = 72;
-	public static final int GoodTank_Grass = 73;
-	public static final int GoodBunker = 74;
-	public static final int GoodRadar = 75;
+	GoodSoldier,
+	GoodSoldier_Grass,
+	GoodTank,
+	GoodTank_Grass,
+	GoodBunker,
+	GoodRadar,
 
-	public static final int Mine = 76;
-	public static final int Mine_Grass = 77;
+	Mine,
+	Mine_Grass,
 
-	public static final int Teleport1 = 78;
-	public static final int Teleport2 = 79;
-	public static final int Teleport3 = 80;
-	public static final int Teleport4 = 81;
-	public static final int Teleport5 = 82;
+	Teleport1,
+	Teleport2,
+	Teleport3,
+	Teleport4,
+	Teleport5,
 
-	public static final int BadBunker_Grass = 83;
-	public static final int BadRadar_Grass = 84;
-	public static final int GoodBunker_Grass = 85;
-	public static final int GoodRadar_Grass = 86;
+	BadBunker_Grass,
+	BadRadar_Grass,
+	GoodBunker_Grass,
+	GoodRadar_Grass,
 
-	public static final int Sand = 87;
-	public static final int Bullet_Sand = 88;
-	public static final int Bomb_Sand = 89;
-	public static final int RocketNorth_Sand = 90;
-	public static final int RocketSouth_Sand = 91;
-	public static final int RocketEast_Sand = 92;
-	public static final int RocketWest_Sand = 93;
-	public static final int RocketNorthEast_Sand = 94;
-	public static final int RocketNorthWest_Sand = 95;
-	public static final int RocketSouthEast_Sand = 96;
-	public static final int RocketSouthWest_Sand = 97;
-	public static final int Hero_Sand = 98;
-	public static final int GoodSoldier_Sand = 99;
-	public static final int GoodTank_Sand = 100;
-	public static final int GoodBunker_Sand = 101;
-	public static final int GoodRadar_Sand = 102;
-	public static final int BadSoldier_Sand = 103;
-	public static final int BadTank_Sand = 104;
-	public static final int BadBunker_Sand = 105;
-	public static final int BadRadar_Sand = 106;
-	public static final int Mine_Sand = 107;
+	Sand,
+	Bullet_Sand,
+	Bomb_Sand,
+	RocketNorth_Sand,
+	RocketSouth_Sand,
+	RocketEast_Sand,
+	RocketWest_Sand,
+	RocketNorthEast_Sand,
+	RocketNorthWest_Sand,
+	RocketSouthEast_Sand,
+	RocketSouthWest_Sand,
+	Hero_Sand,
+	GoodSoldier_Sand,
+	GoodTank_Sand,
+	GoodBunker_Sand,
+	GoodRadar_Sand,
+	BadSoldier_Sand,
+	BadTank_Sand,
+	BadBunker_Sand,
+	BadRadar_Sand,
+	Mine_Sand,
 
-	public static final int Stone = 108;
+	Stone,
 
-	public static final int Grave_Grass = 109;
-	public static final int Grave_Sand = 110;
-	public static final int BadSoldierGrave_Grass = 111;
-	public static final int BadSoldierGrave_Sand = 112;
-	public static final int BadTankGrave_Grass = 113;
-	public static final int BadTankGrave_Sand = 114;
+	Grave_Grass,
+	Grave_Sand,
+	BadSoldierGrave_Grass,
+	BadSoldierGrave_Sand,
+	BadTankGrave_Grass,
+	BadTankGrave_Sand,
 	
-	public static final int WhiteBrick = 115;
-	public static final int BlackStone = 116;
-	public static final int Wood1 = 117;
-	public static final int Wood2 = 118;
-	public static final int Wood3 = 119;
-	public static final int Wood4 = 120;
+	WhiteBrick,
+	BlackStone,
+	Wood1,
+	Wood2,
+	Wood3,
+	Wood4,
 	
-	public static final int CannonBall = 121;
-	public static final int CannonBall_Grass = 122;
-	public static final int CannonBall_Sand = 123;
-	public static final int CannonBall_Water = 124;
+	CannonBall,
+	CannonBall_Grass,
+	CannonBall_Sand,
+	CannonBall_Water,
 	
-	public static final int GoodOfficer = 125;
-	public static final int GoodOfficer_Grass = 126;
-	public static final int GoodOfficer_Sand = 127;
+	GoodOfficer,
+	GoodOfficer_Grass,
+	GoodOfficer_Sand,
 	
-	public static final int GoodGeneral = 128;
-	public static final int GoodGeneral_Grass = 129;
-	public static final int GoodGeneral_Sand = 130;
+	GoodGeneral,
+	GoodGeneral_Grass,
+	GoodGeneral_Sand,
 	
-	public static final int Teleport6 = 131;
-	public static final int Teleport7 = 132;
-	public static final int Teleport8 = 133;
-	public static final int Teleport9 = 134;
+	Teleport6,
+	Teleport7,
+	Teleport8,
+	Teleport9,
 	
-	public static final int Tree1 = 135;
-	public static final int Tree2 = 136;
-	public static final int Tree3 = 137;
+	Tree1,
+	Tree2,
+	Tree3,
 	
-	public static final int Dark_Knight = 138;
-	public static final int Dark_Knight_Grass = 139;
-	public static final int Dark_Knight_Sand = 140;
+	Dark_Knight,
+	Dark_Knight_Grass,
+	Dark_Knight_Sand,
 
-	public static final int BadOfficer = 141;
-	public static final int BadOfficer_Grass = 142;
-	public static final int BadOfficer_Sand = 143;
+	BadOfficer,
+	BadOfficer_Grass,
+	BadOfficer_Sand,
 
-	public static final int BadGeneral = 144;
-	public static final int BadGeneral_Grass = 145;
-	public static final int BadGeneral_Sand = 146;
+	BadGeneral,
+	BadGeneral_Grass,
+	BadGeneral_Sand,
 
-	public static final int Peasant = 147;
-	public static final int Peasant_Grass = 148;
-	public static final int Peasant_Sand = 149;
+	Peasant,
+	Peasant_Grass,
+	Peasant_Sand,
 	
-	public static final int Rail_Vertical = 150;
-	public static final int Rail_Horizontal = 151;
-	public static final int Rail_Diagonal_Up = 152;
-	public static final int Rail_Diagonal_Down = 153;
-	public static final int Rail_Up_Right = 154;
-	public static final int Rail_Up_Left = 155;
-	public static final int Rail_Down_Right = 156;
-	public static final int Rail_Down_Left = 157;
-	public static final int Rail_Right_Up = 158;
-	public static final int Rail_Right_Down = 159;
-	public static final int Rail_Left_Up = 160;
-	public static final int Rail_Left_Down = 161;
+	Rail_Vertical,
+	Rail_Horizontal,
+	Rail_Diagonal_Up,
+	Rail_Diagonal_Down,
+	Rail_Up_Right,
+	Rail_Up_Left,
+	Rail_Down_Right,
+	Rail_Down_Left,
+	Rail_Right_Up,
+	Rail_Right_Down,
+	Rail_Left_Up,
+	Rail_Left_Down,
 	
-	public static final int Train_Vertical = 162;
-	public static final int Train_Horizontal = 163;
-	public static final int Train_Diagonal_Up = 164;
-	public static final int Train_Diagonal_Down = 165;
-	public static final int Train_Up_Right = 166;
-	public static final int Train_Up_Left = 167;
-	public static final int Train_Down_Right = 168;
-	public static final int Train_Down_Left = 169;
-	public static final int Train_Right_Up = 170;
-	public static final int Train_Right_Down = 171;
-	public static final int Train_Left_Up = 172;
-	public static final int Train_Left_Down = 173;
+	Train_Vertical,
+	Train_Horizontal,
+	Train_Diagonal_Up,
+	Train_Diagonal_Down,
+	Train_Up_Right,
+	Train_Up_Left,
+	Train_Down_Right,
+	Train_Down_Left,
+	Train_Right_Up,
+	Train_Right_Down,
+	Train_Left_Up,
+	Train_Left_Down,
 	
-	public static final int Rail_Vertical_Cross = 174;
-	public static final int Rail_Diagonal_Cross = 175;
+	Rail_Vertical_Cross,
+	Rail_Diagonal_Cross,
 	
-	public static final int Train_Vertical_Cross = 176;
-	public static final int Train_Horizontal_Cross = 177;
-	public static final int Train_Diagonal_Up_Cross = 178;
-	public static final int Train_Diagonal_Down_Cross = 179;
+	Train_Vertical_Cross,
+	Train_Horizontal_Cross,
+	Train_Diagonal_Up_Cross,
+	Train_Diagonal_Down_Cross,
 	
-	public static final int Station_Vertical = 186;
-	public static final int Station_Horizontal = 187;
+	Station_Vertical, // 186+ -> 180
+	Station_Horizontal,
 	
-	public static final int WarTrain_Vertical = 188;
-	public static final int WarTrain_Horizontal = 189;
-	public static final int WarTrain_Diagonal_Up = 190;
-	public static final int WarTrain_Diagonal_Down = 191;
-	public static final int WarTrain_Up_Right = 192;
-	public static final int WarTrain_Up_Left = 193;
-	public static final int WarTrain_Down_Right = 194;
-	public static final int WarTrain_Down_Left = 195;
-	public static final int WarTrain_Right_Up = 196;
-	public static final int WarTrain_Right_Down = 197;
-	public static final int WarTrain_Left_Up = 198;
-	public static final int WarTrain_Left_Down = 199;
+	WarTrain_Vertical,
+	WarTrain_Horizontal,
+	WarTrain_Diagonal_Up,
+	WarTrain_Diagonal_Down,
+	WarTrain_Up_Right,
+	WarTrain_Up_Left,
+	WarTrain_Down_Right,
+	WarTrain_Down_Left,
+	WarTrain_Right_Up,
+	WarTrain_Right_Down,
+	WarTrain_Left_Up,
+	WarTrain_Left_Down,
 	
-	public static final int WarTrain_Vertical_Cross = 200;
-	public static final int WarTrain_Horizontal_Cross = 201;
-	public static final int WarTrain_Diagonal_Up_Cross = 202;
-	public static final int WarTrain_Diagonal_Down_Cross = 203;
+	WarTrain_Vertical_Cross,
+	WarTrain_Horizontal_Cross,
+	WarTrain_Diagonal_Up_Cross,
+	WarTrain_Diagonal_Down_Cross,
 	
-	public static final int Mountain = 204;
+	Mountain,
 	
-	public static final int Teleport10 = 205;
-	public static final int Teleport11 = 206;
-	public static final int Teleport12 = 207;
-	public static final int Teleport13 = 208;
-	public static final int Teleport14 = 209;
-	public static final int Teleport15 = 210;
+	Teleport10,
+	Teleport11,
+	Teleport12,
+	Teleport13,
+	Teleport14,
+	Teleport15;
+	
+	private static final int FILE_KEY = 200;
 	
 	/**
 	 * Land codes section end
@@ -266,221 +269,199 @@ public class Land {
 	/**
 	 * Map itself
 	 */
-	private static int[][] landMap = new int[DWConstants.MAX_X][DWConstants.MAX_Y];
+	private static Land[][] landMap = new Land[DWConstants.MAX_X][DWConstants.MAX_Y];
 	
 	/**
 	 * Land lists section start
 	 */
 	
-	public static final Set<Integer> heroList = new HashSet<>();//Collections.unmodifiableList(Arrays.asList(Hero, Hero_Grass, Hero_Sand));
-	static{
-		heroList.add(Hero);
-		heroList.add(Hero_Grass);
-		heroList.add(Hero_Sand);
-	}
+	public static final Set<Land> heroList = EnumSet.of(
+		Hero,
+		Hero_Grass,
+		Hero_Sand
+	);
 
-	public static Set<Integer> rocketList = new HashSet<>();
-	static {
-		rocketList.add(RocketNorth);
-		rocketList.add(RocketSouth);
-		rocketList.add(RocketEast);
-		rocketList.add(RocketWest);
-		rocketList.add(RocketNorthEast);
-		rocketList.add(RocketNorthWest);
-		rocketList.add(RocketSouthEast);
-		rocketList.add(RocketSouthWest);
+	public static Set<Land> rocketList = EnumSet.of(
+		RocketNorth,
+		RocketSouth,
+		RocketEast,
+		RocketWest,
+		RocketNorthEast,
+		RocketNorthWest,
+		RocketSouthEast,
+		RocketSouthWest,
 
-		rocketList.add(RocketNorth_Grass);
-		rocketList.add(RocketSouth_Grass);
-		rocketList.add(RocketEast_Grass);
-		rocketList.add(RocketWest_Grass);
-		rocketList.add(RocketNorthEast_Grass);
-		rocketList.add(RocketNorthWest_Grass);
-		rocketList.add(RocketSouthEast_Grass);
-		rocketList.add(RocketSouthWest_Grass);
+		RocketNorth_Grass,
+		RocketSouth_Grass,
+		RocketEast_Grass,
+		RocketWest_Grass,
+		RocketNorthEast_Grass,
+		RocketNorthWest_Grass,
+		RocketSouthEast_Grass,
+		RocketSouthWest_Grass,
 
-		rocketList.add(RocketNorth_Water);
-		rocketList.add(RocketSouth_Water);
-		rocketList.add(RocketEast_Water);
-		rocketList.add(RocketWest_Water);
-		rocketList.add(RocketNorthEast_Water);
-		rocketList.add(RocketNorthWest_Water);
-		rocketList.add(RocketSouthEast_Water);
-		rocketList.add(RocketSouthWest_Water);
+		RocketNorth_Water,
+		RocketSouth_Water,
+		RocketEast_Water,
+		RocketWest_Water,
+		RocketNorthEast_Water,
+		RocketNorthWest_Water,
+		RocketSouthEast_Water,
+		RocketSouthWest_Water,
 
-		rocketList.add(RocketNorth_Sand);
-		rocketList.add(RocketSouth_Sand);
-		rocketList.add(RocketEast_Sand);
-		rocketList.add(RocketWest_Sand);
-		rocketList.add(RocketNorthEast_Sand);
-		rocketList.add(RocketNorthWest_Sand);
-		rocketList.add(RocketSouthEast_Sand);
-		rocketList.add(RocketSouthWest_Sand);
-	}
+		RocketNorth_Sand,
+		RocketSouth_Sand,
+		RocketEast_Sand,
+		RocketWest_Sand,
+		RocketNorthEast_Sand,
+		RocketNorthWest_Sand,
+		RocketSouthEast_Sand,
+		RocketSouthWest_Sand
+	);
 
-	public static Set<Integer> bulletList = new HashSet<>();
-	static {
-		bulletList.add(Bullet);
-		bulletList.add(Bullet_Sand);
-		bulletList.add(Bullet_Grass);
-		bulletList.add(Bullet_Water);
-		bulletList.add(CannonBall);
-		bulletList.add(CannonBall_Sand);
-		bulletList.add(CannonBall_Grass);
-		bulletList.add(CannonBall_Water);
-	}
+	public static Set<Land> bulletList = EnumSet.of(
+		Bullet,
+		Bullet_Sand,
+		Bullet_Grass,
+		Bullet_Water,
+		CannonBall,
+		CannonBall_Sand,
+		CannonBall_Grass,
+		CannonBall_Water
+	);
 
-	private static Set<Integer> bombList = new HashSet<>();
-	static {
-		bombList.add(Bomb);
-		bombList.add(Bomb_Sand);
-		bombList.add(Bomb_Grass);
-		bombList.add(Bomb_Water);
-	}
+	private static Set<Land> bombList = EnumSet.of(
+		Bomb,
+		Bomb_Sand,
+		Bomb_Grass,
+		Bomb_Water
+	);
 	
-	public static Set<Integer> railList = new HashSet<>();
-	static {
-		railList.add(Rail_Diagonal_Down);
-		railList.add(Rail_Diagonal_Up);
-		railList.add(Rail_Down_Left);
-		railList.add(Rail_Down_Right);
-		railList.add(Rail_Horizontal);
-		railList.add(Rail_Left_Down);
-		railList.add(Rail_Left_Up);
-		railList.add(Rail_Right_Down);
-		railList.add(Rail_Right_Up);
-		railList.add(Rail_Up_Left);
-		railList.add(Rail_Up_Right);
-		railList.add(Rail_Vertical);
-		railList.add(Rail_Vertical_Cross);
-		railList.add(Rail_Diagonal_Cross);
-	}
+	public static Set<Land> railList = EnumSet.of(
+		Rail_Diagonal_Down,
+		Rail_Diagonal_Up,
+		Rail_Down_Left,
+		Rail_Down_Right,
+		Rail_Horizontal,
+		Rail_Left_Down,
+		Rail_Left_Up,
+		Rail_Right_Down,
+		Rail_Right_Up,
+		Rail_Up_Left,
+		Rail_Up_Right,
+		Rail_Vertical,
+		Rail_Vertical_Cross,
+		Rail_Diagonal_Cross
+	);
 
-	public static Set<Integer> wartrainList = new HashSet<>();
-	static {
-		wartrainList.add(WarTrain_Diagonal_Down);
-		wartrainList.add(WarTrain_Diagonal_Up);
-		wartrainList.add(WarTrain_Down_Left);
-		wartrainList.add(WarTrain_Down_Right);
-		wartrainList.add(WarTrain_Horizontal);
-		wartrainList.add(WarTrain_Left_Down);
-		wartrainList.add(WarTrain_Left_Up);
-		wartrainList.add(WarTrain_Right_Down);
-		wartrainList.add(WarTrain_Right_Up);
-		wartrainList.add(WarTrain_Up_Left);
-		wartrainList.add(WarTrain_Up_Right);
-		wartrainList.add(WarTrain_Vertical);
-		wartrainList.add(WarTrain_Vertical_Cross);
-		wartrainList.add(WarTrain_Horizontal_Cross);
-		wartrainList.add(WarTrain_Diagonal_Up_Cross);
-		wartrainList.add(WarTrain_Diagonal_Down_Cross);
-	}
+	public static Set<Land> wartrainList = EnumSet.range(WarTrain_Vertical, WarTrain_Diagonal_Down_Cross);
 
-	public static Set<Integer> trainList = new HashSet<>();
-	static {
-		trainList.add(Train_Diagonal_Down);
-		trainList.add(Train_Diagonal_Up);
-		trainList.add(Train_Down_Left);
-		trainList.add(Train_Down_Right);
-		trainList.add(Train_Horizontal);
-		trainList.add(Train_Left_Down);
-		trainList.add(Train_Left_Up);
-		trainList.add(Train_Right_Down);
-		trainList.add(Train_Right_Up);
-		trainList.add(Train_Up_Left);
-		trainList.add(Train_Up_Right);
-		trainList.add(Train_Vertical);
-		trainList.add(Train_Vertical_Cross);
-		trainList.add(Train_Horizontal_Cross);
-		trainList.add(Train_Diagonal_Up_Cross);
-		trainList.add(Train_Diagonal_Down_Cross);
+	public static Set<Land> trainList = EnumSet.of(
+		Train_Diagonal_Down,
+		Train_Diagonal_Up,
+		Train_Down_Left,
+		Train_Down_Right,
+		Train_Horizontal,
+		Train_Left_Down,
+		Train_Left_Up,
+		Train_Right_Down,
+		Train_Right_Up,
+		Train_Up_Left,
+		Train_Up_Right,
+		Train_Vertical,
+		Train_Vertical_Cross,
+		Train_Horizontal_Cross,
+		Train_Diagonal_Up_Cross,
+		Train_Diagonal_Down_Cross
+	);
+	static{
 		trainList.addAll(wartrainList);
 	}
 	
 
-	public static Set<Integer> walkList = new HashSet<>();
-	static {
-		walkList.add(Empty);
-		walkList.add(Grenade);
-		walkList.add(Ammo);
-		walkList.add(Rocket);
-		walkList.add(Food);
-		walkList.add(Bullet);
-		walkList.add(Bullet_Grass);
-		walkList.add(Bomb);
-		walkList.add(Bomb_Grass);
-		walkList.add(RobotGrave);
-		walkList.add(OpenedHorizontalWoodGate);
-		walkList.add(OpenedVerticalWoodGate);
-		walkList.add(OpenedHorizontalSteelGate);
-		walkList.add(OpenedVerticalSteelGate);
-		walkList.add(OpenedHorizontalConcreteGate);
-		walkList.add(OpenedVerticalConcreteGate);
-		walkList.add(OpenedHorizontalBrickGate);
-		walkList.add(OpenedVerticalBrickGate);
-		walkList.add(Grass);
-		walkList.add(Mine);
-		walkList.add(Mine_Grass);
-		walkList.add(Sand);
-		walkList.add(Mine_Sand);
-		walkList.add(Bullet_Sand);
-		walkList.add(Bomb_Sand);
-		walkList.add(CannonBall);
-		walkList.add(CannonBall_Sand);
-		walkList.add(CannonBall_Grass);
-		walkList.add(CannonBall_Water);
+	public static Set<Land> walkList = EnumSet.of(
+		Empty,
+		Grenade,
+		Ammo,
+		Rocket,
+		Food,
+		Bullet,
+		Bullet_Grass,
+		Bomb,
+		Bomb_Grass,
+		RobotGrave,
+		OpenedHorizontalWoodGate,
+		OpenedVerticalWoodGate,
+		OpenedHorizontalSteelGate,
+		OpenedVerticalSteelGate,
+		OpenedHorizontalConcreteGate,
+		OpenedVerticalConcreteGate,
+		OpenedHorizontalBrickGate,
+		OpenedVerticalBrickGate,
+		Grass,
+		Mine,
+		Mine_Grass,
+		Sand,
+		Mine_Sand,
+		Bullet_Sand,
+		Bomb_Sand,
+		CannonBall,
+		CannonBall_Sand,
+		CannonBall_Grass,
+		CannonBall_Water
+	);
+	static{
 		walkList.addAll(railList);
 	}
 
-	public static Set<Integer> flyAndFindList = new HashSet<>();
+	public static Set<Land> flyAndFindList = EnumSet.of(
+		Water,
+		Bullet_Water,
+		CannonBall_Water,
+		Bomb_Water
+	);
 	static {
 		flyAndFindList.addAll(walkList);
-		flyAndFindList.add(Water);
-		flyAndFindList.add(Bullet_Water);
-		flyAndFindList.add(CannonBall_Water);
-		flyAndFindList.add(Bomb_Water);
 	}
 
-	private static Set<Integer> unexplosiveList = new HashSet<>();
-	static {
-		unexplosiveList.add(Vacuum);
-		unexplosiveList.add(Wall);
-		unexplosiveList.add(OpenedHorizontalSteelGate);
-		unexplosiveList.add(ClosedHorizontalSteelGate);
-		unexplosiveList.add(OpenedVerticalSteelGate);
-		unexplosiveList.add(ClosedVerticalSteelGate);
-		unexplosiveList.add(OpenedHorizontalConcreteGate);
-		unexplosiveList.add(ClosedHorizontalConcreteGate);
-		unexplosiveList.add(OpenedVerticalConcreteGate);
-		unexplosiveList.add(ClosedVerticalConcreteGate);
-		unexplosiveList.add(Water);
-		unexplosiveList.add(Sand);
-	}
+	private static Set<Land> unexplosiveList = EnumSet.of(
+		Vacuum,
+		Wall,
+		OpenedHorizontalSteelGate,
+		ClosedHorizontalSteelGate,
+		OpenedVerticalSteelGate,
+		ClosedVerticalSteelGate,
+		OpenedHorizontalConcreteGate,
+		ClosedHorizontalConcreteGate,
+		OpenedVerticalConcreteGate,
+		ClosedVerticalConcreteGate,
+		Water,
+		Sand
+	);
 
 	/**
 	 * list of codes which should be replaced by grass code during the save procedure
 	 * they are codes of flying objects above the grass
 	 */
-	private static Set<Integer> grassList = new HashSet<>();
-	static {
-		grassList.add(Bullet_Grass);
-		grassList.add(CannonBall_Grass);
-		grassList.add(Bomb_Grass);
-		grassList.add(RocketNorth_Grass);
-		grassList.add(RocketSouth_Grass);
-		grassList.add(RocketEast_Grass);
-		grassList.add(RocketWest_Grass);
-		grassList.add(RocketNorthEast_Grass);
-		grassList.add(RocketNorthWest_Grass);
-		grassList.add(RocketSouthEast_Grass);
-		grassList.add(RocketSouthWest_Grass);
-	}
+	private static Set<Land> grassList = EnumSet.of(
+		Bullet_Grass,
+		CannonBall_Grass,
+		Bomb_Grass,
+		RocketNorth_Grass,
+		RocketSouth_Grass,
+		RocketEast_Grass,
+		RocketWest_Grass,
+		RocketNorthEast_Grass,
+		RocketNorthWest_Grass,
+		RocketSouthEast_Grass,
+		RocketSouthWest_Grass
+	);
 
 	/**
 	 * list of codes which should be replaced by water code during the save procedure
 	 * they are codes of flying objects above the water
 	 */
-	private static Set<Integer> waterList = new HashSet<>();
+	private static Set<Land> waterList = new HashSet<>();
 	static {
 		waterList.add(Bullet_Water);
 		waterList.add(CannonBall_Water);
@@ -499,7 +480,7 @@ public class Land {
 	 * list of codes which should be replaced by Sand code during the save procedure
 	 * they are codes of flying objects above the sand
 	 */
-	private static Set<Integer> sandList = new HashSet<>();
+	private static Set<Land> sandList = new HashSet<>();
 	static {
 		sandList.add(Sand);
 		sandList.add(Bullet_Sand);
@@ -515,7 +496,7 @@ public class Land {
 		sandList.add(RocketSouthWest_Sand);
 	}
 	
-	private static Set<Integer> sandExplList = new HashSet<>();
+	private static Set<Land> sandExplList = new HashSet<>();
 	static {
 		sandExplList.add(Hero_Sand);
 		sandExplList.add(Mine_Sand);
@@ -535,7 +516,7 @@ public class Land {
 		sandExplList.add(Peasant_Sand);
 	}
 
-	private static Set<Integer> unsaveList = new HashSet<>();
+	private static Set<Land> unsaveList = new HashSet<>();
 	static {
 		unsaveList.addAll(bulletList);
 
@@ -544,19 +525,19 @@ public class Land {
 		unsaveList.addAll(rocketList);
 	}
 
-	private static Set<Integer> forBulletList = new HashSet<>();
+	private static Set<Land> forBulletList = new HashSet<>();
 	static {
 		forBulletList.addAll(rocketList);
 		forBulletList.add(Grenade);
 	}
 
-	private static Set<Integer> forRocketList = new HashSet<>();
+	private static Set<Land> forRocketList = new HashSet<>();
 	static {
 		forRocketList.addAll(forBulletList);
 		forRocketList.addAll(bulletList);
 	}
 	
-	public final static Set<Integer> armoredEnemyList = new HashSet<>();
+	public final static Set<Land> armoredEnemyList = new HashSet<>();
 	static {
 		armoredEnemyList.add(BadTank);
 		armoredEnemyList.add(BadTank_Grass);
@@ -571,7 +552,7 @@ public class Land {
 		armoredEnemyList.add(BadRadar_Sand);
 	}
 
-	public final static Set<Integer> enemyList = new HashSet<>();
+	public final static Set<Land> enemyList = new HashSet<>();
 	static {
 		enemyList.addAll(armoredEnemyList);
 		enemyList.add(BadSoldier);
@@ -588,7 +569,7 @@ public class Land {
 		enemyList.add(Dark_Knight_Sand);
 	}
 	
-	public static final Set<Integer> armoredCitizenList = new HashSet<>();
+	public static final Set<Land> armoredCitizenList = new HashSet<>();
 	static {
 		armoredCitizenList.add(GoodTank);
 		armoredCitizenList.add(GoodTank_Grass);
@@ -605,7 +586,7 @@ public class Land {
 		armoredCitizenList.addAll(trainList);
 	}
 
-	public static final Set<Integer> citizenList = new HashSet<>();
+	public static final Set<Land> citizenList = new HashSet<>();
 	static {
 		citizenList.addAll(armoredCitizenList);
 		
@@ -628,7 +609,7 @@ public class Land {
 		citizenList.add(Peasant_Sand);
 	}
 	
-	public static final Set<Integer> gateList = new HashSet<>();
+	public static final Set<Land> gateList = new HashSet<>();
 	static {
 		gateList.add(OpenedHorizontalSteelGate);
 		gateList.add(ClosedHorizontalSteelGate);
@@ -649,7 +630,7 @@ public class Land {
 		gateList.add(ClosedVerticalBrickGate);
 	}
 
-	public static final Set<Integer> saveList = new HashSet<>();
+	public static final Set<Land> saveList = new HashSet<>();
 	static {
 		saveList.addAll(enemyList);
 		saveList.addAll(citizenList);
@@ -659,12 +640,13 @@ public class Land {
 		saveList.addAll(gateList);
 	}
 	
-	public static int getLand(Location location) {
+	public static Land getLand(Location location) {
 		return getLand(location.getX(), location.getY());
 	}
 
-	public static int getTurnedLand(Location location) {
-		int code = getLand(location.getX(), location.getY());
+	@SuppressWarnings("incomplete-switch")
+	public static Land getTurnedLand(Location location) {
+		Land code = getLand(location.getX(), location.getY());
 		if(gateList.contains(code)){
 			switch(code){
 			case ClosedHorizontalSteelGate:
@@ -688,14 +670,14 @@ public class Land {
 		return code;
 	}
 
-	public static int getLand(int x, int y) {
+	public static Land getLand(int x, int y) {
 		if (x > DWConstants.MAX_X - 1 || y > DWConstants.MAX_Y - 1) {
-			return Land.Vacuum;
+			return Vacuum;
 		}
 		if (x < DWConstants.MIN_X || y < DWConstants.MIN_Y) {
-			return Land.Vacuum;
+			return Vacuum;
 		}
-		int code;
+		Land code;
 		synchronized(Land.class){
 			code = landMap[x][y];
 		}
@@ -703,29 +685,29 @@ public class Land {
 		return code;
 	}
 
-	public static int setLand(Location location, int code) {
+	public static Land setLand(Location location, Land code) {
 		return setLand(location.getX(), location.getY(), code);
 	}
 	
-	public static int setLand(int x, int y, int code) {
-		int oldCode = getLand(x, y);
+	public static Land setLand(int x, int y, Land code) {
+		Land oldCode = getLand(x, y);
 		synchronized(Land.class){
 			landMap[x][y] = code;
 		}
 		return oldCode;
 	}
 
-	public static int setLand(Location location, MovableUnit unit) {
-		int oldCode = getLand(location);
-		int newCode = unit.getCode(oldCode);
+	public static Land setLand(Location location, MovableUnit unit) {
+		Land oldLand = getLand(location);
+		Land newLand = unit.getLand(oldLand);
 		synchronized(Land.class){
-			landMap[location.getX()][location.getY()] = newCode;
+			landMap[location.getX()][location.getY()] = newLand;
 		}
-		return oldCode;
+		return oldLand;
 	}
 
-	public static void initLand(Location location, int beneath, MovableUnit unit) {
-		int newCode = unit.getCode(beneath);
+	public static void initLand(Location location, Land beneath, MovableUnit unit) {
+		Land newCode = unit.getLand(beneath);
 		synchronized(Land.class){
 			landMap[location.getX()][location.getY()] = newCode;
 		}
@@ -735,7 +717,7 @@ public class Land {
 		return direction.getNewLocation(location);
 	}
 
-	public static int getLand(Location location, Direction direction) {
+	public static Land getLand(Location location, Direction direction) {
 		location = getNewLocation(location, direction);
 		if (location.getX() > DWConstants.MAX_X - 1 || location.getY() > DWConstants.MAX_Y - 1)
 			return Vacuum;
@@ -745,8 +727,8 @@ public class Land {
 	}
 
 	public static boolean canIWalk(Location location, Direction direction,
-			Set<Integer> list) {
-		int land = getLand(location, direction);
+			Set<Land> list) {
+		Land land = getLand(location, direction);
 		if (land == Vacuum)
 			return false;
 		if (list.contains(land))
@@ -754,24 +736,24 @@ public class Land {
 		return false;
 	}
 
-	public static int getWalkStop(Location location, Direction direction) {
+	public static Land getWalkStop(Location location, Direction direction) {
 		return getLand(location, direction);
 	}
 
-	public static boolean bulletListContains(int code) {
-		return bulletList.contains(code);
+	public static boolean bulletListContains(Land land) {
+		return bulletList.contains(land);
 	}
 
-	public static boolean forBulletListContains(int code) {
-		return forBulletList.contains(code);
+	public static boolean forBulletListContains(Land land) {
+		return forBulletList.contains(land);
 	}
 	
-	public static boolean rocketListContains(int code) {
-		return forRocketList.contains(code);
+	public static boolean rocketListContains(Land land) {
+		return forRocketList.contains(land);
 	}
 
-	public static boolean unsaveListContains(int code) {
-		return unsaveList.contains(code);
+	public static boolean unsaveListContains(Land land) {
+		return unsaveList.contains(land);
 	}
 	
 //	public static int findUnit(Point location, Direction direction, List<Integer> list) {
@@ -798,14 +780,14 @@ public class Land {
 //		}
 //	}
 	
-	public static SearchResult search(final Location location, final Direction direction, final Set<Integer> list) {
+	public static SearchResult search(final Location location, final Direction direction, final Set<Land> list) {
 		return search(location, direction, list, DWConstants.VISIBLE_DISTANCE);
 	}
 	
-	public static SearchResult search(final Location location, final Direction direction, final Set<Integer> list, final int maxDistance) {
+	public static SearchResult search(final Location location, final Direction direction, final Set<Land> list, final int maxDistance) {
 		Location point = getNewLocation((Location) location, direction);
 
-		int land = Vacuum;
+		Land land = Vacuum;
 		int distance = 1;
 		while (true) {
 			land = getLand(point);
@@ -833,7 +815,7 @@ public class Land {
 	public static void explode(final Location location) {
 		for (int x = location.getX() - 1; x < location.getX() + 2; x++) {
 			for (int y = location.getY() - 1; y < location.getY() + 2; y++) {
-				int code = getLand(x, y);
+				Land code = getLand(x, y);
 				if (!unexplosiveList.contains(code)) {
 					if (waterList.contains(code))
 						setLand(new Location(x, y), Water);
@@ -851,15 +833,15 @@ public class Land {
 		}
 	}
 
-	private static void loadMan(final int x, final int y, int code,
+	private static void loadMan(final int x, final int y, Land land,
 			InputStream stream) throws IOException {
-		ControlledUnit unit = new ControlledUnit(x, y, code);
+		ControlledUnit unit = new ControlledUnit(x, y, land);
 		DWConfiguration.getInstance().setControlledUnit(unit);
 		unit.load(stream);
 	}
 
 	
-	private static boolean loadUnit(int code, int x, int y,	InputStream stream) throws IOException {
+	private static boolean loadUnit(Land code, int x, int y,	InputStream stream) throws IOException {
 		IUnit unit = DWUnitFactory.createUnit(code, x, y);
 		if(unit != null){
 			unit.load(stream);
@@ -916,18 +898,26 @@ public class Land {
 				}
 				for (int y = 0; y < DWConstants.MAX_Y; y++) {
 					int code = stream.read();
+					if(code == -1){
+						throw new RuntimeException("End of Stream reached");
+					}
+					if(code >= 186){
+						code -= 6;
+					}
+					code++;
+					
 					
 					if(x == heroX && y == heroY){
-						loadMan(x, y, code, stream);
+						loadMan(x, y, Land.values()[code], stream);
 						continue;
 					}
 					
 					if((x != heroX || y != heroY) &&
-							loadUnit(code, x, y, stream)){
+						loadUnit(Land.values()[code], x, y, stream)){
 						continue;
 					}
 					synchronized(Land.class){
-						landMap[x][y] = code;
+						landMap[x][y] = Land.values()[code];
 					}
 				}
 			}
@@ -955,7 +945,7 @@ public class Land {
 					progressMonitor.progress(progress);	
 				}
 				for (int y = 0; y < DWConstants.MAX_Y; y++) {
-					int code;
+					Land code;
 					synchronized(Land.class){
 						code = landMap[x][y];
 					}
@@ -969,7 +959,7 @@ public class Land {
 						else
 							code = Empty;
 					}
-					stream.write(code);
+					stream.write(code.ordinal());
 					if (saveList.contains(code)) {
 						IUnit unit = DWConfiguration.getInstance().getEngine().findUnit(new Location(x, y));
 						if (unit != null)

@@ -25,16 +25,16 @@ public abstract class MovableUnit extends ActiveUnit implements IMovable {
 	
 	protected boolean selfDefense = false;
 	
-	protected int beneath;
+	protected Land beneath;
 	protected double speed, defaultSpeed;
 	protected Direction direction = Direction.NORTH;
 	
 	protected Location destination = null;
 
-	public MovableUnit(int x, int y, int code, double speed) {
+	public MovableUnit(int x, int y, Land land, double speed) {
 		super(x, y);
-		this.code = code;
-		beneath = getDefaultBeneath(code);
+		this.land = land;
+		beneath = getDefaultBeneath(land);
 		Land.initLand(getLocation(), beneath, this);
 		setSpeed(speed);
 	}
@@ -49,12 +49,12 @@ public abstract class MovableUnit extends ActiveUnit implements IMovable {
 	}
 
 	@Override
-	public int getBeneath() {
+	public Land getBeneath() {
 		return beneath;
 	}
 
 	@Override
-	public void setBeneath(int beneath) {
+	public void setBeneath(Land beneath) {
 		this.beneath = beneath;
 	}
 
@@ -87,7 +87,7 @@ public abstract class MovableUnit extends ActiveUnit implements IMovable {
 		}
 	}
 	
-	protected Set<Integer> getWalkList(){
+	protected Set<Land> getWalkList(){
 		return Land.walkList;
 	}
 	
@@ -125,7 +125,7 @@ public abstract class MovableUnit extends ActiveUnit implements IMovable {
 //	}
 	
 	protected boolean checkLand(){
-		if (Land.getLand(getLocation()) != getCode(beneath)) {
+		if (Land.getLand(getLocation()) != getLand(beneath)) {
 			die();
 			Land.setLand(getLocation(), getGrave(beneath));
 			return false;
@@ -144,37 +144,37 @@ public abstract class MovableUnit extends ActiveUnit implements IMovable {
 	}
 	
 	@Override
-	public int getCode(int beneath){
-		return code;
+	public Land getLand(Land beneath){
+		return land;
 	}
 	
-	protected int getDefaultBeneath(int code){
-		switch(code){
-		case Land.Hero_Grass:
-		case Land.GoodSoldier_Grass:
-		case Land.BadSoldier_Grass:
-		case Land.Peasant_Grass:
-		case Land.GoodOfficer_Grass:
-		case Land.GoodGeneral_Grass:
-		case Land.BadOfficer_Grass:
-		case Land.BadGeneral_Grass:
-		case Land.Dark_Knight_Grass:
-		case Land.BadTank_Grass:
-		case Land.GoodTank_Grass:
+	protected Land getDefaultBeneath(Land land){
+		switch(land){
+		case Hero_Grass:
+		case GoodSoldier_Grass:
+		case BadSoldier_Grass:
+		case Peasant_Grass:
+		case GoodOfficer_Grass:
+		case GoodGeneral_Grass:
+		case BadOfficer_Grass:
+		case BadGeneral_Grass:
+		case Dark_Knight_Grass:
+		case BadTank_Grass:
+		case GoodTank_Grass:
 			
 			return Land.Grass;
 			
-		case Land.Hero_Sand:
-		case Land.GoodSoldier_Sand:
-		case Land.BadSoldier_Sand:
-		case Land.Peasant_Sand:
-		case Land.GoodOfficer_Sand:
-		case Land.GoodGeneral_Sand:
-		case Land.BadOfficer_Sand:
-		case Land.BadGeneral_Sand:
-		case Land.Dark_Knight_Sand:
-		case Land.BadTank_Sand:
-		case Land.GoodTank_Sand:
+		case Hero_Sand:
+		case GoodSoldier_Sand:
+		case BadSoldier_Sand:
+		case Peasant_Sand:
+		case GoodOfficer_Sand:
+		case GoodGeneral_Sand:
+		case BadOfficer_Sand:
+		case BadGeneral_Sand:
+		case Dark_Knight_Sand:
+		case BadTank_Sand:
+		case GoodTank_Sand:
 			
 			return Land.Sand;
 			
@@ -184,7 +184,7 @@ public abstract class MovableUnit extends ActiveUnit implements IMovable {
 
 	}
 	
-	abstract protected int getGrave(int beneath);
+	abstract protected Land getGrave(Land beneath);
 
 	protected double getSpeed() {
 		return speed;

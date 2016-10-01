@@ -41,7 +41,7 @@ public class DWConfiguration {
 	private DWUI ui = null;
 	
 	private int drawMode = DRAW_BRUSH;
-	private int selectedCode = Land.Brick;
+	private Land selectedLand = Land.Brick;
 	private boolean buildMode = false;
 	
 	private boolean attackMode = false;
@@ -117,12 +117,12 @@ public class DWConfiguration {
 		return attackMode;
 	}
 
-	public void setSelectedCode(int element){
-		selectedCode = element;
+	public void setSelectedCode(Land element){
+		selectedLand = element;
 	}
 	
-	public int getSelectedCode(){
-		return selectedCode;
+	public Land getSelectedCode(){
+		return selectedLand;
 	}
 
 	public void setPathName(String pathName){

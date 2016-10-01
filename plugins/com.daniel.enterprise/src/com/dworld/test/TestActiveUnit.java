@@ -1,5 +1,6 @@
 package com.dworld.test;
 
+import com.dworld.core.Land;
 import com.dworld.units.ActiveUnit;
 
 public class TestActiveUnit extends ActiveUnit {
@@ -8,8 +9,8 @@ public class TestActiveUnit extends ActiveUnit {
 		super(x, y);
 	}
 
-	public TestActiveUnit(int x, int y, int code) {
-		super(x, y, code);
+	public TestActiveUnit(int x, int y, Land land) {
+		super(x, y, land);
 	}
 
 	@Override

@@ -180,8 +180,8 @@ public class SelectionManager {
 				
 				for(int x = copiedArea.x; x < copiedArea.x+copiedArea.width; x++){
 					for(int y = copiedArea.y; y < copiedArea.y+copiedArea.height; y++){
-						int code = Land.getLand(x, y);
-						Land.setLand(newX, newY, code);
+						Land land = Land.getLand(x, y);
+						Land.setLand(newX, newY, land);
 						newY++;
 					}
 					newY = copyTo.getY();
@@ -208,10 +208,10 @@ public class SelectionManager {
 						
 						if(!doneList.contains(point1)){
 							doneList.add(point2);
-							int code1 = Land.getTurnedLand(point1);
-							int code2 = Land.getTurnedLand(point2);
-							Land.setLand(point1, code2);
-							Land.setLand(point2, code1);
+							Land land1 = Land.getTurnedLand(point1);
+							Land land2 = Land.getTurnedLand(point2);
+							Land.setLand(point1, land2);
+							Land.setLand(point2, land1);
 						}
 					}
 				}
@@ -237,10 +237,10 @@ public class SelectionManager {
 						
 						if(!doneList.contains(point1)){
 							doneList.add(point2);
-							int code1 = Land.getTurnedLand(point1);
-							int code2 = Land.getTurnedLand(point2);
-							Land.setLand(point1, code2);
-							Land.setLand(point2, code1);
+							Land land1 = Land.getTurnedLand(point1);
+							Land land2 = Land.getTurnedLand(point2);
+							Land.setLand(point1, land2);
+							Land.setLand(point2, land1);
 						}
 					}
 				}
@@ -257,11 +257,11 @@ public class SelectionManager {
 			if(selectedArea != NULL_RECTANGLE){
 				for(int x = selectedArea.x; x < selectedArea.x+selectedArea.width; x++){
 					for(int y = selectedArea.y; y < (selectedArea.y+selectedArea.height/2); y++){
-						int code1 = Land.getLand(x, y);
+						Land land1 = Land.getLand(x, y);
 						int y2 = (selectedArea.y + selectedArea.height-1)-(y-selectedArea.y);
-						int code2 = Land.getLand(x, y2);
-						Land.setLand(x, y, code2);
-						Land.setLand(x, y2, code1);
+						Land land2 = Land.getLand(x, y2);
+						Land.setLand(x, y, land2);
+						Land.setLand(x, y2, land1);
 					}
 				}
 				DWConfiguration.getInstance().getLauncher().setModified();
@@ -274,11 +274,11 @@ public class SelectionManager {
 			if(selectedArea != NULL_RECTANGLE){
 				for(int x = selectedArea.x; x < (selectedArea.x+selectedArea.width/2); x++){
 					for(int y = selectedArea.y; y < (selectedArea.y+selectedArea.height); y++){
-						int code1 = Land.getLand(x, y);
+						Land land1 = Land.getLand(x, y);
 						int x2 = (selectedArea.x + selectedArea.width-1)-(x-selectedArea.x);
-						int code2 = Land.getLand(x2, y);
-						Land.setLand(x, y, code2);
-						Land.setLand(x2, y, code1);
+						Land land2 = Land.getLand(x2, y);
+						Land.setLand(x, y, land2);
+						Land.setLand(x2, y, land1);
 					}
 				}
 				DWConfiguration.getInstance().getLauncher().setModified();
@@ -291,11 +291,11 @@ public class SelectionManager {
 			if(selectedArea != NULL_RECTANGLE){
 				for(int y = selectedArea.y; y < selectedArea.y+selectedArea.height; y++){
 					for(int x = selectedArea.x; x < selectedArea.x+selectedArea.width; x++){
-						int code1 = Land.getLand(x, y);
+						Land land1 = Land.getLand(x, y);
 						int y2 = y - 1;
-						int code2 = Land.getLand(x, y2);
-						Land.setLand(x, y, code2);
-						Land.setLand(x, y2, code1);
+						Land land2 = Land.getLand(x, y2);
+						Land.setLand(x, y, land2);
+						Land.setLand(x, y2, land1);
 					}
 				}
 				selectedArea.y = selectedArea.y - 1;
@@ -309,11 +309,11 @@ public class SelectionManager {
 			if(selectedArea != NULL_RECTANGLE){
 				for(int y = selectedArea.y+selectedArea.height-1; y >= selectedArea.y; y--){
 					for(int x = selectedArea.x; x < selectedArea.x+selectedArea.width; x++){
-						int code1 = Land.getLand(x, y);
+						Land land1 = Land.getLand(x, y);
 						int y2 = y + 1;
-						int code2 = Land.getLand(x, y2);
-						Land.setLand(x, y, code2);
-						Land.setLand(x, y2, code1);
+						Land land2 = Land.getLand(x, y2);
+						Land.setLand(x, y, land2);
+						Land.setLand(x, y2, land1);
 					}
 				}
 				selectedArea.y = selectedArea.y + 1;
@@ -327,11 +327,11 @@ public class SelectionManager {
 			if(selectedArea != NULL_RECTANGLE){
 				for(int x = selectedArea.x; x < selectedArea.x+selectedArea.width; x++){
 					for(int y = selectedArea.y; y < selectedArea.y+selectedArea.height; y++){
-						int code1 = Land.getLand(x, y);
+						Land land1 = Land.getLand(x, y);
 						int x2 = x - 1;
-						int code2 = Land.getLand(x2, y);
-						Land.setLand(x, y, code2);
-						Land.setLand(x2, y, code1);
+						Land land2 = Land.getLand(x2, y);
+						Land.setLand(x, y, land2);
+						Land.setLand(x2, y, land1);
 					}
 				}
 				selectedArea.x = selectedArea.x - 1;
@@ -345,11 +345,11 @@ public class SelectionManager {
 			if(selectedArea != NULL_RECTANGLE){
 				for(int x = selectedArea.x+selectedArea.width-1; x >= selectedArea.x; x--){
 					for(int y = selectedArea.y; y < selectedArea.y+selectedArea.height; y++){
-						int code1 = Land.getLand(x, y);
+						Land land1 = Land.getLand(x, y);
 						int x2 = x + 1;
-						int code2 = Land.getLand(x2, y);
-						Land.setLand(x, y, code2);
-						Land.setLand(x2, y, code1);
+						Land land2 = Land.getLand(x2, y);
+						Land.setLand(x, y, land2);
+						Land.setLand(x2, y, land1);
 					}
 				}
 				selectedArea.x = selectedArea.x + 1;
@@ -358,25 +358,25 @@ public class SelectionManager {
 		}
 	}
 	
-	public static void fill(int x, int y, int oldCode, int newCode){
+	public static void fill(int x, int y, Land oldLand, Land newLand){
 		if(SelectionManager.getSelectedArea() != SelectionManager.NULL_RECTANGLE && SelectionManager.getSelectedArea().contains(x,y)){
 			for(int x1 = SelectionManager.getSelectedArea().x; x1 < SelectionManager.getSelectedArea().x + SelectionManager.getSelectedArea().width; x1++){
 				for(int y1 = SelectionManager.getSelectedArea().y; y1 < SelectionManager.getSelectedArea().getY() + SelectionManager.getSelectedArea().height; y1++){
-					int code = Land.getLand(x1, y1);
-					if(code == oldCode){
-						Land.setLand(x1, y1, newCode);
+					Land land = Land.getLand(x1, y1);
+					if(land == oldLand){
+						Land.setLand(x1, y1, newLand);
 					}
 				}
 				
 			}
 			return;
 		}
-		if(oldCode == newCode){
+		if(oldLand == newLand){
 			return;
 		}
 		int startX = x;
 		int startY = y;
-		while(Land.getLand(startX, startY) == oldCode){
+		while(Land.getLand(startX, startY) == oldLand){
 			startY--;
 		}
 		startY++;
@@ -384,19 +384,19 @@ public class SelectionManager {
 		int xx = startX;
 		int yy = startY;
 		while(true){
-			while(Land.getLand(xx, yy) == oldCode){
-				Land.setLand(xx, yy, newCode);
+			while(Land.getLand(xx, yy) == oldLand){
+				Land.setLand(xx, yy, newLand);
 				xx++;
 			}
 			xx = startX-1;
-			while(Land.getLand(xx, yy) == oldCode){
-				Land.setLand(xx, yy, newCode);
+			while(Land.getLand(xx, yy) == oldLand){
+				Land.setLand(xx, yy, newLand);
 				xx--;
 			}
 			xx = startX;
 			
 			yy++;
-			if(Land.getLand(xx, yy) != oldCode){
+			if(Land.getLand(xx, yy) != oldLand){
 				return;
 			}
 		}

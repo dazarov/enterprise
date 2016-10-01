@@ -35,24 +35,24 @@ public class CannonBall extends MovableWeapon {
 	}
 	
 	@Override
-	public int getCode(int beneath){
+	public Land getLand(Land beneath){
 		switch(beneath){
-		case Land.Grass:
-		case Land.Mine_Grass:
-		case Land.Bullet_Grass:
-		case Land.Bomb_Grass:
-		case Land.CannonBall_Grass:
+		case Grass:
+		case Mine_Grass:
+		case Bullet_Grass:
+		case Bomb_Grass:
+		case CannonBall_Grass:
 			return Land.CannonBall_Grass;
-		case Land.Water:
-		case Land.Bullet_Water:
-		case Land.Bomb_Water:
-		case Land.CannonBall_Water:
+		case Water:
+		case Bullet_Water:
+		case Bomb_Water:
+		case CannonBall_Water:
 			return Land.CannonBall_Water;
-		case Land.Sand:
-		case Land.Mine_Sand:
-		case Land.Bullet_Sand:
-		case Land.Bomb_Sand:
-		case Land.CannonBall_Sand:
+		case Sand:
+		case Mine_Sand:
+		case Bullet_Sand:
+		case Bomb_Sand:
+		case CannonBall_Sand:
 			return Land.CannonBall_Sand;
 		default:
 			return Land.CannonBall;
@@ -60,7 +60,7 @@ public class CannonBall extends MovableWeapon {
 	}
 	
 	@Override
-	protected Set<Integer> getWalkList(){
+	protected Set<Land> getWalkList(){
 		return Land.flyAndFindList;
 	}
 
@@ -90,7 +90,7 @@ public class CannonBall extends MovableWeapon {
 	}
 
 	@Override
-	protected int getGrave(int beneath) {
+	protected Land getGrave(Land beneath) {
 		return beneath;
 	}
 	

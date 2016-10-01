@@ -13,7 +13,7 @@ import com.dworld.units.Unit;
 public class DWMenuStructure {
 	public static class DWMenuItem{
 		public String label;
-		public int imageCode = -1;
+		public Land imageCode = Land.Vacuum;
 		public Runnable runner;
 		
 		// Separator
@@ -25,7 +25,7 @@ public class DWMenuStructure {
 			this.runner = runner;
 		}
 		
-		public DWMenuItem(String label, int imageCode, Runnable runner){
+		public DWMenuItem(String label, Land imageCode, Runnable runner){
 			this(label, runner);
 			this.imageCode = imageCode;
 		}
@@ -56,7 +56,7 @@ public class DWMenuStructure {
 	public static class DWRadioMenuItem extends DWMenuItem{
 		public int buttonGroupId;
 		
-		public DWRadioMenuItem(String label, int imageCode, int buttonGroupId, Runnable runner){
+		public DWRadioMenuItem(String label, Land imageCode, int buttonGroupId, Runnable runner){
 			super(label, imageCode, runner);
 			this.buttonGroupId = buttonGroupId;
 		}

@@ -6,87 +6,88 @@ import com.dworld.core.Location;
 
 public class RailUtils {
 	
-	public static Direction getRailDirection(Direction direction, int beneath) {
+	@SuppressWarnings("incomplete-switch")
+	public static Direction getRailDirection(Direction direction, Land beneath) {
 		switch(beneath){
-		case Land.Rail_Vertical:
-		case Land.Rail_Horizontal:
-		case Land.Rail_Diagonal_Up:
-		case Land.Rail_Diagonal_Down:
-		case Land.Train_Vertical:
-		case Land.Train_Horizontal:
-		case Land.Train_Diagonal_Up:
-		case Land.Train_Diagonal_Down:
-		case Land.WarTrain_Vertical:
-		case Land.WarTrain_Horizontal:
-		case Land.WarTrain_Diagonal_Up:
-		case Land.WarTrain_Diagonal_Down:
+		case Rail_Vertical:
+		case Rail_Horizontal:
+		case Rail_Diagonal_Up:
+		case Rail_Diagonal_Down:
+		case Train_Vertical:
+		case Train_Horizontal:
+		case Train_Diagonal_Up:
+		case Train_Diagonal_Down:
+		case WarTrain_Vertical:
+		case WarTrain_Horizontal:
+		case WarTrain_Diagonal_Up:
+		case WarTrain_Diagonal_Down:
 			return direction;
 			
-		case Land.Rail_Up_Right:
-		case Land.Train_Up_Right:
-		case Land.WarTrain_Up_Right:
+		case Rail_Up_Right:
+		case Train_Up_Right:
+		case WarTrain_Up_Right:
 			if(direction == Direction.NORTH){
 				return Direction.NORTHEAST;
 			}else{
 				return Direction.SOUTH;
 			}
 			
-		case Land.Rail_Up_Left:
-		case Land.Train_Up_Left:
-		case Land.WarTrain_Up_Left:
+		case Rail_Up_Left:
+		case Train_Up_Left:
+		case WarTrain_Up_Left:
 			if(direction == Direction.NORTH){
 				return Direction.NORTHWEST;
 			}else{
 				return Direction.SOUTH;
 			}
 			
-		case Land.Rail_Down_Right:
-		case Land.Train_Down_Right:
+		case Rail_Down_Right:
+		case Train_Down_Right:
 			if(direction == Direction.SOUTH){
 				return Direction.SOUTHWEST;
 			}else{
 				return Direction.NORTH;
 			}
 			
-		case Land.Rail_Down_Left:
-		case Land.Train_Down_Left:
-		case Land.WarTrain_Down_Left:
+		case Rail_Down_Left:
+		case Train_Down_Left:
+		case WarTrain_Down_Left:
 			if(direction == Direction.SOUTH){
 				return Direction.SOUTHEAST;
 			}else{
 				return Direction.NORTH;
 			}
 			
-		case Land.Rail_Right_Up:
-		case Land.Train_Right_Up:
-		case Land.WarTrain_Right_Up:
+		case Rail_Right_Up:
+		case Train_Right_Up:
+		case WarTrain_Right_Up:
 			if(direction == Direction.EAST){
 				return Direction.NORTHEAST;
 			}else{
 				return Direction.WEST;
 			}
 			
-		case Land.Rail_Right_Down:
-		case Land.Train_Right_Down:
-		case Land.WarTrain_Right_Down:
+		case Rail_Right_Down:
+		case Train_Right_Down:
+		case WarTrain_Right_Down:
 			if(direction == Direction.EAST){
 				return Direction.SOUTHEAST;
 			}else{
 				return Direction.WEST;
 			}
 			
-		case Land.Rail_Left_Up:
-		case Land.Train_Left_Up:
-		case Land.WarTrain_Left_Up:
+		case Rail_Left_Up:
+		case Train_Left_Up:
+		case WarTrain_Left_Up:
 			if(direction == Direction.WEST){
 				return Direction.NORTHWEST;
 			}else{
 				return Direction.EAST;
 			}
 			
-		case Land.Rail_Left_Down:
-		case Land.Train_Left_Down:
-		case Land.WarTrain_Left_Down:
+		case Rail_Left_Down:
+		case Train_Left_Down:
+		case WarTrain_Left_Down:
 			if(direction == Direction.WEST){
 				return Direction.SOUTHWEST;
 			}else{
@@ -97,15 +98,15 @@ public class RailUtils {
 	}
 	
 	
-	public static void initTrain(final Train train, final int code) {
+	public static void initTrain(final Train train, final Land land) {
 		Direction direction = null;
 		boolean reversable = true;
-		Direction nonCircleDirection = getNonCircleInitialDirection(code, train.getDefaultBeneath(code));
+		Direction nonCircleDirection = getNonCircleInitialDirection(land, train.getDefaultBeneath(land));
 		
 		Location startLocation = train.getLocation();
 		
 		Location location = startLocation;
-		int cc = code;
+		Land cc = land;
 		Direction dd = nonCircleDirection;
 		
 		Location northLocation = location;
@@ -141,52 +142,53 @@ public class RailUtils {
 		train.initTrain(direction, reversable);
 	}
 
-	private static Direction getNonCircleInitialDirection(int code, int beneath) {
+	@SuppressWarnings("incomplete-switch")
+	private static Direction getNonCircleInitialDirection(Land land, Land beneath) {
 		switch(beneath){
-		case Land.Rail_Vertical:
+		case Rail_Vertical:
 			return Direction.NORTH;
 			
-		case Land.Rail_Horizontal:
+		case Rail_Horizontal:
 			return Direction.EAST;
 			
-		case Land.Rail_Diagonal_Up:
+		case Rail_Diagonal_Up:
 			return  Direction.NORTHEAST;
 			
-		case Land.Rail_Diagonal_Down:
+		case Rail_Diagonal_Down:
 			return Direction.SOUTHEAST;
 			
-		case Land.Rail_Up_Right:
+		case Rail_Up_Right:
 			return Direction.NORTH;
 			
-		case Land.Rail_Up_Left:
+		case Rail_Up_Left:
 			return Direction.NORTH;
 			
-		case Land.Rail_Down_Right:
+		case Rail_Down_Right:
 			return Direction.SOUTH;
 			
-		case Land.Rail_Down_Left:
+		case Rail_Down_Left:
 			return Direction.SOUTH;
 			
-		case Land.Rail_Right_Up:
+		case Rail_Right_Up:
 			return Direction.EAST;
 			
-		case Land.Rail_Right_Down:
+		case Rail_Right_Down:
 			return Direction.EAST;
 			
-		case Land.Rail_Left_Up:
+		case Rail_Left_Up:
 			return Direction.WEST;
 			
-		case Land.Rail_Left_Down:
+		case Rail_Left_Down:
 			return Direction.WEST;
 			
-		case Land.Rail_Vertical_Cross:
-			if(code == Land.Train_Vertical_Cross || code == Land.WarTrain_Vertical_Cross){
+		case Rail_Vertical_Cross:
+			if(land == Land.Train_Vertical_Cross || land == Land.WarTrain_Vertical_Cross){
 				return Direction.NORTH;
 			}else{
 				return Direction.EAST;
 			}
-		case Land.Rail_Diagonal_Cross:
-			if(code == Land.Train_Diagonal_Up_Cross || code == Land.WarTrain_Diagonal_Up_Cross){
+		case Rail_Diagonal_Cross:
+			if(land == Land.Train_Diagonal_Up_Cross || land == Land.WarTrain_Diagonal_Up_Cross){
 				return Direction.NORTHEAST;
 			}else{
 				return Direction.SOUTHEAST;

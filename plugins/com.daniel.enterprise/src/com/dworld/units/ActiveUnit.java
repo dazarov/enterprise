@@ -21,7 +21,7 @@ import com.dworld.units.weapon.Rocket;
 public abstract class ActiveUnit extends Unit implements IActive {
 	private boolean active = true;
 	
-	protected int code;
+	protected Land land;
 	
 	private UnitLogic logic;
 	
@@ -41,10 +41,10 @@ public abstract class ActiveUnit extends Unit implements IActive {
 	}
 
 	// Constructor for immovable units
-	public ActiveUnit(int x, int y, int code) {
+	public ActiveUnit(int x, int y, Land land) {
 		this(x, y);
-		this.code = code;
-		Land.setLand(getLocation(), code);
+		this.land = land;
+		Land.setLand(getLocation(), land);
 		//if(DWorldLauncher.launcher.isBuildMode()) active = false;
 	}
 	
@@ -78,14 +78,14 @@ public abstract class ActiveUnit extends Unit implements IActive {
 		active = false;
 	}
 	
-	protected Direction[] findUnit(Set<Integer> list) {
+	protected Direction[] findUnit(Set<Land> list) {
 		if(list == null){
 			throw new IllegalArgumentException("Illegal argument list, make sure you defined methods getListToFightWith() and getArmoredListToFightWith() !");
 		}
 		return findUnit(list, DWConstants.VISIBLE_DISTANCE);
 	}
 
-	protected Direction[] findUnit(Set<Integer> list, final int maxDistance) {
+	protected Direction[] findUnit(Set<Land> list, final int maxDistance) {
 		if(list == null){
 			throw new IllegalArgumentException("Illegal argument list, make sure you defined methods getListToFightWith() and getArmoredListToFightWith() !");
 		}
@@ -160,7 +160,7 @@ public abstract class ActiveUnit extends Unit implements IActive {
 		}
 	}
 	
-	protected Target[] extendedFindUnit(Set<Integer> list, final int maxDistance) {
+	protected Target[] extendedFindUnit(Set<Land> list, final int maxDistance) {
 		ArrayList<Target> targets = new ArrayList<Target>();
 		if(list == null){
 			throw new IllegalArgumentException("Illegal argument list, make sure you defined methods getListToFightWith() and getArmoredListToFightWith() !");
@@ -168,8 +168,8 @@ public abstract class ActiveUnit extends Unit implements IActive {
 		
 		for(int x = getLocation().getX() - maxDistance; x < getLocation().getX() + maxDistance; x++){
 			for(int y = getLocation().getY() - maxDistance; y < getLocation().getY() + maxDistance; y++){
-				int code = Land.getLand(x, y);
-				if(list.contains(code)){
+				Land land = Land.getLand(x, y);
+				if(list.contains(land)){
 					targets.add(findTarget(x, y));
 				}
 			}
@@ -217,7 +217,7 @@ public abstract class ActiveUnit extends Unit implements IActive {
 		}
 	}
 	
-	protected Set<Integer> getListToFightWith(){
+	protected Set<Land> getListToFightWith(){
 		return null;
 	}
 	
@@ -241,7 +241,7 @@ public abstract class ActiveUnit extends Unit implements IActive {
 		for (int i = 0; i < 8; i++) {
 			result = Land.search(getLocation(), dir, Land.rocketList);
 			if (result != null) {
-				Direction rocketDirection = Rocket.getDirection(result.getResultCode());
+				Direction rocketDirection = Rocket.getDirection(result.getResultLand());
 				if(rocketDirection.getOppositeDirection() == dir){
 					fireBullet(dir);
 //					if(bullets[dir.value] == null || !bullets[dir.value].isAlive()){
@@ -289,7 +289,7 @@ public abstract class ActiveUnit extends Unit implements IActive {
 		}
 	}
 	
-	protected Set<Integer> getArmoredListToFightWith(){
+	protected Set<Land> getArmoredListToFightWith(){
 		return null;
 	}
 	
@@ -366,7 +366,7 @@ public abstract class ActiveUnit extends Unit implements IActive {
 	}
 	
 	protected boolean checkLand(){
-		if (Land.getLand(getLocation()) != code) {
+		if (Land.getLand(getLocation()) != land) {
 			die();
 			Land.setLand(getLocation(), Land.Empty);
 			return false;

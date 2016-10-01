@@ -25,7 +25,7 @@ import com.dworld.units.railroad.WarTrain;
 import com.dworld.units.weapon.Mine;
 
 public class DWUnitFactory {
-	private static Map<Integer, Class<? extends Unit>> unitMap = new HashMap<>();
+	private static Map<Land, Class<? extends Unit>> unitMap = new HashMap<>();
 	static{
 		unitMap.put(Land.BadSoldier, BadSoldier.class);
 		unitMap.put(Land.BadSoldier_Grass, BadSoldier.class);
@@ -155,15 +155,15 @@ public class DWUnitFactory {
 		unitMap.put(Land.ClosedVerticalBrickGate, Gate.class);
 	};
 	
-	public static IUnit createUnit(int code, int x, int y){
+	public static IUnit createUnit(Land land, int x, int y){
 		Unit unit = null;
-		Class<? extends Unit> unitClass = unitMap.get(code);
+		Class<? extends Unit> unitClass = unitMap.get(land);
 		if(unitClass != null){
 			Constructor<? extends Unit> constructor = null;
 			
 			try {
-				constructor = unitClass.getConstructor(new Class<?> []{int.class, int.class, int.class});
-				unit = constructor.newInstance(new Object[]{x, y, code});
+				constructor = unitClass.getConstructor(new Class<?> []{int.class, int.class, Land.class});
+				unit = constructor.newInstance(new Object[]{x, y, land});
 			} catch (Exception e) {
 				System.out.println("Could not create instance of "+unitClass.toString());
 				e.printStackTrace();

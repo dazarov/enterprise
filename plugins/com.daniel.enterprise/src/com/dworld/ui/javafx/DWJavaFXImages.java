@@ -21,7 +21,7 @@ public class DWJavaFXImages extends DWImages<Image>{
 		return new Image("file:"+path, true);
 	}
 	
-	private int code;
+	private Land land;
 	private Image image;
 	
 	public void draw(GraphicsContext g) {
@@ -30,9 +30,9 @@ public class DWJavaFXImages extends DWImages<Image>{
 		
 		for (int x = 0; x < DWConstants.UI_WIDTH; x++) {
 			for (int y = 0; y < DWConstants.UI_HEIGHT; y++) {
-				code = Land.getLand(startX + x, startY + y);
-				if(code != Land.Empty){
-					image = getImage(code);
+				land = Land.getLand(startX + x, startY + y);
+				if(land != Land.Empty){
+					image = getImage(land);
 					g.drawImage(image, (double) x * DWConstants.UI_IMAGE_WIDTH, (double)y * DWConstants.UI_IMAGE_HEIGHT, (double)DWConstants.UI_IMAGE_WIDTH, (double)	DWConstants.UI_IMAGE_HEIGHT);
 				}else{
 					g.setFill(Color.BLACK);

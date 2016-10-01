@@ -7,17 +7,17 @@ import com.dworld.units.Soldier;
 
 public class BadSoldier extends Soldier {
 	
-	public BadSoldier(int x, int y, int code) {
-		super(x, y, code);
+	public BadSoldier(int x, int y, Land land) {
+		super(x, y, land);
 		mode = MOVE_AROUND_MODE;
 	}
 	
 	@Override
-	public int getCode(int beneath){
+	public Land getLand(Land beneath){
 		switch(beneath){
-		case Land.Grass:
+		case Grass:
 			return Land.BadSoldier_Grass;
-		case Land.Sand:
+		case Sand:
 			return Land.BadSoldier_Sand;
 		default:
 			return Land.BadSoldier;
@@ -25,11 +25,11 @@ public class BadSoldier extends Soldier {
 	}
 
 	@Override
-	protected int getGrave(int beneath){
+	protected Land getGrave(Land beneath){
 		switch(beneath){
-		case Land.Grass:
+		case Grass:
 			return Land.BadSoldierGrave_Grass;
-		case Land.Sand:
+		case Sand:
 			return Land.BadSoldierGrave_Sand;
 		default:
 			return Land.RobotGrave;
@@ -37,7 +37,7 @@ public class BadSoldier extends Soldier {
 	}
 	
 	@Override
-	protected Set<Integer> getListToFightWith(){
+	protected Set<Land> getListToFightWith(){
 		return Land.citizenList;
 	}
 }

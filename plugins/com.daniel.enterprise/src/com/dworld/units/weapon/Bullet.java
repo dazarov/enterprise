@@ -22,24 +22,24 @@ public class Bullet extends MovableWeapon {
 	}
 	
 	@Override
-	public int getCode(int beneath){
+	public Land getLand(Land beneath){
 		switch(beneath){
-		case Land.Grass:
-		case Land.Mine_Grass:
-		case Land.Bullet_Grass:
-		case Land.Bomb_Grass:
-		case Land.CannonBall_Grass:
+		case Grass:
+		case Mine_Grass:
+		case Bullet_Grass:
+		case Bomb_Grass:
+		case CannonBall_Grass:
 			return Land.Bullet_Grass;
-		case Land.Water:
-		case Land.Bullet_Water:
-		case Land.Bomb_Water:
-		case Land.CannonBall_Water:
+		case Water:
+		case Bullet_Water:
+		case Bomb_Water:
+		case CannonBall_Water:
 			return Land.Bullet_Water;
-		case Land.Sand:
-		case Land.Mine_Sand:
-		case Land.Bullet_Sand:
-		case Land.Bomb_Sand:
-		case Land.CannonBall_Sand:
+		case Sand:
+		case Mine_Sand:
+		case Bullet_Sand:
+		case Bomb_Sand:
+		case CannonBall_Sand:
 			return Land.Bullet_Sand;
 		default:
 			return Land.Bullet;
@@ -47,54 +47,55 @@ public class Bullet extends MovableWeapon {
 	}
 	
 	@Override
-	protected Set<Integer> getWalkList(){
+	protected Set<Land> getWalkList(){
 		return Land.flyAndFindList;
 	}
 
+	@SuppressWarnings("incomplete-switch")
 	@Override
 	protected boolean findNewDirection() {
 		die();
-		int code = Land.getWalkStop(getLocation(), direction);
+		Land land = Land.getWalkStop(getLocation(), direction);
 		Location point = Land.getNewLocation(getLocation(), direction);
-		if (Land.forBulletListContains(code)) {
+		if (Land.forBulletListContains(land)) {
 			Land.explode(point);
 			return false;
 		}
-		switch (code) {
-		case Land.Hero:
-		case Land.GoodSoldier:
-		case Land.GoodOfficer:
-		case Land.GoodGeneral:
+		switch (land) {
+		case Hero:
+		case GoodSoldier:
+		case GoodOfficer:
+		case GoodGeneral:
 			Land.setLand(point, Land.Grave);
 			break;
-		case Land.Hero_Grass:
-		case Land.GoodSoldier_Grass:
-		case Land.GoodOfficer_Grass:
-		case Land.GoodGeneral_Grass:
+		case Hero_Grass:
+		case GoodSoldier_Grass:
+		case GoodOfficer_Grass:
+		case GoodGeneral_Grass:
 			Land.setLand(point, Land.Grave_Grass);
 			break;
-		case Land.Hero_Sand:
-		case Land.GoodSoldier_Sand:
-		case Land.GoodOfficer_Sand:
-		case Land.GoodGeneral_Sand:
+		case Hero_Sand:
+		case GoodSoldier_Sand:
+		case GoodOfficer_Sand:
+		case GoodGeneral_Sand:
 			Land.setLand(point, Land.Grave_Sand);
 			break;
-		case Land.BadSoldier:
-		case Land.BadOfficer:
-		case Land.BadGeneral:
-		case Land.Dark_Knight:
+		case BadSoldier:
+		case BadOfficer:
+		case BadGeneral:
+		case Dark_Knight:
 			Land.setLand(point, Land.RobotGrave);
 			break;
-		case Land.BadSoldier_Grass:
-		case Land.BadOfficer_Grass:
-		case Land.BadGeneral_Grass:
-		case Land.Dark_Knight_Grass:
+		case BadSoldier_Grass:
+		case BadOfficer_Grass:
+		case BadGeneral_Grass:
+		case Dark_Knight_Grass:
 			Land.setLand(point, Land.BadSoldierGrave_Grass);
 			break;
-		case Land.BadSoldier_Sand:
-		case Land.BadOfficer_Sand:
-		case Land.BadGeneral_Sand:
-		case Land.Dark_Knight_Sand:
+		case BadSoldier_Sand:
+		case BadOfficer_Sand:
+		case BadGeneral_Sand:
+		case Dark_Knight_Sand:
 			Land.setLand(point, Land.BadSoldierGrave_Sand);
 			break;
 		}
@@ -125,7 +126,7 @@ public class Bullet extends MovableWeapon {
 	}
 
 	@Override
-	protected int getGrave(int beneath) {
+	protected Land getGrave(Land beneath) {
 		return beneath;
 	}
 

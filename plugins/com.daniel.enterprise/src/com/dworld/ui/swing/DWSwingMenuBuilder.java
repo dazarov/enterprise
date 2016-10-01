@@ -14,6 +14,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JRadioButtonMenuItem;
 
 import com.dworld.core.DWConfiguration;
+import com.dworld.core.Land;
 import com.dworld.ui.DWMenuStructure;
 import com.dworld.ui.DWMenuStructure.DWCheckboxMenuItem;
 import com.dworld.ui.DWMenuStructure.DWMenu;
@@ -64,7 +65,7 @@ public class DWSwingMenuBuilder {
 	
 	private void createRadioItem(DWRadioMenuItem radio, Container parent){
 		JRadioButtonMenuItem rbMenuItem = new JRadioButtonMenuItem(radio.label);
-		if(radio.imageCode != -1){
+		if(radio.imageCode != Land.Vacuum){
 			rbMenuItem.setIcon(new ImageIcon(DWConfiguration.getInstance().getUI().getImages(DWSwingImages.class).getImage(radio.imageCode)));
 			if (DWConfiguration.getInstance().getSelectedCode() == radio.imageCode){
 				rbMenuItem.setSelected(true);
@@ -92,7 +93,7 @@ public class DWSwingMenuBuilder {
 			((JMenu)parent).addSeparator();
 		}else{
 			JMenuItem menuItem = new JMenuItem(item.label);
-			if(item.imageCode != -1){
+			if(item.imageCode != Land.Vacuum){
 				menuItem.setIcon(new ImageIcon(DWConfiguration.getInstance().getUI().getImages(DWSwingImages.class).getImage(item.imageCode)));
 			}
 			menuItem.addActionListener(e -> item.runner.run());

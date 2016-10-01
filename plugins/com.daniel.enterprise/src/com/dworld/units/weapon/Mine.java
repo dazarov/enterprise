@@ -6,8 +6,8 @@ import com.dworld.units.ActiveUnit;
 
 public class Mine extends ActiveUnit implements ISlow {
 
-	public Mine(int x, int y, int code) {
-		super(x, y, code);
+	public Mine(int x, int y, Land land) {
+		super(x, y, land);
 	}
 	
 	@Override
@@ -18,9 +18,9 @@ public class Mine extends ActiveUnit implements ISlow {
 
 	@Override
 	public void step() {
-		int land = Land.getLand(getLocation());
-		if(Land.unsaveListContains(land)) return;
-		if(land != code){
+		Land l = Land.getLand(getLocation());
+		if(Land.unsaveListContains(l)) return;
+		if(l != land){
 			die();
 			return;
 		}

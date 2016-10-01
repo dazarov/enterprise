@@ -18,7 +18,7 @@ public class Rocket extends MovableWeapon {
 		super(x, y, Land.RocketNorth, DWConstants.ROCKET_SPEED);
 		this.type = type;
 		setDirection(direction);
-		code = getCode(beneath);
+		land = getLand(beneath);
 		Land.setLand(getLocation(), beneath);
 	}
 	
@@ -29,7 +29,7 @@ public class Rocket extends MovableWeapon {
 	}
 
 	@Override
-	public int getCode(int beneath) {
+	public Land getLand(Land beneath) {
 		if(beneath == Land.Grass || beneath == Land.Mine_Grass){
 			if(direction == Direction.NORTH)
 				return Land.RocketNorth_Grass;
@@ -109,47 +109,47 @@ public class Rocket extends MovableWeapon {
 		}
 	}
 	
-	public static Direction getDirection(int code) {
-		switch(code){
-		case Land.RocketNorth:
-		case Land.RocketNorth_Grass:
-		case Land.RocketNorth_Sand:
-		case Land.RocketNorth_Water:
+	public static Direction getDirection(Land land) {
+		switch(land){
+		case RocketNorth:
+		case RocketNorth_Grass:
+		case RocketNorth_Sand:
+		case RocketNorth_Water:
 			return Direction.NORTH;
-		case Land.RocketSouth:
-		case Land.RocketSouth_Grass:
-		case Land.RocketSouth_Sand:
-		case Land.RocketSouth_Water:
+		case RocketSouth:
+		case RocketSouth_Grass:
+		case RocketSouth_Sand:
+		case RocketSouth_Water:
 			return Direction.SOUTH;
-		case Land.RocketEast:
-		case Land.RocketEast_Grass:
-		case Land.RocketEast_Sand:
-		case Land.RocketEast_Water:
+		case RocketEast:
+		case RocketEast_Grass:
+		case RocketEast_Sand:
+		case RocketEast_Water:
 			return Direction.EAST;
-		case Land.RocketWest:
-		case Land.RocketWest_Grass:
-		case Land.RocketWest_Sand:
-		case Land.RocketWest_Water:
+		case RocketWest:
+		case RocketWest_Grass:
+		case RocketWest_Sand:
+		case RocketWest_Water:
 			return Direction.WEST;
-		case Land.RocketNorthWest:
-		case Land.RocketNorthWest_Grass:
-		case Land.RocketNorthWest_Sand:
-		case Land.RocketNorthWest_Water:
+		case RocketNorthWest:
+		case RocketNorthWest_Grass:
+		case RocketNorthWest_Sand:
+		case RocketNorthWest_Water:
 			return Direction.NORTHWEST;
-		case Land.RocketNorthEast:
-		case Land.RocketNorthEast_Grass:
-		case Land.RocketNorthEast_Sand:
-		case Land.RocketNorthEast_Water:
+		case RocketNorthEast:
+		case RocketNorthEast_Grass:
+		case RocketNorthEast_Sand:
+		case RocketNorthEast_Water:
 			return Direction.NORTHEAST;
-		case Land.RocketSouthWest:
-		case Land.RocketSouthWest_Grass:
-		case Land.RocketSouthWest_Sand:
-		case Land.RocketSouthWest_Water:
+		case RocketSouthWest:
+		case RocketSouthWest_Grass:
+		case RocketSouthWest_Sand:
+		case RocketSouthWest_Water:
 			return Direction.SOUTHWEST;
-		case Land.RocketSouthEast:
-		case Land.RocketSouthEast_Grass:
-		case Land.RocketSouthEast_Sand:
-		case Land.RocketSouthEast_Water:
+		case RocketSouthEast:
+		case RocketSouthEast_Grass:
+		case RocketSouthEast_Sand:
+		case RocketSouthEast_Water:
 			return Direction.SOUTHEAST;
 		}
 		
@@ -158,7 +158,7 @@ public class Rocket extends MovableWeapon {
 	}
 	
 	@Override
-	protected Set<Integer> getWalkList(){
+	protected Set<Land> getWalkList(){
 		return Land.flyAndFindList;
 	}
 
@@ -166,7 +166,7 @@ public class Rocket extends MovableWeapon {
 
 	@Override
 	protected boolean lookAround() {
-		if (Land.getLand(getLocation()) != getCode(beneath) && !first) {
+		if (Land.getLand(getLocation()) != getLand(beneath) && !first) {
 			die();
 			return false;
 		}
@@ -179,8 +179,8 @@ public class Rocket extends MovableWeapon {
 		}
 		if (dir != Direction.NOWHERE && direction != dir) {
 			direction = dir;
-			code = getCode(beneath);
-			Land.setLand(getLocation(), code);
+			land = getLand(beneath);
+			Land.setLand(getLocation(), land);
 		}
 		return true;
 	}
@@ -217,7 +217,7 @@ public class Rocket extends MovableWeapon {
 		this.type = type;
 	}
 
-	protected Direction findTarget(Set<Integer> list, final int maxDistance) {
+	protected Direction findTarget(Set<Land> list, final int maxDistance) {
 		SearchResult result;
 		Direction dir = direction;
 		for (int i = 0; i < 5; i++) {
@@ -250,7 +250,7 @@ public class Rocket extends MovableWeapon {
 	}
 
 	@Override
-	protected int getGrave(int beneath) {
+	protected Land getGrave(Land beneath) {
 		return beneath;
 	}
 	

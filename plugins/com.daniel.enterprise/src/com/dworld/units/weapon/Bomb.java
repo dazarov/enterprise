@@ -24,13 +24,13 @@ public class Bomb extends MovableWeapon {
 	}
 	
 	@Override
-	public int getCode(int beneath){
+	public Land getLand(Land beneath){
 		switch(beneath){
-		case Land.Grass:
+		case Grass:
 			return Land.Bomb_Grass;
-		case Land.Water:
+		case Water:
 			return Land.Bomb_Water;
-		case Land.Sand:
+		case Sand:
 			return Land.Bomb_Sand;
 		default:
 			return Land.Bomb;
@@ -38,7 +38,7 @@ public class Bomb extends MovableWeapon {
 	}
 	
 	@Override
-	protected Set<Integer> getWalkList(){
+	protected Set<Land> getWalkList(){
 		return Land.flyAndFindList;
 	}
 
@@ -72,7 +72,7 @@ public class Bomb extends MovableWeapon {
 	}
 
 	@Override
-	protected int getGrave(int beneath) {
+	protected Land getGrave(Land beneath) {
 		return beneath;
 	}
 	

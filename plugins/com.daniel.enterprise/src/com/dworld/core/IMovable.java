@@ -1,11 +1,11 @@
 package com.dworld.core;
 
 public interface IMovable extends IActive{
-	public int getBeneath();
+	public Land getBeneath();
 
-	public void setBeneath(int beneath);
+	public void setBeneath(Land beneath);
 	
-	public int getCode(int beneath);
+	public Land getLand(Land beneath);
 	
 	@Deprecated
 	public Direction getDirection();

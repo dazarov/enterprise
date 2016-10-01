@@ -1,10 +1,11 @@
 package com.dworld.units;
 
 import com.dworld.core.DWConstants;
+import com.dworld.core.Land;
 
 public abstract class Soldier extends MovableUnit {
-	public Soldier(int x, int y, int code) {
-		super(x, y, code, DWConstants.SOLDIER_SPEED);
+	public Soldier(int x, int y, Land land) {
+		super(x, y, land, DWConstants.SOLDIER_SPEED);
 	}
 	
 	@Override

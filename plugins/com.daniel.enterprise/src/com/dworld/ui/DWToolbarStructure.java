@@ -20,7 +20,7 @@ public class DWToolbarStructure {
 	
 	public static class DWButton{
 		public String imagePath;
-		public int imageCode = -1;
+		public Land imageCode = Land.Vacuum;
 		public Runnable runner;
 		
 		// Separator
@@ -28,7 +28,7 @@ public class DWToolbarStructure {
 			
 		}
 		
-		public DWButton(int imageCode, Runnable runner){
+		public DWButton(Land imageCode, Runnable runner){
 			this.imageCode = imageCode;
 			this.runner = runner;
 		}

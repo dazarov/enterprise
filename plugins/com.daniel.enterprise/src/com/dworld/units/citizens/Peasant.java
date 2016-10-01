@@ -6,22 +6,22 @@ import com.dworld.units.MovableUnit;
 
 public class Peasant extends MovableUnit {
 
-	public Peasant(int x, int y, int code) {
-		super(x, y, code, DWConstants.PEASANT_SPEED);
+	public Peasant(int x, int y, Land land) {
+		super(x, y, land, DWConstants.PEASANT_SPEED);
 		mode = STAY_MODE;
 	}
 
 	@Override
-	protected int getGrave(int beneath) {
+	protected Land getGrave(Land beneath) {
 		return Land.Empty;
 	}
 	
 	@Override
-	public int getCode(int beneath){
+	public Land getLand(Land beneath){
 		switch(beneath){
-		case Land.Grass:
+		case Grass:
 			return Land.Peasant_Grass;
-		case Land.Sand:
+		case Sand:
 			return Land.Peasant_Sand;
 		default:
 			return Land.Peasant;
@@ -30,7 +30,7 @@ public class Peasant extends MovableUnit {
 
 	@Override
 	protected boolean lookAround() {
-		if (Land.getLand(getLocation()) != getCode(beneath)) {
+		if (Land.getLand(getLocation()) != getLand(beneath)) {
 			die();
 			Land.setLand(getLocation(), getGrave(beneath));
 			return false;

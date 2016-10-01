@@ -8,16 +8,16 @@ import com.dworld.units.weapon.Rocket;
 
 public class GoodTank extends Tank {
 
-	public GoodTank(int x, int y, int code) {
+	public GoodTank(int x, int y, Land land) {
 		super(x, y, Land.GoodTank);
 	}
 	
 	@Override
-	public int getCode(int beneath){
+	public Land getLand(Land beneath){
 		switch(beneath){
-		case Land.Grass:
+		case Grass:
 			return Land.GoodTank_Grass;
-		case Land.Sand:
+		case Sand:
 			return Land.GoodTank_Sand;
 		default:
 			return Land.GoodTank;
@@ -25,17 +25,17 @@ public class GoodTank extends Tank {
 	}
 
 	@Override
-	protected int getGrave(int beneath){
+	protected Land getGrave(Land beneath){
 		return Land.TankGrave;
 	}
 	
 	@Override
-	protected Set<Integer> getListToFightWith(){
+	protected Set<Land> getListToFightWith(){
 		return Land.enemyList;
 	}
 	
 	@Override
-	protected Set<Integer> getArmoredListToFightWith(){
+	protected Set<Land> getArmoredListToFightWith(){
 		return Land.armoredEnemyList;
 	}
 	

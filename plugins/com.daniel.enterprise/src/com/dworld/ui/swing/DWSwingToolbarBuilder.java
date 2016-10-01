@@ -11,6 +11,7 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
 import com.dworld.core.DWConfiguration;
+import com.dworld.core.Land;
 import com.dworld.ui.DWToolbarStructure;
 import com.dworld.ui.DWToolbarStructure.DWButton;
 import com.dworld.ui.DWToolbarStructure.DWToolbar;
@@ -74,7 +75,7 @@ public class DWSwingToolbarBuilder {
 				toolBar.addSeparator();
 			}else{
 				JButton jButton = new JButton();
-				if(button.imageCode != -1){
+				if(button.imageCode != Land.Vacuum){
 					jButton.setIcon(new ImageIcon(getImage(button.imageCode)));
 				} else if(button.imagePath != null){
 					jButton.setIcon(new ImageIcon(loadImage(button.imagePath)));
@@ -88,8 +89,8 @@ public class DWSwingToolbarBuilder {
 	}
 	
 	
-	private static Image getImage(int code){
-		return DWConfiguration.getInstance().getUI().getImages(DWSwingImages.class).getImage(code);
+	private static Image getImage(Land land){
+		return DWConfiguration.getInstance().getUI().getImages(DWSwingImages.class).getImage(land);
 	}
 
 	private static Image loadImage(String path){

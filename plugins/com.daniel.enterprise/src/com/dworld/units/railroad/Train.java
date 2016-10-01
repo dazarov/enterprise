@@ -11,123 +11,125 @@ import com.dworld.units.MovableUnit;
 
 public class Train extends MovableUnit {
 
-	private int oldBeneath = Land.Vacuum;
+	private Land oldBeneath = Land.Vacuum;
 	private boolean going = true;
 	private int delay = 0;
 	private static final int STOP = 300;
 	private static final int WAIT = 100;
 	private boolean reversable = true;
 
-	public Train(int x, int y, int code) {
-		super(x, y, code, DWConstants.TRAIN_SPEED);
+	public Train(int x, int y, Land land) {
+		super(x, y, land, DWConstants.TRAIN_SPEED);
 	}
 
 	@Override
 	public void init() {
-		initDirection(code);
+		initDirection(land);
 	}
 	
+	@SuppressWarnings("incomplete-switch")
 	@Override
-	protected int getDefaultBeneath(int code){
-		switch(code){
-		case Land.Train_Vertical:
+	protected Land getDefaultBeneath(Land land){
+		switch(land){
+		case Train_Vertical:
 			return Land.Rail_Vertical;
 			
-		case Land.Train_Horizontal:
+		case Train_Horizontal:
 			return Land.Rail_Horizontal;
 			
-		case Land.Train_Diagonal_Up:
+		case Train_Diagonal_Up:
 			return Land.Rail_Diagonal_Up;
 			
-		case Land.Train_Diagonal_Down:
+		case Train_Diagonal_Down:
 			return Land.Rail_Diagonal_Down;
 			
-		case Land.Train_Up_Right:
+		case Train_Up_Right:
 			return Land.Rail_Up_Right;
 			
-		case Land.Train_Up_Left:
+		case Train_Up_Left:
 			return Land.Rail_Up_Left;
 			
-		case Land.Train_Down_Right:
+		case Train_Down_Right:
 			return Land.Rail_Down_Right;
 			
-		case Land.Train_Down_Left:
+		case Train_Down_Left:
 			return Land.Rail_Down_Left;
 			
-		case Land.Train_Right_Up:
+		case Train_Right_Up:
 			return Land.Rail_Right_Up;
 			
-		case Land.Train_Right_Down:
+		case Train_Right_Down:
 			return Land.Rail_Right_Down;
 			
-		case Land.Train_Left_Up:
+		case Train_Left_Up:
 			return Land.Rail_Left_Up;
 			
-		case Land.Train_Left_Down:
+		case Train_Left_Down:
 			return Land.Rail_Left_Down;
 			
-		case Land.Train_Vertical_Cross:
+		case Train_Vertical_Cross:
 			return Land.Rail_Vertical_Cross;
 			
-		case Land.Train_Horizontal_Cross:
+		case Train_Horizontal_Cross:
 			return Land.Rail_Vertical_Cross;
 			
-		case Land.Train_Diagonal_Up_Cross:
+		case Train_Diagonal_Up_Cross:
 			return Land.Rail_Diagonal_Cross;
 			
-		case Land.Train_Diagonal_Down_Cross:
+		case Train_Diagonal_Down_Cross:
 			return Land.Rail_Diagonal_Cross;
 		}
 		return Land.Empty;
 	}
 	
+	@SuppressWarnings("incomplete-switch")
 	@Override
-	public int getCode(int beneath){
+	public Land getLand(Land beneath){
 		switch(beneath){
-		case Land.Rail_Vertical:
+		case Rail_Vertical:
 			return Land.Train_Vertical;
 			
-		case Land.Rail_Horizontal:
+		case Rail_Horizontal:
 			return Land.Train_Horizontal;
 			
-		case Land.Rail_Diagonal_Up:
+		case Rail_Diagonal_Up:
 			return Land.Train_Diagonal_Up;
 			
-		case Land.Rail_Diagonal_Down:
+		case Rail_Diagonal_Down:
 			return Land.Train_Diagonal_Down;
 			
-		case Land.Rail_Up_Right:
+		case Rail_Up_Right:
 			return Land.Train_Up_Right;
 			
-		case Land.Rail_Up_Left:
+		case Rail_Up_Left:
 			return Land.Train_Up_Left;
 			
-		case Land.Rail_Down_Right:
+		case Rail_Down_Right:
 			return Land.Train_Down_Right;
 			
-		case Land.Rail_Down_Left:
+		case Rail_Down_Left:
 			return Land.Train_Down_Left;
 			
-		case Land.Rail_Right_Up:
+		case Rail_Right_Up:
 			return Land.Train_Right_Up;
 			
-		case Land.Rail_Right_Down:
+		case Rail_Right_Down:
 			return Land.Train_Right_Down;
 			
-		case Land.Rail_Left_Up:
+		case Rail_Left_Up:
 			return Land.Train_Left_Up;
 			
-		case Land.Rail_Left_Down:
+		case Rail_Left_Down:
 			return Land.Train_Left_Down;
 			
-		case Land.Rail_Vertical_Cross:
+		case Rail_Vertical_Cross:
 			if(direction == Direction.NORTH || direction == Direction.SOUTH){
 				return Land.Train_Vertical_Cross;
 			}else{
 				return Land.Train_Horizontal_Cross;
 			}
 			
-		case Land.Rail_Diagonal_Cross:
+		case Rail_Diagonal_Cross:
 			if(direction == Direction.NORTHEAST || direction == Direction.SOUTHWEST){
 				return Land.Train_Diagonal_Up_Cross;
 			}else{
@@ -171,8 +173,8 @@ public class Train extends MovableUnit {
 		return going;
 	}
 	
-	private void initDirection(int code) {
-		RailUtils.initTrain(this, code);
+	private void initDirection(Land land) {
+		RailUtils.initTrain(this, land);
 	}
 	
 	public void initTrain(Direction direction, boolean reversable){
@@ -197,13 +199,13 @@ public class Train extends MovableUnit {
 	}
 	
 	@Override
-	protected Set<Integer> getWalkList() {
+	protected Set<Land> getWalkList() {
 		return Land.railList;
 	}
 
 
 	@Override
-	protected int getGrave(int beneath) {
+	protected Land getGrave(Land beneath) {
 		return beneath;
 	}
 	
@@ -215,7 +217,7 @@ public class Train extends MovableUnit {
 		if(getLocation().equals(stationLocation)){
 			return;
 		}
-		int try1 = Land.Vacuum, try2 = Land.Vacuum;
+		Land try1 = Land.Vacuum, try2 = Land.Vacuum;
 		if(direction == Direction.NORTH || direction == Direction.SOUTH){
 			try1 = Land.getLand(getLocation().getX()-1, getLocation().getY());
 			try2 = Land.getLand(getLocation().getX()+1, getLocation().getY());

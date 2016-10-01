@@ -23,35 +23,35 @@ public class Gate extends ActiveUnit implements ISlow{
 	private int material;
 	private int state;
 	
-	public Gate(int x, int y, int code) {
+	public Gate(int x, int y, Land land) {
 		super(x, y, Land.Vacuum);
-		this.material = getMaterial(code);
-		this.orientation = getOrientation(code);
+		this.material = getMaterial(land);
+		this.orientation = getOrientation(land);
 		this.state = Closed;
-		this.code = getCode();
-		Land.setLand(getLocation(), code);
+		this.land = getLand();
+		Land.setLand(getLocation(), land);
 	}
 	
-	private int getMaterial(int code){
-		switch(code){
-		case Land.OpenedHorizontalSteelGate:
-		case Land.ClosedHorizontalSteelGate:
-		case Land.OpenedVerticalSteelGate:
-		case Land.ClosedVerticalSteelGate:
+	private int getMaterial(Land land){
+		switch(land){
+		case OpenedHorizontalSteelGate:
+		case ClosedHorizontalSteelGate:
+		case OpenedVerticalSteelGate:
+		case ClosedVerticalSteelGate:
 			
 			return Steel;
 			
-		case Land.OpenedHorizontalWoodGate:
-		case Land.ClosedHorizontalWoodGate:
-		case Land.OpenedVerticalWoodGate:
-		case Land.ClosedVerticalWoodGate:
+		case OpenedHorizontalWoodGate:
+		case ClosedHorizontalWoodGate:
+		case OpenedVerticalWoodGate:
+		case ClosedVerticalWoodGate:
 			
 			return Wood;
 			
-		case Land.OpenedHorizontalConcreteGate:
-		case Land.ClosedHorizontalConcreteGate:
-		case Land.OpenedVerticalConcreteGate:
-		case Land.ClosedVerticalConcreteGate:
+		case OpenedHorizontalConcreteGate:
+		case ClosedHorizontalConcreteGate:
+		case OpenedVerticalConcreteGate:
+		case ClosedVerticalConcreteGate:
 			
 			return Concrete;
 			
@@ -62,16 +62,16 @@ public class Gate extends ActiveUnit implements ISlow{
 		
 	}
 	
-	private int getOrientation(int code){
-		switch(code){
-		case Land.OpenedHorizontalSteelGate:
-		case Land.ClosedHorizontalSteelGate:
-		case Land.OpenedHorizontalWoodGate:
-		case Land.ClosedHorizontalWoodGate:
-		case Land.OpenedHorizontalConcreteGate:
-		case Land.ClosedHorizontalConcreteGate:
-		case Land.OpenedHorizontalBrickGate:
-		case Land.ClosedHorizontalBrickGate:
+	private int getOrientation(Land land){
+		switch(land){
+		case OpenedHorizontalSteelGate:
+		case ClosedHorizontalSteelGate:
+		case OpenedHorizontalWoodGate:
+		case ClosedHorizontalWoodGate:
+		case OpenedHorizontalConcreteGate:
+		case ClosedHorizontalConcreteGate:
+		case OpenedHorizontalBrickGate:
+		case ClosedHorizontalBrickGate:
 			
 			return Horizontal;
 			
@@ -80,7 +80,7 @@ public class Gate extends ActiveUnit implements ISlow{
 		}
 	}
 
-	protected int getCode() {
+	protected Land getLand() {
 		if (material == Steel) {
 			if (orientation == Vertical) {
 				if (state == Opened)
@@ -134,28 +134,28 @@ public class Gate extends ActiveUnit implements ISlow{
 
 	@Override
 	public void step() {
-		if(state == Closed && Land.getLand(getLocation()) != getCode()){
+		if(state == Closed && Land.getLand(getLocation()) != getLand()){
 			die();
 			return;
 		}
 		
 		for (int i = 0; i < 3; i++) {
 			Location point = getPoint(i);
-			int land = Land.getLand(point);
-			if (Land.citizenList.contains(new Integer(land))) {
+			Land l = Land.getLand(point);
+			if (Land.citizenList.contains(l)) {
 				if (state == Closed) {
 					state = Opened;
-					code = getCode();
+					land = getLand();
 					if (i != 0)
-						Land.setLand(getLocation(), code);
+						Land.setLand(getLocation(), land);
 				}
 				return;
 			}
 		}
 		if (state == Opened) {
 			state = Closed;
-			code = getCode();
-			Land.setLand(getLocation(), code);
+			land = getLand();
+			Land.setLand(getLocation(), land);
 		}
 	}
 
@@ -184,11 +184,11 @@ public class Gate extends ActiveUnit implements ISlow{
 		
 		if(commandId == EXTERNAL_COMMAND_OPEN_GATE){
 			state = Opened;
-			Land.setLand(getLocation(), getCode());
+			Land.setLand(getLocation(), getLand());
 			deactivate();
 		}else if(commandId == EXTERNAL_COMMAND_CLOSE_GATE){
 			state = Closed;
-			Land.setLand(getLocation(), getCode());
+			Land.setLand(getLocation(), getLand());
 			deactivate();
 		}
 	}
@@ -197,11 +197,11 @@ public class Gate extends ActiveUnit implements ISlow{
 		System.out.println(" "+getClass()+" doDefaultCommand");
 		if(state == Opened){
 			state = Closed;
-			Land.setLand(getLocation(), getCode());
+			Land.setLand(getLocation(), getLand());
 			activate();
 		}else if(state == Closed){
 			state = Opened;
-			Land.setLand(getLocation(), getCode());
+			Land.setLand(getLocation(), getLand());
 			deactivate();
 		}
 	}

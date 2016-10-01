@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.dworld.core.DWConfiguration;
+import com.dworld.core.Land;
 import com.dworld.ui.DWMenuStructure;
 import com.dworld.ui.DWMenuStructure.DWCheckboxMenuItem;
 import com.dworld.ui.DWMenuStructure.DWMenu;
@@ -67,7 +68,7 @@ public class DWJavaFXMenuBuilder {
 	
 	private void createRadioItem(DWRadioMenuItem radio, Menu parent){
 		RadioMenuItem rbMenuItem = new RadioMenuItem(radio.label);
-		if(radio.imageCode != -1){
+		if(radio.imageCode != Land.Vacuum){
 			rbMenuItem.setGraphic(new ImageView(DWConfiguration.getInstance().getUI().getImages(DWJavaFXImages.class).getImage(radio.imageCode)));
 			if (DWConfiguration.getInstance().getSelectedCode() == radio.imageCode){
 				rbMenuItem.setSelected(true);
@@ -95,7 +96,7 @@ public class DWJavaFXMenuBuilder {
 			parent.getItems().add(new SeparatorMenuItem());
 		}else{
 			MenuItem menuItem = new MenuItem(item.label);
-			if(item.imageCode != -1){
+			if(item.imageCode != Land.Vacuum){
 				menuItem.setGraphic(new ImageView(DWConfiguration.getInstance().getUI().getImages(DWJavaFXImages.class).getImage(item.imageCode)));
 			}
 			menuItem.setOnAction(e -> item.runner.run());

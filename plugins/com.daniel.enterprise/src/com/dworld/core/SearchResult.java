@@ -3,12 +3,12 @@ package com.dworld.core;
 
 public class SearchResult {
 	private int distance = -1;
-	private int resultCode = Land.Vacuum;
+	private Land resultLand = Land.Vacuum;
 	private Direction direction = Direction.NOWHERE;
 	private Location location;
 	
-	public SearchResult(int code, int dist, Direction dir, Location location){
-		resultCode = code;
+	public SearchResult(Land land, int dist, Direction dir, Location location){
+		resultLand = land;
 		distance = dist;
 		direction = dir;
 		this.location = location;
@@ -18,8 +18,8 @@ public class SearchResult {
 		return distance;
 	}
 
-	public int getResultCode() {
-		return resultCode;
+	public Land getResultLand() {
+		return resultLand;
 	}
 
 	public Direction getDirection() {

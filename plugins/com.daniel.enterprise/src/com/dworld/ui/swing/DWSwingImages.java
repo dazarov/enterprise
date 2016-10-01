@@ -27,7 +27,7 @@ public class DWSwingImages extends DWImages<Image>{
 		}
 	}
 	
-	private int code;
+	private Land land;
 	private Image image;
 	
 	public void draw(Graphics g) {
@@ -36,9 +36,9 @@ public class DWSwingImages extends DWImages<Image>{
 		
 		for (int x = 0; x < DWConstants.UI_WIDTH; x++) {
 			for (int y = 0; y < DWConstants.UI_HEIGHT; y++) {
-				code = Land.getLand(startX + x, startY + y);
-				if(code != Land.Empty){
-					image = getImage(code);
+				land = Land.getLand(startX + x, startY + y);
+				if(land != Land.Empty){
+					image = getImage(land);
 					g.drawImage(image, x * DWConstants.UI_IMAGE_WIDTH, y * DWConstants.UI_IMAGE_HEIGHT, DWConstants.UI_IMAGE_WIDTH,	DWConstants.UI_IMAGE_HEIGHT, null);
 				}
 			}

@@ -114,11 +114,11 @@ public class DWMouseListener {
 				DWConfiguration.getInstance().getLauncher().setModified();
 			}else if(isFill()){
 				Location location = getLocation(mouseX, mouseY);
-				int oldCode = Land.getLand(location);
+				Land oldLand = Land.getLand(location);
 				if (button == MouseEvent.BUTTON1){
-					SelectionManager.fill(location.getX(), location.getY(), oldCode, DWConfiguration.getInstance().getSelectedCode());
+					SelectionManager.fill(location.getX(), location.getY(), oldLand, DWConfiguration.getInstance().getSelectedCode());
 				}else{
-					SelectionManager.fill(location.getX(), location.getY(), oldCode, Land.Empty);
+					SelectionManager.fill(location.getX(), location.getY(), oldLand, Land.Empty);
 				}
 				
 				DWConfiguration.getInstance().getLauncher().setModified();

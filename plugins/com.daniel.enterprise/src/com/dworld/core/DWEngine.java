@@ -129,9 +129,9 @@ public class DWEngine implements Runnable {
 		run.set(!pause);
 	}
 
-	public void changeManCode(int code){
+	public void changeManCode(Land land){
 		pause(true);
-		DWConfiguration.getInstance().getControlledUnit().setCode(code);
+		DWConfiguration.getInstance().getControlledUnit().setLand(land);
 		pause(false);
 	}
 	
