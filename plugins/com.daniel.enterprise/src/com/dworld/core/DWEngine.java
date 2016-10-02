@@ -11,6 +11,7 @@ import com.dworld.ui.IProgressMonitor;
 public class DWEngine implements Runnable {
 	private static final long MAIN_DELAY = 60;
 	private static final long SLEEP_DELAY = 100;
+	private static final long STOP_DELAY = 500;
 	private static final int minimapRefreshRate = 10;
 	
 	private List<ISlow> slowUnits = new ArrayList<>();
@@ -22,6 +23,7 @@ public class DWEngine implements Runnable {
 	private long frameID = 0;
 	
 	private AtomicBoolean run = new AtomicBoolean(true);
+	private AtomicBoolean pause = new AtomicBoolean(false);
 	private int maxElements = 0;
 	private long time=0;
 	private long maxTime=0;
@@ -38,7 +40,18 @@ public class DWEngine implements Runnable {
 	public void run(){
 		
 		while (true) {
-			if(run.get()){
+			if(!run.get()){
+				try {
+					Thread.sleep(STOP_DELAY);
+				} catch (Exception ex) {
+					ex.printStackTrace();
+					return;
+				}
+				continue;
+			}
+			
+			if(!pause.get()){
+				
 				long t = System.currentTimeMillis();
 				if(current != 0){
 					time = t - current;
@@ -58,7 +71,7 @@ public class DWEngine implements Runnable {
 					}
 				}
 				loop();
-				refreshMinimap();
+				
 			}else{
 				current = 0;
 				time = 0;
@@ -69,7 +82,7 @@ public class DWEngine implements Runnable {
 					return;
 				}
 			}
-			
+			refreshMinimap();
 			DWConfiguration.getInstance().getUI().repaint();
 			frameID++;
 			if(frameID == Long.MAX_VALUE){
@@ -80,11 +93,11 @@ public class DWEngine implements Runnable {
 	
 	
 	public void save(String fileName, IProgressMonitor progressMonitor){
-		pause(true);
+		stop();
 		Land.save(fileName, progressMonitor);
 		current = 0;
 		time = 0;
-		pause(false);
+		start();
 	}
 	
 	public void saveAndExit(String fileName, IProgressMonitor progressMonitor){
@@ -93,13 +106,13 @@ public class DWEngine implements Runnable {
 	}
 
 	public void load(String fileName, IProgressMonitor progressMonitor){
-		pause(true);
+		stop();
 		clear();
 		Land.load(fileName, progressMonitor);
 		init();
 		current = 0;
 		time = 0;
-		pause(false);
+		start();
 	}
 	
 	public int getNumberOfActiveUnits(){
@@ -127,7 +140,15 @@ public class DWEngine implements Runnable {
 	}
 	
 	public void pause(boolean pause){
-		run.set(!pause);
+		this.pause.set(pause);
+	}
+	
+	private void stop(){
+		run.set(false);
+	}
+	
+	private void start(){
+		run.set(true);
 	}
 
 	public void changeManCode(Land land){

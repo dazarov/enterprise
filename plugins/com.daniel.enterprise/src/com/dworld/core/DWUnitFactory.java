@@ -1,7 +1,7 @@
 package com.dworld.core;
 
 import java.lang.reflect.Constructor;
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.Map;
 
 import com.dworld.units.Gate;
@@ -25,7 +25,7 @@ import com.dworld.units.railroad.WarTrain;
 import com.dworld.units.weapon.Mine;
 
 public class DWUnitFactory {
-	private static Map<Land, Class<? extends Unit>> unitMap = new HashMap<>();
+	private static Map<Land, Class<? extends Unit>> unitMap = new EnumMap<>(Land.class);
 	static{
 		unitMap.put(Land.BadSoldier, BadSoldier.class);
 		unitMap.put(Land.BadSoldier_Grass, BadSoldier.class);

@@ -22,9 +22,9 @@ public enum Land {
 	 * Land codes section begin
 	 */
 	
-	Vacuum, // -1 -> 0
-	Empty,	// 0 -> 1
-	Wall,	// 1 -> 2
+	Vacuum,
+	Empty,
+	Wall,
 	Brick,
 	Grenade,
 	Ammo,
@@ -229,7 +229,7 @@ public enum Land {
 	Train_Diagonal_Up_Cross,
 	Train_Diagonal_Down_Cross,
 	
-	Station_Vertical, // 186+ -> 180
+	Station_Vertical,
 	Station_Horizontal,
 	
 	WarTrain_Vertical,
