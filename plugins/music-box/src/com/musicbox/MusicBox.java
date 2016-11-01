@@ -1,6 +1,7 @@
 package com.musicbox;
 
 import static com.musicbox.Utils.waitForCommand;
+import static com.musicbox.Utils.out;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -12,9 +13,17 @@ import java.nio.file.StandardOpenOption;
 import java.util.Optional;
 
 public class MusicBox {
-	private static final String LINUX_PATH = "/home/daniel/Music/Music";
-	private static final String WINDOWS_PATH = "C:/Users/Daniil/Music";
-	private static final String UNIX_MOBILE_ROOT_PATH = "/run/user/1000/gvfs";
+	private static final String[] PATHS = {
+	    "/home/daniel/Music/Music",
+	    "/usr/local/google/home/dazarov/Music",
+	    "C:/Users/Daniil/Music"
+	};
+	
+	private static final String[] MOBILE_PATHS = {
+	    "/run/user/424732/gvfs",
+	    "/run/user/1000/gvfs"
+	};
+	
 	//private static final String WINDOWS_MOBILE_ROOT_PATH = "This PC/Nexus 6/Internal storage";
 	private static final String SD_CARD_PATH = "E:/Music";
 	
@@ -27,14 +36,17 @@ public class MusicBox {
 	public static void main(String[] args){
 		try(BufferedWriter log = Files.newBufferedWriter(Paths.get(LOG_FILE), StandardOpenOption.APPEND, StandardOpenOption.CREATE)){
 			
-			Path mobilePath = findMobilePath(log, UNIX_MOBILE_ROOT_PATH);
+			Path mobilePath = findMobilePath(log, MOBILE_PATHS);
 //			if(mobilePath == null){
 //				mobilePath = findMobilePath(log, WINDOWS_MOBILE_ROOT_PATH);
 //			}
 			
-			Path root = Paths.get(LINUX_PATH);
-			if(!Files.exists(root)){
-				root = Paths.get(WINDOWS_PATH);
+			Path root = null;
+			for(String path : PATHS){
+			  root = Paths.get(path);
+			  if(Files.exists(root)){
+			    break;
+			  }
 			}
 				
 			MusicBox mb = new MusicBox();
@@ -71,8 +83,9 @@ public class MusicBox {
 		}
 	}
 	
-	private static Path findMobilePath(Writer log, String pathString){
+	private static Path findMobilePath(Writer log, String[] paths){
 		try {
+		  for(String pathString : paths){
 			Path path = Paths.get(pathString);
 			if(Files.exists(path)){
 				Optional<Path> result = Files.find(path, 20, (p, a) -> p.getFileName().toString().equals("Music")).findFirst();
@@ -80,7 +93,9 @@ public class MusicBox {
 					return result.get();
 				}
 			}
+		  }
 		} catch (IOException e) {
+		    out(log, "Error while reading files: "+e.getMessage());
 			e.printStackTrace();
 		}
 		return null;

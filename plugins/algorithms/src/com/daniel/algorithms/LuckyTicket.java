@@ -3,19 +3,20 @@ package com.daniel.algorithms;
 import java.util.stream.IntStream;
 
 public class LuckyTicket {
+  //int[] numbers = new int[6];
+  //for(int index = 0; index < string.length(); index++){
+  //  numbers[index] = Integer.parseInt(""+string.charAt(index));
+  //}
+  
+  // Stream.of(string.toCharArray()) - returns stream of arrays, not stream of chars 
+  // string.chars() - returns IntStream;
+  
+  //int[] numbers = string.chars().map(i -> (char)i).map(c -> Integer.parseInt(""+c)).toArray();
+  
 	public static boolean isMyTicketLucky(String string){
 		if(string.length() != 6){
 			throw new RuntimeException("String should be 6 characters long");
 		}
-		//int[] numbers = new int[6];
-		//for(int index = 0; index < string.length(); index++){
-		//	numbers[index] = Integer.parseInt(""+string.charAt(index));
-		//}
-		
-		// Stream.of(string.toCharArray()) - returns stream of arrays, not stream of chars 
-		// string.chars() - returns IntStream;
-		
-		//int[] numbers = string.chars().map(i -> (char)i).map(c -> Integer.parseInt(""+c)).toArray();
 		int[] numbers = string.chars().map(i -> Integer.parseInt(""+(char)i)).toArray();
 		
 		int left = IntStream.of(numbers).limit(3).sum();

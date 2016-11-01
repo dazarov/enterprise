@@ -59,7 +59,7 @@ public class Utils {
 		String value;
 		WHILE_LOOP:
 		while(true){
-			value = readLine("Enter:");
+			value = readLine(prompt);
 			for(char ch : value.toCharArray()){
 				if(!Character.isDigit(ch)){
 					continue WHILE_LOOP;
