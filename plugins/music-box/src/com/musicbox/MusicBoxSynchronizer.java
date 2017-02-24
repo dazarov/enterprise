@@ -62,6 +62,7 @@ public class MusicBoxSynchronizer {
 		printErrors();
 		
 		Duration duration = Duration.between(startDateTime, LocalDateTime.now());
+		out(log, "\nDone.");
 		out(log, "Processing time: "+format(duration));
 	}
 	
@@ -97,13 +98,15 @@ public class MusicBoxSynchronizer {
 					// Ask what to do
 					System.out.println("\nFile: "+filePath);
 					System.out.println("File size is different from the file size in the main repository (MR)!");
-					System.out.println("File location is different from the file location in MR!");
+					//System.out.println("File location is different from the file location in MR!");
 					System.out.println("1 - Correct file in MR - Delete file on MD and Replace file on MD with file from MR");
 					System.out.println("2 - Correct file and location on Mobile Device (MD) - Replace file in MR with file from MD");
 					System.out.println("4 - Skip");
 					System.out.println("0 - Exit");
 					int command = waitForCommand("Input:");
-					if(command == 1){ // Correct file in MR - Delete local file and Copy file from MR to MD
+					if (command == 0) {
+                      System.exit(0);
+                    } else if(command == 1){ // Correct file in MR - Delete local file and Copy file from MR to MD
 						out(log, "Deleting the file "+filePath);
 						Files.delete(filePath);
 						out(log, "File successfully deleted!");
@@ -120,8 +123,6 @@ public class MusicBoxSynchronizer {
 						out(log, "Copy file "+filePath.getFileName()+" <------ to the main repository...");
 						copy(mobileRoot, filePath, root, false);
 						out(log, "File successfully copied!");
-					}if(command == 0){
-						System.exit(0);
 					}
 				}else{
 					// Ask to move
@@ -134,7 +135,9 @@ public class MusicBoxSynchronizer {
 					System.out.println("0 - Exit");
 					int command = getCommand("Input:", WAITER_ID_CHECK_INFO_1);
 					System.out.println("Command - "+command);
-					if(command == 1){ // Move file to the correct location
+					if(command == 0) {
+					  System.exit(0);
+					} else if(command == 1) { // Move file to the correct location
 						out(log, "Move file "+filePath.getFileName()+" to the other folder");
 						move(mobileRoot, filePath, fileInfo.filePath.getParent());
 						out(log, "File successfully moved!");
@@ -148,7 +151,9 @@ public class MusicBoxSynchronizer {
 				System.out.println("3 - Skip");
 				System.out.println("0 - Exit");
 				int command = waitForCommand("Input:");
-				if(command == 1){ // Copy file to mobile device
+				if(command == 0) {
+                  System.exit(0);
+                } else if(command == 1){ // Copy file to mobile device
 					out(log, "Copy file "+filePath.getFileName()+" --------> to mobile device...");
 					
 					copy(root, fileInfo.filePath, mobileRoot, true);
@@ -160,8 +165,6 @@ public class MusicBoxSynchronizer {
 					copy(mobileRoot, filePath, root, true);
 					
 					out(log, "File successfully copied!");
-				}else if(command == 0){
-					System.exit(0);
 				}
 			}
 			
@@ -178,7 +181,9 @@ public class MusicBoxSynchronizer {
 			System.out.println("0 - Exit");
 			int command = getCommand("Input:", WAITER_ID_CHECK_INFO_2);
 			System.out.println("Command - "+command);
-			if(command == 1){  // Copy file from mobile device
+			if(command == 0){
+              System.exit(0);
+            } else if(command == 1){  // Copy file from mobile device
 				out(log, "Copy file "+filePath.getFileName()+" <------ to the main repository...");
 				
 				copy(mobileRoot, filePath, root, false);
@@ -188,10 +193,7 @@ public class MusicBoxSynchronizer {
 				out(log, "Deleting the file "+filePath);
 				Files.delete(filePath);
 				out(log, "File successfully deleted!");
-			}else if(command == 0){
-				System.exit(0);
 			}
-			
 		}
 	}
 	
@@ -209,7 +211,9 @@ public class MusicBoxSynchronizer {
 			System.out.println("0 - Exit");
 			int command = getCommand("Input:", WAITER_ID_SYNCHRONIZE_ROOTS);
 			System.out.println("Command - "+command);
-			if(command == 1){
+			if (command == 0) {
+              System.exit(0);
+            } else if(command == 1){
 				out(log, "Copy file "+info.filePath+" ------> to mobile device...");
 				
 				copy(root, info.filePath, mobileRoot, false);
@@ -219,11 +223,7 @@ public class MusicBoxSynchronizer {
 				out(log, "Deleting the file "+info.filePath);
 				Files.delete(info.filePath);
 				out(log, "File successfully deleted!");
-			}else if(command == 0){
-				System.exit(0);
-			}
-			
-			
+			} 
 		}
 	}
 

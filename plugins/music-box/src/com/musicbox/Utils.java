@@ -74,17 +74,19 @@ public class Utils {
 	static int lastID = -1;
 	
 	static int getCommand(String prompt, int waiterID) throws IOException {
-		if(lastID == waiterID && lastID != -1){
+		if (lastID == waiterID && lastID != -1 ){
 			return lastCommand;
-		}else{
+		} else {
 			lastCommand = -1;
 			lastID = -1;
 			int command = waitForCommand(prompt);
-			if(command%2 == 0){
+			if (command == 0) {
+			  return command;
+			} else if(command%2 == 0) {
 				lastCommand = command-1;
 				lastID = waiterID;
 				return lastCommand;
-			}else{
+			} else {
 				return command;
 			}
 		}
