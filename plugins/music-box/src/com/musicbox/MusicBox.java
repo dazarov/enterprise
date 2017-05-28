@@ -25,7 +25,7 @@ public class MusicBox {
 	};
 	
 	//private static final String WINDOWS_MOBILE_ROOT_PATH = "This PC/Nexus 6/Internal storage";
-	private static final String SD_CARD_PATH = "E:/Music";
+	private static final String SD_CARD_PATH = "F:/Music";
 	
 	private static final String LOG_FILE = "MusicBox.log";
 	

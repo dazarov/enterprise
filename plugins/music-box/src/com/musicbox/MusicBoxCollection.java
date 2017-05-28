@@ -82,15 +82,32 @@ public class MusicBoxCollection {
 				.replace("  ", " ");
 	}
 	
+	void validateArtists(Writer logFile){
+		for(String artistId : artists.keySet()){
+			String artistName = null;
+			Map<String, Song> songs = artists.get(artistId);
+			for(String title : songs.keySet()){
+				Song song = songs.get(title);
+				if(artistName == null){
+					artistName = song.artist;
+				}else{
+					if(!artistName.equals(song.artist)){
+						error(logFile, "Wrong Artist Name " + song.artist + " or " + artistName);
+					}
+				}
+			}
+		}
+	}
+	
 	void printAll(Writer songList){
 		AtomicInteger total = new AtomicInteger(1);
 		int artCount = 1;
 		for(String artist : artists.keySet()){
-			Map<String, Song> map = artists.get(artist);
+			Map<String, Song> songs = artists.get(artist);
 			int count = 1;
 			boolean firstSong = true;
-			for(String title : map.keySet()){
-				Song song = map.get(title);
+			for(String title : songs.keySet()){
+				Song song = songs.get(title);
 				if(firstSong){
 					out(songList, "-------   "+artCount+". "+song.artist.toUpperCase()+"   --------");
 					firstSong = false;

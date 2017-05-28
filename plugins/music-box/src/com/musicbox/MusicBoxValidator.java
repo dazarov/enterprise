@@ -105,6 +105,8 @@ public class MusicBoxValidator {
 		
 		out(log, "Artists: "+collection.getNumberOFArtists());
 		
+		collection.validateArtists(log);
+		
 		// print errors
 		printErrors();
 		
