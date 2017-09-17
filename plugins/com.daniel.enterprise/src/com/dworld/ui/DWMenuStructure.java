@@ -73,7 +73,7 @@ public class DWMenuStructure {
 		DWConfiguration config = DWConfiguration.getInstance();
 		DWEngine engine = config.getEngine();
 
-		DWMenu menu = new DWMenu("File");
+		DWMenu menu = new DWMenu(DWMessages.getMessage(DWMessages.FILE));
 		menus.add(menu);
 
 		menu.items.add(new DWMenuItem("Load",        () -> config.getLauncher().load(DWConfiguration.SAVE_FILE)));

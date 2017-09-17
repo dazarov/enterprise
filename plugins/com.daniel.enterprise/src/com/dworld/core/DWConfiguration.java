@@ -1,5 +1,7 @@
 package com.dworld.core;
 
+import java.util.Locale;
+
 import com.dworld.DWJavaFXLauncher;
 import com.dworld.DWSwingLauncher;
 import com.dworld.ui.DWUI;
@@ -47,6 +49,12 @@ public class DWConfiguration {
 	private boolean attackMode = false;
 	
 	private String pathName;
+	
+	private Locale locale = new Locale("en", "US");
+	
+	public Locale getLocale(){
+		return locale;
+	}
 	
 	private DWConfiguration(){
 		engine = new DWEngine();
