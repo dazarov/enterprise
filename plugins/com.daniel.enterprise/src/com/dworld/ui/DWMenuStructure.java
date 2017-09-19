@@ -80,28 +80,28 @@ public class DWMenuStructure {
 		menu.items.add(new DWMenuItem(DWMessage.SAVE.get(),        () -> config.getLauncher().save(DWConfiguration.SAVE_FILE)));
 		menu.items.add(new DWMenuItem());
 		menu.items.add(new DWMenuItem(DWMessage.LOAD_BACKUP.get(), () -> config.getLauncher().load(DWConfiguration.BACKUP_FILE)));
-		menu.items.add(new DWMenuItem("Save Backup", () -> config.getLauncher().save(DWConfiguration.BACKUP_FILE)));
+		menu.items.add(new DWMenuItem(DWMessage.SAVE_BACKUP.get(), () -> config.getLauncher().save(DWConfiguration.BACKUP_FILE)));
 		menu.items.add(new DWMenuItem());
-		menu.items.add(new DWMenuItem("Load Test",   () -> config.getLauncher().load(DWConfiguration.TEST_FILE)));
-		menu.items.add(new DWMenuItem("Save Test",   () -> config.getLauncher().save(DWConfiguration.TEST_FILE)));
+		menu.items.add(new DWMenuItem(DWMessage.LOAD_TEST.get(),   () -> config.getLauncher().load(DWConfiguration.TEST_FILE)));
+		menu.items.add(new DWMenuItem(DWMessage.SAVE_TEST.get(),   () -> config.getLauncher().save(DWConfiguration.TEST_FILE)));
 		menu.items.add(new DWMenuItem());
-		menu.items.add(new DWMenuItem("Exit",        () -> {if(config.getUI().exitConfirmation())System.exit(0);}));
+		menu.items.add(new DWMenuItem(DWMessage.EXIT.get(),        () -> {if(config.getUI().exitConfirmation())System.exit(0);}));
 		
-		menu = new DWMenu("Game");
+		menu = new DWMenu(DWMessage.GAME.get());
 		menus.add(menu);
 		
-		menu.items.add(new DWMenuItem("Map",      () -> config.getUI().showMap()));
-		menu.items.add(new DWMenuItem("Mini Map", () -> config.getUI().toggleMinimap()));
+		menu.items.add(new DWMenuItem(DWMessage.MAP.get(),      () -> config.getUI().showMap()));
+		menu.items.add(new DWMenuItem(DWMessage.MINIMAP.get(), () -> config.getUI().toggleMinimap()));
 		menu.items.add(new DWMenuItem());
-		menu.items.add(new DWMenuItem("Pause",    () -> engine.pause(true)));
-		menu.items.add(new DWMenuItem("Go",       () -> engine.pause(false)));
+		menu.items.add(new DWMenuItem(DWMessage.PAUSE.get(),    () -> engine.pause(true)));
+		menu.items.add(new DWMenuItem(DWMessage.GO.get(),       () -> engine.pause(false)));
 		menu.items.add(new DWMenuItem());
-		menu.items.add(new DWMenuItem("Info",     () -> config.getUI().showInfoScreen()));
+		menu.items.add(new DWMenuItem(DWMessage.INFO.get(),     () -> config.getUI().showInfoScreen()));
 		
-		menu = new DWMenu("Build");
+		menu = new DWMenu(DWMessage.BUILD.get());
 		menus.add(menu);
 		
-		menu.items.add(new DWCheckboxMenuItem("Build mode", () -> config.isBuildMode(),
+		menu.items.add(new DWCheckboxMenuItem(DWMessage.BUILD_MODE.get(), () -> config.isBuildMode(),
 		() -> {
 			config.setBuildMode(!config.isBuildMode());
 			engine.pause(config.isBuildMode());
@@ -114,26 +114,26 @@ public class DWMenuStructure {
 		}));
 
 		menu.items.add(new DWMenuItem());
-		menu.items.add(new DWMenuItem("Copy",  () -> SelectionManager.copy()));
-		menu.items.add(new DWMenuItem("Paste", () -> SelectionManager.paste()));
+		menu.items.add(new DWMenuItem(DWMessage.COPY.get(),  () -> SelectionManager.copy()));
+		menu.items.add(new DWMenuItem(DWMessage.PASTE.get(), () -> SelectionManager.paste()));
 		menu.items.add(new DWMenuItem());
 		
-		DWMenu submenu = new DWMenu("Landscape");
+		DWMenu submenu = new DWMenu(DWMessage.LANDSCAPE.get());
 		menu.items.add(submenu);
 		
-		submenu.items.add(new DWRadioMenuItem("Wall", Land.Wall,              1, () -> config.setSelectedCode(Land.Wall)));
+		submenu.items.add(new DWRadioMenuItem(DWMessage.WALL.get(), Land.Wall,              1, () -> config.setSelectedCode(Land.Wall)));
 		submenu.items.add(new DWMenuItem());
-		submenu.items.add(new DWRadioMenuItem("Brick", Land.Brick,            1, () -> config.setSelectedCode(Land.Brick)));
-		submenu.items.add(new DWRadioMenuItem("White Brick", Land.WhiteBrick, 1, () -> config.setSelectedCode(Land.WhiteBrick)));
-		submenu.items.add(new DWRadioMenuItem("White Stone", Land.Stone,      1, () -> config.setSelectedCode(Land.Stone)));
-		submenu.items.add(new DWRadioMenuItem("Black Stone", Land.BlackStone, 1, () -> config.setSelectedCode(Land.BlackStone)));
-		submenu.items.add(new DWRadioMenuItem("Wood", Land.Wood1,             1, () -> config.setSelectedCode(Land.Wood1)));
-		submenu.items.add(new DWRadioMenuItem("Wood", Land.Wood2,             1, () -> config.setSelectedCode(Land.Wood2)));
-		submenu.items.add(new DWRadioMenuItem("Wood", Land.Wood3,             1, () -> config.setSelectedCode(Land.Wood3)));
-		submenu.items.add(new DWRadioMenuItem("Wood", Land.Wood4,             1, () -> config.setSelectedCode(Land.Wood4)));
+		submenu.items.add(new DWRadioMenuItem(DWMessage.BRICK.get(), Land.Brick,            1, () -> config.setSelectedCode(Land.Brick)));
+		submenu.items.add(new DWRadioMenuItem(DWMessage.WHITE_BRICK.get(), Land.WhiteBrick, 1, () -> config.setSelectedCode(Land.WhiteBrick)));
+		submenu.items.add(new DWRadioMenuItem(DWMessage.WHITE_STONE.get(), Land.Stone,      1, () -> config.setSelectedCode(Land.Stone)));
+		submenu.items.add(new DWRadioMenuItem(DWMessage.BLACK_STONE.get(), Land.BlackStone, 1, () -> config.setSelectedCode(Land.BlackStone)));
+		submenu.items.add(new DWRadioMenuItem(DWMessage.WOOD.get(), Land.Wood1,             1, () -> config.setSelectedCode(Land.Wood1)));
+		submenu.items.add(new DWRadioMenuItem(DWMessage.WOOD.get(), Land.Wood2,             1, () -> config.setSelectedCode(Land.Wood2)));
+		submenu.items.add(new DWRadioMenuItem(DWMessage.WOOD.get(), Land.Wood3,             1, () -> config.setSelectedCode(Land.Wood3)));
+		submenu.items.add(new DWRadioMenuItem(DWMessage.WOOD.get(), Land.Wood4,             1, () -> config.setSelectedCode(Land.Wood4)));
 		submenu.items.add(new DWMenuItem());
-		submenu.items.add(new DWRadioMenuItem("Mountain", Land.Mountain,      1, () -> config.setSelectedCode(Land.Mountain)));
-		submenu.items.add(new DWRadioMenuItem("Water", Land.Water,            1, () -> config.setSelectedCode(Land.Water)));
+		submenu.items.add(new DWRadioMenuItem(DWMessage.MOUNTAIN.get(), Land.Mountain,      1, () -> config.setSelectedCode(Land.Mountain)));
+		submenu.items.add(new DWRadioMenuItem(DWMessage.WATER.get(), Land.Water,            1, () -> config.setSelectedCode(Land.Water)));
 		submenu.items.add(new DWRadioMenuItem("Sand", Land.Sand,              1, () -> config.setSelectedCode(Land.Sand)));
 		submenu.items.add(new DWMenuItem());
 		submenu.items.add(new DWRadioMenuItem("Grass", Land.Grass,            1, () -> config.setSelectedCode(Land.Grass)));
