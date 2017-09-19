@@ -73,13 +73,13 @@ public class DWMenuStructure {
 		DWConfiguration config = DWConfiguration.getInstance();
 		DWEngine engine = config.getEngine();
 
-		DWMenu menu = new DWMenu(DWMessages.getMessage(DWMessages.FILE));
+		DWMenu menu = new DWMenu(DWMessage.FILE.get());
 		menus.add(menu);
 
-		menu.items.add(new DWMenuItem("Load",        () -> config.getLauncher().load(DWConfiguration.SAVE_FILE)));
-		menu.items.add(new DWMenuItem("Save",        () -> config.getLauncher().save(DWConfiguration.SAVE_FILE)));
+		menu.items.add(new DWMenuItem(DWMessage.LOAD.get(),        () -> config.getLauncher().load(DWConfiguration.SAVE_FILE)));
+		menu.items.add(new DWMenuItem(DWMessage.SAVE.get(),        () -> config.getLauncher().save(DWConfiguration.SAVE_FILE)));
 		menu.items.add(new DWMenuItem());
-		menu.items.add(new DWMenuItem("Load Backup", () -> config.getLauncher().load(DWConfiguration.BACKUP_FILE)));
+		menu.items.add(new DWMenuItem(DWMessage.LOAD_BACKUP.get(), () -> config.getLauncher().load(DWConfiguration.BACKUP_FILE)));
 		menu.items.add(new DWMenuItem("Save Backup", () -> config.getLauncher().save(DWConfiguration.BACKUP_FILE)));
 		menu.items.add(new DWMenuItem());
 		menu.items.add(new DWMenuItem("Load Test",   () -> config.getLauncher().load(DWConfiguration.TEST_FILE)));
