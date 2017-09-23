@@ -6,6 +6,7 @@ import com.dworld.core.DWConfiguration;
 import com.dworld.core.DWConstants;
 import com.dworld.core.DWEngine;
 import com.dworld.core.ILauncher;
+import com.dworld.ui.DWMessage;
 import com.dworld.ui.IMonitoredRunnable;
 import com.dworld.ui.IProgressMonitor;
 import com.dworld.ui.LoadAction;
@@ -62,7 +63,7 @@ public class DWJavaFXLauncher extends Application implements ILauncher{
 		this.primaryStage = primaryStage;
 		DWConfiguration.getInstance().getUI(DWJavaFXUI.class).setWindow(primaryStage);
 		
-		primaryStage.setTitle(DWConfiguration.TITLE);
+		primaryStage.setTitle(DWMessage.TITLE.get());
 		primaryStage.setOnCloseRequest(e -> {Platform.exit(); System.exit(0);});
         VBox root = new VBox();
         
@@ -135,7 +136,7 @@ public class DWJavaFXLauncher extends Application implements ILauncher{
 
 	@Override
 	public void load(String fileName) {
-		DWJavaFXProgressMonitor monitor = new DWJavaFXProgressMonitor("Loading...");
+		DWJavaFXProgressMonitor monitor = new DWJavaFXProgressMonitor(DWMessage.LOADING.get());
 		LongRunningTask task = new LongRunningTask(new LoadAction(fileName));
 		task.setOnSucceeded(e -> monitor.close());
 		task.setOnCancelled(e -> monitor.close());
@@ -145,7 +146,7 @@ public class DWJavaFXLauncher extends Application implements ILauncher{
 
 	@Override
 	public void save(String fileName) {
-		DWJavaFXProgressMonitor monitor = new DWJavaFXProgressMonitor("Saving...");
+		DWJavaFXProgressMonitor monitor = new DWJavaFXProgressMonitor(DWMessage.SAVING.get());
 		LongRunningTask task = new LongRunningTask(new SaveAction(fileName));
 		task.setOnSucceeded(e -> monitor.close());
 		monitor.bind(task);
@@ -154,7 +155,7 @@ public class DWJavaFXLauncher extends Application implements ILauncher{
 
 	@Override
 	public void saveAndExit(String fileName) {
-		DWJavaFXProgressMonitor monitor = new DWJavaFXProgressMonitor("Saving...");
+		DWJavaFXProgressMonitor monitor = new DWJavaFXProgressMonitor(DWMessage.SAVING.get());
 		LongRunningTask task = new LongRunningTask(new SaveAction(fileName));
 		task.setOnSucceeded(e -> monitor.close());
 		monitor.bind(task);

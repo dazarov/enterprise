@@ -1,6 +1,7 @@
 package com.dworld.ui.javafx;
 
 import com.dworld.core.DWConfiguration;
+import com.dworld.ui.DWMessage;
 import com.dworld.ui.IProgressMonitor;
 
 import javafx.concurrent.Task;
@@ -24,7 +25,7 @@ public class DWJavaFXProgressMonitor implements IProgressMonitor{
 		bar = new ProgressBar();
 		bar.setPrefSize(300, 20);
 		
-		Button button = new Button("Cancel");
+		Button button = new Button(DWMessage.CANCEL.get());
 		
 		button.setOnAction(e -> task.cancel());
 		

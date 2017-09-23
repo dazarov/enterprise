@@ -10,6 +10,7 @@ import java.io.InputStream;
 import java.util.EnumSet;
 import java.util.Set;
 
+import com.dworld.ui.DWMessage;
 import com.dworld.ui.IProgressMonitor;
 import com.dworld.units.ControlledUnit;
 import com.dworld.units.MovableUnit;
@@ -853,7 +854,7 @@ public enum Land {
 	
 	private static void saved(){
 		dirty = false;
-		DWConfiguration.getInstance().getUI().setTitle(DWConfiguration.TITLE);
+		DWConfiguration.getInstance().getUI().setTitle(DWMessage.TITLE.get());
 	}
 	
 	public static void modified(){

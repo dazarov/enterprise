@@ -25,6 +25,7 @@ import com.dworld.core.DWConstants;
 import com.dworld.core.DWEngine;
 import com.dworld.core.ILauncher;
 import com.dworld.core.Land;
+import com.dworld.ui.DWMessage;
 import com.dworld.ui.IMonitoredRunnable;
 import com.dworld.ui.IProgressMonitor;
 import com.dworld.ui.LoadAction;
@@ -89,7 +90,7 @@ public class DWSwingLauncher implements KeyListener, MouseListener, MouseMotionL
 
 	private void initWindow() {
 
-		window.setTitle(DWConfiguration.TITLE);
+		window.setTitle(DWMessage.TITLE.get());
 		window.setIconImage(new ImageIcon("resources/land/patriot.gif")
 				.getImage());
 		panel = new JPanel() {
@@ -210,7 +211,7 @@ public class DWSwingLauncher implements KeyListener, MouseListener, MouseMotionL
 	@Override
 	public void load(String fileName) {
 		LongRunningTask task = new LongRunningTask(new LoadAction(fileName));
-		DWSwingProgressMonitor monitor = new DWSwingProgressMonitor("Loading...");
+		DWSwingProgressMonitor monitor = new DWSwingProgressMonitor(DWMessage.LOADING.get());
 		
 		task.addPropertyChangeListener(event -> {
 	        if ("progress".equals(event.getPropertyName())) {
@@ -230,7 +231,7 @@ public class DWSwingLauncher implements KeyListener, MouseListener, MouseMotionL
 	@Override
 	public void save(String fileName) {
 		LongRunningTask task = new LongRunningTask(new SaveAction(fileName));
-		DWSwingProgressMonitor monitor = new DWSwingProgressMonitor("Saving...");
+		DWSwingProgressMonitor monitor = new DWSwingProgressMonitor(DWMessage.SAVING.get());
 		task.addPropertyChangeListener(event -> {
 	        if ("progress".equals(event.getPropertyName())) {
 	        	monitor.progress((Integer) event.getNewValue());
@@ -245,7 +246,7 @@ public class DWSwingLauncher implements KeyListener, MouseListener, MouseMotionL
 	@Override
 	public void saveAndExit(String fileName) {
 		LongRunningTask task = new LongRunningTask(new SaveAction(fileName));
-		DWSwingProgressMonitor monitor = new DWSwingProgressMonitor("Saving...");
+		DWSwingProgressMonitor monitor = new DWSwingProgressMonitor(DWMessage.SAVING.get());
 		task.addPropertyChangeListener(event -> {
 	        if ("progress".equals(event.getPropertyName())) {
 	        	monitor.progress((Integer) event.getNewValue());

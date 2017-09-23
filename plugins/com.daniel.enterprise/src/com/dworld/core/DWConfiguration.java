@@ -13,7 +13,6 @@ public class DWConfiguration {
 	public static final String SAVE_FILE = "/save.dat";
 	public static final String BACKUP_FILE = "/backup.dat";
 	public static final String TEST_FILE = "/test.dat";
-	public static final String TITLE = "D World";
 	public static final String MODIFYED_TITLE = "*D World";
 	
 	public static final int NO_DRAW = 0;
@@ -47,7 +46,7 @@ public class DWConfiguration {
 	private boolean buildMode = false;
 	
 	private boolean attackMode = false;
-	
+
 	private String pathName;
 	
 	private Locale locale = new Locale("en", "US");

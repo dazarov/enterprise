@@ -11,6 +11,7 @@ import javax.swing.JDialog;
 import javax.swing.JProgressBar;
 
 import com.dworld.core.DWConfiguration;
+import com.dworld.ui.DWMessage;
 import com.dworld.ui.IProgressMonitor;
 
 
@@ -33,7 +34,7 @@ public class DWSwingProgressMonitor extends JDialog implements IProgressMonitor{
 		progressBar.setStringPainted(true);
 		progressBar.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		add(progressBar);
-		JButton button = new JButton("Cancel");
+		JButton button = new JButton(DWMessage.CANCEL.get());
 		button.setAlignmentX(Component.CENTER_ALIGNMENT);
 		button.addActionListener(e -> canceled = true);
 		add(button);
