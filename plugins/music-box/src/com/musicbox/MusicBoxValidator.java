@@ -29,11 +29,13 @@ import org.jaudiotagger.audio.exceptions.ReadOnlyFileException;
 import org.jaudiotagger.tag.FieldKey;
 import org.jaudiotagger.tag.Tag;
 import org.jaudiotagger.tag.TagException;
+import org.jaudiotagger.tag.TagOptionSingleton;
 
 
 public class MusicBoxValidator {
 	private static final int MAX_NUMBER_OF_FILES_IN_COMMON_FOLDER = 4;
 	private static final String SONG_LIST_FILE = "SongList.txt";
+	private static final String MBOX_SIGNATURE = "MBOX.ENTERPRISE.DANIEL";
 
 	private final MusicBoxCollection collection;
 	
@@ -69,7 +71,6 @@ public class MusicBoxValidator {
 	
 	MusicBoxValidator(MusicBoxCollection collection){
 		this.collection = collection;
-		//TagOptionSingleton.getInstance().setLanguage("rus");
 	}
 	
 	MusicBoxCollection getMusicCollection(){
@@ -88,7 +89,10 @@ public class MusicBoxValidator {
 			//Files.walk(root).filter(p -> Files.isRegularFile(p) && p.toString().endsWith(".mp3")).forEach(p -> processFile(log, p));
 			Files.find(root, 20, (p,a) -> a.isRegularFile() && p.toString().endsWith(".mp3")).forEach(p -> processFile(log, root, p));
 			
-			//Files.find(root.resolve("Russian"), 20, (p,a) -> a.isRegularFile() && p.toString().endsWith(".mp3")).forEach(p -> updateFile(log, root, p));
+			String lang = TagOptionSingleton.getInstance().getLanguage();
+			TagOptionSingleton.getInstance().setLanguage("rus");
+			Files.find(root.resolve("Russian"), 20, (p,a) -> a.isRegularFile() && p.toString().endsWith(".mp3")).forEach(p -> updateFile(log, root, p));
+			TagOptionSingleton.getInstance().setLanguage(lang);
 		}else{
 			out(log, root+" is not a folder!");
 		}
@@ -162,11 +166,10 @@ public class MusicBoxValidator {
 		}
 	}
 	
-	@SuppressWarnings("unused")
 	private void updateFile(Writer logFile, Path root, Path file){
 		
 		String fileName = file.getFileName().toString();
-		out(logFile, fileName+" Updating file...");
+		//out(logFile, fileName+" Updating file...");
 		try {
 
 			if (!Files.isWritable(file)) {
@@ -179,18 +182,21 @@ public class MusicBoxValidator {
 				return;
 			}
 			AudioFile audioFile = AudioFileIO.read(file.toFile());
+			Tag tag = audioFile.getTag();
+			if(tag == null || !MBOX_SIGNATURE.equals(tag.getFirst(FieldKey.COMMENT))){
 			
-			out(logFile, fileName + " Replacing a tag ...");
-			Tag tag = audioFile.createDefaultTag();
-			audioFile.setTag(tag);
-			tag.setField(FieldKey.ARTIST, fileNameInfo.artist.trim());
-			tag.setField(FieldKey.TITLE, fileNameInfo.title.trim());
-
-			try {
-				AudioFileIO.write(audioFile);
-			} catch (CannotWriteException e) {
-				out(logFile, e.getMessage());
-				e.printStackTrace();
+				out(logFile, fileName + " Replacing a tag ...");
+				tag = audioFile.createDefaultTag();
+				audioFile.setTag(tag);
+				tag.setField(FieldKey.ARTIST, fileNameInfo.artist.trim());
+				tag.setField(FieldKey.TITLE, fileNameInfo.title.trim());
+				tag.setField(FieldKey.COMMENT, MBOX_SIGNATURE);
+				try {
+					AudioFileIO.write(audioFile);
+				} catch (CannotWriteException e) {
+					out(logFile, e.getMessage());
+					e.printStackTrace();
+				}
 			}
 			
 		} catch (CannotReadException | IOException | TagException
