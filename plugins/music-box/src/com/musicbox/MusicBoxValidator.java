@@ -1,8 +1,8 @@
 package com.musicbox;
 
+import static com.musicbox.Utils.error;
 import static com.musicbox.Utils.format;
 import static com.musicbox.Utils.out;
-import static com.musicbox.Utils.error;
 import static com.musicbox.Utils.printErrors;
 import static com.musicbox.Utils.waitForCommand;
 
@@ -69,6 +69,7 @@ public class MusicBoxValidator {
 	
 	MusicBoxValidator(MusicBoxCollection collection){
 		this.collection = collection;
+		//TagOptionSingleton.getInstance().setLanguage("rus");
 	}
 	
 	MusicBoxCollection getMusicCollection(){
@@ -86,6 +87,8 @@ public class MusicBoxValidator {
 
 			//Files.walk(root).filter(p -> Files.isRegularFile(p) && p.toString().endsWith(".mp3")).forEach(p -> processFile(log, p));
 			Files.find(root, 20, (p,a) -> a.isRegularFile() && p.toString().endsWith(".mp3")).forEach(p -> processFile(log, root, p));
+			
+			//Files.find(root.resolve("Russian"), 20, (p,a) -> a.isRegularFile() && p.toString().endsWith(".mp3")).forEach(p -> updateFile(log, root, p));
 		}else{
 			out(log, root+" is not a folder!");
 		}
@@ -156,6 +159,44 @@ public class MusicBoxValidator {
 					}
 				}
 			}
+		}
+	}
+	
+	@SuppressWarnings("unused")
+	private void updateFile(Writer logFile, Path root, Path file){
+		
+		String fileName = file.getFileName().toString();
+		out(logFile, fileName+" Updating file...");
+		try {
+
+			if (!Files.isWritable(file)) {
+				error(logFile, fileName + " File is read-only!");
+				return;
+			}
+
+			Information fileNameInfo = parseFromFileName(logFile, fileName);
+			if (fileNameInfo == null) {
+				return;
+			}
+			AudioFile audioFile = AudioFileIO.read(file.toFile());
+			
+			out(logFile, fileName + " Replacing a tag ...");
+			Tag tag = audioFile.createDefaultTag();
+			audioFile.setTag(tag);
+			tag.setField(FieldKey.ARTIST, fileNameInfo.artist.trim());
+			tag.setField(FieldKey.TITLE, fileNameInfo.title.trim());
+
+			try {
+				AudioFileIO.write(audioFile);
+			} catch (CannotWriteException e) {
+				out(logFile, e.getMessage());
+				e.printStackTrace();
+			}
+			
+		} catch (CannotReadException | IOException | TagException
+				| ReadOnlyFileException | InvalidAudioFrameException e) {
+			out(logFile, e.getMessage());
+			e.printStackTrace();
 		}
 	}
 	
@@ -298,6 +339,9 @@ public class MusicBoxValidator {
 		
 		if(delimeter < 0 || mp3Position < 0){
 			error(logFile, fileName+" Delimiter or .mp3 not found!");
+			info.artist = "";
+			info.multiArtist = false; 
+			info.title = fileName;
 			return null;
 		}
 		
