@@ -17,48 +17,51 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import com.musicbox.MusicBoxValidator.SongFileInformation;
+
 public class MusicBoxCollection {
-	private Map<String, Map<String, Song>> artists = new TreeMap<>();
+	private Map<String, Map<String, SongFileInformation>> artists = new TreeMap<>();
 	private Set<String> nonArtists = new TreeSet<>();
 	public Map<String, List<Path>> nonFolderArtists = new HashMap<>();
 	private Map<String, FileInfo> filesInfo = new HashMap<>();
 	
-	void addSong(Writer logFile, String fileName, String artist, String title) throws IOException{
-		if(artist == null || title == null || artist.isEmpty() || title.isEmpty()){
-			nonArtists.add(fileName);
+	void addSong(Writer logFile, SongFileInformation song) throws IOException{
+		if(song.getAllArtists() == null || song.getTitle() == null || song.getAllArtists().isEmpty() || song.getTitle().isEmpty()){
+			nonArtists.add(song.getFileName());
 		} else {
-			Song song = new Song(fileName, artist, title);
+			for(String artist : song.getArtists()) {
 			
-			String artistId = getId(artist);
-			String titleId = getId(title);
-			
-			Map<String, Song> songs = artists.get(artistId);
-			if(songs == null){
-				songs = new TreeMap<String, Song>();
-				songs.put(titleId, song);
-				artists.put(artistId, songs);
-			}else{
-				if(songs.containsKey(titleId)){
-					Song existing = songs.get(titleId);
-					out(logFile, fileName+" Song with similar name already exist - "+existing.fileName+"!");
-					System.out.println("1 - Delete file - "+existing.fileName);
-					System.out.println("2 - Delete file - "+fileName);
-					System.out.println("3 - Skip");
-					System.out.println("0 - Exit");
-					int command = waitForCommand("Input:");
-					if(command == 1){
-						out(logFile, "Deleting the file "+existing.fileName);
-						Files.delete(Paths.get(existing.fileName));
-						out(logFile, "File successfully deleted!");
-					}else if(command == 2){
-						out(logFile, "Deleting the file "+fileName);
-						Files.delete(Paths.get(fileName));
-						out(logFile, "File successfully deleted!");
-					}else if(command == 0){
-						System.exit(0);
-					}
-				}else{
+				String artistId = getId(artist);
+				String titleId = getId(song.getTitle());
+				
+				Map<String, SongFileInformation> songs = artists.get(artistId);
+				if(songs == null){
+					songs = new TreeMap<String, SongFileInformation>();
 					songs.put(titleId, song);
+					artists.put(artistId, songs);
+				}else{
+					if(songs.containsKey(titleId)){
+						SongFileInformation existing = songs.get(titleId);
+						out(logFile, song.getFileName()+" Song with similar name already exist - "+existing.getFileName()+"!");
+						System.out.println("1 - Delete file - "+existing.getFileName());
+						System.out.println("2 - Delete file - "+song.getFileName());
+						System.out.println("3 - Skip");
+						System.out.println("0 - Exit");
+						int command = waitForCommand("Input:");
+						if(command == 1){
+							out(logFile, "Deleting the file "+existing.getFileName());
+							Files.delete(Paths.get(existing.getFileName()));
+							out(logFile, "File successfully deleted!");
+						}else if(command == 2){
+							out(logFile, "Deleting the file "+song.getFileName());
+							Files.delete(Paths.get(song.getFileName()));
+							out(logFile, "File successfully deleted!");
+						}else if(command == 0){
+							System.exit(0);
+						}
+					}else{
+						songs.put(titleId, song);
+					}
 				}
 			}
 		}
@@ -85,15 +88,25 @@ public class MusicBoxCollection {
 	void validateArtists(Writer logFile){
 		for(String artistId : artists.keySet()){
 			String artistName = null;
-			Map<String, Song> songs = artists.get(artistId);
+			Map<String, SongFileInformation> songs = artists.get(artistId);
 			for(String title : songs.keySet()){
-				Song song = songs.get(title);
-				if(artistName == null){
-					artistName = song.artist;
-				}else{
-					if(!artistName.equals(song.artist)){
-						error(logFile, "Wrong Artist Name " + song.artist + " or " + artistName);
+				boolean found = false;
+				SongFileInformation song = songs.get(title);
+				for(String artist : song.getArtists()) {
+					if(artistName == null && getId(artist).equals(artistId)){
+						found = true;
+						artistName = artist;
+					}else if(getId(artist).equals(artistId)){
+						if(!artistName.equals(artist)){
+							error(logFile, "Wrong Artist Name " + artist + " or " + artistName);
+						}else{
+							found = true;
+						}
 					}
+					
+				}
+				if(!found) {
+					error(logFile, "Song in a wrong folder " + song.getFileName());
 				}
 			}
 		}
@@ -103,16 +116,16 @@ public class MusicBoxCollection {
 		AtomicInteger total = new AtomicInteger(1);
 		int artCount = 1;
 		for(String artist : artists.keySet()){
-			Map<String, Song> songs = artists.get(artist);
+			Map<String, SongFileInformation> songs = artists.get(artist);
 			int count = 1;
 			boolean firstSong = true;
 			for(String title : songs.keySet()){
-				Song song = songs.get(title);
+				SongFileInformation song = songs.get(title);
 				if(firstSong){
-					out(songList, "-------   "+artCount+". "+song.artist.toUpperCase()+"   --------");
+					out(songList, "-------   "+artCount+". "+song.getAllArtists().toUpperCase()+"   --------");
 					firstSong = false;
 				}
-				out(songList, total+". "+count+". "+song.title);
+				out(songList, total+". "+count+". "+song.getTitle());
 				count++;
 				total.incrementAndGet();
 			}
@@ -146,17 +159,17 @@ public class MusicBoxCollection {
 	}
 }
 
-class Song{
-	String fileName;
-	String artist;
-	String title;
-	
-	public Song(String fileName, String artist, String title){
-		this.fileName = fileName;
-		this.artist = artist;
-		this.title = title;
-	}
-}
+//class Song{
+//	String fileName;
+//	String artist;
+//	String title;
+//	
+//	public Song(String fileName, String artist, String title){
+//		this.fileName = fileName;
+//		this.artist = artist;
+//		this.title = title;
+//	}
+//}
 
 class FileInfo{
 	Path filePath;

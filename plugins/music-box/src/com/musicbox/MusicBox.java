@@ -25,7 +25,11 @@ public class MusicBox {
 	};
 	
 	//private static final String WINDOWS_MOBILE_ROOT_PATH = "This PC/Nexus 6/Internal storage";
-	private static final String SD_CARD_PATH = "F:/Music";
+	private static final String[] SD_CARD_PATH = {
+		"D:/",
+		"E:/",
+		"F:/"
+	};
 	
 	private static final String LOG_FILE = "MusicBox.log";
 	
@@ -58,10 +62,10 @@ public class MusicBox {
 				System.out.println("2. Validate Mobile Device Folder "+mobilePath);
 				System.out.println("3. Synchronize Main Music Repository with "+mobilePath);
 			}
-			Path sdCardPath = Paths.get(SD_CARD_PATH);
-			if(Files.exists(sdCardPath)){
-				System.out.println("4. Validate Mobile Device Folder "+SD_CARD_PATH);
-				System.out.println("5. Sysnchronize Music Library with "+SD_CARD_PATH);
+			Path sdCardPath = findMobilePath(log, SD_CARD_PATH);
+			if(sdCardPath != null){
+				System.out.println("4. Validate Mobile Device Folder "+sdCardPath);
+				System.out.println("5. Sysnchronize Music Library with "+sdCardPath);
 			}
 			System.out.println("0. Exit");
 			
