@@ -53,9 +53,11 @@ public class DWJavaFXUI extends DWUI {
 	}
 	
 	public void showPalette(){
+		DWJavaFXToolbarBuilder.showPalette();
 	}
 	
 	public void hidePalette(){
+		DWJavaFXToolbarBuilder.hidePalette();
 	}
 	
 	public void toggleMinimap(){

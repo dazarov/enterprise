@@ -23,6 +23,14 @@ public class DWJavaFXToolbarBuilder {
 		return createToolBar(tb, false);
 	}
 	
+	public static void showPalette(){
+		
+	}
+	
+	public static void hidePalette(){
+		
+	}
+	
 	private static ToolBar createToolBar(DWToolbar model, boolean vertical){
 		ToolBar toolbar = new ToolBar(){
 			@Override
