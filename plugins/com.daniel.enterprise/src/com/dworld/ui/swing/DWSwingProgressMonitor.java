@@ -19,7 +19,7 @@ public class DWSwingProgressMonitor extends JDialog implements IProgressMonitor{
 	public static final long serialVersionUID = 1;
 	
 	private JProgressBar progressBar;
-	private boolean canceled = false;
+	private volatile boolean canceled = false;
 	
 	
 	public DWSwingProgressMonitor(String title){
