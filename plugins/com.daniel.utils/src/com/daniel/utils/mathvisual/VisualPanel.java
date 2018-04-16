@@ -3,7 +3,6 @@ package com.daniel.utils.mathvisual;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.util.stream.DoubleStream;
 
 import javax.swing.JPanel;
 
@@ -14,9 +13,7 @@ public class VisualPanel extends JPanel{
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	private double x[];
-	private double y[];
-	private double minX, maxX, minY, maxY;
+	private GraphList list;
 	
 	public VisualPanel(){
 		super();
@@ -25,14 +22,8 @@ public class VisualPanel extends JPanel{
 		setBackground(Color.LIGHT_GRAY);
 	}
 	
-	public void init(double[] x, double[] y){
-		this.x = x;
-		this.y = y;
-		
-		minX = DoubleStream.of(x).min().getAsDouble();
-		maxX = DoubleStream.of(x).max().getAsDouble();
-		minY = DoubleStream.of(y).min().getAsDouble();
-		maxY = DoubleStream.of(y).max().getAsDouble();
+	public void init(GraphList list){
+		this.list = list;
 	}
 	
 	@Override
@@ -43,37 +34,39 @@ public class VisualPanel extends JPanel{
 		
 		g.drawRect(5,  5, getWidth() - 10, getHeight() - 10);
 		
-		g.drawString("" + round(minX), 20, getHeight() - 20);
-		g.drawString("X " + round(maxX), getWidth() - 50, getHeight() - 20);
-		g.drawString("" + round(minY), 10, getHeight() - 50);
-		g.drawString("Y " + round(maxY), 10, 20);
+		g.drawString("" + round(list.getMinX()), 20, getHeight() - 20);
+		g.drawString("X " + round(list.getMaxX()), getWidth() - 50, getHeight() - 20);
+		g.drawString("" + round(list.getMinY()), 10, getHeight() - 50);
+		g.drawString("Y " + round(list.getMaxY()), 10, 20);
 		
-		if(minX < 0 && maxX > 0){
+		if(list.getMinX() < 0 && list.getMaxX() > 0){
 			g.drawLine(translateX(0), 5, translateX(0), getHeight() - 5);
 			g.drawString("0", translateX(0), 5);
 		}
 		
-		if(minY < 0 && maxY > 0){
+		if(list.getMinY() < 0 && list.getMaxY() > 0){
 			g.drawLine(5, translateY(0), getWidth() - 5, translateY(0));
 			g.drawString("0", 10, translateY(0) - 5);
 		}
 		
-		g.setColor(Color.BLUE);
+		for(Graph graph : list.getGraphs()){
+			g.setColor(graph.getColor());
 		
-		for(int index = 1; index < x.length; index++){
-			g.drawLine(translateX(x[index - 1]), translateY(y[index - 1]),
-					translateX(x[index]), translateY(y[index]));
+			for(int index = 1; index < graph.getX().length; index++){
+				g.drawLine(translateX(graph.getX()[index - 1]), translateY(graph.getY()[index - 1]),
+						translateX(graph.getX()[index]), translateY(graph.getY()[index]));
+			}
 		}
 	}
 	
 	private int translateX(double x){
-		return 10 + (int) ((getWidth() - 20) / ((maxX - minX) / (x - minX)));
+		return 10 + (int) ((getWidth() - 20) / ((list.getMaxX() - list.getMinX()) / (x - list.getMinX())));
 	}
 	
 	private int translateY(double y){
 		return 10 + (int)
 				(getHeight() - 20 - ((getHeight() - 20) /
-						((maxY - minY) / (y - minY))));
+						((list.getMaxY() - list.getMinY()) / (y - list.getMinY()))));
 	}
 	
 	private double round(double a){
