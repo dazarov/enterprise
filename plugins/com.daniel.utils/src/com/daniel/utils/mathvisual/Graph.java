@@ -4,15 +4,13 @@ import java.awt.Color;
 
 public final class Graph {
 	private final Color color;
-	private final String formula;
 	private final double[] x;
 	private final double[] y;
 	
-	public Graph(String formula, double[] x, double[] y, Color color){
+	public Graph(double[] x, double[] y, Color color){
 		this.x = x;
 		this.y = y;
 		this.color = color;
-		this.formula = formula;
 	}
 	
 	public double[] getX(){
@@ -21,10 +19,6 @@ public final class Graph {
 	
 	public double[] getY(){
 		return y;
-	}
-	
-	public String getFormula(){
-		return formula;
 	}
 	
 	public Color getColor(){
