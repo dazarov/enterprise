@@ -8,6 +8,23 @@ import java.util.stream.DoubleStream;
 public class GraphList {
 	private double minX, maxX, minY, maxY;
 	private List<Graph> graphs = new ArrayList<Graph>();
+	private Color backgroundColor, gridColor;
+	
+	public Color getBackgroundColor() {
+		return backgroundColor;
+	}
+
+	public void setBackgroundColor(Color backgroundColor) {
+		this.backgroundColor = backgroundColor;
+	}
+
+	public Color getGridColor() {
+		return gridColor;
+	}
+
+	public void setGridColor(Color gridColor) {
+		this.gridColor = gridColor;
+	}
 
 	public void addGraph(String formula, double[] x, double[] y, Color color) {
 		if (graphs.size() == 0) {

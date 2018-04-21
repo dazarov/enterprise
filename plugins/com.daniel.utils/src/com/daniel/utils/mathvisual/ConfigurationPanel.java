@@ -25,6 +25,36 @@ public class ConfigurationPanel extends JPanel {
 		this.configuration = configuration;
 
 		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+		
+		JPanel colorPanel = new JPanel();
+		JButton bcButton = new JButton("Background Color");
+		bcButton.setBackground(configuration.getBackgroundColor());
+		bcButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Color newColor = JColorChooser.showDialog(
+						ConfigurationPanel.this, "Choose Background Color",
+						configuration.getBackgroundColor());
+				configuration.setBackgroundColor(newColor);
+				bcButton.setBackground(configuration.getBackgroundColor());
+			}
+		});
+		colorPanel.add(bcButton);
+		
+		JButton gridButton = new JButton("Grid Color");
+		gridButton.setBackground(configuration.getGridColor());
+		gridButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Color newColor = JColorChooser.showDialog(
+						ConfigurationPanel.this, "Choose Grid Color",
+						configuration.getGridColor());
+				configuration.setGridColor(newColor);
+				gridButton.setBackground(configuration.getGridColor());
+			}
+		});
+		colorPanel.add(gridButton);
+		add(colorPanel);
 
 		JPanel startPanel = new JPanel();
 		startPanel.add(new JLabel("Start: "));
@@ -120,10 +150,24 @@ public class ConfigurationPanel extends JPanel {
 			});
 			add(check);
 
-			add(new JLabel("Formula: "));
+			JPanel textPanel = new JPanel();
+			textPanel.setLayout(new BoxLayout(textPanel, BoxLayout.PAGE_AXIS));
+			
+			JPanel formulaPanel = new JPanel();
+			formulaPanel.add(new JLabel("Formula: "));
 			JTextField formulaField = new JTextField(gc.getFormula(), 40);
 			bindingMap.put(formulaField, v -> gc.setFormula(v));
-			add(formulaField);
+			formulaPanel.add(formulaField);
+			textPanel.add(formulaPanel);
+			
+			JPanel commentPanel = new JPanel();
+			commentPanel.add(new JLabel("Comment: "));
+			JTextField commentField = new JTextField(gc.getComment(), 40);
+			bindingMap.put(commentField, v -> gc.setComment(v));
+			commentPanel.add(commentField);
+			
+			textPanel.add(commentPanel);
+			add(textPanel);
 
 			JButton colorButton = new JButton("Color");
 			colorButton.setBackground(gc.getColor());

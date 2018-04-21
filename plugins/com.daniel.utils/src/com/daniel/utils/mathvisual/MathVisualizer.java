@@ -25,6 +25,7 @@ public class MathVisualizer {
 
 	public MathVisualizer() {
 		JFrame frame = new JFrame();
+		frame.setTitle("Math Formula Visualizer");
 		JTabbedPane tabPane = new JTabbedPane();
 		configuration = loadConfiguration();
 		configurationPanel = new ConfigurationPanel(configuration);
@@ -56,6 +57,8 @@ public class MathVisualizer {
 
 	private void initView() {
 		GraphList list = new GraphList();
+		list.setBackgroundColor(configuration.getBackgroundColor());
+		list.setGridColor(configuration.getGridColor());
 		double step = (configuration.getEnd() - configuration.getStart())
 				/configuration.getNumber();
 		for (GraphConfiguration gc : configuration.getGraphConfigs()) {

@@ -1,6 +1,5 @@
 package com.daniel.utils.mathvisual;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -20,7 +19,7 @@ public class VisualPanel extends JPanel{
 		super();
 		
 		setPreferredSize(new Dimension(800, 800));
-		setBackground(Color.LIGHT_GRAY);
+		
 	}
 	
 	public void init(GraphList list){
@@ -29,9 +28,10 @@ public class VisualPanel extends JPanel{
 	
 	@Override
 	public void paint(Graphics g){
+		setBackground(list.getBackgroundColor());
 		super.paint(g);
 		
-		g.setColor(Color.BLACK);
+		g.setColor(list.getGridColor());
 		Font font = g.getFont();
 		g.setFont(new Font(font.getFontName(), Font.BOLD, font.getSize()));
 		
