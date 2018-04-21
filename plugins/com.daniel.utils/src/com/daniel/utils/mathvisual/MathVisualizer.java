@@ -8,6 +8,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 import javax.swing.JFrame;
+import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -28,7 +29,7 @@ public class MathVisualizer {
 		configuration = loadConfiguration();
 		configurationPanel = new ConfigurationPanel(configuration);
 		visualPanel = new VisualPanel();
-		tabPane.addTab("Configuration", configurationPanel);
+		tabPane.addTab("Configuration", new JScrollPane(configurationPanel));
 		tabPane.addTab("Visual View", visualPanel);
 
 		tabPane.addChangeListener(new ChangeListener() {
@@ -55,6 +56,8 @@ public class MathVisualizer {
 
 	private void initView() {
 		GraphList list = new GraphList();
+		double step = (configuration.getEnd() - configuration.getStart())
+				/configuration.getNumber();
 		for (GraphConfiguration gc : configuration.getGraphConfigs()) {
 			if(!gc.isVisible()) continue;
 			double[] x = new double[configuration.getNumber()];
@@ -65,13 +68,18 @@ public class MathVisualizer {
 				if (index == 0) {
 					x[index] = configuration.getStart();
 				} else {
-					x[index] = x[index - 1] + configuration.getStep();
+					x[index] = x[index - 1] + step;
 				}
 				calc.setVariable("x", x[index]);
 				y[index] = calc.evaluate();
 			}
 
 			list.addGraph("", x, y, gc.getColor());
+		}
+		
+		if(configuration.getMinY() != 0.0 || configuration.getMaxY() != 0.0){
+			list.setMinY(configuration.getMinY());
+			list.setMaxY(configuration.getMaxY());
 		}
 
 		visualPanel.init(list);

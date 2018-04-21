@@ -26,28 +26,54 @@ public class ConfigurationPanel extends JPanel {
 
 		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 
-		add(new JLabel("Start: "));
+		JPanel startPanel = new JPanel();
+		startPanel.add(new JLabel("Start: "));
 		JTextField startField = new JTextField("" + configuration.getStart(),
 				40);
 		startField.setMaximumSize(startField.getPreferredSize());
 		bindingMap.put(startField,
 				v -> configuration.setStart(Double.valueOf(v)));
-		add(startField);
+		startPanel.add(startField);
+		add(startPanel);
 
-		add(new JLabel("Step: "));
-		JTextField stepField = new JTextField("" + configuration.getStep(), 40);
-		stepField.setMaximumSize(stepField.getPreferredSize());
-		bindingMap.put(stepField,
-				v -> configuration.setStep(Double.valueOf(v)));
-		add(stepField);
+		JPanel endPanel = new JPanel();
+		endPanel.add(new JLabel("End: "));
+		JTextField endField = new JTextField("" + configuration.getEnd(), 40);
+		endField.setMaximumSize(endField.getPreferredSize());
+		bindingMap.put(endField,
+				v -> configuration.setEnd(Double.valueOf(v)));
+		endPanel.add(endField);
+		add(endPanel);
 
-		add(new JLabel("Number: "));
+		JPanel numPanel = new JPanel();
+		numPanel.add(new JLabel("Number: "));
 		JTextField numberField = new JTextField("" + configuration.getNumber(),
 				40);
 		numberField.setMaximumSize(numberField.getPreferredSize());
 		bindingMap.put(numberField,
 				v -> configuration.setNumber(Integer.valueOf(v)));
-		add(numberField);
+		numPanel.add(numberField);
+		add(numPanel);
+		
+		JPanel minYPanel = new JPanel();
+		minYPanel.add(new JLabel("Min Y: "));
+		JTextField minYField = new JTextField("" + configuration.getMinY(),
+				40);
+		minYField.setMaximumSize(minYField.getPreferredSize());
+		bindingMap.put(minYField,
+				v -> configuration.setMinY(Double.valueOf(v)));
+		minYPanel.add(minYField);
+		add(minYPanel);
+		
+		JPanel maxYPanel = new JPanel();
+		maxYPanel.add(new JLabel("Max Y: "));
+		JTextField maxYField = new JTextField("" + configuration.getMaxY(),
+				40);
+		maxYField.setMaximumSize(maxYField.getPreferredSize());
+		bindingMap.put(maxYField,
+				v -> configuration.setMaxY(Double.valueOf(v)));
+		maxYPanel.add(maxYField);
+		add(maxYPanel);
 
 		JButton addGraphButton = new JButton("Add Graph");
 

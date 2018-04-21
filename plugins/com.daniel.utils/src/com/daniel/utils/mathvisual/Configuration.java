@@ -6,14 +6,41 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Configuration implements Serializable {
-	private static final long serialVersionUID = 3L;
+	private static final long serialVersionUID = 5L;
 	private Color backgroundColor = Color.LIGHT_GRAY;
 	private Color gridColor = Color.BLACK;
 	private Color textColor = Color.BLACK;
-	private double start = 0.0;
-	private double step = 1.0;
-	private int number = 5000;
+	private double start = -100.0;
+	private double end = 100.0;
+	private double minY = 0.0;
+	private double maxY = 0.0;
+	private int number = 10_000;
+	
 	private List<GraphConfiguration> graphs = new ArrayList<>();
+
+	public double getEnd() {
+		return end;
+	}
+
+	public void setEnd(double end) {
+		this.end = end;
+	}
+
+	public double getMinY() {
+		return minY;
+	}
+
+	public void setMinY(double minY) {
+		this.minY = minY;
+	}
+
+	public double getMaxY() {
+		return maxY;
+	}
+
+	public void setMaxY(double maxY) {
+		this.maxY = maxY;
+	}
 
 	public Color getBackgroundColor() {
 		return backgroundColor;
@@ -47,14 +74,6 @@ public class Configuration implements Serializable {
 		this.start = start;
 	}
 
-	public double getStep() {
-		return step;
-	}
-
-	public void setStep(double step) {
-		this.step = step;
-	}
-
 	public int getNumber() {
 		return number;
 	}
@@ -86,10 +105,19 @@ public class Configuration implements Serializable {
 	}
 
 	public class GraphConfiguration implements Serializable {
-		private static final long serialVersionUID = 3L;
+		private static final long serialVersionUID = 5L;
 		private boolean visible = true;
 		private String formula = "";
+		private String comment = "";
 		private Color color = Color.RED;
+
+		public String getComment() {
+			return comment;
+		}
+
+		public void setComment(String comment) {
+			this.comment = comment;
+		}
 
 		public boolean isVisible() {
 			return visible;

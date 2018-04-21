@@ -2,6 +2,7 @@ package com.daniel.utils.mathvisual;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 
 import javax.swing.JPanel;
@@ -31,6 +32,8 @@ public class VisualPanel extends JPanel{
 		super.paint(g);
 		
 		g.setColor(Color.BLACK);
+		Font font = g.getFont();
+		g.setFont(new Font(font.getFontName(), Font.BOLD, font.getSize()));
 		
 		g.drawRect(5,  5, getWidth() - 10, getHeight() - 10);
 		
@@ -39,14 +42,29 @@ public class VisualPanel extends JPanel{
 		g.drawString("" + round(list.getMinY()), 10, getHeight() - 50);
 		g.drawString("Y " + round(list.getMaxY()), 10, 20);
 		
+		int zeroX = translateX(0) + 2, zeroY = translateY(0) - 2;
+		boolean zxVisible=false, zyVisible=false;
+		
 		if(list.getMinX() < 0 && list.getMaxX() > 0){
 			g.drawLine(translateX(0), 5, translateX(0), getHeight() - 5);
-			g.drawString("0", translateX(0), 5);
+			zxVisible = true;
+		}else if(list.getMinX() > 0){
+			zeroX = 7;
+		}else if(list.getMaxX() < 0){
+			zeroX = getWidth() - 20;
 		}
 		
 		if(list.getMinY() < 0 && list.getMaxY() > 0){
 			g.drawLine(5, translateY(0), getWidth() - 5, translateY(0));
-			g.drawString("0", 10, translateY(0) - 5);
+			zyVisible = true;
+		}else if(list.getMinY() > 0){
+			zeroY = getHeight() - 5;
+		}else if(list.getMaxY() < 0){
+			zeroY = 5;
+		}
+		
+		if(zxVisible || zyVisible){
+			g.drawString("0", zeroX, zeroY);
 		}
 		
 		for(Graph graph : list.getGraphs()){

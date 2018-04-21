@@ -56,4 +56,12 @@ public class GraphList {
 	public double getMinY() {
 		return minY;
 	}
+
+	public void setMinY(double minY) {
+		this.minY = minY;
+	}
+
+	public void setMaxY(double maxY) {
+		this.maxY = maxY;
+	}
 }

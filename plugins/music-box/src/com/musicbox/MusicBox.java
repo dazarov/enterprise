@@ -25,7 +25,7 @@ public class MusicBox {
 	};
 	
 	//private static final String WINDOWS_MOBILE_ROOT_PATH = "This PC/Nexus 6/Internal storage";
-	private static final String[] SD_CARD_PATH = {
+	private static final String[] SD_CARD_PATHS = {
 		"D:/",
 		"E:/",
 		"F:/"
@@ -41,9 +41,6 @@ public class MusicBox {
 		try(BufferedWriter log = Files.newBufferedWriter(Paths.get(LOG_FILE), StandardOpenOption.APPEND, StandardOpenOption.CREATE)){
 			
 			Path mobilePath = findMobilePath(log, MOBILE_PATHS);
-//			if(mobilePath == null){
-//				mobilePath = findMobilePath(log, WINDOWS_MOBILE_ROOT_PATH);
-//			}
 			
 			Path root = null;
 			for(String path : PATHS){
@@ -62,7 +59,7 @@ public class MusicBox {
 				System.out.println("2. Validate Mobile Device Folder "+mobilePath);
 				System.out.println("3. Synchronize Main Music Repository with "+mobilePath);
 			}
-			Path sdCardPath = findMobilePath(log, SD_CARD_PATH);
+			Path sdCardPath = findMobilePath(log, SD_CARD_PATHS);
 			if(sdCardPath != null){
 				System.out.println("4. Validate Mobile Device Folder "+sdCardPath);
 				System.out.println("5. Sysnchronize Music Library with "+sdCardPath);
@@ -87,19 +84,25 @@ public class MusicBox {
 		}
 	}
 	
-	private static Path findMobilePath(Writer log, String[] paths){
+	private static Path findMobilePath(Writer log, String[] paths) {
 		try {
-		  for(String pathString : paths){
-			Path path = Paths.get(pathString);
-			if(Files.exists(path)){
-				Optional<Path> result = Files.find(path, 20, (p, a) -> p.getFileName().toString().equals("Music")).findFirst();
-				if(result.isPresent()){
-					return result.get();
+			for (String pathString : paths) {
+				Path path = Paths.get(pathString);
+				if (Files.exists(path)) {
+					Optional<Path> result = Files
+							.find(path, 20,
+									(p, a) -> a.isDirectory()
+											&& p.getFileName() != null
+											&& p.getFileName().toString()
+													.equals("Music"))
+							.findFirst();
+					if (result.isPresent()) {
+						return result.get();
+					}
 				}
 			}
-		  }
 		} catch (IOException e) {
-		    out(log, "Error while reading files: "+e.getMessage());
+			out(log, "Error while reading files: " + e.getMessage());
 			e.printStackTrace();
 		}
 		return null;
