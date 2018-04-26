@@ -56,6 +56,7 @@ public class MathVisualizer {
 		GraphList list = new GraphList();
 		list.setBackgroundColor(configuration.getBackgroundColor());
 		list.setGridColor(configuration.getGridColor());
+		list.setTextColor(configuration.getTextColor());
 		double step = (configuration.getEnd() - configuration.getStart())
 				/configuration.getNumber();
 		for (GraphConfiguration gc : configuration.getGraphConfigs()) {

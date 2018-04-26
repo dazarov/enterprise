@@ -38,6 +38,13 @@ public class ConfigurationPanel extends JPanel {
 		addUpdater(gridButton, c -> configuration.setGridColor(c));
 		colorPanel.add(gridButton);
 		add(colorPanel);
+		
+		JButton textButton = new JButton("Text Color");
+		textButton.setForeground(Color.WHITE);
+		textButton.setBackground(configuration.getTextColor());
+		addUpdater(textButton, c -> configuration.setTextColor(c));
+		colorPanel.add(textButton);
+		add(colorPanel);
 
 		JPanel startPanel = new JPanel();
 		startPanel.add(new JLabel("Start: "));

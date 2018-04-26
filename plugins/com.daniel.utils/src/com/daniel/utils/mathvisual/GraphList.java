@@ -8,8 +8,16 @@ import java.util.stream.DoubleStream;
 public class GraphList {
 	private double minX, maxX, minY, maxY;
 	private List<Graph> graphs = new ArrayList<Graph>();
-	private Color backgroundColor, gridColor;
+	private Color backgroundColor, gridColor, textColor;
 	
+	public Color getTextColor() {
+		return textColor;
+	}
+
+	public void setTextColor(Color textColor) {
+		this.textColor = textColor;
+	}
+
 	public Color getBackgroundColor() {
 		return backgroundColor;
 	}
