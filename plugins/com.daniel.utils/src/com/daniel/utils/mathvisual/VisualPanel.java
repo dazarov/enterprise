@@ -37,11 +37,6 @@ public class VisualPanel extends JPanel{
 		
 		g.drawRect(5,  5, getWidth() - 10, getHeight() - 10);
 		
-		g.drawString("" + round(list.getMinX()), 20, getHeight() - 20);
-		g.drawString("X " + round(list.getMaxX()), getWidth() - 50, getHeight() - 20);
-		g.drawString("" + round(list.getMinY()), 10, getHeight() - 50);
-		g.drawString("Y " + round(list.getMaxY()), 10, 20);
-		
 		int zeroX = translateX(0) + 2, zeroY = translateY(0) - 2;
 		boolean zxVisible=false, zyVisible=false;
 		
@@ -66,6 +61,11 @@ public class VisualPanel extends JPanel{
 		if(zxVisible || zyVisible){
 			g.drawString("0", zeroX, zeroY);
 		}
+		
+		g.drawString("" + round(list.getMinX()), 20, zeroY);
+		g.drawString("X " + round(list.getMaxX()), getWidth() - 50, zeroY);
+		g.drawString("" + round(list.getMinY()), zeroX, getHeight() - 20);
+		g.drawString("Y " + round(list.getMaxY()), zeroX, 20);
 		
 		for(Graph graph : list.getGraphs()){
 			g.setColor(graph.getColor());

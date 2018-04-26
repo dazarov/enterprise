@@ -20,7 +20,6 @@ import net.objecthunter.exp4j.ExpressionBuilder;
 
 public class MathVisualizer {
 	private Configuration configuration;
-	private ConfigurationPanel configurationPanel;
 	private VisualPanel visualPanel;
 
 	public MathVisualizer() {
@@ -28,16 +27,14 @@ public class MathVisualizer {
 		frame.setTitle("Math Formula Visualizer");
 		JTabbedPane tabPane = new JTabbedPane();
 		configuration = loadConfiguration();
-		configurationPanel = new ConfigurationPanel(configuration);
 		visualPanel = new VisualPanel();
-		tabPane.addTab("Configuration", new JScrollPane(configurationPanel));
+		tabPane.addTab("Configuration", new JScrollPane(new ConfigurationPanel(configuration)));
 		tabPane.addTab("Visual View", visualPanel);
 
 		tabPane.addChangeListener(new ChangeListener() {
 			@Override
 			public void stateChanged(ChangeEvent e) {
 				if (tabPane.getSelectedIndex() == 1) {
-					configurationPanel.updateConfiguration();
 					initView();
 				}
 			}

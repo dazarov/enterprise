@@ -3,7 +3,7 @@ package com.daniel.utils.mathvisual;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.HashMap;
+import java.util.function.Consumer;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -12,13 +12,14 @@ import javax.swing.JColorChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 import com.daniel.utils.mathvisual.Configuration.GraphConfiguration;
 
 public class ConfigurationPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private Configuration configuration;
-	private HashMap<JTextField, ConfigurationUpdater> bindingMap = new HashMap<>();
 
 	public ConfigurationPanel(Configuration configuration) {
 		super();
@@ -29,30 +30,12 @@ public class ConfigurationPanel extends JPanel {
 		JPanel colorPanel = new JPanel();
 		JButton bcButton = new JButton("Background Color");
 		bcButton.setBackground(configuration.getBackgroundColor());
-		bcButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				Color newColor = JColorChooser.showDialog(
-						ConfigurationPanel.this, "Choose Background Color",
-						configuration.getBackgroundColor());
-				configuration.setBackgroundColor(newColor);
-				bcButton.setBackground(configuration.getBackgroundColor());
-			}
-		});
+		addUpdater(bcButton, c -> configuration.setBackgroundColor(c));
 		colorPanel.add(bcButton);
 		
 		JButton gridButton = new JButton("Grid Color");
 		gridButton.setBackground(configuration.getGridColor());
-		gridButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				Color newColor = JColorChooser.showDialog(
-						ConfigurationPanel.this, "Choose Grid Color",
-						configuration.getGridColor());
-				configuration.setGridColor(newColor);
-				gridButton.setBackground(configuration.getGridColor());
-			}
-		});
+		addUpdater(gridButton, c -> configuration.setGridColor(c));
 		colorPanel.add(gridButton);
 		add(colorPanel);
 
@@ -61,7 +44,7 @@ public class ConfigurationPanel extends JPanel {
 		JTextField startField = new JTextField("" + configuration.getStart(),
 				40);
 		startField.setMaximumSize(startField.getPreferredSize());
-		bindingMap.put(startField,
+		addUpdater(startField,
 				v -> configuration.setStart(Double.valueOf(v)));
 		startPanel.add(startField);
 		add(startPanel);
@@ -70,7 +53,7 @@ public class ConfigurationPanel extends JPanel {
 		endPanel.add(new JLabel("End: "));
 		JTextField endField = new JTextField("" + configuration.getEnd(), 40);
 		endField.setMaximumSize(endField.getPreferredSize());
-		bindingMap.put(endField,
+		addUpdater(endField,
 				v -> configuration.setEnd(Double.valueOf(v)));
 		endPanel.add(endField);
 		add(endPanel);
@@ -80,7 +63,7 @@ public class ConfigurationPanel extends JPanel {
 		JTextField numberField = new JTextField("" + configuration.getNumber(),
 				40);
 		numberField.setMaximumSize(numberField.getPreferredSize());
-		bindingMap.put(numberField,
+		addUpdater(numberField,
 				v -> configuration.setNumber(Integer.valueOf(v)));
 		numPanel.add(numberField);
 		add(numPanel);
@@ -90,7 +73,7 @@ public class ConfigurationPanel extends JPanel {
 		JTextField minYField = new JTextField("" + configuration.getMinY(),
 				40);
 		minYField.setMaximumSize(minYField.getPreferredSize());
-		bindingMap.put(minYField,
+		addUpdater(minYField,
 				v -> configuration.setMinY(Double.valueOf(v)));
 		minYPanel.add(minYField);
 		add(minYPanel);
@@ -100,7 +83,7 @@ public class ConfigurationPanel extends JPanel {
 		JTextField maxYField = new JTextField("" + configuration.getMaxY(),
 				40);
 		maxYField.setMaximumSize(maxYField.getPreferredSize());
-		bindingMap.put(maxYField,
+		addUpdater(maxYField,
 				v -> configuration.setMaxY(Double.valueOf(v)));
 		maxYPanel.add(maxYField);
 		add(maxYPanel);
@@ -120,18 +103,50 @@ public class ConfigurationPanel extends JPanel {
 			add(new GraphConfPanel(gc));
 		}
 	}
+	
+	private void addUpdater(JTextField field, Consumer<String> updater){
+		field.getDocument().addDocumentListener(new DocumentListener(){
 
-	public void updateConfiguration() {
-		for (JTextField field : bindingMap.keySet()) {
-			ConfigurationUpdater updater = bindingMap.get(field);
-			try {
-				updater.update(field.getText());
-			} catch (Exception ex) {
-				System.out.println(
-						"Error while updating configuration property!");
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				update();
 			}
-		}
+
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				update();
+			}
+
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+				update();
+			}
+			
+			private void update(){
+				try{
+					updater.accept(field.getText());
+				}catch(Exception ex){
+					System.out.println("Error while updating the configuration property!");
+				}
+			}
+		});
 	}
+	
+	private void addUpdater(JButton button, Consumer<Color> updater){
+		button.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Color newColor = JColorChooser.showDialog(
+						ConfigurationPanel.this, "Choose Color",
+						configuration.getBackgroundColor());
+				if(newColor != null){
+					updater.accept(newColor);
+					button.setBackground(newColor);
+				}
+			}
+		});
+	}
+
 
 	class GraphConfPanel extends JPanel {
 		private static final long serialVersionUID = 1L;
@@ -156,14 +171,14 @@ public class ConfigurationPanel extends JPanel {
 			JPanel formulaPanel = new JPanel();
 			formulaPanel.add(new JLabel("Formula: "));
 			JTextField formulaField = new JTextField(gc.getFormula(), 40);
-			bindingMap.put(formulaField, v -> gc.setFormula(v));
+			addUpdater(formulaField, v -> gc.setFormula(v));
 			formulaPanel.add(formulaField);
 			textPanel.add(formulaPanel);
 			
 			JPanel commentPanel = new JPanel();
 			commentPanel.add(new JLabel("Comment: "));
 			JTextField commentField = new JTextField(gc.getComment(), 40);
-			bindingMap.put(commentField, v -> gc.setComment(v));
+			addUpdater(commentField, v -> gc.setComment(v));
 			commentPanel.add(commentField);
 			
 			textPanel.add(commentPanel);
@@ -171,16 +186,7 @@ public class ConfigurationPanel extends JPanel {
 
 			JButton colorButton = new JButton("Color");
 			colorButton.setBackground(gc.getColor());
-			colorButton.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					Color newColor = JColorChooser.showDialog(
-							ConfigurationPanel.this, "Choose Graph Color",
-							gc.getColor());
-					gc.setColor(newColor);
-					colorButton.setBackground(gc.getColor());
-				}
-			});
+			addUpdater(colorButton, c -> gc.setColor(c));
 			add(colorButton);
 
 			JButton removeButton = new JButton("Remove");
