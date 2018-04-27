@@ -11,7 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import com.daniel.utils.mathvisual.Configuration.GraphConfiguration;
-import com.daniel.utils.spring.SpringFactory;
+import com.daniel.utils.swing.SwingFactory;
 
 public class ConfigurationPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
@@ -25,16 +25,16 @@ public class ConfigurationPanel extends JPanel {
 
 		JPanel colorPanel = new JPanel();
 		colorPanel.add(
-				SpringFactory.createColorChooserButton(ConfigurationPanel.this,
+				SwingFactory.createColorChooserButton(ConfigurationPanel.this,
 						"Background Color", configuration.getBackgroundColor(),
 						c -> configuration.setBackgroundColor(c)));
 
 		colorPanel.add(
-				SpringFactory.createColorChooserButton(ConfigurationPanel.this,
+				SwingFactory.createColorChooserButton(ConfigurationPanel.this,
 						"Grid Color", configuration.getGridColor(),
 						c -> configuration.setGridColor(c)));
 
-		JButton textButton = SpringFactory.createColorChooserButton(
+		JButton textButton = SwingFactory.createColorChooserButton(
 				ConfigurationPanel.this, "Text Color",
 				configuration.getTextColor(),
 				c -> configuration.setTextColor(c));
@@ -42,22 +42,22 @@ public class ConfigurationPanel extends JPanel {
 		colorPanel.add(textButton);
 		add(colorPanel);
 
-		add(SpringFactory.createTextField("Start: ",
+		add(SwingFactory.createTextField("Start: ",
 				"" + configuration.getStart(), 40,
 				v -> configuration.setStart(Double.valueOf(v))));
 
-		add(SpringFactory.createTextField("End: ", "" + configuration.getEnd(),
+		add(SwingFactory.createTextField("End: ", "" + configuration.getEnd(),
 				40, v -> configuration.setEnd(Double.valueOf(v))));
 
-		add(SpringFactory.createTextField("Number: ",
+		add(SwingFactory.createTextField("Number: ",
 				"" + configuration.getNumber(), 40,
 				v -> configuration.setNumber(Integer.valueOf(v))));
 
-		add(SpringFactory.createTextField("Min Y: ",
+		add(SwingFactory.createTextField("Min Y: ",
 				"" + configuration.getMinY(), 40,
 				v -> configuration.setMinY(Double.valueOf(v))));
 
-		add(SpringFactory.createTextField("Max Y: ",
+		add(SwingFactory.createTextField("Max Y: ",
 				"" + configuration.getMaxY(), 40,
 				v -> configuration.setMaxY(Double.valueOf(v))));
 
@@ -97,14 +97,14 @@ public class ConfigurationPanel extends JPanel {
 			JPanel textPanel = new JPanel();
 			textPanel.setLayout(new BoxLayout(textPanel, BoxLayout.PAGE_AXIS));
 
-			textPanel.add(SpringFactory.createTextField("Formula: ",
+			textPanel.add(SwingFactory.createTextField("Formula: ",
 					gc.getFormula(), 40, v -> gc.setFormula(v)));
 
-			textPanel.add(SpringFactory.createTextField("Comment: ",
+			textPanel.add(SwingFactory.createTextField("Comment: ",
 					gc.getComment(), 40, v -> gc.setComment(v)));
 			add(textPanel);
 
-			add(SpringFactory.createColorChooserButton(ConfigurationPanel.this,
+			add(SwingFactory.createColorChooserButton(ConfigurationPanel.this,
 					"Color", gc.getColor(), c -> gc.setColor(c)));
 
 			JButton removeButton = new JButton("Remove");

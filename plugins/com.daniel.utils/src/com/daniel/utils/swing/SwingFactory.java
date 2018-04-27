@@ -1,4 +1,4 @@
-package com.daniel.utils.spring;
+package com.daniel.utils.swing;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -16,7 +16,7 @@ import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-public class SpringFactory {
+public class SwingFactory {
 	public static JButton createColorChooserButton(Component component,
 			String label, Color defaultColor, Consumer<Color> updater) {
 		JButton button = new JButton(label);
