@@ -128,7 +128,6 @@ public class MathVisualizer {
 			Unmarshaller um = context.createUnmarshaller();
 			return (Configuration) um.unmarshal(new FileReader(CONFIG_FILE_XML));
 		} catch (FileNotFoundException | JAXBException e) {
-			e.printStackTrace();
 			return new Configuration();
 		}
         
@@ -140,8 +139,7 @@ public class MathVisualizer {
 			m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
 			m.marshal(configuration, new File(CONFIG_FILE_XML));
 		} catch (JAXBException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("Error while saving configuration!");
 		}
         
 	}

@@ -11,7 +11,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-@XmlRootElement(namespace = "com.daniel.utils.mathvisualizer")
+@XmlRootElement(namespace = "com.daniel.utils.MathFormulaVisualizer")
+@XmlType(propOrder = { "backgroundColor", "gridColor", "textColor", "start",
+		"end", "number", "minY", "maxY", "graphs" })
 public class Configuration implements Serializable {
 	private static final long serialVersionUID = 5L;
 	private Color backgroundColor = Color.LIGHT_GRAY;

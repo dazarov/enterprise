@@ -1,55 +1,55 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<ns2:configuration xmlns:ns2="com.daniel.utils.mathvisualizer">
-    <backgroundColor>-1710619</backgroundColor>
+<ns2:configuration xmlns:ns2="com.daniel.utils.MathFormulaVisualizer">
+    <backgroundColor>ffe5e5e5</backgroundColor>
+    <gridColor>ff898989</gridColor>
+    <textColor>ff000000</textColor>
+    <start>-10.0</start>
     <end>10.0</end>
+    <number>1000</number>
+    <minY>0.0</minY>
+    <maxY>0.0</maxY>
     <graphList>
         <graph>
             <visible>false</visible>
             <formula>x^5-8*x^3+10*x+6 </formula>
             <comment>x - +-3</comment>
-            <color>-65536</color>
+            <color>ffff0000</color>
         </graph>
         <graph>
             <visible>false</visible>
             <formula>sin(4*x)^3-cos(4*x)^2+5/x </formula>
             <comment>x - +- 10 y - +-20</comment>
-            <color>-65536</color>
+            <color>ffff0000</color>
         </graph>
         <graph>
             <visible>false</visible>
             <formula>2*sin(x)+sin(3*x)</formula>
             <comment></comment>
-            <color>-65536</color>
+            <color>ffff0000</color>
         </graph>
         <graph>
             <visible>true</visible>
             <formula>x*sin(x^2)+1</formula>
             <comment></comment>
-            <color>-6750055</color>
+            <color>ff990099</color>
         </graph>
         <graph>
             <visible>false</visible>
             <formula>x^5</formula>
             <comment></comment>
-            <color>-65536</color>
+            <color>ffff0000</color>
         </graph>
         <graph>
             <visible>false</visible>
             <formula>-x^5</formula>
             <comment></comment>
-            <color>-65536</color>
+            <color>ffff0000</color>
         </graph>
         <graph>
             <visible>false</visible>
             <formula>x^5*sin(x)</formula>
             <comment></comment>
-            <color>-10092289</color>
+            <color>ff6600ff</color>
         </graph>
     </graphList>
-    <gridColor>-7763575</gridColor>
-    <maxY>0.0</maxY>
-    <minY>0.0</minY>
-    <number>1000</number>
-    <start>-10.0</start>
-    <textColor>-16777216</textColor>
 </ns2:configuration>
