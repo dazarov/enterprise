@@ -2,8 +2,11 @@ package com.daniel.utils.mathvisual;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
@@ -12,6 +15,10 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
 
 import com.daniel.utils.mathvisual.Configuration.GraphConfiguration;
 
@@ -19,14 +26,23 @@ import net.objecthunter.exp4j.Expression;
 import net.objecthunter.exp4j.ExpressionBuilder;
 
 public class MathVisualizer {
+	private static final String CONFIG_FILE_BIN = "MathVisualizer.cfg";
+	private static final String CONFIG_FILE_XML = "MathVisualizer.xml";
+	
+	JAXBContext context;
 	private Configuration configuration;
 	private VisualPanel visualPanel;
 
 	public MathVisualizer() {
+		try {
+			context = JAXBContext.newInstance(Configuration.class);
+		} catch (JAXBException e1) {
+			e1.printStackTrace();
+		}
 		JFrame frame = new JFrame();
 		frame.setTitle("Math Formula Visualizer");
 		JTabbedPane tabPane = new JTabbedPane();
-		configuration = loadConfiguration();
+		configuration = loadConfigurationFromXML();
 		visualPanel = new VisualPanel();
 		tabPane.addTab("Configuration", new JScrollPane(new ConfigurationPanel(configuration)));
 		tabPane.addTab("Visual View", visualPanel);
@@ -45,7 +61,7 @@ public class MathVisualizer {
 		frame.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
-				saveConfiguration();
+				saveConfigurationToXML();
 				System.exit(0);
 			}
 		});
@@ -86,8 +102,9 @@ public class MathVisualizer {
 		visualPanel.init(list);
 	}
 
-	private Configuration loadConfiguration() {
-		try (FileInputStream fis = new FileInputStream("MathVisualizer.cfg");
+	@SuppressWarnings("unused")
+	private Configuration loadConfigurationFromBin() {
+		try (FileInputStream fis = new FileInputStream(CONFIG_FILE_BIN);
 				ObjectInputStream ois = new ObjectInputStream(fis);) {
 			return (Configuration) ois.readObject();
 		} catch (Exception ex) {
@@ -95,14 +112,38 @@ public class MathVisualizer {
 		}
 	}
 
-	private void saveConfiguration() {
-		try (FileOutputStream fos = new FileOutputStream("MathVisualizer.cfg");
+	@SuppressWarnings("unused")
+	private void saveConfigurationToBin() {
+		try (FileOutputStream fos = new FileOutputStream(CONFIG_FILE_BIN);
 				ObjectOutputStream oos = new ObjectOutputStream(fos);) {
 			oos.writeObject(configuration);
 			oos.flush();
 		} catch (Exception ex) {
 			System.out.println("Error while saving configuration!");
 		}
+	}
+	
+	private Configuration loadConfigurationFromXML() {
+		try {
+			Unmarshaller um = context.createUnmarshaller();
+			return (Configuration) um.unmarshal(new FileReader(CONFIG_FILE_XML));
+		} catch (FileNotFoundException | JAXBException e) {
+			e.printStackTrace();
+			return new Configuration();
+		}
+        
+	}
+	
+	private void saveConfigurationToXML() {
+		try {
+			Marshaller m = context.createMarshaller();
+			m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+			m.marshal(configuration, new File(CONFIG_FILE_XML));
+		} catch (JAXBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        
 	}
 
 	public static void main(String[] args) {

@@ -5,6 +5,13 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
+@XmlRootElement(namespace = "com.daniel.utils.mathvisualizer")
 public class Configuration implements Serializable {
 	private static final long serialVersionUID = 5L;
 	private Color backgroundColor = Color.LIGHT_GRAY;
@@ -42,6 +49,7 @@ public class Configuration implements Serializable {
 		this.maxY = maxY;
 	}
 
+	@XmlJavaTypeAdapter(ColorAdapter.class)
 	public Color getBackgroundColor() {
 		return backgroundColor;
 	}
@@ -50,6 +58,7 @@ public class Configuration implements Serializable {
 		this.backgroundColor = backgroundColor;
 	}
 
+	@XmlJavaTypeAdapter(ColorAdapter.class)
 	public Color getGridColor() {
 		return gridColor;
 	}
@@ -58,6 +67,7 @@ public class Configuration implements Serializable {
 		this.gridColor = gridColor;
 	}
 
+	@XmlJavaTypeAdapter(ColorAdapter.class)
 	public Color getTextColor() {
 		return textColor;
 	}
@@ -82,6 +92,8 @@ public class Configuration implements Serializable {
 		this.number = number;
 	}
 
+	@XmlElementWrapper(name = "graphList")
+	@XmlElement(name = "graph")
 	public List<GraphConfiguration> getGraphs() {
 		return graphs;
 	}
@@ -104,11 +116,14 @@ public class Configuration implements Serializable {
 		graphs.remove(graph);
 	}
 
-	public class GraphConfiguration implements Serializable {
+	@XmlRootElement(name = "graph")
+	@XmlType(propOrder = { "visible", "formula", "comment", "color" })
+	public static class GraphConfiguration implements Serializable {
 		private static final long serialVersionUID = 5L;
 		private boolean visible = true;
 		private String formula = "";
 		private String comment = "";
+		
 		private Color color = Color.RED;
 
 		public String getComment() {
@@ -135,6 +150,7 @@ public class Configuration implements Serializable {
 			this.formula = formula;
 		}
 
+		@XmlJavaTypeAdapter(ColorAdapter.class)
 		public Color getColor() {
 			return color;
 		}
