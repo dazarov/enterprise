@@ -62,6 +62,7 @@ public class MathVisualizer {
 			@Override
 			public void windowClosing(WindowEvent e) {
 				saveConfigurationToXML();
+				saveConfigurationToBin();
 				System.exit(0);
 			}
 		});
@@ -102,7 +103,6 @@ public class MathVisualizer {
 		visualPanel.init(list);
 	}
 
-	@SuppressWarnings("unused")
 	private Configuration loadConfigurationFromBin() {
 		try (FileInputStream fis = new FileInputStream(CONFIG_FILE_BIN);
 				ObjectInputStream ois = new ObjectInputStream(fis);) {
@@ -112,7 +112,6 @@ public class MathVisualizer {
 		}
 	}
 
-	@SuppressWarnings("unused")
 	private void saveConfigurationToBin() {
 		try (FileOutputStream fos = new FileOutputStream(CONFIG_FILE_BIN);
 				ObjectOutputStream oos = new ObjectOutputStream(fos);) {
@@ -128,7 +127,7 @@ public class MathVisualizer {
 			Unmarshaller um = context.createUnmarshaller();
 			return (Configuration) um.unmarshal(new FileReader(CONFIG_FILE_XML));
 		} catch (FileNotFoundException | JAXBException e) {
-			return new Configuration();
+			return loadConfigurationFromBin();
 		}
         
 	}

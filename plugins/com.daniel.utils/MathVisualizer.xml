@@ -3,14 +3,14 @@
     <backgroundColor>ffe5e5e5</backgroundColor>
     <gridColor>ff898989</gridColor>
     <textColor>ff000000</textColor>
-    <start>-10.0</start>
-    <end>10.0</end>
-    <number>1000</number>
+    <start>-3.0</start>
+    <end>3.0</end>
+    <number>2000</number>
     <minY>0.0</minY>
     <maxY>0.0</maxY>
     <graphList>
         <graph>
-            <visible>false</visible>
+            <visible>true</visible>
             <formula>x^5-8*x^3+10*x+6 </formula>
             <comment>x - +-3</comment>
             <color>ffff0000</color>
@@ -28,7 +28,7 @@
             <color>ffff0000</color>
         </graph>
         <graph>
-            <visible>true</visible>
+            <visible>false</visible>
             <formula>x*sin(x^2)+1</formula>
             <comment></comment>
             <color>ff990099</color>
