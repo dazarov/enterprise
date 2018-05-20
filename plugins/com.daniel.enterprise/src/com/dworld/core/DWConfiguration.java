@@ -4,6 +4,8 @@ import java.util.Locale;
 
 import com.dworld.DWJavaFXLauncher;
 import com.dworld.DWSwingLauncher;
+import com.dworld.pathfinding.AStarPathFinder;
+import com.dworld.pathfinding.PathFinder;
 import com.dworld.ui.DWUI;
 import com.dworld.ui.javafx.DWJavaFXUI;
 import com.dworld.ui.swing.DWSwingUI;
@@ -50,6 +52,12 @@ public class DWConfiguration {
 	private String pathName;
 	
 	private Locale locale = new Locale("en", "US");
+	
+	private PathFinder finder = new AStarPathFinder(Land.Vacuum, 500, true);
+	
+	public PathFinder getPathFinder(){
+		return finder;
+	}
 	
 	public Locale getLocale(){
 		return locale;

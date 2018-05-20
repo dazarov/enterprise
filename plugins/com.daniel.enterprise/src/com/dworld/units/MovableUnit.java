@@ -6,12 +6,14 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Set;
 
+import com.dworld.core.DWConfiguration;
 import com.dworld.core.DWConstants;
 import com.dworld.core.Direction;
 import com.dworld.core.IMovable;
 import com.dworld.core.Land;
 import com.dworld.core.Location;
 import com.dworld.core.SearchResult;
+import com.dworld.pathfinding.Path;
 
 public abstract class MovableUnit extends ActiveUnit implements IMovable {
 	public static final int STAY_MODE			= 1;
@@ -30,6 +32,8 @@ public abstract class MovableUnit extends ActiveUnit implements IMovable {
 	protected Direction direction = Direction.NORTH;
 	
 	protected Location destination = null;
+	protected Path path = null;
+	private int walkingIndex = 0;
 
 	public MovableUnit(int x, int y, Land land, double speed) {
 		super(x, y);
@@ -77,7 +81,7 @@ public abstract class MovableUnit extends ActiveUnit implements IMovable {
 		
 		if (curent <= 0) {
 			curent += DWConstants.MAX_SPEED;
-			findDirection();
+			//findDirection();
 			if (Land.canIWalk(getLocation(), direction, getWalkList())) {
 				walk();
 			} else{
@@ -98,19 +102,33 @@ public abstract class MovableUnit extends ActiveUnit implements IMovable {
 		if(mode == STAY_MODE){
 			return false;
 		}else if(mode == MOVE_TO_MODE){
-			if(getLocation().equals(destination)){
-				status = INIT_STATUS;
+			if(path == null){
 				mode = STAY_MODE;
 				return false;
+			}
+			if(getLocation().equals(destination)){
+				mode = STAY_MODE;
+				path = null;
+				return false;
+			}
+			// Follow the Path
+			if(getLocation().equals(path.getStep(walkingIndex))){
+				walkingIndex++;
+				direction = Direction.findDirection(getLocation(), path.getStep(walkingIndex));
 			}
 		}
 		return true;
 	}
 	
-	protected void findDirection(){
-		if(mode == MOVE_TO_MODE){
-			direction = findDestination();
-		}
+	protected void findPath(){
+		//if(mode == MOVE_TO_MODE){
+			path = DWConfiguration.getInstance().getPathFinder().findPath(this, getLocation().getX(), getLocation().getY(), destination.getX(), destination.getY());
+			if(path != null){
+				walkingIndex = 0;
+				direction = Direction.findDirection(getLocation(), path.getStep(walkingIndex));
+			}
+			mode = MOVE_TO_MODE;
+		//}
 	}
 
 	protected boolean findNewDirection() {
@@ -120,10 +138,6 @@ public abstract class MovableUnit extends ActiveUnit implements IMovable {
 	
 	protected abstract boolean lookAround();
 
-//	protected final boolean lookAround(){
-//		return getLogic().looked();
-//	}
-	
 	protected boolean checkLand(){
 		if (Land.getLand(getLocation()) != getLand(beneath)) {
 			die();
@@ -140,7 +154,6 @@ public abstract class MovableUnit extends ActiveUnit implements IMovable {
 		if(selfDefense){
 			selfDefense = false;
 		}
-		getLogic().walked();
 	}
 	
 	@Override
@@ -268,78 +281,6 @@ public abstract class MovableUnit extends ActiveUnit implements IMovable {
 		return false;
 	}
 	
-//	private class Danger{
-//		//private Point location;
-//		//private Direction direction = Direction.nowhere;
-//		//private Point probable = null;
-//		long lastModification = 0;
-//		
-//		public Danger(Point point, long modification){
-//			//this.location = point;
-//			this.lastModification = modification;
-//		}
-//		
-//		public void setLocation(Point location, long time){
-//			//this.location = location;
-//			this.lastModification = time;
-//		}
-//	}
-//	
-//	private ArrayList<Danger> dangers = new ArrayList<Danger>();
-//	private long time = 0;
-	
-	//private static final int AREA_SIZE = 40;
-	//private static final int CLEAN_DELTA = 3;
-	
-//	protected boolean heavyDefenseComplex(){
-//		time++;
-//		int startX = getLocation().x - AREA_SIZE/2;
-//		if(startX < 0) startX = 0;
-//		int startY = getLocation().y - AREA_SIZE/2;
-//		if(startY < 0) startY = 0;
-//		
-//		// searching
-//		for(int x = startX; x < startX+AREA_SIZE; x++){
-//			for(int y = startY; y < startY+AREA_SIZE; y++){
-//				Point point = new Point(x,y);
-//				int code = Land.getLand(point);
-//				if(code == Land.Bullet){
-//					Danger danger = findDanger(point);
-//					if(danger == null)
-//						createDanger(point);
-//					else
-//						operateDanger(danger, point);
-//				}
-//			}
-//		}
-//		clean();
-//		
-//		// processing
-//		
-//		return false;
-//	}
-	
-//	private Danger findDanger(Point point){
-//		return null;
-//	}
-//	
-//	private void createDanger(Point point){
-//		Danger danger = new Danger(point, time);
-//		dangers.add(danger);
-//	}
-//	
-//	private void operateDanger(Danger danger, Point point){
-//		danger.setLocation(point, time);
-//	}
-	
-//	private void clean(){
-//		for(int i = dangers.size()-1; i <= 0; i--){
-//			Danger danger = dangers.get(i);
-//			if(time-danger.lastModification > CLEAN_DELTA)
-//				dangers.remove(i);
-//		}
-//	}
-	
 	@Override
 	public void command(int commandId, Object[] args){
 		super.command(commandId, args);
@@ -350,76 +291,11 @@ public abstract class MovableUnit extends ActiveUnit implements IMovable {
 			mode = MOVE_AROUND_MODE;
 		}else if(commandId == EXTERNAL_COMMAND_MOVE_TO){
 			destination = (Location)args[0];
-			status = INIT_STATUS;
-			mode = MOVE_TO_MODE;
+			//mode = MOVE_TO_MODE;
+			findPath();
 		}
 	}
 	
-	protected static final int INIT_STATUS = 0;
-	protected static final int DIRECT_STATUS = 1;
-	protected static final int APROACH_STATUS = 2;
-	protected static final int CONNECT_STATUS = 3;
-	protected static final int AROUND_STATUS = 4;
-	
-	protected int status = INIT_STATUS;
-	
-	private Direction ld = Direction.NOWHERE;
-	
-	protected Direction findDestination(){
-		if(status == INIT_STATUS){
-			if(Direction.isShortcutAvalable(getLocation(), destination)){
-				status = DIRECT_STATUS;
-			}else{
-				status = APROACH_STATUS;
-			}
-		}
-		if(status == APROACH_STATUS){
-			ld = Direction.findDirection(getLocation(), destination);
-			if(!Land.canIWalk(getLocation(), ld, Land.walkList)){
-				status = CONNECT_STATUS;
-			}else{
-				return ld;
-			}
-		}
-		
-		if(status == CONNECT_STATUS){
-			Direction d = direction;
-			for(int i = 0; i < 8; i++){
-				if(Land.canIWalk(getLocation(), d, Land.walkList)){
-					ld = d;
-					status = AROUND_STATUS;
-					return d;
-				}
-				d = d.getLeft();
-			}
-			ld = Direction.NOWHERE;
-			return ld;
-		}
-		
-		if(status == AROUND_STATUS){
-			if(Direction.isShortcutAvalable(getLocation(), destination)){
-				status = DIRECT_STATUS;
-			}else{
-				Direction d = direction.getRight(3);
-				for(int i = 0; i < 8; i++){
-					if(Land.canIWalk(getLocation(), d, Land.walkList)){
-						ld = d;
-						return d;
-					}
-					d = d.getLeft();
-				}
-				ld = Direction.NOWHERE;
-				return ld;
-			}
-		}
-		
-		if(status == DIRECT_STATUS){
-			ld = Direction.findDirection(getLocation(), destination);
-			return ld;
-		}
-		ld = Direction.NOWHERE;
-		return ld;
-	}
 	
 	@Override
 	public void move(Direction direction) {

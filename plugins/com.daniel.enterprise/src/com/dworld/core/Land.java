@@ -10,13 +10,14 @@ import java.io.InputStream;
 import java.util.EnumSet;
 import java.util.Set;
 
+import com.dworld.pathfinding.TileBasedMap;
 import com.dworld.ui.DWMessage;
 import com.dworld.ui.IProgressMonitor;
 import com.dworld.units.ControlledUnit;
 import com.dworld.units.MovableUnit;
 import com.dworld.units.weapon.Bullet;
 
-public enum Land {
+public enum Land implements TileBasedMap{
 	
 	
 	/*******************************************************************************************************************************
@@ -712,6 +713,10 @@ public enum Land {
 	public static Location getNewLocation(Location location, Direction direction) {
 		return direction.getNewLocation(location);
 	}
+	
+	public static Direction getNewDirection(Location source, Location target) {
+		return Direction.findDirection(source, target);
+	}
 
 	public static Land getLand(Location location, Direction direction) {
 		location = getNewLocation(location, direction);
@@ -978,5 +983,35 @@ public enum Land {
 		int value2 = stream.read();
 		
 		return value1*FILE_KEY+value2;
+	}
+
+	@Override
+	public int getWidthInTiles() {
+		return getMaxX();
+	}
+
+	@Override
+	public int getHeightInTiles() {
+		return getMaxY();
+	}
+
+	@Override
+	public void pathFinderVisited(int x, int y) {
+		
+	}
+
+	@Override
+	public boolean blocked(MovableUnit mover, int x, int y) {
+		Land land = getLand(new Location(x, y));
+		if (land == Vacuum)
+			return true;
+		if (walkList.contains(land))
+			return false;
+		return true;
+	}
+
+	@Override
+	public float getCost(MovableUnit mover, int sx, int sy, int tx, int ty) {
+		return 1;
 	}
 }
