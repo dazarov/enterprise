@@ -96,8 +96,9 @@ public abstract class Unit implements IUnit{
 		if(!(this instanceof MovableUnit)){
 			throw new IllegalStateException("Illegal use of method setLocation, make sure your unit is instance of MovableUnit!");
 		}
+		Location prev = this.location;
 		this.location = location;
-		DWConfiguration.getInstance().getEngine().moveUnit(this);
+		DWConfiguration.getInstance().getEngine().moveUnit(this, prev);
 	}
 	
 	@Override

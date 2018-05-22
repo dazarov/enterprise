@@ -1007,6 +1007,9 @@ public enum Land implements TileBasedMap{
 			return true;
 		if (walkList.contains(land))
 			return false;
+		if(citizenList.contains(mover.getLand(Land.Grass)) && gateList.contains(land)){
+			return false;
+		}
 		return true;
 	}
 

@@ -84,7 +84,7 @@ public abstract class MovableUnit extends ActiveUnit implements IMovable {
 			//findDirection();
 			if (Land.canIWalk(getLocation(), direction, getWalkList())) {
 				walk();
-			} else{
+			} else if(mode != MOVE_TO_MODE){
 				if(!findNewDirection())
 					return;
 			}
@@ -121,14 +121,12 @@ public abstract class MovableUnit extends ActiveUnit implements IMovable {
 	}
 	
 	protected void findPath(){
-		//if(mode == MOVE_TO_MODE){
-			path = DWConfiguration.getInstance().getPathFinder().findPath(this, getLocation().getX(), getLocation().getY(), destination.getX(), destination.getY());
-			if(path != null){
-				walkingIndex = 0;
-				direction = Direction.findDirection(getLocation(), path.getStep(walkingIndex));
-			}
-			mode = MOVE_TO_MODE;
-		//}
+		path = DWConfiguration.getInstance().getPathFinder().findPath(this, getLocation().getX(), getLocation().getY(), destination.getX(), destination.getY());
+		if(path != null){
+			walkingIndex = 0;
+			direction = Direction.findDirection(getLocation(), path.getStep(walkingIndex));
+		}
+		mode = MOVE_TO_MODE;
 	}
 
 	protected boolean findNewDirection() {

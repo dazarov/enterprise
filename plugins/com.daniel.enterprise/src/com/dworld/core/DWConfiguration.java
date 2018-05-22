@@ -38,24 +38,27 @@ public class DWConfiguration {
 	
 	private final DWEngine engine;
 	
-	private ControlledUnit controlledUnit = null;
-	private ILauncher launcher = null;
+	private ControlledUnit controlledUnit;
+	private ILauncher launcher;
 	
-	private DWUI ui = null;
+	private DWUI ui;
 	
 	private int drawMode = DRAW_BRUSH;
 	private Land selectedLand = Land.Brick;
-	private boolean buildMode = false;
+	private boolean buildMode;
 	
-	private boolean attackMode = false;
+	private boolean attackMode;
 
 	private String pathName;
 	
 	private Locale locale = new Locale("en", "US");
 	
-	private PathFinder finder = new AStarPathFinder(Land.Vacuum, 500, true);
+	private PathFinder finder;
 	
 	public PathFinder getPathFinder(){
+		if(finder == null){
+			finder = new AStarPathFinder(Land.Vacuum, 500, false);
+		}
 		return finder;
 	}
 	

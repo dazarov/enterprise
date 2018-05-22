@@ -20,6 +20,8 @@ public class DWEngine implements Runnable {
 	
 	private Map<Location, IUnit> allUnits = new HashMap<>();
 	
+	private Map<Location, IUnit> spairUnits = new HashMap<>();
+	
 	private long frameID = 0;
 	
 	private AtomicBoolean run = new AtomicBoolean(true);
@@ -250,10 +252,20 @@ public class DWEngine implements Runnable {
 		}
 	}
 	
-	public void moveUnit(IUnit unit){
+	public void moveUnit(IUnit unit, Location prev){
 		// for use in map <location, unit> only
+
 		allUnits.remove(unit);
-		allUnits.put(unit.getLocation(), unit);
+		IUnit spair = spairUnits.get(prev);
+		if(spair != null){
+			spairUnits.remove(spair);
+			allUnits.put(prev, spair);
+		}
+		
+		spair = allUnits.put(unit.getLocation(), unit);
+		if(spair != null){
+			spairUnits.put(spair.getLocation(), spair);
+		}
 	}
 
 	public void removeElement(IActive element) {
