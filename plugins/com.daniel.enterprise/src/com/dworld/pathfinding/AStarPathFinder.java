@@ -2,6 +2,10 @@ package com.dworld.pathfinding;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
+import com.dworld.core.Location;
 
 import com.dworld.units.MovableUnit;
 
@@ -23,7 +27,7 @@ public class AStarPathFinder implements PathFinder {
 	private int maxSearchDistance;
 	
 	/** The complete set of nodes across the map */
-	private Node[][] nodes;
+	//private Node[][] nodes;
 	/** True if we allow diaganol movement */
 	private boolean allowDiagMovement;
 	/** The heuristic we're applying to determine which nodes to search first */
@@ -54,13 +58,6 @@ public class AStarPathFinder implements PathFinder {
 		this.map = map;
 		this.maxSearchDistance = maxSearchDistance;
 		this.allowDiagMovement = allowDiagMovement;
-		
-		nodes = new Node[map.getWidthInTiles()][map.getHeightInTiles()];
-		for (int x=0;x<map.getWidthInTiles();x++) {
-			for (int y=0;y<map.getHeightInTiles();y++) {
-				nodes[x][y] = new Node(x,y);
-			}
-		}
 	}
 	
 	/**
@@ -73,16 +70,22 @@ public class AStarPathFinder implements PathFinder {
 			return null;
 		}
 		
+		Map<Location, Node> nodes = new HashMap<>();
+		
 		// initial state for A*. The closed group is empty. Only the starting
 
 		// tile is in the open list and it'e're already there
-		nodes[sx][sy].cost = 0;
-		nodes[sx][sy].depth = 0;
+		Node sNode = new Node(sx, sy);
+		nodes.put(new Location(sx,sy),  sNode);
+		sNode.cost = 0;
+		sNode.depth = 0;
 		closed.clear();
 		open.clear();
-		open.add(nodes[sx][sy]);
+		open.add(sNode);
 		
-		nodes[tx][ty].parent = null;
+		Node tNode = new Node(tx, ty);
+		nodes.put(new Location(tx,ty),  tNode);
+		tNode.parent = null;
 		
 		// while we haven'n't exceeded our max search depth
 		int maxDepth = 0;
@@ -92,7 +95,7 @@ public class AStarPathFinder implements PathFinder {
 			// be the most likely to be the next step based on our heuristic
 
 			Node current = getFirstInOpen();
-			if (current == nodes[tx][ty]) {
+			if (current == tNode) {
 				break;
 			}
 			
@@ -134,7 +137,11 @@ public class AStarPathFinder implements PathFinder {
 						// in the sorted open list
 
 						float nextStepCost = current.cost + getMovementCost(mover, current.x, current.y, xp, yp);
-						Node neighbour = nodes[xp][yp];
+						Node neighbour = nodes.get(new Location(xp, yp));
+						if(neighbour == null){
+							neighbour = new Node(xp, yp);
+							nodes.put(new Location(xp,yp),  neighbour);
+						}
 						map.pathFinderVisited(xp, yp);
 						
 						// if the new cost we've determined for this node is lower than 
@@ -173,7 +180,7 @@ public class AStarPathFinder implements PathFinder {
 		// since we'e've run out of search 
 		// there was no path. Just return null
 
-		if (nodes[tx][ty].parent == null) {
+		if (tNode.parent == null) {
 			return null;
 		}
 		
@@ -184,8 +191,8 @@ public class AStarPathFinder implements PathFinder {
 		// to the start recording the nodes on the way.
 
 		Path path = new Path();
-		Node target = nodes[tx][ty];
-		while (target != nodes[sx][sy]) {
+		Node target = tNode;
+		while (target != sNode) {
 			path.prependStep(target.x, target.y);
 			target = target.parent;
 		}
