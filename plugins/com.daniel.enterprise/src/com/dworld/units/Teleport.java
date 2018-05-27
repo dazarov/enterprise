@@ -44,7 +44,7 @@ public class Teleport extends ActiveUnit implements ISlow {
 		Location herePoint = getPoint();
 		Land hereLand = Land.getLand(herePoint);
 		if (Land.heroList.contains(hereLand)) {
-			IUnit unit = DWConfiguration.getInstance().getEngine().findUnit(herePoint);
+			IUnit unit = DWConfiguration.getInstance().getEngine().findUnit(herePoint).get(0);
 			if(unit instanceof MovableUnit){
 				Land thereLand = Land.getLand(pointToGo);
 				if(thereLand == Land.Empty || thereLand == Land.Grass || thereLand == Land.Sand){

@@ -2,6 +2,7 @@ package com.dworld.core;
 
 import java.awt.Rectangle;
 import java.util.ArrayList;
+import java.util.List;
 
 import com.dworld.units.Unit;
 
@@ -105,9 +106,11 @@ public class SelectionManager {
 				for(int x = selectedArea.x; x < selectedArea.x + selectedArea.width; x++){
 					for(int y = selectedArea.y; y < selectedArea.y + selectedArea.height; y++){
 						Location point = new Location(x, y);
-						IUnit unit = DWConfiguration.getInstance().getEngine().findUnit(point);
-						if(unit != null){
-							addSelection(unit);
+						List<IUnit> list = DWConfiguration.getInstance().getEngine().findUnit(point);
+						if(list != null){
+							for(IUnit unit : list){
+								addSelection(unit);
+							}
 						}
 					}
 					
@@ -117,10 +120,12 @@ public class SelectionManager {
 	}
 	
 	public static boolean sendDefaultCommand(Location location){
-		IUnit unit = DWConfiguration.getInstance().getEngine().findUnit(location);
-		if(unit != null){
-			unit.command(Unit.EXTERNAL_COMMAND_DEFAULT, null);
-			clearSelection();
+		List<IUnit> list = DWConfiguration.getInstance().getEngine().findUnit(location);
+		if(list != null){
+			for(IUnit unit : list){
+				unit.command(Unit.EXTERNAL_COMMAND_DEFAULT, null);
+				clearSelection();
+			}
 			return true;
 		}
 		return false;

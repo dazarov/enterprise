@@ -3,6 +3,7 @@ package com.dworld.ui;
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.List;
 
 import com.dworld.core.DWConfiguration;
 import com.dworld.core.DWConstants;
@@ -59,9 +60,11 @@ public class DWMouseListener {
 				Land.setLand(location, DWConfiguration.getInstance().getSelectedCode());
 				DWUnitFactory.createUnit(DWConfiguration.getInstance().getSelectedCode(), location.getX(), location.getY());
 			}else{
-				IUnit unit = DWConfiguration.getInstance().getEngine().findUnit(location);
-				if(unit != null){
-					unit.die();
+				List<IUnit> list = DWConfiguration.getInstance().getEngine().findUnit(location);
+				if(list != null){
+					for(IUnit unit : list){
+						unit.die();
+					}
 				}
 				Land.setLand(location, Land.Empty);
 			}

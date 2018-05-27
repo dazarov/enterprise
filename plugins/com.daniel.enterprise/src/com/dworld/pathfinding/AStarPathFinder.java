@@ -26,8 +26,6 @@ public class AStarPathFinder implements PathFinder {
 	/** The maximum depth of search we're willing to accept before giving up */
 	private int maxSearchDistance;
 	
-	/** The complete set of nodes across the map */
-	//private Node[][] nodes;
 	/** True if we allow diaganol movement */
 	private boolean allowDiagMovement;
 	/** The heuristic we're applying to determine which nodes to search first */

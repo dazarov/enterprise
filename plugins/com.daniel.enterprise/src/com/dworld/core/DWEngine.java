@@ -2,6 +2,7 @@ package com.dworld.core;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -18,9 +19,7 @@ public class DWEngine implements Runnable {
 	private List<IActive> activeUnits = new ArrayList<>();
 	private List<IActive> toDelete = new ArrayList<>();
 	
-	private Map<Location, IUnit> allUnits = new HashMap<>();
-	
-	private Map<Location, IUnit> spairUnits = new HashMap<>();
+	private Map<Location, LinkedList<IUnit>> allUnits = new HashMap<>();
 	
 	private long frameID = 0;
 	
@@ -160,8 +159,10 @@ public class DWEngine implements Runnable {
 	}
 	
 	public void init(){
-		for(IUnit unit : allUnits.values()){
-			unit.init();
+		for(List<IUnit> list : allUnits.values()){
+			for(IUnit unit : list){
+				unit.init();
+			}
 		}
 	}
 	
@@ -197,7 +198,7 @@ public class DWEngine implements Runnable {
 		for (int i = 0; i < toDelete.size(); i++) {
 			element = toDelete.get(i);
 			slowUnits.remove(element);
-			allUnits.remove(element);
+			removeUnitFromSearch(element);
 		}
 		toDelete.clear();
 		
@@ -221,7 +222,7 @@ public class DWEngine implements Runnable {
 		for (int i = 0; i < toDelete.size(); i++) {
 			element = toDelete.get(i);
 			activeUnits.remove(element);
-			allUnits.remove(element);
+			removeUnitFromSearch(element);
 		}
 		toDelete.clear();
 		
@@ -236,9 +237,30 @@ public class DWEngine implements Runnable {
 			DWConfiguration.getInstance().getUI().refreshMinimap();
 		}
 	}
+	
+	private void addUnitToSearch(IUnit unit){
+		LinkedList<IUnit> list = allUnits.get(unit.getLocation());
+		if(list != null){
+			list.add(unit);
+		}else{
+			list = new LinkedList<>();
+			list.add(unit);
+			allUnits.put(unit.getLocation(), list);
+		}
+	}
+	
+	private void removeUnitFromSearch(IUnit unit){
+		LinkedList<IUnit> list = allUnits.get(unit.getLocation());
+		if(list != null){
+			list.remove(unit);
+			if(list.isEmpty()){
+				allUnits.remove(list);
+			}
+		}
+	}
 
 	public void addUnit(IUnit unit) {
-		allUnits.put(unit.getLocation(), unit);
+		addUnitToSearch(unit);
 		
 		if(unit instanceof IActive){
 			if(unit instanceof ISlow){
@@ -255,17 +277,9 @@ public class DWEngine implements Runnable {
 	public void moveUnit(IUnit unit, Location prev){
 		// for use in map <location, unit> only
 
-		allUnits.remove(unit);
-		IUnit spair = spairUnits.get(prev);
-		if(spair != null){
-			spairUnits.remove(spair);
-			allUnits.put(prev, spair);
-		}
-		
-		spair = allUnits.put(unit.getLocation(), unit);
-		if(spair != null){
-			spairUnits.put(spair.getLocation(), spair);
-		}
+		removeUnitFromSearch(unit);
+
+		addUnitToSearch(unit);
 	}
 
 	public void removeElement(IActive element) {
@@ -280,18 +294,7 @@ public class DWEngine implements Runnable {
 		return slowUnits.get(index);
 	}
 	
-	public IUnit findUnit(Location location){
+	public List<IUnit> findUnit(Location location){
 		return allUnits.get(location);
-	}
-	
-	@Deprecated
-	public IUnit[] slowFindUnit(Location location){
-		ArrayList<IUnit> list = new ArrayList<IUnit>();
-		for(IUnit unit : allUnits.values()){
-			if(unit.getLocation().equals(location)){
-				list.add(unit);
-			}
-		}
-	    return list.toArray(new IUnit[]{});
 	}
 }

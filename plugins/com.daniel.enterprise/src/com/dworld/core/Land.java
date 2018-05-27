@@ -8,6 +8,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.EnumSet;
+import java.util.List;
 import java.util.Set;
 
 import com.dworld.pathfinding.TileBasedMap;
@@ -957,9 +958,12 @@ public enum Land implements TileBasedMap{
 					}
 					stream.write(land.ordinal());
 					if (saveList.contains(land)) {
-						IUnit unit = DWConfiguration.getInstance().getEngine().findUnit(new Location(x, y));
-						if (unit != null)
-							unit.save(stream);
+						List<IUnit> list = DWConfiguration.getInstance().getEngine().findUnit(new Location(x, y));
+						if (list != null){
+							for(IUnit unit : list){
+								unit.save(stream);
+							}
+						}
 					}
 				}
 			}

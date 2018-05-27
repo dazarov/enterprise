@@ -2,13 +2,18 @@ package com.dworld.core;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class CommonTargetManager {
 	private static HashMap<IMovable, CommonTarget>friends = new HashMap<IMovable, CommonTarget>();
 	private static HashMap<IMovable, CommonTarget>enemies = new HashMap<IMovable, CommonTarget>();
 	
 	public static void reportTarget(Location targetLocation){
-		IUnit targetUnit = DWConfiguration.getInstance().getEngine().findUnit(targetLocation);
+		IUnit targetUnit = null;
+		List<IUnit> list = DWConfiguration.getInstance().getEngine().findUnit(targetLocation);
+		if(list != null){
+			targetUnit = list.get(0);
+		}
 		
 		if(targetUnit instanceof IMovable){
 			addTarget((IMovable)targetUnit, targetLocation);
