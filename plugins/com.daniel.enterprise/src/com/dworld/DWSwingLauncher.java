@@ -24,7 +24,6 @@ import com.dworld.core.DWConfiguration;
 import com.dworld.core.DWConstants;
 import com.dworld.core.DWEngine;
 import com.dworld.core.ILauncher;
-import com.dworld.core.Land;
 import com.dworld.ui.DWMessage;
 import com.dworld.ui.IMonitoredRunnable;
 import com.dworld.ui.IProgressMonitor;
@@ -187,16 +186,6 @@ public class DWSwingLauncher implements KeyListener, MouseListener, MouseMotionL
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		DWConfiguration.getInstance().getUI().getMouseListener().doMouseReleased(e.getButton(), e.getX(), e.getY());
-	}
-	
-	@Override
-	public void setModified(){
-		Land.modified();
-	}
-	
-	@Override
-	public void setSaved(){
-		Land.modified();
 	}
 
 	@Override

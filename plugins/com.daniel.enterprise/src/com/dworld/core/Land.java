@@ -988,6 +988,11 @@ public enum Land implements TileBasedMap{
 		
 		return value1*FILE_KEY+value2;
 	}
+	
+	@Override
+	public String toString(){
+		return name();
+	}
 
 	@Override
 	public int getWidthInTiles() {

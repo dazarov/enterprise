@@ -101,14 +101,6 @@ public class DWJavaFXLauncher extends Application implements ILauncher{
         launch(args);
     }
 
-	@Override
-	public void setModified() {
-	}
-
-	@Override
-	public void setSaved() {
-	}
-	
 	private class KeyEventHandler implements EventHandler<KeyEvent> {
 		@Override
 		public void handle(KeyEvent event) {

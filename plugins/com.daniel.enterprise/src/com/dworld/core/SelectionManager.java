@@ -1,7 +1,9 @@
 package com.dworld.core;
 
+import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import com.dworld.units.Unit;
@@ -194,7 +196,7 @@ public class SelectionManager {
 				}
 				selectedArea.width = copiedArea.width;
 				selectedArea.height = copiedArea.height;
-				DWConfiguration.getInstance().getLauncher().setModified();
+				Land.modified();
 			}
 		}
 	}
@@ -202,28 +204,34 @@ public class SelectionManager {
 	public static void turnRight(){
 		synchronized(SelectionManager.class){
 			if(selectedArea != NULL_RECTANGLE){
-				ArrayList<Location> doneList = new ArrayList<Location>();
+				HashMap<Location, Land> doneMap = new HashMap<>();
+				
 				for(int x = selectedArea.x; x < selectedArea.x+selectedArea.width; x++){
 					for(int y = selectedArea.y; y < selectedArea.y+selectedArea.height; y++){
 						Location point1 = new Location(x,y);
+						Land land1 = doneMap.get(point1);
+						if(land1 == null){
+							land1 = Land.getTurnedLand(point1);
+						}
 						Location point2 = new Location(
-							selectedArea.x + (selectedArea.height - (y-selectedArea.y))-1,
-							selectedArea.y + (x-selectedArea.x)
+							selectedArea.x + (selectedArea.height - 1 - (y - selectedArea.y)),
+							selectedArea.y + (x - selectedArea.x)
 						);
 						
-						if(!doneList.contains(point1)){
-							doneList.add(point2);
-							Land land1 = Land.getTurnedLand(point1);
-							Land land2 = Land.getTurnedLand(point2);
-							Land.setLand(point1, land2);
-							Land.setLand(point2, land1);
+						Land land2 = Land.getTurnedLand(point2);
+						if(selectedArea.contains(new Point(point2.getX(), point2.getY())) &&
+								getLocationWeight(point1) < getLocationWeight(point2)){
+							doneMap.put(point2, land2);
 						}
+						
+						Land.setLand(point2, land1);
 					}
 				}
+				
 				int width = selectedArea.width;
 				selectedArea.width = selectedArea.height;
 				selectedArea.height = width;
-				DWConfiguration.getInstance().getLauncher().setModified();
+				Land.modified();
 			}
 		}
 	}
@@ -231,28 +239,34 @@ public class SelectionManager {
 	public static void turnLeft(){
 		synchronized(SelectionManager.class){
 			if(selectedArea != NULL_RECTANGLE){
-				ArrayList<Location> doneList = new ArrayList<Location>();
+				HashMap<Location, Land> doneMap = new HashMap<>();
+				
 				for(int x = selectedArea.x; x < selectedArea.x+selectedArea.width; x++){
 					for(int y = selectedArea.y; y < selectedArea.y+selectedArea.height; y++){
 						Location point1 = new Location(x,y);
-						Location point2 = new Location(
-							selectedArea.x + (y-selectedArea.y),
-							selectedArea.y + (selectedArea.width - (x-selectedArea.x))-1
-						);
-						
-						if(!doneList.contains(point1)){
-							doneList.add(point2);
-							Land land1 = Land.getTurnedLand(point1);
-							Land land2 = Land.getTurnedLand(point2);
-							Land.setLand(point1, land2);
-							Land.setLand(point2, land1);
+						Land land1 = doneMap.get(point1);
+						if(land1 == null){
+							land1 = Land.getTurnedLand(point1);
 						}
+						Location point2 = new Location(
+								selectedArea.x + (y-selectedArea.y),
+								selectedArea.y + (selectedArea.width - 1 - (x-selectedArea.x))
+							);
+						
+						Land land2 = Land.getTurnedLand(point2);
+						if(selectedArea.contains(new Point(point2.getX(), point2.getY())) &&
+								getLocationWeight(point1) < getLocationWeight(point2)){
+							doneMap.put(point2, land2);
+						}
+						
+						Land.setLand(point2, land1);
 					}
 				}
+
 				int width = selectedArea.width;
 				selectedArea.width = selectedArea.height;
 				selectedArea.height = width;
-				DWConfiguration.getInstance().getLauncher().setModified();
+				Land.modified();
 			}
 		}
 	}
@@ -269,7 +283,7 @@ public class SelectionManager {
 						Land.setLand(x, y2, land1);
 					}
 				}
-				DWConfiguration.getInstance().getLauncher().setModified();
+				Land.modified();
 			}
 		}
 	}
@@ -286,7 +300,7 @@ public class SelectionManager {
 						Land.setLand(x2, y, land1);
 					}
 				}
-				DWConfiguration.getInstance().getLauncher().setModified();
+				Land.modified();
 			}
 		}
 	}
@@ -304,7 +318,7 @@ public class SelectionManager {
 					}
 				}
 				selectedArea.y = selectedArea.y - 1;
-				DWConfiguration.getInstance().getLauncher().setModified();
+				Land.modified();
 			}
 		}
 	}
@@ -322,7 +336,7 @@ public class SelectionManager {
 					}
 				}
 				selectedArea.y = selectedArea.y + 1;
-				DWConfiguration.getInstance().getLauncher().setModified();
+				Land.modified();
 			}
 		}
 	}
@@ -340,7 +354,7 @@ public class SelectionManager {
 					}
 				}
 				selectedArea.x = selectedArea.x - 1;
-				DWConfiguration.getInstance().getLauncher().setModified();
+				Land.modified();
 			}
 		}
 	}
@@ -358,7 +372,7 @@ public class SelectionManager {
 					}
 				}
 				selectedArea.x = selectedArea.x + 1;
-				DWConfiguration.getInstance().getLauncher().setModified();
+				Land.modified();
 			}
 		}
 	}
@@ -405,6 +419,10 @@ public class SelectionManager {
 				return;
 			}
 		}
+	}
+	
+	private static int getLocationWeight(Location location){
+		return location.getX() * 5000 + location.getY();
 	}
 	
 //	private void fill(int x, int y, int oldCode, int newCode){

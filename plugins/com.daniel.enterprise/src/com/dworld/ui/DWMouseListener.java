@@ -68,7 +68,7 @@ public class DWMouseListener {
 				}
 				Land.setLand(location, Land.Empty);
 			}
-			DWConfiguration.getInstance().getLauncher().setModified();
+			Land.modified();
 		}
 	}
 	
@@ -102,7 +102,7 @@ public class DWMouseListener {
 							Land.setLand(new Location(x, y), Land.Empty);
 					}
 				}
-				DWConfiguration.getInstance().getLauncher().setModified();
+				Land.modified();
 			}else if(isLine()){
 				ArrayList<Location> points = SelectionManager.getSelectedLine();
 				if(points != null){
@@ -114,7 +114,7 @@ public class DWMouseListener {
 						}
 					}
 				}
-				DWConfiguration.getInstance().getLauncher().setModified();
+				Land.modified();
 			}else if(isFill()){
 				Location location = getLocation(mouseX, mouseY);
 				Land oldLand = Land.getLand(location);
@@ -124,7 +124,7 @@ public class DWMouseListener {
 					SelectionManager.fill(location.getX(), location.getY(), oldLand, Land.Empty);
 				}
 				
-				DWConfiguration.getInstance().getLauncher().setModified();
+				Land.modified();
 			}
 			SelectionManager.clearSelection();
 		}
