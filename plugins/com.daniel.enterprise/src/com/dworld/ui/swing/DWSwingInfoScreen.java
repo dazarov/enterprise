@@ -112,8 +112,7 @@ public class DWSwingInfoScreen extends JDialog{
 		int dots = 0;
 		int patriots = 0;
 		
-		for(int i = 0; i < engine.getNumberOfActiveUnits(); i++){
-			IActive element = engine.getElement(i);
+		for(IActive element : engine.getActiveUnits().keySet()){
 			if(element instanceof Mine)
 				mines++;
 			else if(element instanceof Bullet)
