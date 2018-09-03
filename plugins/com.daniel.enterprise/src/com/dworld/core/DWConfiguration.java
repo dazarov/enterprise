@@ -53,12 +53,12 @@ public class DWConfiguration {
 	
 	private Locale locale = new Locale("en", "US");
 	
-	private PathFinder finder;
+	//private PathFinder finder;
 	
 	public PathFinder getPathFinder(){
-		if(finder == null){
-			finder = new AStarPathFinder(Land.Vacuum, 500, false);
-		}
+		//if(finder == null){
+		PathFinder finder = new AStarPathFinder(Land.Vacuum, 500, false);
+		//}
 		return finder;
 	}
 	

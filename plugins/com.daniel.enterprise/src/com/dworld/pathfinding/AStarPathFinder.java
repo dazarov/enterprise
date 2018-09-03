@@ -65,7 +65,13 @@ public class AStarPathFinder implements PathFinder {
 		// easy first check, if the destination is blocked, we can't get there
 
 		if (map.blocked(mover, tx, ty)) {
-			return null;
+			Location newTarget = goSpiral(mover, tx, ty);
+			if(newTarget != null){
+				tx = newTarget.getX();
+				ty = newTarget.getY();
+			}else{
+				return null;
+			}
 		}
 		
 		Map<Location, Node> nodes = new HashMap<>();
@@ -188,7 +194,7 @@ public class AStarPathFinder implements PathFinder {
 
 		// to the start recording the nodes on the way.
 
-		Path path = new Path();
+		Path path = new Path(new Location(tx, ty));
 		Node target = tNode;
 		while (target != sNode) {
 			path.prependStep(target.x, target.y);
@@ -438,5 +444,44 @@ public class AStarPathFinder implements PathFinder {
 				return 0;
 			}
 		}
+	}
+	
+	private Location goSpiral(MovableUnit mover, int tx, int ty){
+		for(int index = 1; index <= 10; index++){
+			int sx = tx - index;
+			int sy = ty - index;
+			int width = (tx - sx) * 2 + 1;
+			int height = (ty - sy) * 2 + 1;
+			
+			// from left to right
+			for(int x = sx, y = sy; x < sx + width; x++){
+				if (!map.blocked(mover, x, y)){
+					return new Location(x, y);
+				}
+			}
+			
+			// from top to bottom
+			for(int x = sx + width - 1, y = sy + 1; y < sy + height; y++){
+				if (!map.blocked(mover, x, y)){
+					return new Location(x, y);
+				}
+			}
+			
+			// from right to left
+			for(int x = sx + width - 1, y = sy + height - 1; x >= sx; x--){
+				if (!map.blocked(mover, x, y)){
+					return new Location(x, y);
+				}
+			}
+
+			// from bottom to top
+			for(int x = sx, y = sy + height - 2; y > sy; y--){
+				if (!map.blocked(mover, x, y)){
+					return new Location(x, y);
+				}
+			}
+		
+		}
+		return null;
 	}
 }

@@ -24,16 +24,19 @@ public abstract class MovableUnit extends ActiveUnit implements IMovable {
 	public static final int DEFENSE_MODE		= 6;
 	
 	protected int mode = STAY_MODE;
+	private static final int MAX_WAITING = 10;
 	
-	protected boolean selfDefense = false;
+	protected boolean selfDefense;
 	
 	protected Land beneath;
 	protected double speed, defaultSpeed;
 	protected Direction direction = Direction.NORTH;
 	
-	protected Location destination = null;
-	protected Path path = null;
-	private int walkingIndex = 0;
+	protected Location baseDestination, destination;
+	protected Path path;
+	private int walkingIndex;
+	private int waiting;
+	
 
 	public MovableUnit(int x, int y, Land land, double speed) {
 		super(x, y);
@@ -114,19 +117,33 @@ public abstract class MovableUnit extends ActiveUnit implements IMovable {
 			// Follow the Path
 			if(getLocation().equals(path.getStep(walkingIndex))){
 				walkingIndex++;
-				direction = Direction.findDirection(getLocation(), path.getStep(walkingIndex));
+				waiting = 0;
+				Location step = path.getStep(walkingIndex);
+				if(step != null){
+					direction = Direction.findDirection(getLocation(), step);
+				}
+			}else{
+				waiting++;
+				if(waiting > MAX_WAITING){
+					findPath();
+				}
 			}
 		}
 		return true;
 	}
 	
 	protected void findPath(){
-		path = DWConfiguration.getInstance().getPathFinder().findPath(this, getLocation().getX(), getLocation().getY(), destination.getX(), destination.getY());
+		path = DWConfiguration.getInstance().getPathFinder().findPath(this, getLocation().getX(), getLocation().getY(), baseDestination.getX(), baseDestination.getY());
 		if(path != null){
 			walkingIndex = 0;
+			waiting = 0;
+			destination = path.getTarget();
 			direction = Direction.findDirection(getLocation(), path.getStep(walkingIndex));
+			mode = MOVE_TO_MODE;
+		}else{
+			mode = STAY_MODE;
 		}
-		mode = MOVE_TO_MODE;
+		
 	}
 
 	protected boolean findNewDirection() {
@@ -288,7 +305,8 @@ public abstract class MovableUnit extends ActiveUnit implements IMovable {
 		}else if(commandId == EXTERNAL_COMMAND_MOVE_AROUND){
 			mode = MOVE_AROUND_MODE;
 		}else if(commandId == EXTERNAL_COMMAND_MOVE_TO){
-			destination = (Location)args[0];
+			baseDestination = (Location)args[0];
+
 			//mode = MOVE_TO_MODE;
 			findPath();
 		}

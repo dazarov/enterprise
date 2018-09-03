@@ -14,12 +14,13 @@ import com.dworld.core.Location;
 public class Path {
 	/** The list of steps building up this path */
 	private ArrayList<Location> steps = new ArrayList<>();
+	private Location target;
 	
 	/**
 	 * Create an empty path
 	 */
-	public Path() {
-		
+	public Path(Location target) {
+		this.target = target;
 	}
 
 	/**
@@ -31,6 +32,10 @@ public class Path {
 		return steps.size();
 	}
 	
+	public Location getTarget(){
+		return target;
+	}
+	
 	/**
 	 * Get the step at a given index in the path
 	 * 
@@ -39,6 +44,9 @@ public class Path {
 	 * @return The step information, the position on the map.
 	 */
 	public Location getStep(int index) {
+		if(index >= steps.size()){
+			return null;
+		}
 		return steps.get(index);
 	}
 	

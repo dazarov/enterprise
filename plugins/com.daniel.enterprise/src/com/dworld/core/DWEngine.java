@@ -18,7 +18,6 @@ public class DWEngine implements Runnable {
 	
 	private List<ISlow> slowUnits = new CopyOnWriteArrayList<>();
 	private Map<IActive, Object> activeUnits = new ConcurrentHashMap<>();
-	private List<IActive> toDelete = new LinkedList<>();
 	
 	private Map<Location, LinkedList<IUnit>> allUnits = new ConcurrentHashMap<>();
 	
@@ -187,17 +186,11 @@ public class DWEngine implements Runnable {
 			if (element.isAlive()) {
 				if(element.isActive()) element.step();
 			} else {
-				toDelete.add(element);
+				slowUnits.remove(element);
+				removeUnitFromSearch(element, element.getLocation());
 			}
 		}
 
-		// delete died elements
-		for (IActive elem : toDelete) {
-			slowUnits.remove(elem);
-			removeUnitFromSearch(elem, elem.getLocation());
-		}
-		toDelete.clear();
-		
 		slowIndex++;
 		if(slowIndex > 10) slowIndex = 0; 
 	}
@@ -208,17 +201,11 @@ public class DWEngine implements Runnable {
 			if (element.isAlive()) {
 				if(element.isActive()) element.step();
 			} else {
-				toDelete.add(element);
+				activeUnits.remove(element);
+				removeUnitFromSearch(element, element.getLocation());
 			}
 		}
 
-		// delete died elements
-		for (IActive element : toDelete) {
-			activeUnits.remove(element);
-			removeUnitFromSearch(element, element.getLocation());
-		}
-		toDelete.clear();
-		
 		slowStep();
 	}
 	
@@ -273,10 +260,6 @@ public class DWEngine implements Runnable {
 		addUnitToSearch(unit);
 	}
 
-	public void removeElement(IActive element) {
-		toDelete.add(element);
-	}
-	
 	public Map<IActive, Object> getActiveUnits(){
 		return activeUnits;
 	}
