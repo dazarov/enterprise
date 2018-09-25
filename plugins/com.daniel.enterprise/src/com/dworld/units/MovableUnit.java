@@ -14,6 +14,7 @@ import com.dworld.core.Land;
 import com.dworld.core.Location;
 import com.dworld.core.SearchResult;
 import com.dworld.pathfinding.Path;
+import com.dworld.ui.DWSounds;
 
 public abstract class MovableUnit extends ActiveUnit implements IMovable {
 	public static final int STAY_MODE			= 1;
@@ -169,6 +170,7 @@ public abstract class MovableUnit extends ActiveUnit implements IMovable {
 		if(selfDefense){
 			selfDefense = false;
 		}
+		//DWSounds.STEP.playSound();
 	}
 	
 	@Override

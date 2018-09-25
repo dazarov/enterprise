@@ -84,7 +84,7 @@ public class DWSwingLauncher implements KeyListener, MouseListener, MouseMotionL
 		load(DWConfiguration.SAVE_FILE);
 		engine.init();
 		
-		new Thread(engine).start();
+		new Thread(engine, "DW Engine").start();
 	}
 
 	private void initWindow() {

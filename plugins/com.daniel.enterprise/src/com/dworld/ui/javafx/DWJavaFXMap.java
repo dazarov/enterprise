@@ -34,7 +34,7 @@ public class DWJavaFXMap {
 		task.setOnSucceeded(e -> {monitor.close();doMap();});
 		task.setOnCancelled(e -> monitor.close());
 		monitor.bind(task);
-		new Thread(task).start();
+		new Thread(task, "Map Creator").start();
 	}
 	
 	public static void doMap(){

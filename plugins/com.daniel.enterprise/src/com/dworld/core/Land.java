@@ -13,6 +13,7 @@ import java.util.Set;
 
 import com.dworld.pathfinding.TileBasedMap;
 import com.dworld.ui.DWMessage;
+import com.dworld.ui.DWSounds;
 import com.dworld.ui.IProgressMonitor;
 import com.dworld.units.ControlledUnit;
 import com.dworld.units.MovableUnit;
@@ -833,6 +834,7 @@ public enum Land implements TileBasedMap{
 			new Bullet(location.getX(), location.getY(), dir);
 			dir = dir.getClockwiseDirection();
 		}
+		DWSounds.EXPLOSION.playSound();
 	}
 
 	private static void loadMan(final int x, final int y, Land land,

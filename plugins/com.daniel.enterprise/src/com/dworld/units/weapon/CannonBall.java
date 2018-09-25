@@ -5,6 +5,7 @@ import java.util.Set;
 import com.dworld.core.DWConstants;
 import com.dworld.core.Direction;
 import com.dworld.core.Land;
+import com.dworld.ui.DWSounds;
 
 public class CannonBall extends MovableWeapon {
 	private int counter=0;
@@ -21,6 +22,7 @@ public class CannonBall extends MovableWeapon {
 		super(x, y, Land.CannonBall, DWConstants.CANNONBALL_SPEED);
 		setDirection(direction);
 		Land.setLand(getLocation(), beneath);
+		DWSounds.CANNON_SHOT.playSound();
 	}
 
 	@Override

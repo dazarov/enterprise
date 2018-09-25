@@ -11,6 +11,7 @@ import com.dworld.core.Land;
 import com.dworld.core.Location;
 import com.dworld.core.SearchResult;
 import com.dworld.core.Target;
+import com.dworld.ui.DWSounds;
 import com.dworld.units.logic.UnitLogic;
 import com.dworld.units.weapon.Bomb;
 import com.dworld.units.weapon.Bullet;
@@ -335,6 +336,7 @@ public abstract class ActiveUnit extends Unit implements IActive {
 		if(bullet == null || !bullet.isAlive()){
 			bullets[direction.ordinal()] = new Bullet(getLocation().getX(), getLocation().getY(), direction);
 		}
+		DWSounds.SHOT.playSound();
 	}
 	
 	private void fireRocket(Direction direction){

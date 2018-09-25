@@ -3,6 +3,7 @@ package com.dworld.units;
 import com.dworld.core.ISlow;
 import com.dworld.core.Land;
 import com.dworld.core.Location;
+import com.dworld.ui.DWSounds;
 
 public class Gate extends ActiveUnit implements ISlow{
 	// orientation
@@ -148,6 +149,7 @@ public class Gate extends ActiveUnit implements ISlow{
 					land = getLand();
 					if (i != 0)
 						Land.setLand(getLocation(), land);
+					DWSounds.DDOR.playSound();
 				}
 				return;
 			}
@@ -156,6 +158,7 @@ public class Gate extends ActiveUnit implements ISlow{
 			state = Closed;
 			land = getLand();
 			Land.setLand(getLocation(), land);
+			DWSounds.DDOR.playSound();
 		}
 	}
 

@@ -94,7 +94,7 @@ public class DWJavaFXLauncher extends Application implements ILauncher{
         
         engine.init();
 		load(DWConfiguration.SAVE_FILE);
-        new Thread(engine).start();
+        new Thread(engine, "DW Engine").start();
 	}
 	
 	public static void main(String[] args) {
@@ -133,7 +133,7 @@ public class DWJavaFXLauncher extends Application implements ILauncher{
 		task.setOnSucceeded(e -> monitor.close());
 		task.setOnCancelled(e -> monitor.close());
 		monitor.bind(task);
-		new Thread(task).start();
+		new Thread(task, "DW Game Loader").start();
 	}
 
 	@Override
@@ -142,7 +142,7 @@ public class DWJavaFXLauncher extends Application implements ILauncher{
 		LongRunningTask task = new LongRunningTask(new SaveAction(fileName));
 		task.setOnSucceeded(e -> monitor.close());
 		monitor.bind(task);
-		new Thread(task).start();
+		new Thread(task, "DW Game Saver").start();
 	}
 
 	@Override
@@ -151,7 +151,7 @@ public class DWJavaFXLauncher extends Application implements ILauncher{
 		LongRunningTask task = new LongRunningTask(new SaveAction(fileName));
 		task.setOnSucceeded(e -> monitor.close());
 		monitor.bind(task);
-		new Thread(task).start();
+		new Thread(task, "DW Game Saver").start();
 	}
 	
 	static public class LongRunningTask extends Task<Integer> implements IProgressMonitor{

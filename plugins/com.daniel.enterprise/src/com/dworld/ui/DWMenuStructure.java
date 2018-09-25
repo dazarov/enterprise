@@ -97,6 +97,10 @@ public class DWMenuStructure {
 		menu.items.add(new DWMenuItem(DWMessage.GO.get(),       () -> engine.pause(false)));
 		menu.items.add(new DWMenuItem());
 		menu.items.add(new DWMenuItem(DWMessage.INFO.get(),     () -> config.getUI().showInfoScreen()));
+		menu.items.add(new DWCheckboxMenuItem(DWMessage.SOUND_ENABLED.get(),
+				() -> config.isSoundEnabled(),
+				() -> config.setSoundEnabled(!config.isSoundEnabled())
+			));
 		
 		menu = new DWMenu(DWMessage.BUILD.get());
 		menus.add(menu);

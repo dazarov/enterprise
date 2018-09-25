@@ -53,6 +53,8 @@ public class DWConfiguration {
 	
 	private Locale locale = new Locale("en", "US");
 	
+	private boolean soundEnabled = false;
+	
 	//private PathFinder finder;
 	
 	public PathFinder getPathFinder(){
@@ -165,6 +167,14 @@ public class DWConfiguration {
 
 	public void setDefense(boolean defense){
 		defenseActive = defense;
+	}
+	
+	public boolean isSoundEnabled(){
+		return soundEnabled;
+	}
+	
+	public void setSoundEnabled(boolean soundEnabled){
+		this.soundEnabled = soundEnabled;
 	}
 
 }

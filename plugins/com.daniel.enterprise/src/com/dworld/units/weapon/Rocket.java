@@ -6,6 +6,7 @@ import com.dworld.core.DWConstants;
 import com.dworld.core.Direction;
 import com.dworld.core.Land;
 import com.dworld.core.SearchResult;
+import com.dworld.ui.DWSounds;
 
 public class Rocket extends MovableWeapon {
 	public final static int ManFriendly = 1;
@@ -20,6 +21,7 @@ public class Rocket extends MovableWeapon {
 		setDirection(direction);
 		land = getLand(beneath);
 		Land.setLand(getLocation(), beneath);
+		DWSounds.ROCKET_LAUNCH.playSound();
 	}
 	
 	@Override
