@@ -335,8 +335,8 @@ public abstract class ActiveUnit extends Unit implements IActive {
 		Bullet bullet = bullets[direction.ordinal()];
 		if(bullet == null || !bullet.isAlive()){
 			bullets[direction.ordinal()] = new Bullet(getLocation().getX(), getLocation().getY(), direction);
+			DWSounds.SHOT.playSound();
 		}
-		DWSounds.SHOT.playSound();
 	}
 	
 	private void fireRocket(Direction direction){

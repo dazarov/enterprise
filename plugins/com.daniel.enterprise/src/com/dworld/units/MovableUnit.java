@@ -170,7 +170,9 @@ public abstract class MovableUnit extends ActiveUnit implements IMovable {
 		if(selfDefense){
 			selfDefense = false;
 		}
-		//DWSounds.STEP.playSound();
+		if(DWConfiguration.getInstance().getControlledUnit().getLocation().distance(getLocation()) < DWConstants.VISIBLE_DISTANCE){
+			DWSounds.STEP.playSound();
+		}
 	}
 	
 	@Override
