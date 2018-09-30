@@ -3,6 +3,8 @@ package com.dworld.ui;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
@@ -19,7 +21,10 @@ public enum DWSounds {
 	ROCKET_LAUNCH("resources/sounds/rocket_launch.wav"),
 	STEP("resources/sounds/step.wav"),
 	DDOR("resources/sounds/door.wav"),
-	EXPLOSION("resources/sounds/explosion.wav");
+	EXPLOSION("resources/sounds/explosion.wav"),
+	GRENADE("resources/sounds/grenade.wav");
+	
+	private static ExecutorService executor = Executors.newFixedThreadPool(10);
 	
 	private String fileName;
 	
@@ -29,8 +34,7 @@ public enum DWSounds {
 	
 	public void playSound(){
 		if(DWConfiguration.getInstance().isSoundEnabled()){
-			Thread thread = new Thread(new RunnablePlayer(), "Sound Player " + name());
-			thread.start();
+			executor.execute(new RunnablePlayer());
 		}
     }
 	

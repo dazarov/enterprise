@@ -5,6 +5,7 @@ import java.util.Set;
 import com.dworld.core.DWConstants;
 import com.dworld.core.Direction;
 import com.dworld.core.Land;
+import com.dworld.ui.DWSounds;
 
 public class Bomb extends MovableWeapon {
 	int distance;
@@ -15,6 +16,7 @@ public class Bomb extends MovableWeapon {
 		setDirection(direction);
 		this.distance = distance;
 		Land.setLand(getLocation(), beneath);
+		DWSounds.GRENADE.playSound();
 	}
 	
 	@Override
