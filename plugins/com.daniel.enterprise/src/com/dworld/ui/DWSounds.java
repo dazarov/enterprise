@@ -22,9 +22,13 @@ public enum DWSounds {
 	STEP("resources/sounds/step.wav"),
 	DDOR("resources/sounds/door.wav"),
 	EXPLOSION("resources/sounds/explosion.wav"),
-	GRENADE("resources/sounds/grenade.wav");
+	GRENADE("resources/sounds/grenade.wav"),
+	TANK("resources/sounds/tank.wav"),
+	TRAIN("resources/sounds/train.wav");
 	
-	private static ExecutorService executor = Executors.newFixedThreadPool(10);
+	private static int NUMBER_OF_THREADS = 5;
+	
+	private static ExecutorService executor = Executors.newFixedThreadPool(NUMBER_OF_THREADS);
 	
 	private String fileName;
 	

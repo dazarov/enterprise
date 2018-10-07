@@ -2,6 +2,7 @@ package com.dworld.units;
 
 import com.dworld.core.DWConstants;
 import com.dworld.core.Land;
+import com.dworld.ui.DWSounds;
 
 public abstract class Tank extends MovableUnit {
 
@@ -23,5 +24,10 @@ public abstract class Tank extends MovableUnit {
 		
 		extendedFireCannonBalls(DWConstants.TANK_ARMORED_DISTANCE);
 		return true;
+	}
+	
+	@Override
+	protected void playSound(){
+		DWSounds.TANK.playSound();
 	}
 }

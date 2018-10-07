@@ -6,6 +6,7 @@ import com.dworld.core.DWConstants;
 import com.dworld.core.Direction;
 import com.dworld.core.Land;
 import com.dworld.core.Location;
+import com.dworld.ui.DWSounds;
 import com.dworld.units.MovableUnit;
 
 
@@ -238,4 +239,9 @@ public class Train extends MovableUnit {
 		stationLocation = defaultPoint;
 	}
 	
+	@Override
+	protected void playSound(){
+		DWSounds.TRAIN.playSound();
+	}
+
 }
