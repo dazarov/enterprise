@@ -1,35 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<project default="OS-TEST" name="Create Runnable Jar for Project com.daniel.test">
-	<target name="OS-TEST" depends="run_jar_onWin, run_jar_onUnix">
-		<echo message="Running OS-TEST target" />
-	</target>
-	
-	<condition property="isWindows">
-		<os family="windows" />
-	</condition>
-	<condition property="isUnix">
-		<os family="unix" />
-	</condition>
-	
-	<target name="run_jar_onWin" if="isWindows">
-		<jar destfile="C:\G\enterprise\plugins\com.daniel.enterprise\DWorld.jar" filesetmanifest="mergewithoutmain">
+<project default="BUILD" name="Create Runnable Jar for Project com.daniel.test">
+	<target name="BUILD">
+		<jar destfile="${basedir}/DWorld.jar" filesetmanifest="mergewithoutmain">
 			<manifest>
 				<attribute name="Built-By" value="Daniel Azarov"/>
-				<attribute name="Main-Class" value="com.dworld.DWorldLauncher"/>
+				<attribute name="Main-Class" value="com.dworld.DWSwingLauncher"/>
 				<attribute name="Class-Path" value="."/>
 			</manifest>
-			<fileset dir="C:\G\enterprise\plugins\com.daniel.enterprise\bin"/>
-		</jar>
-	</target>
-	
-	<target name="run_jar_onUnix" if="isUnix">
-		<jar destfile="/home/daniel/git/enterprise/plugins//com.daniel.enterprise/DWorld.jar" filesetmanifest="mergewithoutmain">
-			<manifest>
-				<attribute name="Built-By" value="Daniel Azarov"/>
-				<attribute name="Main-Class" value="com.dworld.DWorldLauncher"/>
-				<attribute name="Class-Path" value="."/>
-			</manifest>
-			<fileset dir="/home/daniel/git/enterprise/plugins//com.daniel.enterprise/bin"/>
+			<fileset dir="${basedir}/bin"/>
 		</jar>
 	</target>
 </project>
