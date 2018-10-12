@@ -16,20 +16,15 @@ import com.dworld.units.MovableUnit;
  * @author Kevin Glass
  */
 public class AStarPathFinder implements PathFinder {
-	/** The set of nodes that have been searched through */
-	private ArrayList<Node> closed = new ArrayList<>();
-	/** The set of nodes that we do not yet consider fully searched */
-	private SortedList open = new SortedList();
-	
 	/** The map being searched */
-	private TileBasedMap map;
+	private final TileBasedMap map;
 	/** The maximum depth of search we're willing to accept before giving up */
-	private int maxSearchDistance;
+	private final int maxSearchDistance;
 	
 	/** True if we allow diaganol movement */
-	private boolean allowDiagMovement;
+	private final boolean allowDiagMovement;
 	/** The heuristic we're applying to determine which nodes to search first */
-	private AStarHeuristic heuristic;
+	private final AStarHeuristic heuristic;
 	
 	/**
 	 * Create a path finder with the default heuristic - closest to target.
@@ -62,6 +57,10 @@ public class AStarPathFinder implements PathFinder {
 	 * @see PathFinder#findPath(Mover, int, int, int, int)
 	 */
 	public Path findPath(MovableUnit mover, int sx, int sy, int tx, int ty) {
+		/** The set of nodes that have been searched through */
+		ArrayList<Node> closed = new ArrayList<>();
+		/** The set of nodes that we do not yet consider fully searched */
+		SortedList open = new SortedList();
 		// easy first check, if the destination is blocked, we can't get there
 
 		if (map.blocked(mover, tx, ty)) {
@@ -98,13 +97,13 @@ public class AStarPathFinder implements PathFinder {
 
 			// be the most likely to be the next step based on our heuristic
 
-			Node current = getFirstInOpen();
+			Node current = getFirstInOpen(open);
 			if (current == tNode) {
 				break;
 			}
 			
-			removeFromOpen(current);
-			addToClosed(current);
+			removeFromOpen(open, current);
+			addToClosed(closed, current);
 			
 			// search through all the neighbours of the current node evaluating
 
@@ -156,11 +155,11 @@ public class AStarPathFinder implements PathFinder {
 						// this node so it needs to be re-evaluated
 
 						if (nextStepCost < neighbour.cost) {
-							if (inOpenList(neighbour)) {
-								removeFromOpen(neighbour);
+							if (inOpenList(open, neighbour)) {
+								removeFromOpen(open, neighbour);
 							}
-							if (inClosedList(neighbour)) {
-								removeFromClosed(neighbour);
+							if (inClosedList(closed, neighbour)) {
+								removeFromClosed(closed, neighbour);
 							}
 						}
 						
@@ -170,11 +169,11 @@ public class AStarPathFinder implements PathFinder {
 
 						// step (i.e. to the open list)
 
-						if (!inOpenList(neighbour) && !(inClosedList(neighbour))) {
+						if (!inOpenList(open, neighbour) && !(inClosedList(closed, neighbour))) {
 							neighbour.cost = nextStepCost;
 							neighbour.heuristic = getHeuristicCost(mover, xp, yp, tx, ty);
 							maxDepth = Math.max(maxDepth, neighbour.setParent(current));
-							addToOpen(neighbour);
+							addToOpen(open, neighbour);
 						}
 					}
 				}
@@ -213,7 +212,7 @@ public class AStarPathFinder implements PathFinder {
 	 * 
 	 * @return The first element in the open list
 	 */
-	protected Node getFirstInOpen() {
+	protected Node getFirstInOpen(SortedList open) {
 		return (Node) open.first();
 	}
 	
@@ -222,7 +221,7 @@ public class AStarPathFinder implements PathFinder {
 	 * 
 	 * @param node The node to be added to the open list
 	 */
-	protected void addToOpen(Node node) {
+	protected void addToOpen(SortedList open, Node node) {
 		open.add(node);
 	}
 	
@@ -232,7 +231,7 @@ public class AStarPathFinder implements PathFinder {
 	 * @param node The node to check for
 	 * @return True if the node given is in the open list
 	 */
-	protected boolean inOpenList(Node node) {
+	protected boolean inOpenList(SortedList open, Node node) {
 		return open.contains(node);
 	}
 	
@@ -241,7 +240,7 @@ public class AStarPathFinder implements PathFinder {
 	 * 
 	 * @param node The node to remove from the open list
 	 */
-	protected void removeFromOpen(Node node) {
+	protected void removeFromOpen(SortedList open, Node node) {
 		open.remove(node);
 	}
 	
@@ -250,7 +249,7 @@ public class AStarPathFinder implements PathFinder {
 	 * 
 	 * @param node The node to add to the closed list
 	 */
-	protected void addToClosed(Node node) {
+	protected void addToClosed(ArrayList<Node> closed, Node node) {
 		closed.add(node);
 	}
 	
@@ -260,7 +259,7 @@ public class AStarPathFinder implements PathFinder {
 	 * @param node The node to search for
 	 * @return True if the node specified is in the closed list
 	 */
-	protected boolean inClosedList(Node node) {
+	protected boolean inClosedList(ArrayList<Node> closed, Node node) {
 		return closed.contains(node);
 	}
 	
@@ -269,7 +268,7 @@ public class AStarPathFinder implements PathFinder {
 	 * 
 	 * @param node The node to remove from the closed list
 	 */
-	protected void removeFromClosed(Node node) {
+	protected void removeFromClosed(ArrayList<Node> closed, Node node) {
 		closed.remove(node);
 	}
 	
