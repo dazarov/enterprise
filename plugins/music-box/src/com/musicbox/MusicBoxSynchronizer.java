@@ -130,8 +130,10 @@ public class MusicBoxSynchronizer {
 					System.out.println("File location is different from the file location in MR!");
 					System.out.println("1 - Move file to the correct location");
 					System.out.println("2 - Move ALL such files to the correct location");
-					System.out.println("3 - Skip");
-					System.out.println("4 - Skip All");
+					System.out.println("3 - Delete file");
+					System.out.println("4 - Delete ALL such files");
+					System.out.println("5 - Skip");
+					System.out.println("6 - Skip All");
 					System.out.println("0 - Exit");
 					int command = getCommand("Input:", WAITER_ID_CHECK_INFO_1);
 					System.out.println("Command - "+command);
@@ -141,6 +143,10 @@ public class MusicBoxSynchronizer {
 						out(log, "Move file "+filePath.getFileName()+" to the other folder");
 						move(mobileRoot, filePath, fileInfo.filePath.getParent());
 						out(log, "File successfully moved!");
+					} else if(command == 3) { // Delete file
+						out(log, "Deleting file "+filePath.getFileName());
+						Files.delete(filePath);
+						out(log, "File successfully deleted!");
 					}
 				}
 			}else if(size != fileInfo.size){
