@@ -272,7 +272,7 @@ public enum Land implements TileBasedMap{
 	/**
 	 * Map itself
 	 */
-	private static Land[][] landMap = new Land[DWConstants.MAX_X][DWConstants.MAX_Y];
+	private static final Land[][] landMap = new Land[DWConstants.MAX_X][DWConstants.MAX_Y];
 	
 	/**
 	 * Land lists section start
@@ -284,7 +284,7 @@ public enum Land implements TileBasedMap{
 		Hero_Sand
 	);
 
-	public static Set<Land> rocketList = EnumSet.of(
+	public static final Set<Land> rocketList = EnumSet.of(
 		RocketNorth,
 		RocketSouth,
 		RocketEast,
@@ -322,7 +322,7 @@ public enum Land implements TileBasedMap{
 		RocketSouthWest_Sand
 	);
 
-	public static Set<Land> bulletList = EnumSet.of(
+	public static final Set<Land> bulletList = EnumSet.of(
 		Bullet,
 		Bullet_Sand,
 		Bullet_Grass,
@@ -333,14 +333,14 @@ public enum Land implements TileBasedMap{
 		CannonBall_Water
 	);
 
-	private static Set<Land> bombList = EnumSet.of(
+	private static final Set<Land> bombList = EnumSet.of(
 		Bomb,
 		Bomb_Sand,
 		Bomb_Grass,
 		Bomb_Water
 	);
 	
-	public static Set<Land> railList = EnumSet.of(
+	public static final Set<Land> railList = EnumSet.of(
 		Rail_Diagonal_Down,
 		Rail_Diagonal_Up,
 		Rail_Down_Left,
@@ -357,9 +357,9 @@ public enum Land implements TileBasedMap{
 		Rail_Diagonal_Cross
 	);
 
-	public static Set<Land> wartrainList = EnumSet.range(WarTrain_Vertical, WarTrain_Diagonal_Down_Cross);
+	public static final Set<Land> wartrainList = EnumSet.range(WarTrain_Vertical, WarTrain_Diagonal_Down_Cross);
 
-	public static Set<Land> trainList = EnumSet.of(
+	public static final Set<Land> trainList = EnumSet.of(
 		Train_Diagonal_Down,
 		Train_Diagonal_Up,
 		Train_Down_Left,
@@ -382,7 +382,7 @@ public enum Land implements TileBasedMap{
 	}
 	
 
-	public static Set<Land> walkList = EnumSet.of(
+	public static final Set<Land> walkList = EnumSet.of(
 		Empty,
 		Grenade,
 		Ammo,
@@ -417,7 +417,7 @@ public enum Land implements TileBasedMap{
 		walkList.addAll(railList);
 	}
 
-	public static Set<Land> flyAndFindList = EnumSet.of(
+	public static final Set<Land> flyAndFindList = EnumSet.of(
 		Water,
 		Bullet_Water,
 		CannonBall_Water,
@@ -427,7 +427,7 @@ public enum Land implements TileBasedMap{
 		flyAndFindList.addAll(walkList);
 	}
 
-	private static Set<Land> unexplosiveList = EnumSet.of(
+	private static final Set<Land> unexplosiveList = EnumSet.of(
 		Vacuum,
 		Wall,
 		OpenedHorizontalSteelGate,
@@ -446,7 +446,7 @@ public enum Land implements TileBasedMap{
 	 * list of codes which should be replaced by grass code during the save procedure
 	 * they are codes of flying objects above the grass
 	 */
-	private static Set<Land> grassList = EnumSet.of(
+	private static final Set<Land> grassList = EnumSet.of(
 		Bullet_Grass,
 		CannonBall_Grass,
 		Bomb_Grass,
@@ -464,7 +464,7 @@ public enum Land implements TileBasedMap{
 	 * list of codes which should be replaced by water code during the save procedure
 	 * they are codes of flying objects above the water
 	 */
-	private static Set<Land> waterList = EnumSet.of(
+	private static final Set<Land> waterList = EnumSet.of(
 		Bullet_Water,
 		CannonBall_Water,
 		Bomb_Water,
@@ -482,7 +482,7 @@ public enum Land implements TileBasedMap{
 	 * list of codes which should be replaced by Sand code during the save procedure
 	 * they are codes of flying objects above the sand
 	 */
-	private static Set<Land> sandList = EnumSet.of(
+	private static final Set<Land> sandList = EnumSet.of(
 		Sand,
 		Bullet_Sand,
 		CannonBall_Sand,
@@ -497,7 +497,7 @@ public enum Land implements TileBasedMap{
 		RocketSouthWest_Sand
 	);
 	
-	private static Set<Land> sandExplList = EnumSet.of(
+	private static final Set<Land> sandExplList = EnumSet.of(
 		Hero_Sand,
 		Mine_Sand,
 		GoodSoldier_Sand,
@@ -516,7 +516,7 @@ public enum Land implements TileBasedMap{
 		Peasant_Sand
 	);
 
-	private static Set<Land> unsaveList = EnumSet.noneOf(Land.class);
+	private static final Set<Land> unsaveList = EnumSet.noneOf(Land.class);
 	static {
 		unsaveList.addAll(bulletList);
 
@@ -525,18 +525,18 @@ public enum Land implements TileBasedMap{
 		unsaveList.addAll(rocketList);
 	}
 
-	private static Set<Land> forBulletList = EnumSet.of(Grenade);
+	private static final Set<Land> forBulletList = EnumSet.of(Grenade);
 	static {
 		forBulletList.addAll(rocketList);
 	}
 
-	private static Set<Land> forRocketList = EnumSet.noneOf(Land.class);
+	private static final Set<Land> forRocketList = EnumSet.noneOf(Land.class);
 	static {
 		forRocketList.addAll(forBulletList);
 		forRocketList.addAll(bulletList);
 	}
 	
-	public final static Set<Land> armoredEnemyList = EnumSet.of(
+	public static final Set<Land> armoredEnemyList = EnumSet.of(
 		BadTank,
 		BadTank_Grass,
 		BadTank_Sand,
@@ -550,7 +550,7 @@ public enum Land implements TileBasedMap{
 		BadRadar_Sand
 	);
 
-	public final static Set<Land> enemyList = EnumSet.of(
+	public static final Set<Land> enemyList = EnumSet.of(
 		BadSoldier,
 		BadSoldier_Grass,
 		BadSoldier_Sand,

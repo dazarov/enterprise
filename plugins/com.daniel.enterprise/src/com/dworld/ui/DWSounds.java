@@ -26,11 +26,11 @@ public enum DWSounds {
 	TANK("resources/sounds/tank.wav"),
 	TRAIN("resources/sounds/train.wav");
 	
-	private static int NUMBER_OF_THREADS = 5;
+	private static final int NUMBER_OF_THREADS = 5;
 	
-	private static ExecutorService executor = Executors.newFixedThreadPool(NUMBER_OF_THREADS);
+	private static final ExecutorService executor = Executors.newFixedThreadPool(NUMBER_OF_THREADS);
 	
-	private String fileName;
+	private final String fileName;
 	
 	DWSounds(String fileName){
 		this.fileName = fileName;

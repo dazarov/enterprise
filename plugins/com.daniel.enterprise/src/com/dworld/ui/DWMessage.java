@@ -20,7 +20,7 @@ public enum DWMessage {
 	PATROL, OPEN, CLOSE, GAME, DEFAULT_COMMAND, LOADING, SAVING, CANCEL, TITLE,
 	SOUND_ENABLED;
 	
-	private static ResourceBundle resourceBundle = ResourceBundle.getBundle(
+	private static final ResourceBundle resourceBundle = ResourceBundle.getBundle(
 			"com.dworld.ui.messages",
 			DWConfiguration.getInstance().getLocale());
 
