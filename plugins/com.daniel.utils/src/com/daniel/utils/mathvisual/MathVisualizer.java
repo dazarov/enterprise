@@ -98,6 +98,8 @@ public class MathVisualizer {
 		if(configuration.getMinY() != 0.0 || configuration.getMaxY() != 0.0){
 			list.setMinY(configuration.getMinY());
 			list.setMaxY(configuration.getMaxY());
+		}else{
+			IntervalAnalyzer.analyze(list);
 		}
 
 		visualPanel.init(list);

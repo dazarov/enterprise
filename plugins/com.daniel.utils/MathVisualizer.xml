@@ -1,31 +1,31 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <ns2:configuration xmlns:ns2="com.daniel.utils.MathFormulaVisualizer">
-    <backgroundColor>ffe5e5e5</backgroundColor>
+    <backgroundColor>ffffffff</backgroundColor>
     <gridColor>ff898989</gridColor>
     <textColor>ff000000</textColor>
-    <start>-3.0</start>
-    <end>3.0</end>
+    <start>-10.0</start>
+    <end>10.0</end>
     <number>2000</number>
     <minY>0.0</minY>
     <maxY>0.0</maxY>
     <graphList>
         <graph>
-            <visible>true</visible>
+            <visible>false</visible>
             <formula>x^5-8*x^3+10*x+6 </formula>
             <comment>x - +-3</comment>
             <color>ffff0000</color>
         </graph>
         <graph>
-            <visible>false</visible>
+            <visible>true</visible>
             <formula>sin(4*x)^3-cos(4*x)^2+5/x </formula>
             <comment>x - +- 10 y - +-20</comment>
-            <color>ffff0000</color>
+            <color>ff6633ff</color>
         </graph>
         <graph>
             <visible>false</visible>
             <formula>2*sin(x)+sin(3*x)</formula>
             <comment></comment>
-            <color>ffff0000</color>
+            <color>ff33ff00</color>
         </graph>
         <graph>
             <visible>false</visible>
@@ -37,7 +37,7 @@
             <visible>false</visible>
             <formula>x^5</formula>
             <comment></comment>
-            <color>ffff0000</color>
+            <color>ffff00cc</color>
         </graph>
         <graph>
             <visible>false</visible>
