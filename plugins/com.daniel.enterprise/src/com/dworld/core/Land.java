@@ -446,7 +446,7 @@ public enum Land implements TileBasedMap{
 	 * list of codes which should be replaced by grass code during the save procedure
 	 * they are codes of flying objects above the grass
 	 */
-	private static final Set<Land> grassList = EnumSet.of(
+	public static final Set<Land> saveGrassList = EnumSet.of(
 		Bullet_Grass,
 		CannonBall_Grass,
 		Bomb_Grass,
@@ -459,12 +459,33 @@ public enum Land implements TileBasedMap{
 		RocketSouthEast_Grass,
 		RocketSouthWest_Grass
 	);
+	
+	public static final Set<Land> allGrassList = EnumSet.of(
+			Hero_Grass,
+			GoodSoldier_Grass,
+			GoodTank_Grass,
+			GoodOfficer_Grass,
+			GoodGeneral_Grass,
+			GoodBunker_Grass,
+			GoodRadar_Grass,
+			BadSoldier_Grass,
+			BadTank_Grass,
+			BadOfficer_Grass,
+			BadGeneral_Grass,
+			BadBunker_Grass,
+			BadRadar_Grass,
+			Dark_Knight_Grass
+			
+	);
+	static{
+		allGrassList.addAll(saveGrassList);
+	}
 
 	/**
 	 * list of codes which should be replaced by water code during the save procedure
 	 * they are codes of flying objects above the water
 	 */
-	private static final Set<Land> waterList = EnumSet.of(
+	public static final Set<Land> waterList = EnumSet.of(
 		Bullet_Water,
 		CannonBall_Water,
 		Bomb_Water,
@@ -482,7 +503,7 @@ public enum Land implements TileBasedMap{
 	 * list of codes which should be replaced by Sand code during the save procedure
 	 * they are codes of flying objects above the sand
 	 */
-	private static final Set<Land> sandList = EnumSet.of(
+	public static final Set<Land> saveSandList = EnumSet.of(
 		Sand,
 		Bullet_Sand,
 		CannonBall_Sand,
@@ -496,6 +517,27 @@ public enum Land implements TileBasedMap{
 		RocketSouthEast_Sand,
 		RocketSouthWest_Sand
 	);
+	
+	public static final Set<Land> allSandList = EnumSet.of(
+			Hero_Sand,
+			GoodSoldier_Sand,
+			GoodTank_Sand,
+			GoodOfficer_Sand,
+			GoodGeneral_Sand,
+			GoodBunker_Sand,
+			GoodRadar_Sand,
+			BadSoldier_Sand,
+			BadTank_Sand,
+			BadOfficer_Sand,
+			BadGeneral_Sand,
+			BadBunker_Sand,
+			BadRadar_Sand,
+			Dark_Knight_Sand
+			
+	);
+	static{
+		allSandList.addAll(saveSandList);
+	}
 	
 	private static final Set<Land> sandExplList = EnumSet.of(
 		Hero_Sand,
@@ -951,9 +993,9 @@ public enum Land implements TileBasedMap{
 					if (unsaveList.contains(land)) {
 						if (waterList.contains(land))
 							land = Water;
-						else if (grassList.contains(land))
+						else if (saveGrassList.contains(land))
 							land = Grass;
-						else if (sandList.contains(land))
+						else if (saveSandList.contains(land))
 							land = Sand;
 						else
 							land = Empty;

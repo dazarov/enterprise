@@ -33,6 +33,20 @@ public class DWJavaFXImages extends DWImages<Image>{
 				land = Land.getLand(startX + x, startY + y);
 				if(land != Land.Empty){
 					image = getImage(land);
+					if(Land.allSandList.contains(land)){
+						g.setFill(Color.YELLOW);
+						g.fillRect((double) x * DWConstants.UI_IMAGE_WIDTH, (double)y * DWConstants.UI_IMAGE_HEIGHT, (double)DWConstants.UI_IMAGE_WIDTH, (double)	DWConstants.UI_IMAGE_HEIGHT);
+					}else if(Land.waterList.contains(land)){
+						g.setFill(Color.BLUE);
+						g.fillRect((double) x * DWConstants.UI_IMAGE_WIDTH, (double)y * DWConstants.UI_IMAGE_HEIGHT, (double)DWConstants.UI_IMAGE_WIDTH, (double)	DWConstants.UI_IMAGE_HEIGHT);
+					}else if(Land.allGrassList.contains(land)){
+						g.setFill(Color.GREEN);
+						g.fillRect((double) x * DWConstants.UI_IMAGE_WIDTH, (double)y * DWConstants.UI_IMAGE_HEIGHT, (double)DWConstants.UI_IMAGE_WIDTH, (double)	DWConstants.UI_IMAGE_HEIGHT);
+					}else{
+						g.setFill(Color.BLACK);
+						g.fillRect((double) x * DWConstants.UI_IMAGE_WIDTH, (double)y * DWConstants.UI_IMAGE_HEIGHT, (double)DWConstants.UI_IMAGE_WIDTH, (double)	DWConstants.UI_IMAGE_HEIGHT);
+					}
+					
 					g.drawImage(image, (double) x * DWConstants.UI_IMAGE_WIDTH, (double)y * DWConstants.UI_IMAGE_HEIGHT, (double)DWConstants.UI_IMAGE_WIDTH, (double)	DWConstants.UI_IMAGE_HEIGHT);
 				}else{
 					g.setFill(Color.BLACK);
