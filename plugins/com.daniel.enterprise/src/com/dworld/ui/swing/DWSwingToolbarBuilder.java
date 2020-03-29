@@ -1,5 +1,6 @@
 package com.dworld.ui.swing;
 
+import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.util.List;
@@ -75,6 +76,7 @@ public class DWSwingToolbarBuilder {
 				toolBar.addSeparator();
 			}else{
 				JButton jButton = new JButton();
+				jButton.setBackground(Color.black);
 				if(button.imageCode != Land.Vacuum){
 					jButton.setIcon(new ImageIcon(getImage(button.imageCode)));
 				} else if(button.imagePath != null){

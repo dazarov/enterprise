@@ -6,45 +6,20 @@ import com.dworld.core.DWConstants;
 import com.dworld.core.Direction;
 import com.dworld.core.Land;
 import com.dworld.core.Location;
-import com.dworld.ui.DWSounds;
+import com.dworld.units.FlyableUnit;
 
-public class Bullet extends MovableWeapon {
+public class Bullet extends FlyableUnit {
 	private int counter=0;
 
 	public Bullet(int x, int y, Direction direction) {
 		super(x, y, Land.Bullet, DWConstants.BULLET_SPEED);
 		setDirection(direction);
-		Land.setLand(getLocation(), beneath);
+		Land.setForeground(getLocation(), beneath);
 	}
 
 	@Override
 	protected boolean lookAround() {
 		return true;
-	}
-	
-	@Override
-	public Land getLand(Land beneath){
-		switch(beneath){
-		case Grass:
-		case Mine_Grass:
-		case Bullet_Grass:
-		case Bomb_Grass:
-		case CannonBall_Grass:
-			return Land.Bullet_Grass;
-		case Water:
-		case Bullet_Water:
-		case Bomb_Water:
-		case CannonBall_Water:
-			return Land.Bullet_Water;
-		case Sand:
-		case Mine_Sand:
-		case Bullet_Sand:
-		case Bomb_Sand:
-		case CannonBall_Sand:
-			return Land.Bullet_Sand;
-		default:
-			return Land.Bullet;
-		}
 	}
 	
 	@Override
@@ -114,7 +89,7 @@ public class Bullet extends MovableWeapon {
 			return;
 		}
 		if (beneath != Land.Vacuum)
-			Land.setLand(getLocation(), beneath);
+			Land.setForeground(getLocation().getX(), getLocation().getY(), beneath);
 		setLocation(Land.getNewLocation(getLocation(), direction));
 		beneath = Land.setLand(getLocation(), this);
 		if (Land.bulletListContains(beneath))

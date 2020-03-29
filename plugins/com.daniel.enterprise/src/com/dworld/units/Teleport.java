@@ -50,7 +50,7 @@ public class Teleport extends ActiveUnit implements ISlow {
 				if(thereLand == Land.Empty || thereLand == Land.Grass || thereLand == Land.Sand){
 					Land.setLand(herePoint, ((MovableUnit) unit).getBeneath());
 					
-					Land.setLand(pointToGo, ((MovableUnit) unit).getLand(thereLand));
+					Land.setLand(pointToGo, ((MovableUnit) unit).getLand());
 					
 					unit.setLocation((Location)pointToGo);
 					((MovableUnit) unit).setBeneath(thereLand);

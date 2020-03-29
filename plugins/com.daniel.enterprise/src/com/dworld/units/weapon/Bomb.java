@@ -6,8 +6,9 @@ import com.dworld.core.DWConstants;
 import com.dworld.core.Direction;
 import com.dworld.core.Land;
 import com.dworld.ui.DWSounds;
+import com.dworld.units.WalkableUnit;
 
-public class Bomb extends MovableWeapon {
+public class Bomb extends WalkableUnit {
 	int distance;
 	boolean first = true;
 
@@ -23,20 +24,6 @@ public class Bomb extends MovableWeapon {
 	public void die(){
 		super.die();
 		Land.explode(getLocation());
-	}
-	
-	@Override
-	public Land getLand(Land beneath){
-		switch(beneath){
-		case Grass:
-			return Land.Bomb_Grass;
-		case Water:
-			return Land.Bomb_Water;
-		case Sand:
-			return Land.Bomb_Sand;
-		default:
-			return Land.Bomb;
-		}
 	}
 	
 	@Override
@@ -67,7 +54,7 @@ public class Bomb extends MovableWeapon {
 		if (first)
 			first = false;
 		else
-			Land.setLand(getLocation(), beneath);
+			Land.setForeground(getLocation().getX(), getLocation().getY(), beneath);
 		setLocation(Land.getNewLocation(getLocation(), direction));
 		beneath = Land.setLand(getLocation(), this);
 		distance--;

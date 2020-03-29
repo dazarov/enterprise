@@ -21,7 +21,7 @@ public class DWJavaFXImages extends DWImages<Image>{
 		return new Image("file:"+path, true);
 	}
 	
-	private Land land;
+	private Land land, background;
 	private Image image;
 	
 	public void draw(GraphicsContext g) {
@@ -30,28 +30,33 @@ public class DWJavaFXImages extends DWImages<Image>{
 		
 		for (int x = 0; x < DWConstants.UI_WIDTH; x++) {
 			for (int y = 0; y < DWConstants.UI_HEIGHT; y++) {
+				background = Land.getBackground(startX + x, startY + y);
 				land = Land.getLand(startX + x, startY + y);
-				if(land != Land.Empty){
+				//if(land != Land.Empty || background != Land.Empty){
 					image = getImage(land);
-					if(Land.allSandList.contains(land)){
-						g.setFill(Color.YELLOW);
+					if(background == Land.Sand){
+						g.setFill(DWJavaFXColors.SAND);
 						g.fillRect((double) x * DWConstants.UI_IMAGE_WIDTH, (double)y * DWConstants.UI_IMAGE_HEIGHT, (double)DWConstants.UI_IMAGE_WIDTH, (double)	DWConstants.UI_IMAGE_HEIGHT);
-					}else if(Land.waterList.contains(land)){
-						g.setFill(Color.BLUE);
+					}else if(background == Land.Water){
+						g.setFill(DWJavaFXColors.WATER);
 						g.fillRect((double) x * DWConstants.UI_IMAGE_WIDTH, (double)y * DWConstants.UI_IMAGE_HEIGHT, (double)DWConstants.UI_IMAGE_WIDTH, (double)	DWConstants.UI_IMAGE_HEIGHT);
-					}else if(Land.allGrassList.contains(land)){
-						g.setFill(Color.GREEN);
+					}else if(background == Land.Grass){
+						g.setFill(DWJavaFXColors.GRASS);
 						g.fillRect((double) x * DWConstants.UI_IMAGE_WIDTH, (double)y * DWConstants.UI_IMAGE_HEIGHT, (double)DWConstants.UI_IMAGE_WIDTH, (double)	DWConstants.UI_IMAGE_HEIGHT);
+					}else if(background != Land.Empty){
+						g.setFill(Color.BLACK);
+						g.drawImage(getImage(background), (double) x * DWConstants.UI_IMAGE_WIDTH, (double)y * DWConstants.UI_IMAGE_HEIGHT, (double)DWConstants.UI_IMAGE_WIDTH, (double)	DWConstants.UI_IMAGE_HEIGHT);
 					}else{
 						g.setFill(Color.BLACK);
 						g.fillRect((double) x * DWConstants.UI_IMAGE_WIDTH, (double)y * DWConstants.UI_IMAGE_HEIGHT, (double)DWConstants.UI_IMAGE_WIDTH, (double)	DWConstants.UI_IMAGE_HEIGHT);
 					}
-					
-					g.drawImage(image, (double) x * DWConstants.UI_IMAGE_WIDTH, (double)y * DWConstants.UI_IMAGE_HEIGHT, (double)DWConstants.UI_IMAGE_WIDTH, (double)	DWConstants.UI_IMAGE_HEIGHT);
-				}else{
-					g.setFill(Color.BLACK);
-					g.fillRect((double) x * DWConstants.UI_IMAGE_WIDTH, (double)y * DWConstants.UI_IMAGE_HEIGHT, (double)DWConstants.UI_IMAGE_WIDTH, (double)	DWConstants.UI_IMAGE_HEIGHT);
-				}
+					if(land != Land.Empty){
+						g.drawImage(image, (double) x * DWConstants.UI_IMAGE_WIDTH, (double)y * DWConstants.UI_IMAGE_HEIGHT, (double)DWConstants.UI_IMAGE_WIDTH, (double)	DWConstants.UI_IMAGE_HEIGHT);
+					}
+//				if(land == Land.Empty && background == Land.Empty){
+//					g.setFill(Color.BLACK);
+//					g.fillRect((double) x * DWConstants.UI_IMAGE_WIDTH, (double)y * DWConstants.UI_IMAGE_HEIGHT, (double)DWConstants.UI_IMAGE_WIDTH, (double)	DWConstants.UI_IMAGE_HEIGHT);
+//				}
 			}
 		}
 		Rectangle area = SelectionManager.getSelectedArea();

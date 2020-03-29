@@ -4,7 +4,7 @@ import com.dworld.core.DWConstants;
 import com.dworld.core.Land;
 import com.dworld.ui.DWSounds;
 
-public abstract class Tank extends MovableUnit {
+public abstract class Tank extends WalkableUnit {
 
 	public Tank(int x, int y, Land land) {
 		super(x, y, land, DWConstants.TANK_SPEED);

@@ -43,7 +43,10 @@ public abstract class MovableUnit extends ActiveUnit implements IMovable {
 		super(x, y);
 		this.land = land;
 		beneath = getDefaultBeneath(land);
-		Land.initLand(getLocation(), beneath, this);
+		Land l = Land.initLand(getLocation(), beneath, this);
+		if(l != null) {
+			beneath = l;
+		}
 		setSpeed(speed);
 	}
 	
@@ -86,7 +89,7 @@ public abstract class MovableUnit extends ActiveUnit implements IMovable {
 		if (curent <= 0) {
 			curent += DWConstants.MAX_SPEED;
 			//findDirection();
-			if (Land.canIWalk(getLocation(), direction, getWalkList())) {
+			if (canMove()) {
 				walk();
 			} else if(mode != MOVE_TO_MODE){
 				if(!findNewDirection())
@@ -155,7 +158,7 @@ public abstract class MovableUnit extends ActiveUnit implements IMovable {
 	protected abstract boolean lookAround();
 
 	protected boolean checkLand(){
-		if (Land.getLand(getLocation()) != getLand(beneath)) {
+		if (Land.getLand(getLocation()) != getLand()) {
 			die();
 			Land.setLand(getLocation(), getGrave(beneath));
 			return false;
@@ -164,7 +167,7 @@ public abstract class MovableUnit extends ActiveUnit implements IMovable {
 	}
 
 	protected void walk() {
-		Land.setLand(getLocation(), beneath);
+		Land.setForeground(getLocation().getX(), getLocation().getY(), beneath);
 		setLocation(Land.getNewLocation(getLocation(), direction));
 		beneath = Land.setLand(getLocation(), this);
 		if(selfDefense){
@@ -180,43 +183,12 @@ public abstract class MovableUnit extends ActiveUnit implements IMovable {
 	}
 	
 	@Override
-	public Land getLand(Land beneath){
+	public Land getLand(){
 		return land;
 	}
 	
 	protected Land getDefaultBeneath(Land land){
-		switch(land){
-		case Hero_Grass:
-		case GoodSoldier_Grass:
-		case BadSoldier_Grass:
-		case Peasant_Grass:
-		case GoodOfficer_Grass:
-		case GoodGeneral_Grass:
-		case BadOfficer_Grass:
-		case BadGeneral_Grass:
-		case Dark_Knight_Grass:
-		case BadTank_Grass:
-		case GoodTank_Grass:
-			
-			return Land.Grass;
-			
-		case Hero_Sand:
-		case GoodSoldier_Sand:
-		case BadSoldier_Sand:
-		case Peasant_Sand:
-		case GoodOfficer_Sand:
-		case GoodGeneral_Sand:
-		case BadOfficer_Sand:
-		case BadGeneral_Sand:
-		case Dark_Knight_Sand:
-		case BadTank_Sand:
-		case GoodTank_Sand:
-			
-			return Land.Sand;
-			
-			default:
-				return Land.Empty;
-		}
+		return Land.Empty;
 
 	}
 	
@@ -319,6 +291,8 @@ public abstract class MovableUnit extends ActiveUnit implements IMovable {
 			findPath();
 		}
 	}
+	
+	abstract protected boolean canMove();
 	
 	
 	@Override

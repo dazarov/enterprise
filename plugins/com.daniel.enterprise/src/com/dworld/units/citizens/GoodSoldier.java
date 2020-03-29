@@ -11,18 +11,6 @@ public class GoodSoldier extends Soldier {
 	}
 	
 	@Override
-	public Land getLand(Land beneath){
-		switch(beneath){
-		case Grass:
-			return Land.GoodSoldier_Grass;
-		case Sand:
-			return Land.GoodSoldier_Sand;
-		default:
-			return Land.GoodSoldier;
-		}
-	}
-	
-	@Override
 	protected Land getGrave(Land beneath){
 		switch(beneath){
 		case Grass:

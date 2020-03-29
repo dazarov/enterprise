@@ -10,7 +10,7 @@ import com.dworld.core.Land;
 import com.dworld.core.Location;
 import com.dworld.units.weapon.Rocket;
 
-public class ControlledUnit extends MovableUnit {
+public class ControlledUnit extends WalkableUnit {
 	protected int key = -1;
 	protected int modifier = 0;
 	protected Location drawPosition = new Location(0,0);
@@ -25,7 +25,7 @@ public class ControlledUnit extends MovableUnit {
 	public void setLand(Land land){
 		this.land = land;
 		
-		Land.setLand(getLocation(), getLand(getBeneath()));
+		Land.setLand(getLocation(), getLand());
 	}
 	
 	protected Set<Land> getListToFightWith(){
@@ -81,7 +81,7 @@ public class ControlledUnit extends MovableUnit {
 				}
 				return;
 		}else if(key == 76){ // l key
-			Land.setLand(getLocation(), getLand(getBeneath()));
+			Land.setLand(getLocation(), getLand());
 			activate();
 			resurrect();
 		}
@@ -102,115 +102,8 @@ public class ControlledUnit extends MovableUnit {
 	}
 	
 	@Override
-	public Land getLand(Land beneath){
-		if(land == Land.Hero){
-			switch(beneath){
-			case Grass:
-				return Land.Hero_Grass;
-			case Sand:
-				return Land.Hero_Sand;
-			default:
-				return Land.Hero;
-			}
-		}else if(land == Land.GoodSoldier){
-			switch(beneath){
-			case Grass:
-				return Land.GoodSoldier_Grass;
-			case Sand:
-				return Land.GoodSoldier_Sand;
-			default:
-				return Land.GoodSoldier;
-			}
-		}else if(land == Land.BadSoldier){
-			switch(beneath){
-			case Grass:
-				return Land.BadSoldier_Grass;
-			case Sand:
-				return Land.BadSoldier_Sand;
-			default:
-				return Land.BadSoldier;
-			}
-		}else if(land == Land.Peasant){
-			switch(beneath){
-			case Grass:
-				return Land.Peasant_Grass;
-			case Sand:
-				return Land.Peasant_Sand;
-			default:
-				return Land.Peasant;
-			}
-		}else if(land == Land.GoodOfficer){
-			switch(beneath){
-			case Grass:
-				return Land.GoodOfficer_Grass;
-			case Sand:
-				return Land.GoodOfficer_Sand;
-			default:
-				return Land.GoodOfficer;
-			}
-		}else if(land == Land.GoodGeneral){
-			switch(beneath){
-			case Grass:
-				return Land.GoodGeneral_Grass;
-			case Sand:
-				return Land.GoodGeneral_Sand;
-			default:
-				return Land.GoodGeneral;
-			}
-		}else if(land == Land.BadOfficer){
-			switch(beneath){
-			case Grass:
-				return Land.BadOfficer_Grass;
-			case Sand:
-				return Land.BadOfficer_Sand;
-			default:
-				return Land.BadOfficer;
-			}
-		}else if(land == Land.BadGeneral){
-			switch(beneath){
-			case Grass:
-				return Land.BadGeneral_Grass;
-			case Sand:
-				return Land.BadGeneral_Sand;
-			default:
-				return Land.BadGeneral;
-			}
-		}else if(land == Land.Dark_Knight){
-			switch(beneath){
-			case Grass:
-				return Land.Dark_Knight_Grass;
-			case Sand:
-				return Land.Dark_Knight_Sand;
-			default:
-				return Land.Dark_Knight;
-			}
-		}else if(land == Land.GoodTank){
-			switch(beneath){
-			case Grass:
-				return Land.GoodTank_Grass;
-			case Sand:
-				return Land.GoodTank_Sand;
-			default:
-				return Land.GoodTank;
-			}
-		}else if(land == Land.BadTank){
-			switch(beneath){
-			case Grass:
-				return Land.BadTank_Grass;
-			case Sand:
-				return Land.BadTank_Sand;
-			default:
-				return Land.BadTank;
-			}
-		}else{
-			return Land.Food;
-		}
-		
-	}
-	
-	@Override
 	protected boolean lookAround() {
-		if (Land.getLand(getLocation()) != getLand(beneath)) {
+		if (Land.getLand(getLocation()) != getLand()) {
 			die();
 			switch(beneath){
 			case Grass:

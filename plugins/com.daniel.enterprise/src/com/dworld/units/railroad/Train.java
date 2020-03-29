@@ -8,9 +8,10 @@ import com.dworld.core.Land;
 import com.dworld.core.Location;
 import com.dworld.ui.DWSounds;
 import com.dworld.units.MovableUnit;
+import com.dworld.units.WalkableUnit;
 
 
-public class Train extends MovableUnit {
+public class Train extends WalkableUnit {
 
 	private Land oldBeneath = Land.Vacuum;
 	private boolean going = true;
@@ -85,7 +86,7 @@ public class Train extends MovableUnit {
 	
 	@SuppressWarnings("incomplete-switch")
 	@Override
-	public Land getLand(Land beneath){
+	public Land getLand(){
 		switch(beneath){
 		case Rail_Vertical:
 			return Land.Train_Vertical;

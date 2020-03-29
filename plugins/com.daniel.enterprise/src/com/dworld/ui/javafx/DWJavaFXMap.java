@@ -223,15 +223,15 @@ public class DWJavaFXMap {
 						break;
 						
 					case Grass:
-						writer.setColor(windowX, windowY, Color.GREEN);
+						writer.setColor(windowX, windowY, DWJavaFXColors.GRASS);
 						break;
 						
 					case Water:
-						writer.setColor(windowX, windowY, Color.BLUE);
+						writer.setColor(windowX, windowY, DWJavaFXColors.WATER);
 						break;
 						
 					case Sand:
-						writer.setColor(windowX, windowY, Color.YELLOW);
+						writer.setColor(windowX, windowY, DWJavaFXColors.SAND);
 						break;
 						
 					case Mountain:

@@ -11,18 +11,6 @@ public class BadSoldier extends Soldier {
 		super(x, y, land);
 		mode = MOVE_AROUND_MODE;
 	}
-	
-	@Override
-	public Land getLand(Land beneath){
-		switch(beneath){
-		case Grass:
-			return Land.BadSoldier_Grass;
-		case Sand:
-			return Land.BadSoldier_Sand;
-		default:
-			return Land.BadSoldier;
-		}
-	}
 
 	@Override
 	protected Land getGrave(Land beneath){

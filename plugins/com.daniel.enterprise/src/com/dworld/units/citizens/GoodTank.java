@@ -11,18 +11,6 @@ public class GoodTank extends Tank {
 	public GoodTank(int x, int y, Land land) {
 		super(x, y, Land.GoodTank);
 	}
-	
-	@Override
-	public Land getLand(Land beneath){
-		switch(beneath){
-		case Grass:
-			return Land.GoodTank_Grass;
-		case Sand:
-			return Land.GoodTank_Sand;
-		default:
-			return Land.GoodTank;
-		}
-	}
 
 	@Override
 	protected Land getGrave(Land beneath){

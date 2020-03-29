@@ -61,9 +61,6 @@ public abstract class ActiveUnit extends Unit implements IActive {
 
 	@Override
 	public boolean isActive() {
-//		if(SelectionManager.getSelectedArea() != null && SelectionManager.getSelectedArea().contains(getLocation()))
-//			SelectionManager.addSelection(this);
-		
 		return active;
 	}
 	
@@ -220,9 +217,6 @@ public abstract class ActiveUnit extends Unit implements IActive {
 		return null;
 	}
 	
-	
-	
-	
 	protected void fireBullets(final int distance){
 		Direction[] dirs = findUnit(getListToFightWith(), distance);
 		for(Direction dir : dirs) {
@@ -243,15 +237,10 @@ public abstract class ActiveUnit extends Unit implements IActive {
 				Direction rocketDirection = Rocket.getDirection(result.getResultLand());
 				if(rocketDirection.getOppositeDirection() == dir){
 					fireBullet(dir);
-//					if(bullets[dir.value] == null || !bullets[dir.value].isAlive()){
-//						bullets[dir.value] = fireBullet(dir);
-//						return dir;
-//					}
 				}
 			}
 			dir = dir.getClockwiseDirection();
 		}
-		//return Direction.nowhere;
 	}
 	
 	protected int getRocketType(){
@@ -291,8 +280,6 @@ public abstract class ActiveUnit extends Unit implements IActive {
 	protected Set<Land> getArmoredListToFightWith(){
 		return null;
 	}
-	
-	
 	
 	protected void fireCannonBalls(int distance){
 		Direction[] dirs = findUnit(getArmoredListToFightWith(), distance);

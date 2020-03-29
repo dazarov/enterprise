@@ -6,8 +6,9 @@ import com.dworld.core.DWConstants;
 import com.dworld.core.Direction;
 import com.dworld.core.Land;
 import com.dworld.ui.DWSounds;
+import com.dworld.units.FlyableUnit;
 
-public class CannonBall extends MovableWeapon {
+public class CannonBall extends FlyableUnit {
 	private int counter=0;
 	private int range = DWConstants.CANNONBALL_RANGE;
 	
@@ -35,32 +36,7 @@ public class CannonBall extends MovableWeapon {
 		super.die();
 		Land.explode(getLocation());
 	}
-	
-	@Override
-	public Land getLand(Land beneath){
-		switch(beneath){
-		case Grass:
-		case Mine_Grass:
-		case Bullet_Grass:
-		case Bomb_Grass:
-		case CannonBall_Grass:
-			return Land.CannonBall_Grass;
-		case Water:
-		case Bullet_Water:
-		case Bomb_Water:
-		case CannonBall_Water:
-			return Land.CannonBall_Water;
-		case Sand:
-		case Mine_Sand:
-		case Bullet_Sand:
-		case Bomb_Sand:
-		case CannonBall_Sand:
-			return Land.CannonBall_Sand;
-		default:
-			return Land.CannonBall;
-		}
-	}
-	
+		
 	@Override
 	protected Set<Land> getWalkList(){
 		return Land.flyAndFindList;
@@ -80,7 +56,7 @@ public class CannonBall extends MovableWeapon {
 			return;
 		}
 		if (beneath != Land.Vacuum)
-			Land.setLand(getLocation(), beneath);
+			Land.setForeground(getLocation().getX(), getLocation().getY(), beneath);
 		setLocation(Land.getNewLocation(getLocation(), direction));
 		beneath = Land.setLand(getLocation(), this);
 		if (Land.bulletListContains(beneath))

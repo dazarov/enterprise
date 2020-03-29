@@ -53,6 +53,7 @@ public class DWJavaFXToolbarBuilder {
 				} else if(dButton.imagePath != null){
 					button.setGraphic(new ImageView(loadImage(dButton.imagePath)));
 				}
+				button. setStyle("-fx-background-color: #000000; ");
 				button.setOnAction(e -> dButton.runner.run());
 				toolbar.getItems().add(button);
 			}

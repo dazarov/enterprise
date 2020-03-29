@@ -4,11 +4,9 @@ import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.EnumSet;
-import java.util.List;
 import java.util.Set;
 
 import com.dworld.pathfinding.TileBasedMap;
@@ -272,7 +270,7 @@ public enum Land implements TileBasedMap{
 	/**
 	 * Map itself
 	 */
-	private static final Land[][] landMap = new Land[DWConstants.MAX_X][DWConstants.MAX_Y];
+	private static final Land[][][] landMap = new Land[DWConstants.MAX_X][DWConstants.MAX_Y][2];
 	
 	/**
 	 * Land lists section start
@@ -430,13 +428,9 @@ public enum Land implements TileBasedMap{
 	private static final Set<Land> unexplosiveList = EnumSet.of(
 		Vacuum,
 		Wall,
-		OpenedHorizontalSteelGate,
 		ClosedHorizontalSteelGate,
-		OpenedVerticalSteelGate,
 		ClosedVerticalSteelGate,
-		OpenedHorizontalConcreteGate,
 		ClosedHorizontalConcreteGate,
-		OpenedVerticalConcreteGate,
 		ClosedVerticalConcreteGate,
 		Water,
 		Sand
@@ -461,6 +455,7 @@ public enum Land implements TileBasedMap{
 	);
 	
 	public static final Set<Land> allGrassList = EnumSet.of(
+			Grass,
 			Hero_Grass,
 			GoodSoldier_Grass,
 			GoodTank_Grass,
@@ -486,6 +481,7 @@ public enum Land implements TileBasedMap{
 	 * they are codes of flying objects above the water
 	 */
 	public static final Set<Land> waterList = EnumSet.of(
+		Water,
 		Bullet_Water,
 		CannonBall_Water,
 		Bomb_Water,
@@ -681,6 +677,15 @@ public enum Land implements TileBasedMap{
 		saveList.addAll(gateList);
 	}
 	
+	public static final Set<Land> backgroundList = EnumSet.noneOf(Land.class);
+		static {
+			backgroundList.addAll(allGrassList);
+			backgroundList.addAll(allSandList);
+			backgroundList.addAll(waterList);
+			backgroundList.addAll(railList);
+			//backgroundList.addAll(gateList);
+		}
+	
 	public static Land getLand(Location location) {
 		return getLand(location.getX(), location.getY());
 	}
@@ -718,12 +723,12 @@ public enum Land implements TileBasedMap{
 		if (x < DWConstants.MIN_X || y < DWConstants.MIN_Y) {
 			return Vacuum;
 		}
-		Land land;
+		int code;
 		synchronized(Land.class){
-			land = landMap[x][y];
+			return landMap[x][y][1];
 		}
-		
-		return land;
+		//code = (code << 16) >>> 16;
+		//return Land.values()[code];
 	}
 
 	public static Land setLand(Location location, Land land) {
@@ -732,26 +737,77 @@ public enum Land implements TileBasedMap{
 	
 	public static Land setLand(int x, int y, Land land) {
 		Land oldLand = getLand(x, y);
-		synchronized(Land.class){
-			landMap[x][y] = land;
+		if(backgroundList.contains(land)){
+			setBackground(x, y, land);
+		}else{
+			setForeground(x, y, land);
 		}
 		return oldLand;
+	}
+	
+	public static void setLand(int x, int y, Land foreground, Land background) {
+		synchronized(Land.class){
+			landMap[x][y][0] = background;
+			landMap[x][y][1] = foreground;
+			//landMap[x][y] = (background << 16) + foreground;
+		}
+	}
+	
+	public static Land setForeground(Location location, Land foreground) {
+		return setForeground(location.getX(), location.getY(), foreground);
+	}
+	
+	public static Land setForeground(int x, int y, Land foreground) {
+		Land oldForeground = getForeground(x, y);
+		synchronized(Land.class){
+			landMap[x][y][1] = foreground;
+		}
+		return oldForeground;
+	}
+	
+	public static Land setBackground(Location location, Land background) {
+		
+		return setBackground(location.getX(), location.getY(), background);
+	}
+	
+	public static Land setBackground(int x, int y, Land background) {
+		Land oldBackground = getBackground(x, y);
+		synchronized(Land.class){
+			landMap[x][y][0] = background;
+		}
+		return oldBackground;
+	}
+	
+	public static Land getBackground(Location location) {
+		return getBackground(location.getX(), location.getY());
+	}
+	
+	public static Land getBackground(int x, int y) {
+		synchronized(Land.class){
+			return landMap[x][y][0];
+		}
+	}
+	
+	public static Land getForeground(Location location) {
+		return getForeground(location.getX(), location.getY());
+	}
+	
+	public static Land getForeground(int x, int y) {
+		synchronized(Land.class){
+			return landMap[x][y][1];
+		}
 	}
 
 	public static Land setLand(Location location, MovableUnit unit) {
 		Land oldLand = getLand(location);
-		Land newLand = unit.getLand(oldLand);
-		synchronized(Land.class){
-			landMap[location.getX()][location.getY()] = newLand;
-		}
+		Land newLand = unit.getLand();
+		setForeground(location.getX(), location.getY(), newLand);
 		return oldLand;
 	}
 
-	public static void initLand(Location location, Land beneath, MovableUnit unit) {
-		Land newLand = unit.getLand(beneath);
-		synchronized(Land.class){
-			landMap[location.getX()][location.getY()] = newLand;
-		}
+	public static Land initLand(Location location, Land beneath, MovableUnit unit) {
+		Land newLand = unit.getLand();
+		return setForeground(location.getX(), location.getY(), newLand);
 	}
 
 	public static Location getNewLocation(Location location, Direction direction) {
@@ -800,31 +856,7 @@ public enum Land implements TileBasedMap{
 	public static boolean unsaveListContains(Land land) {
 		return unsaveList.contains(land);
 	}
-	
-//	public static int findUnit(Point location, Direction direction, List<Integer> list) {
-//		return findUnit(location, direction, list, DWConstants.VISIBLE_DISTANCE);
-//	}
-//
-//	public static int findUnit(final Point location, final Direction direction, final List<Integer> list, final int maxDistance) {
-//		Point point = getNewLocation((Point) location, direction);
-//
-//		int land = Vacuum;
-//		int distance = 1;
-//		while (true) {
-//			land = getLand(point);
-//			if (list.contains(land)))
-//				return distance;
-//			if (land == Vacuum)
-//				return -1;
-//			if (!flyAndFindList.contains(land)))
-//				return -1;
-//			distance++;
-//			if (distance > maxDistance)
-//				return -1;
-//			point = getNewLocation(point, direction);
-//		}
-//	}
-	
+		
 	public static SearchResult search(final Location location, final Direction direction, final Set<Land> list) {
 		return search(location, direction, list, DWConstants.VISIBLE_DISTANCE);
 	}
@@ -860,14 +892,9 @@ public enum Land implements TileBasedMap{
 	public static void explode(final Location location) {
 		for (int x = location.getX() - 1; x < location.getX() + 2; x++) {
 			for (int y = location.getY() - 1; y < location.getY() + 2; y++) {
-				Land land = getLand(x, y);
+				Land land = getForeground(x, y);
 				if (!unexplosiveList.contains(land)) {
-					if (waterList.contains(land))
-						setLand(new Location(x, y), Water);
-					else if (sandExplList.contains(land))
-						setLand(new Location(x, y), Sand);
-					else
-						setLand(new Location(x, y), Empty);
+					setForeground(x, y, Empty);
 				}
 			}
 		}
@@ -916,7 +943,8 @@ public enum Land implements TileBasedMap{
 		for (int x = 0; x < DWConstants.MAX_X; x++) {
 			for (int y = 0; y < DWConstants.MAX_Y; y++) {
 				synchronized(Land.class){
-					landMap[x][y] = Empty;
+					landMap[x][y][0] = Empty;
+					landMap[x][y][1] = Empty;
 				}
 			}
 		}
@@ -944,22 +972,36 @@ public enum Land implements TileBasedMap{
 				}
 				for (int y = 0; y < DWConstants.MAX_Y; y++) {
 					int code = stream.read();
+					Land foreground = Land.values()[code];
 					if(code == -1){
 						throw new RuntimeException("End of File reached");
 					}
 					
+					
+					Land background = Vacuum;
+					if(allGrassList.contains(foreground)) {
+						background = Grass;
+					}else if(allSandList.contains(foreground)){
+						background = Sand;
+					}else if(waterList.contains(foreground)){
+						background = Water;
+					}
+					
+					if(background != Vacuum){
+						setBackground(x, y, background);
+					}
+					
 					if(x == heroX && y == heroY){
-						loadMan(x, y, Land.values()[code], stream);
+						loadMan(x, y, foreground, stream);
 						continue;
 					}
 					
 					if((x != heroX || y != heroY) &&
-						loadUnit(Land.values()[code], x, y, stream)){
+						loadUnit(foreground, x, y, stream)){
 						continue;
 					}
-					synchronized(Land.class){
-						landMap[x][y] = Land.values()[code];
-					}
+					//Land foreground = land;
+					setForeground(x, y, foreground);
 				}
 			}
 		} catch (IOException ex) {
@@ -970,52 +1012,52 @@ public enum Land implements TileBasedMap{
 	}
 
 	public static void save(String fileName, IProgressMonitor progressMonitor) {
-		File file = new File(DWConfiguration.getInstance().getPathName()+fileName);
-		int progress = 0;
-		try(FileOutputStream fs = new FileOutputStream(file);
-				BufferedOutputStream stream = new BufferedOutputStream(fs);) {
-			
-			ControlledUnit hero = DWConfiguration.getInstance().getControlledUnit();
-			
-			writeInt(stream, hero.getLocation().getX());
-			writeInt(stream, hero.getLocation().getY());
-			
-			for (int x = 0; x < DWConstants.MAX_X; x++) {
-				if(progress != x*100/DWConstants.MAX_X){
-					progress = x*100/DWConstants.MAX_X;
-					progressMonitor.progress(progress);	
-				}
-				for (int y = 0; y < DWConstants.MAX_Y; y++) {
-					Land land;
-					synchronized(Land.class){
-						land = landMap[x][y];
-					}
-					if (unsaveList.contains(land)) {
-						if (waterList.contains(land))
-							land = Water;
-						else if (saveGrassList.contains(land))
-							land = Grass;
-						else if (saveSandList.contains(land))
-							land = Sand;
-						else
-							land = Empty;
-					}
-					stream.write(land.ordinal());
-					if (saveList.contains(land)) {
-						List<IUnit> list = DWConfiguration.getInstance().getEngine().findUnit(new Location(x, y));
-						if (list != null){
-							for(IUnit unit : list){
-								unit.save(stream);
-							}
-						}
-					}
-				}
-			}
-		} catch (IOException ex) {
-			ex.printStackTrace();
-		}
-		progressMonitor.close();
-		saved();
+//		File file = new File(DWConfiguration.getInstance().getPathName()+fileName);
+//		int progress = 0;
+//		try(FileOutputStream fs = new FileOutputStream(file);
+//				BufferedOutputStream stream = new BufferedOutputStream(fs);) {
+//			
+//			ControlledUnit hero = DWConfiguration.getInstance().getControlledUnit();
+//			
+//			writeInt(stream, hero.getLocation().getX());
+//			writeInt(stream, hero.getLocation().getY());
+//			
+//			for (int x = 0; x < DWConstants.MAX_X; x++) {
+//				if(progress != x*100/DWConstants.MAX_X){
+//					progress = x*100/DWConstants.MAX_X;
+//					progressMonitor.progress(progress);	
+//				}
+//				for (int y = 0; y < DWConstants.MAX_Y; y++) {
+//					int land;
+//					synchronized(Land.class){
+//						land = landMap[x][y];
+//					}
+//					if (unsaveList.contains(land)) {
+//						if (waterList.contains(land))
+//							land = Water;
+//						else if (saveGrassList.contains(land))
+//							land = Grass;
+//						else if (saveSandList.contains(land))
+//							land = Sand;
+//						else
+//							land = Empty;
+//					}
+//					stream.write(land);
+//					if (saveList.contains(land)) {
+//						List<IUnit> list = DWConfiguration.getInstance().getEngine().findUnit(new Location(x, y));
+//						if (list != null){
+//							for(IUnit unit : list){
+//								unit.save(stream);
+//							}
+//						}
+//					}
+//				}
+//			}
+//		} catch (IOException ex) {
+//			ex.printStackTrace();
+//		}
+//		progressMonitor.close();
+//		saved();
 	}
 	
 	public static void writeInt(BufferedOutputStream stream, int value) throws IOException{
@@ -1060,7 +1102,7 @@ public enum Land implements TileBasedMap{
 			return true;
 		if (walkList.contains(land))
 			return false;
-		if(citizenList.contains(mover.getLand(Land.Grass)) && gateList.contains(land)){
+		if(citizenList.contains(mover.getLand()) && gateList.contains(land)){
 			return false;
 		}
 		return true;

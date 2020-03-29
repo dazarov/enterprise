@@ -142,7 +142,7 @@ public class Gate extends ActiveUnit implements ISlow{
 		
 		for (int i = 0; i < 3; i++) {
 			Location point = getPoint(i);
-			Land l = Land.getLand(point);
+			Land l = Land.getForeground(point.getX(), point.getY());
 			if (Land.citizenList.contains(l)) {
 				if (state == Closed) {
 					state = Opened;

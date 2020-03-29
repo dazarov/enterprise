@@ -13,18 +13,6 @@ public class BadTank extends Tank {
 	}
 	
 	@Override
-	public Land getLand(Land beneath){
-		switch(beneath){
-		case Grass:
-			return Land.BadTank_Grass;
-		case Sand:
-			return Land.BadTank_Sand;
-		default:
-			return Land.BadTank;
-		}
-	}
-	
-	@Override
 	protected Land getGrave(Land beneath){
 		return Land.TankGrave;
 	}

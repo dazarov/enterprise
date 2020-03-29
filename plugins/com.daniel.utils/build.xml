@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="BUILD" name="Create Runnable Jar for Project com.daniel.test">
+	<target name="BUILD">
+		<delete file = "MathFormulaVisualizer.jar"/>
+		<delete file = "MANIFEST.MF"/>
+		<jar destfile="MathFormulaVisualizer.jar" filesetmanifest="mergewithoutmain">
+			<manifest>
+				<attribute name="Built-By" value="Daniel Azarov"/>
+				<attribute name = "Main-Class" value = "com.daniel.utils.mathvisual.MathVisualizer"/>
+				<attribute name = "Class-Path" value = "."/>
+			</manifest>
+			<fileset dir="${basedir}/bin"/>
+			<fileset dir="${basedir}/lib"/>
+		</jar>
+	</target>
+</project>

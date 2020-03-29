@@ -70,7 +70,7 @@ public class WarTrain extends Train {
 	
 	@SuppressWarnings("incomplete-switch")
 	@Override
-	public Land getLand(Land beneath){
+	public Land getLand(){
 		switch(beneath){
 		case Rail_Vertical:
 			return Land.WarTrain_Vertical;

@@ -18,4 +18,10 @@ public class TestMovableUnit extends MovableUnit {
 	protected Land getGrave(Land beneath) {
 		return Land.Empty;
 	}
+
+	@Override
+	protected boolean canMove() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

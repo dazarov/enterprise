@@ -3,8 +3,9 @@ package com.dworld.units.citizens;
 import com.dworld.core.DWConstants;
 import com.dworld.core.Land;
 import com.dworld.units.MovableUnit;
+import com.dworld.units.WalkableUnit;
 
-public class Peasant extends MovableUnit {
+public class Peasant extends WalkableUnit {
 
 	public Peasant(int x, int y, Land land) {
 		super(x, y, land, DWConstants.PEASANT_SPEED);
@@ -17,20 +18,8 @@ public class Peasant extends MovableUnit {
 	}
 	
 	@Override
-	public Land getLand(Land beneath){
-		switch(beneath){
-		case Grass:
-			return Land.Peasant_Grass;
-		case Sand:
-			return Land.Peasant_Sand;
-		default:
-			return Land.Peasant;
-		}
-	}
-
-	@Override
 	protected boolean lookAround() {
-		if (Land.getLand(getLocation()) != getLand(beneath)) {
+		if (Land.getLand(getLocation()) != getLand()) {
 			die();
 			Land.setLand(getLocation(), getGrave(beneath));
 			return false;

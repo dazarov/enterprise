@@ -5,7 +5,7 @@ public interface IMovable extends IActive{
 
 	public void setBeneath(Land beneath);
 	
-	public Land getLand(Land beneath);
+	public Land getLand();
 	
 	@Deprecated
 	public Direction getDirection();

@@ -40,13 +40,13 @@ public class DWSwingImages extends DWImages<Image>{
 				if(land != Land.Empty){
 					image = getImage(land);
 					if(Land.allSandList.contains(land)){
-						g.setColor(Color.YELLOW);
+						g.setColor(DWSwingColors.SAND);
 						g.fillRect(x * DWConstants.UI_IMAGE_WIDTH, y * DWConstants.UI_IMAGE_HEIGHT, DWConstants.UI_IMAGE_WIDTH,	DWConstants.UI_IMAGE_HEIGHT);
 					}else if(Land.waterList.contains(land)){
-						g.setColor(Color.BLUE);
+						g.setColor(DWSwingColors.WATER);
 						g.fillRect(x * DWConstants.UI_IMAGE_WIDTH, y * DWConstants.UI_IMAGE_HEIGHT, DWConstants.UI_IMAGE_WIDTH,	DWConstants.UI_IMAGE_HEIGHT);
 					}else if(Land.allGrassList.contains(land)){
-						g.setColor(Color.GREEN);
+						g.setColor(DWSwingColors.GRASS);
 						g.fillRect(x * DWConstants.UI_IMAGE_WIDTH, y * DWConstants.UI_IMAGE_HEIGHT, DWConstants.UI_IMAGE_WIDTH,	DWConstants.UI_IMAGE_HEIGHT);
 					}
 					
