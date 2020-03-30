@@ -76,11 +76,6 @@ public class Rocket extends FlyableUnit {
 		}
 	}
 	
-	@Override
-	protected Set<Land> getWalkList(){
-		return Land.flyAndFindList;
-	}
-
 	private boolean first=true;
 
 	@Override

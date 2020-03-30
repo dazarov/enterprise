@@ -1,7 +1,5 @@
 package com.dworld.units.weapon;
 
-import java.util.Set;
-
 import com.dworld.core.DWConstants;
 import com.dworld.core.Direction;
 import com.dworld.core.Land;
@@ -26,11 +24,6 @@ public class Bomb extends WalkableUnit {
 		Land.explode(getLocation());
 	}
 	
-	@Override
-	protected Set<Land> getWalkList(){
-		return Land.flyAndFindList;
-	}
-
 	@Override
 	protected boolean lookAround() {
 		return true;

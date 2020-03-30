@@ -380,16 +380,9 @@ public enum Land implements TileBasedMap{
 	}
 	
 
-	public static final Set<Land> walkList = EnumSet.of(
+	// Only Backgrounds
+	public static final Set<Land> walkBackgroundList = EnumSet.of(
 		Empty,
-		Grenade,
-		Ammo,
-		Rocket,
-		Food,
-		Bullet,
-		Bullet_Grass,
-		Bomb,
-		Bomb_Grass,
 		RobotGrave,
 		OpenedHorizontalWoodGate,
 		OpenedVerticalWoodGate,
@@ -400,30 +393,34 @@ public enum Land implements TileBasedMap{
 		OpenedHorizontalBrickGate,
 		OpenedVerticalBrickGate,
 		Grass,
-		Mine,
-		Mine_Grass,
-		Sand,
-		Mine_Sand,
-		Bullet_Sand,
-		Bomb_Sand,
-		CannonBall,
-		CannonBall_Sand,
-		CannonBall_Grass,
-		CannonBall_Water
+		Sand
 	);
 	static{
-		walkList.addAll(railList);
+		walkBackgroundList.addAll(railList);
 	}
-
-	public static final Set<Land> flyAndFindList = EnumSet.of(
-		Water,
-		Bullet_Water,
-		CannonBall_Water,
-		Bomb_Water
+	
+	// Only Backgrounds
+	public static final Set<Land> walkForegroundList = EnumSet.of(
+		Empty,
+		Grenade,
+		Ammo,
+		Rocket,
+		Food,
+		Bullet,
+		Bomb,
+		CannonBall,
+		Mine
 	);
-	static {
-		flyAndFindList.addAll(walkList);
-	}
+
+	// Only foregrounds
+	public static final Set<Land> flyAndFindList = EnumSet.of(
+		Empty,
+		Bullet,
+		Bomb,
+		Rocket,
+		CannonBall
+	);
+	
 
 	private static final Set<Land> unexplosiveList = EnumSet.of(
 		Vacuum,
@@ -792,6 +789,24 @@ public enum Land implements TileBasedMap{
 		return getForeground(location.getX(), location.getY());
 	}
 	
+	public static Land getForeground(Location location, Direction direction) {
+		location = getNewLocation(location, direction);
+		if (location.getX() > DWConstants.MAX_X - 1 || location.getY() > DWConstants.MAX_Y - 1)
+			return Vacuum;
+		if (location.getX() < DWConstants.MIN_X || location.getY() < DWConstants.MIN_Y)
+			return Vacuum;
+		return getForeground(location);
+	}
+	
+	public static Land getBackground(Location location, Direction direction) {
+		location = getNewLocation(location, direction);
+		if (location.getX() > DWConstants.MAX_X - 1 || location.getY() > DWConstants.MAX_Y - 1)
+			return Vacuum;
+		if (location.getX() < DWConstants.MIN_X || location.getY() < DWConstants.MIN_Y)
+			return Vacuum;
+		return getBackground(location);
+	}
+	
 	public static Land getForeground(int x, int y) {
 		synchronized(Land.class){
 			return landMap[x][y][1];
@@ -833,6 +848,30 @@ public enum Land implements TileBasedMap{
 		if (land == Vacuum)
 			return false;
 		if (list.contains(land))
+			return true;
+		return false;
+	}
+	
+	public static boolean canFly(Location location, Direction direction){
+		Land land = getForeground(location, direction);
+		if (land == Vacuum)
+			return false;
+		if (flyAndFindList.contains(land))
+			return true;
+		return false;
+	}
+	
+	public static boolean canWalk(Location location, Direction direction){
+		Land land = getBackground(location, direction);
+		if (land == Vacuum)
+			return false;
+		if (!walkBackgroundList.contains(land))
+			return false;
+		
+		land = getForeground(location, direction);
+		if (land == Vacuum)
+			return false;
+		if (walkForegroundList.contains(land))
 			return true;
 		return false;
 	}
@@ -1001,7 +1040,9 @@ public enum Land implements TileBasedMap{
 						continue;
 					}
 					//Land foreground = land;
-					setForeground(x, y, foreground);
+					if(background == Vacuum){
+						setForeground(x, y, foreground);
+					}
 				}
 			}
 		} catch (IOException ex) {
@@ -1097,11 +1138,17 @@ public enum Land implements TileBasedMap{
 
 	@Override
 	public boolean blocked(MovableUnit mover, int x, int y) {
-		Land land = getLand(new Location(x, y));
+		Land land = getBackground(x, y);
 		if (land == Vacuum)
 			return true;
-		if (walkList.contains(land))
-			return false;
+		if (!walkBackgroundList.contains(land))
+			return true;
+		
+		land = getForeground(x, y);
+		if (land == Vacuum)
+			return true;
+		if (!walkForegroundList.contains(land))
+			return true;
 		if(citizenList.contains(mover.getLand()) && gateList.contains(land)){
 			return false;
 		}

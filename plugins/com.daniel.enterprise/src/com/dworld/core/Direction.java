@@ -260,7 +260,7 @@ public enum Direction {
 		Direction direction;
 		while (!location.equals(destination)) {
 			direction = findDirection(location, destination);
-			if (Land.canIWalk(location, direction, Land.walkList)) {
+			if (Land.canWalk(location, direction)) {
 				location = Land.getNewLocation(location, direction);
 			} else {
 				return false;

@@ -1,7 +1,5 @@
 package com.dworld.units.weapon;
 
-import java.util.Set;
-
 import com.dworld.core.DWConstants;
 import com.dworld.core.Direction;
 import com.dworld.core.Land;
@@ -22,11 +20,6 @@ public class Bullet extends FlyableUnit {
 		return true;
 	}
 	
-	@Override
-	protected Set<Land> getWalkList(){
-		return Land.flyAndFindList;
-	}
-
 	@SuppressWarnings("incomplete-switch")
 	@Override
 	protected boolean findNewDirection() {

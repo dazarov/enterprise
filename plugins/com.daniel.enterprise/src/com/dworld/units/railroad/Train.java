@@ -200,7 +200,6 @@ public class Train extends WalkableUnit {
 		direction = RailUtils.getRailDirection(direction, beneath);
 	}
 	
-	@Override
 	protected Set<Land> getWalkList() {
 		return Land.railList;
 	}

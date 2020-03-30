@@ -10,7 +10,7 @@ abstract public class WalkableUnit extends MovableUnit {
 	
 	@Override
 	protected boolean canMove() {
-		return Land.canIWalk(getLocation(), direction, Land.walkList);
+		return Land.canWalk(getLocation(), direction);
 	}
 
 }

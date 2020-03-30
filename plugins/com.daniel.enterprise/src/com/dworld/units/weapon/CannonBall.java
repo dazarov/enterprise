@@ -1,7 +1,5 @@
 package com.dworld.units.weapon;
 
-import java.util.Set;
-
 import com.dworld.core.DWConstants;
 import com.dworld.core.Direction;
 import com.dworld.core.Land;
@@ -37,11 +35,6 @@ public class CannonBall extends FlyableUnit {
 		Land.explode(getLocation());
 	}
 		
-	@Override
-	protected Set<Land> getWalkList(){
-		return Land.flyAndFindList;
-	}
-
 	@Override
 	protected boolean findNewDirection() {
 		die();

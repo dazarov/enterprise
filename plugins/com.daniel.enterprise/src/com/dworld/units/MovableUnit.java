@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
-import java.util.Set;
 
 import com.dworld.core.DWConfiguration;
 import com.dworld.core.DWConstants;
@@ -96,10 +95,6 @@ public abstract class MovableUnit extends ActiveUnit implements IMovable {
 					return;
 			}
 		}
-	}
-	
-	protected Set<Land> getWalkList(){
-		return Land.walkList;
 	}
 	
 	protected boolean isGoing(){
@@ -265,7 +260,7 @@ public abstract class MovableUnit extends ActiveUnit implements IMovable {
 			lastDefenseMove = dir;
 			for (int i = 0; i < 8; i++) {
 				if(list.contains(new Integer(dir.ordinal()))) continue;
-				if(Land.canIWalk(getLocation(), dir, getWalkList())){
+				if(Land.canWalk(getLocation(), dir)){
 					direction = dir;
 					selfDefense = true;
 					return true;
