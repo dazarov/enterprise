@@ -27,7 +27,7 @@ public class DWSwingImages extends DWImages<Image>{
 		}
 	}
 	
-	private Land land;
+	private Land land, background;
 	private Image image;
 	
 	public void draw(Graphics g) {
@@ -36,20 +36,25 @@ public class DWSwingImages extends DWImages<Image>{
 		
 		for (int x = 0; x < DWConstants.UI_WIDTH; x++) {
 			for (int y = 0; y < DWConstants.UI_HEIGHT; y++) {
-				land = Land.getLand(startX + x, startY + y);
+				background = Land.getBackground(startX + x, startY + y);
+				land = Land.getForeground(startX + x, startY + y);
+				g.setColor(Color.BLACK);
+				g.fillRect(x * DWConstants.UI_IMAGE_WIDTH, y * DWConstants.UI_IMAGE_HEIGHT, DWConstants.UI_IMAGE_WIDTH,	DWConstants.UI_IMAGE_HEIGHT);
+
+				if(background == Land.Sand){
+					g.setColor(DWSwingColors.SAND);
+					g.fillRect(x * DWConstants.UI_IMAGE_WIDTH, y * DWConstants.UI_IMAGE_HEIGHT, DWConstants.UI_IMAGE_WIDTH,	DWConstants.UI_IMAGE_HEIGHT);
+				}else if(background == Land.Water){
+					g.setColor(DWSwingColors.WATER);
+					g.fillRect(x * DWConstants.UI_IMAGE_WIDTH, y * DWConstants.UI_IMAGE_HEIGHT, DWConstants.UI_IMAGE_WIDTH,	DWConstants.UI_IMAGE_HEIGHT);
+				}else if(background == Land.Grass){
+					g.setColor(DWSwingColors.GRASS);
+					g.fillRect(x * DWConstants.UI_IMAGE_WIDTH, y * DWConstants.UI_IMAGE_HEIGHT, DWConstants.UI_IMAGE_WIDTH,	DWConstants.UI_IMAGE_HEIGHT);
+				}else if(background != Land.Empty){
+					g.drawImage(getImage(background), x * DWConstants.UI_IMAGE_WIDTH, y * DWConstants.UI_IMAGE_HEIGHT, DWConstants.UI_IMAGE_WIDTH,	DWConstants.UI_IMAGE_HEIGHT, null);
+				}
 				if(land != Land.Empty){
 					image = getImage(land);
-					if(Land.allSandList.contains(land)){
-						g.setColor(DWSwingColors.SAND);
-						g.fillRect(x * DWConstants.UI_IMAGE_WIDTH, y * DWConstants.UI_IMAGE_HEIGHT, DWConstants.UI_IMAGE_WIDTH,	DWConstants.UI_IMAGE_HEIGHT);
-					}else if(Land.waterList.contains(land)){
-						g.setColor(DWSwingColors.WATER);
-						g.fillRect(x * DWConstants.UI_IMAGE_WIDTH, y * DWConstants.UI_IMAGE_HEIGHT, DWConstants.UI_IMAGE_WIDTH,	DWConstants.UI_IMAGE_HEIGHT);
-					}else if(Land.allGrassList.contains(land)){
-						g.setColor(DWSwingColors.GRASS);
-						g.fillRect(x * DWConstants.UI_IMAGE_WIDTH, y * DWConstants.UI_IMAGE_HEIGHT, DWConstants.UI_IMAGE_WIDTH,	DWConstants.UI_IMAGE_HEIGHT);
-					}
-					
 					g.drawImage(image, x * DWConstants.UI_IMAGE_WIDTH, y * DWConstants.UI_IMAGE_HEIGHT, DWConstants.UI_IMAGE_WIDTH,	DWConstants.UI_IMAGE_HEIGHT, null);
 				}
 			}

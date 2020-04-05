@@ -29,8 +29,9 @@ public class Gate extends ActiveUnit implements ISlow{
 		this.material = getMaterial(land);
 		this.orientation = getOrientation(land);
 		this.state = Closed;
-		this.land = getLand();
-		Land.setLand(getLocation(), land);
+		this.land = getLand(Closed);
+		Land.setBackground(getLocation(), getLand(Opened));
+		Land.setForeground(getLocation(), land);
 	}
 	
 	private int getMaterial(Land land){
@@ -81,7 +82,7 @@ public class Gate extends ActiveUnit implements ISlow{
 		}
 	}
 
-	protected Land getLand() {
+	protected Land getLand(int state) {
 		if (material == Steel) {
 			if (orientation == Vertical) {
 				if (state == Opened)
@@ -135,7 +136,7 @@ public class Gate extends ActiveUnit implements ISlow{
 
 	@Override
 	public void step() {
-		if(state == Closed && Land.getLand(getLocation()) != getLand()){
+		if(state == Closed && Land.getForeground(getLocation()) != getLand(Closed)){
 			die();
 			return;
 		}
@@ -146,9 +147,10 @@ public class Gate extends ActiveUnit implements ISlow{
 			if (Land.citizenList.contains(l)) {
 				if (state == Closed) {
 					state = Opened;
-					land = getLand();
-					if (i != 0)
-						Land.setLand(getLocation(), land);
+					land = getLand(state);
+					if (i != 0){
+						Land.setForeground(getLocation(), Land.Empty);
+					}
 					DWSounds.DDOR.playSound();
 				}
 				return;
@@ -156,8 +158,8 @@ public class Gate extends ActiveUnit implements ISlow{
 		}
 		if (state == Opened) {
 			state = Closed;
-			land = getLand();
-			Land.setLand(getLocation(), land);
+			land = getLand(state);
+			Land.setForeground(getLocation(), land);
 			DWSounds.DDOR.playSound();
 		}
 	}
@@ -187,11 +189,11 @@ public class Gate extends ActiveUnit implements ISlow{
 		
 		if(commandId == EXTERNAL_COMMAND_OPEN_GATE){
 			state = Opened;
-			Land.setLand(getLocation(), getLand());
+			Land.setForeground(getLocation(), Land.Empty);
 			deactivate();
 		}else if(commandId == EXTERNAL_COMMAND_CLOSE_GATE){
 			state = Closed;
-			Land.setLand(getLocation(), getLand());
+			Land.setForeground(getLocation(), getLand(state));
 			deactivate();
 		}
 	}
@@ -200,11 +202,11 @@ public class Gate extends ActiveUnit implements ISlow{
 		System.out.println(" "+getClass()+" doDefaultCommand");
 		if(state == Opened){
 			state = Closed;
-			Land.setLand(getLocation(), getLand());
+			Land.setForeground(getLocation(), getLand(state));
 			activate();
 		}else if(state == Closed){
 			state = Opened;
-			Land.setLand(getLocation(), getLand());
+			Land.setForeground(getLocation(), Land.Empty);
 			deactivate();
 		}
 	}

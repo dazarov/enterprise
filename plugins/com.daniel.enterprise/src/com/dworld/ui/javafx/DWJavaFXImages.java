@@ -31,32 +31,27 @@ public class DWJavaFXImages extends DWImages<Image>{
 		for (int x = 0; x < DWConstants.UI_WIDTH; x++) {
 			for (int y = 0; y < DWConstants.UI_HEIGHT; y++) {
 				background = Land.getBackground(startX + x, startY + y);
-				land = Land.getLand(startX + x, startY + y);
-				//if(land != Land.Empty || background != Land.Empty){
+				land = Land.getForeground(startX + x, startY + y);
+				
+				g.setFill(Color.BLACK);
+				g.fillRect((double) x * DWConstants.UI_IMAGE_WIDTH, (double)y * DWConstants.UI_IMAGE_HEIGHT, (double)DWConstants.UI_IMAGE_WIDTH, (double)	DWConstants.UI_IMAGE_HEIGHT);
+
+				if(background == Land.Sand){
+					g.setFill(DWJavaFXColors.SAND);
+					g.fillRect((double) x * DWConstants.UI_IMAGE_WIDTH, (double)y * DWConstants.UI_IMAGE_HEIGHT, (double)DWConstants.UI_IMAGE_WIDTH, (double)	DWConstants.UI_IMAGE_HEIGHT);
+				}else if(background == Land.Water){
+					g.setFill(DWJavaFXColors.WATER);
+					g.fillRect((double) x * DWConstants.UI_IMAGE_WIDTH, (double)y * DWConstants.UI_IMAGE_HEIGHT, (double)DWConstants.UI_IMAGE_WIDTH, (double)	DWConstants.UI_IMAGE_HEIGHT);
+				}else if(background == Land.Grass){
+					g.setFill(DWJavaFXColors.GRASS);
+					g.fillRect((double) x * DWConstants.UI_IMAGE_WIDTH, (double)y * DWConstants.UI_IMAGE_HEIGHT, (double)DWConstants.UI_IMAGE_WIDTH, (double)	DWConstants.UI_IMAGE_HEIGHT);
+				}else if(background != Land.Empty){
+					g.drawImage(getImage(background), (double) x * DWConstants.UI_IMAGE_WIDTH, (double)y * DWConstants.UI_IMAGE_HEIGHT, (double)DWConstants.UI_IMAGE_WIDTH, (double)	DWConstants.UI_IMAGE_HEIGHT);
+				}
+				if(land != Land.Empty){
 					image = getImage(land);
-					if(background == Land.Sand){
-						g.setFill(DWJavaFXColors.SAND);
-						g.fillRect((double) x * DWConstants.UI_IMAGE_WIDTH, (double)y * DWConstants.UI_IMAGE_HEIGHT, (double)DWConstants.UI_IMAGE_WIDTH, (double)	DWConstants.UI_IMAGE_HEIGHT);
-					}else if(background == Land.Water){
-						g.setFill(DWJavaFXColors.WATER);
-						g.fillRect((double) x * DWConstants.UI_IMAGE_WIDTH, (double)y * DWConstants.UI_IMAGE_HEIGHT, (double)DWConstants.UI_IMAGE_WIDTH, (double)	DWConstants.UI_IMAGE_HEIGHT);
-					}else if(background == Land.Grass){
-						g.setFill(DWJavaFXColors.GRASS);
-						g.fillRect((double) x * DWConstants.UI_IMAGE_WIDTH, (double)y * DWConstants.UI_IMAGE_HEIGHT, (double)DWConstants.UI_IMAGE_WIDTH, (double)	DWConstants.UI_IMAGE_HEIGHT);
-					}else if(background != Land.Empty){
-						g.setFill(Color.BLACK);
-						g.drawImage(getImage(background), (double) x * DWConstants.UI_IMAGE_WIDTH, (double)y * DWConstants.UI_IMAGE_HEIGHT, (double)DWConstants.UI_IMAGE_WIDTH, (double)	DWConstants.UI_IMAGE_HEIGHT);
-					}else{
-						g.setFill(Color.BLACK);
-						g.fillRect((double) x * DWConstants.UI_IMAGE_WIDTH, (double)y * DWConstants.UI_IMAGE_HEIGHT, (double)DWConstants.UI_IMAGE_WIDTH, (double)	DWConstants.UI_IMAGE_HEIGHT);
-					}
-					if(land != Land.Empty){
-						g.drawImage(image, (double) x * DWConstants.UI_IMAGE_WIDTH, (double)y * DWConstants.UI_IMAGE_HEIGHT, (double)DWConstants.UI_IMAGE_WIDTH, (double)	DWConstants.UI_IMAGE_HEIGHT);
-					}
-//				if(land == Land.Empty && background == Land.Empty){
-//					g.setFill(Color.BLACK);
-//					g.fillRect((double) x * DWConstants.UI_IMAGE_WIDTH, (double)y * DWConstants.UI_IMAGE_HEIGHT, (double)DWConstants.UI_IMAGE_WIDTH, (double)	DWConstants.UI_IMAGE_HEIGHT);
-//				}
+					g.drawImage(image, (double) x * DWConstants.UI_IMAGE_WIDTH, (double)y * DWConstants.UI_IMAGE_HEIGHT, (double)DWConstants.UI_IMAGE_WIDTH, (double)	DWConstants.UI_IMAGE_HEIGHT);
+				}
 			}
 		}
 		Rectangle area = SelectionManager.getSelectedArea();
