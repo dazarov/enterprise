@@ -532,24 +532,24 @@ public enum Land implements TileBasedMap{
 		allSandList.addAll(saveSandList);
 	}
 	
-	private static final Set<Land> sandExplList = EnumSet.of(
-		Hero_Sand,
-		Mine_Sand,
-		GoodSoldier_Sand,
-		GoodOfficer_Sand,
-		GoodGeneral_Sand,
-		GoodTank_Sand,
-		GoodBunker_Sand,
-		GoodRadar_Sand,
-		BadSoldier_Sand,
-		BadTank_Sand,
-		BadBunker_Sand,
-		BadRadar_Sand,
-		BadOfficer_Sand,
-		BadGeneral_Sand,
-		Dark_Knight_Sand,
-		Peasant_Sand
-	);
+//	private static final Set<Land> sandExplList = EnumSet.of(
+//		Hero_Sand,
+//		Mine_Sand,
+//		GoodSoldier_Sand,
+//		GoodOfficer_Sand,
+//		GoodGeneral_Sand,
+//		GoodTank_Sand,
+//		GoodBunker_Sand,
+//		GoodRadar_Sand,
+//		BadSoldier_Sand,
+//		BadTank_Sand,
+//		BadBunker_Sand,
+//		BadRadar_Sand,
+//		BadOfficer_Sand,
+//		BadGeneral_Sand,
+//		Dark_Knight_Sand,
+//		Peasant_Sand
+//	);
 
 	private static final Set<Land> unsaveList = EnumSet.noneOf(Land.class);
 	static {
@@ -720,12 +720,9 @@ public enum Land implements TileBasedMap{
 		if (x < DWConstants.MIN_X || y < DWConstants.MIN_Y) {
 			return Vacuum;
 		}
-		int code;
 		synchronized(Land.class){
 			return landMap[x][y][1];
 		}
-		//code = (code << 16) >>> 16;
-		//return Land.values()[code];
 	}
 
 	public static Land setLand(Location location, Land land) {
@@ -746,7 +743,6 @@ public enum Land implements TileBasedMap{
 		synchronized(Land.class){
 			landMap[x][y][0] = background;
 			landMap[x][y][1] = foreground;
-			//landMap[x][y] = (background << 16) + foreground;
 		}
 	}
 	
@@ -872,6 +868,36 @@ public enum Land implements TileBasedMap{
 		if (land == Vacuum)
 			return false;
 		if (walkForegroundList.contains(land))
+			return true;
+		return false;
+	}
+	
+	public static boolean canWalk(MovableUnit mover, int x, int y){
+		Land land = getBackground(x, y);
+		if (land == Vacuum)
+			return false;
+		if (!walkBackgroundList.contains(land))
+			return false;
+		
+		land = getForeground(x, y);
+		if (land == Vacuum)
+			return false;
+		if (walkForegroundList.contains(land))
+			return true;
+		return false;
+	}
+	
+	public static boolean canRoll(Location location, Direction direction){
+		Land land = getBackground(location, direction);
+		if (land == Vacuum)
+			return false;
+		if (!railList.contains(land))
+			return false;
+		
+		land = getForeground(location, direction);
+		if (land == Vacuum)
+			return false;
+		if (land == Empty)
 			return true;
 		return false;
 	}
@@ -1024,6 +1050,10 @@ public enum Land implements TileBasedMap{
 						background = Sand;
 					}else if(waterList.contains(foreground)){
 						background = Water;
+					}else if(trainList.contains(foreground)){
+						background = getTrainBackground(foreground);
+					}else if(railList.contains(foreground)){
+						background = foreground;
 					}
 					
 					if(background != Vacuum){
@@ -1050,6 +1080,48 @@ public enum Land implements TileBasedMap{
 		}
 		progressMonitor.close();
 		saved();
+	}
+	
+	private static Land getTrainBackground(Land foreground){
+		switch(foreground){
+		case Train_Diagonal_Down:
+			return Rail_Diagonal_Down;
+		case Train_Diagonal_Up:
+			return Rail_Diagonal_Up;
+		case Train_Down_Left:
+			return Rail_Down_Left;
+		case Train_Down_Right:
+			return Rail_Down_Right;
+		case Train_Horizontal:
+			return Rail_Horizontal;
+		case Train_Left_Down:
+			return Rail_Left_Down;
+		case Train_Left_Up:
+			return Rail_Left_Up;
+		case Train_Right_Down:
+			return Rail_Right_Down;
+		case Train_Right_Up:
+			return Rail_Right_Up;
+		case Train_Up_Left:
+			return Rail_Up_Left;
+		case Train_Up_Right:
+			return Rail_Up_Right;
+		case Train_Vertical:
+			return Rail_Vertical;
+		case Train_Vertical_Cross:
+			return Rail_Vertical_Cross;
+		case Train_Horizontal_Cross:
+			return Rail_Vertical_Cross;
+		case Train_Diagonal_Up_Cross:
+			return Rail_Diagonal_Cross;
+		case Train_Diagonal_Down_Cross:
+			return Rail_Diagonal_Cross;
+		case WarTrain_Vertical:
+			return Rail_Vertical;
+		case WarTrain_Diagonal_Down_Cross:
+			return Rail_Diagonal_Cross;
+		}
+		return Vacuum;
 	}
 
 	public static void save(String fileName, IProgressMonitor progressMonitor) {
@@ -1138,21 +1210,11 @@ public enum Land implements TileBasedMap{
 
 	@Override
 	public boolean blocked(MovableUnit mover, int x, int y) {
-		Land land = getBackground(x, y);
-		if (land == Vacuum)
-			return true;
-		if (!walkBackgroundList.contains(land))
-			return true;
-		
-		land = getForeground(x, y);
-		if (land == Vacuum)
-			return true;
-		if (!walkForegroundList.contains(land))
-			return true;
+		Land land = getForeground(x, y);
 		if(citizenList.contains(mover.getLand()) && gateList.contains(land)){
 			return false;
 		}
-		return true;
+		return !canWalk(mover, x, y);
 	}
 
 	@Override

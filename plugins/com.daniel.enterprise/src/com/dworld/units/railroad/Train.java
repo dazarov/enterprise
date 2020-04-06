@@ -1,19 +1,16 @@
 package com.dworld.units.railroad;
 
-import java.util.Set;
-
 import com.dworld.core.DWConstants;
 import com.dworld.core.Direction;
 import com.dworld.core.Land;
 import com.dworld.core.Location;
 import com.dworld.ui.DWSounds;
-import com.dworld.units.MovableUnit;
 import com.dworld.units.WalkableUnit;
 
 
 public class Train extends WalkableUnit {
 
-	private Land oldBeneath = Land.Vacuum;
+	//private Land oldBeneath = Land.Vacuum;
 	private boolean going = true;
 	private int delay = 0;
 	private static final int STOP = 300;
@@ -31,63 +28,9 @@ public class Train extends WalkableUnit {
 	
 	@SuppressWarnings("incomplete-switch")
 	@Override
-	protected Land getDefaultBeneath(Land land){
-		switch(land){
-		case Train_Vertical:
-			return Land.Rail_Vertical;
-			
-		case Train_Horizontal:
-			return Land.Rail_Horizontal;
-			
-		case Train_Diagonal_Up:
-			return Land.Rail_Diagonal_Up;
-			
-		case Train_Diagonal_Down:
-			return Land.Rail_Diagonal_Down;
-			
-		case Train_Up_Right:
-			return Land.Rail_Up_Right;
-			
-		case Train_Up_Left:
-			return Land.Rail_Up_Left;
-			
-		case Train_Down_Right:
-			return Land.Rail_Down_Right;
-			
-		case Train_Down_Left:
-			return Land.Rail_Down_Left;
-			
-		case Train_Right_Up:
-			return Land.Rail_Right_Up;
-			
-		case Train_Right_Down:
-			return Land.Rail_Right_Down;
-			
-		case Train_Left_Up:
-			return Land.Rail_Left_Up;
-			
-		case Train_Left_Down:
-			return Land.Rail_Left_Down;
-			
-		case Train_Vertical_Cross:
-			return Land.Rail_Vertical_Cross;
-			
-		case Train_Horizontal_Cross:
-			return Land.Rail_Vertical_Cross;
-			
-		case Train_Diagonal_Up_Cross:
-			return Land.Rail_Diagonal_Cross;
-			
-		case Train_Diagonal_Down_Cross:
-			return Land.Rail_Diagonal_Cross;
-		}
-		return Land.Empty;
-	}
-	
-	@SuppressWarnings("incomplete-switch")
-	@Override
 	public Land getLand(){
-		switch(beneath){
+		Land background = Land.getBackground(getLocation());
+		switch(background){
 		case Rail_Vertical:
 			return Land.Train_Vertical;
 			
@@ -192,18 +135,18 @@ public class Train extends WalkableUnit {
 
 	
 	protected void getRailDirection() {
-		if(beneath == oldBeneath){
-			return;
-		}else{
-			oldBeneath = beneath;
-		}
-		direction = RailUtils.getRailDirection(direction, beneath);
+		//if(beneath == oldBeneath){
+		//	return;
+		//}else{
+		//	oldBeneath = beneath;
+		//}
+		direction = RailUtils.getRailDirection(direction, Land.getBackground(getLocation()));
 	}
 	
-	protected Set<Land> getWalkList() {
-		return Land.railList;
+	@Override
+	protected boolean canMove() {
+		return Land.canRoll(getLocation(), direction);
 	}
-
 
 	@Override
 	protected Land getGrave(Land beneath) {
@@ -220,16 +163,16 @@ public class Train extends WalkableUnit {
 		}
 		Land try1 = Land.Vacuum, try2 = Land.Vacuum;
 		if(direction == Direction.NORTH || direction == Direction.SOUTH){
-			try1 = Land.getLand(getLocation().getX()-1, getLocation().getY());
-			try2 = Land.getLand(getLocation().getX()+1, getLocation().getY());
+			try1 = Land.getForeground(getLocation().getX()-1, getLocation().getY());
+			try2 = Land.getForeground(getLocation().getX()+1, getLocation().getY());
 			if(try1 == Land.Station_Vertical || try2 == Land.Station_Vertical){
 				stationLocation = getLocation();
 				localStop(false);
 				return;
 			}
 		}else if(direction == Direction.EAST || direction == Direction.WEST){
-			try1 = Land.getLand(getLocation().getX(), getLocation().getY()-1);
-			try2 = Land.getLand(getLocation().getX(), getLocation().getY()+1);
+			try1 = Land.getForeground(getLocation().getX(), getLocation().getY()-1);
+			try2 = Land.getForeground(getLocation().getX(), getLocation().getY()+1);
 			if(try1 == Land.Station_Horizontal || try2 == Land.Station_Horizontal){
 				stationLocation = getLocation();
 				localStop(false);
