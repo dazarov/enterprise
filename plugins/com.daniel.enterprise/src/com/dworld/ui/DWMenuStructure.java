@@ -192,66 +192,38 @@ public class DWMenuStructure {
 		submenu.items.add(new DWRadioMenuItem(DWMessage.ROCKET.get(),  Land.Rocket,  1, () -> config.setSelectedCode(Land.Rocket)));
 		submenu.items.add(new DWMenuItem());
 		submenu.items.add(new DWRadioMenuItem(DWMessage.MINE.get(), Land.Mine,       1, () -> config.setSelectedCode(Land.Mine)));
-		submenu.items.add(new DWRadioMenuItem(DWMessage.MINE.get(), Land.Mine_Grass, 1, () -> config.setSelectedCode(Land.Mine_Grass)));
-		submenu.items.add(new DWRadioMenuItem(DWMessage.MINE.get(), Land.Mine_Sand,  1, () -> config.setSelectedCode(Land.Mine_Sand)));
 		
 		submenu = new DWMenu(DWMessage.ENEMIES.get());
 		menu.items.add(submenu);
 		
 		submenu.items.add(new DWRadioMenuItem(DWMessage.BAD_GENERAL.get(), Land.BadGeneral,       1, () -> config.setSelectedCode(Land.BadGeneral)));
-		submenu.items.add(new DWRadioMenuItem(DWMessage.BAD_GENERAL.get(), Land.BadGeneral_Grass, 1, () -> config.setSelectedCode(Land.BadGeneral_Grass)));
-		submenu.items.add(new DWRadioMenuItem(DWMessage.BAD_GENERAL.get(), Land.BadGeneral_Sand,  1, () -> config.setSelectedCode(Land.BadGeneral_Sand)));
 		submenu.items.add(new DWMenuItem());
 		submenu.items.add(new DWRadioMenuItem(DWMessage.BAD_OFFICER.get(), Land.BadOfficer,       1, () -> config.setSelectedCode(Land.BadOfficer)));
-		submenu.items.add(new DWRadioMenuItem(DWMessage.BAD_OFFICER.get(), Land.BadOfficer_Grass, 1, () -> config.setSelectedCode(Land.BadOfficer_Grass)));
-		submenu.items.add(new DWRadioMenuItem(DWMessage.BAD_OFFICER.get(), Land.BadOfficer_Sand,  1, () -> config.setSelectedCode(Land.BadOfficer_Sand)));
 		submenu.items.add(new DWMenuItem());
 		submenu.items.add(new DWRadioMenuItem(DWMessage.BAD_SOLDIER.get(), Land.BadSoldier,       1, () -> config.setSelectedCode(Land.BadSoldier)));
-		submenu.items.add(new DWRadioMenuItem(DWMessage.BAD_SOLDIER.get(), Land.BadSoldier_Grass, 1, () -> config.setSelectedCode(Land.BadSoldier_Grass)));
-		submenu.items.add(new DWRadioMenuItem(DWMessage.BAD_SOLDIER.get(), Land.BadSoldier_Sand,  1, () -> config.setSelectedCode(Land.BadSoldier_Sand)));
 		submenu.items.add(new DWMenuItem());
 		submenu.items.add(new DWRadioMenuItem(DWMessage.BAD_TANK.get(), Land.BadTank,       1, () -> config.setSelectedCode(Land.BadTank)));
-		submenu.items.add(new DWRadioMenuItem(DWMessage.BAD_TANK.get(), Land.BadTank_Grass, 1, () -> config.setSelectedCode(Land.BadTank_Grass)));
-		submenu.items.add(new DWRadioMenuItem(DWMessage.BAD_TANK.get(), Land.BadTank_Sand,  1, () -> config.setSelectedCode(Land.BadTank_Sand)));
 		submenu.items.add(new DWMenuItem());
 		submenu.items.add(new DWRadioMenuItem(DWMessage.BAD_BUNKER.get(), Land.BadBunker,       1, () -> config.setSelectedCode(Land.BadBunker)));
-		submenu.items.add(new DWRadioMenuItem(DWMessage.BAD_BUNKER.get(), Land.BadBunker_Grass, 1, () -> config.setSelectedCode(Land.BadBunker_Grass)));
-		submenu.items.add(new DWRadioMenuItem(DWMessage.BAD_BUNKER.get(), Land.BadBunker_Sand,  1, () -> config.setSelectedCode(Land.BadBunker_Sand)));
 		submenu.items.add(new DWMenuItem());
 		submenu.items.add(new DWRadioMenuItem(DWMessage.BAD_RADAR.get(), Land.BadRadar,       1, () -> config.setSelectedCode(Land.BadRadar)));
-		submenu.items.add(new DWRadioMenuItem(DWMessage.BAD_RADAR.get(), Land.BadRadar_Grass, 1, () -> config.setSelectedCode(Land.BadRadar_Grass)));
-		submenu.items.add(new DWRadioMenuItem(DWMessage.BAD_RADAR.get(), Land.BadRadar_Sand,  1, () -> config.setSelectedCode(Land.BadRadar_Sand)));
 		
 		submenu = new DWMenu(DWMessage.CITIZENS.get());
 		menu.items.add(submenu);
 		
 		submenu.items.add(new DWRadioMenuItem(DWMessage.GOOD_GENERAL.get(), Land.GoodGeneral,       1, () -> config.setSelectedCode(Land.GoodGeneral)));
-		submenu.items.add(new DWRadioMenuItem(DWMessage.GOOD_GENERAL.get(), Land.GoodGeneral_Grass, 1, () -> config.setSelectedCode(Land.GoodGeneral_Grass)));
-		submenu.items.add(new DWRadioMenuItem(DWMessage.GOOD_GENERAL.get(), Land.GoodGeneral_Sand,  1, () -> config.setSelectedCode(Land.GoodGeneral_Sand)));
 		submenu.items.add(new DWMenuItem());
 		submenu.items.add(new DWRadioMenuItem(DWMessage.GOOD_OFFICER.get(), Land.GoodOfficer,       1, () -> config.setSelectedCode(Land.GoodOfficer)));
-		submenu.items.add(new DWRadioMenuItem(DWMessage.GOOD_OFFICER.get(), Land.GoodOfficer_Grass, 1, () -> config.setSelectedCode(Land.GoodOfficer_Grass)));
-		submenu.items.add(new DWRadioMenuItem(DWMessage.GOOD_OFFICER.get(), Land.GoodOfficer_Sand,  1, () -> config.setSelectedCode(Land.GoodOfficer_Sand)));
 		submenu.items.add(new DWMenuItem());
 		submenu.items.add(new DWRadioMenuItem(DWMessage.GOOD_SOLDIER.get(), Land.GoodSoldier,       1, () -> config.setSelectedCode(Land.GoodSoldier)));
-		submenu.items.add(new DWRadioMenuItem(DWMessage.GOOD_SOLDIER.get(), Land.GoodSoldier_Grass, 1, () -> config.setSelectedCode(Land.GoodSoldier_Grass)));
-		submenu.items.add(new DWRadioMenuItem(DWMessage.GOOD_SOLDIER.get(), Land.GoodSoldier_Sand,  1, () -> config.setSelectedCode(Land.GoodSoldier_Sand)));
 		submenu.items.add(new DWMenuItem());
 		submenu.items.add(new DWRadioMenuItem(DWMessage.GOOD_TANK.get(), Land.GoodTank,       1, () -> config.setSelectedCode(Land.GoodTank)));
-		submenu.items.add(new DWRadioMenuItem(DWMessage.GOOD_TANK.get(), Land.GoodTank_Grass, 1, () -> config.setSelectedCode(Land.GoodTank_Grass)));
-		submenu.items.add(new DWRadioMenuItem(DWMessage.GOOD_TANK.get(), Land.GoodTank_Sand,  1, () -> config.setSelectedCode(Land.GoodTank_Sand)));
 		submenu.items.add(new DWMenuItem());
 		submenu.items.add(new DWRadioMenuItem(DWMessage.GOOD_BUNKER.get(), Land.GoodBunker,       1, () -> config.setSelectedCode(Land.GoodBunker)));
-		submenu.items.add(new DWRadioMenuItem(DWMessage.GOOD_BUNKER.get(), Land.GoodBunker_Grass, 1, () -> config.setSelectedCode(Land.GoodBunker_Grass)));
-		submenu.items.add(new DWRadioMenuItem(DWMessage.GOOD_BUNKER.get(), Land.GoodBunker_Sand,  1, () -> config.setSelectedCode(Land.GoodBunker_Sand)));
 		submenu.items.add(new DWMenuItem());
 		submenu.items.add(new DWRadioMenuItem(DWMessage.GOOD_RADAR.get(), Land.GoodRadar,       1, () -> config.setSelectedCode(Land.GoodRadar)));
-		submenu.items.add(new DWRadioMenuItem(DWMessage.GOOD_RADAR.get(), Land.GoodRadar_Grass, 1, () -> config.setSelectedCode(Land.GoodRadar_Grass)));
-		submenu.items.add(new DWRadioMenuItem(DWMessage.GOOD_RADAR.get(), Land.GoodRadar_Sand,  1, () -> config.setSelectedCode(Land.GoodRadar_Sand)));
 		submenu.items.add(new DWMenuItem());
 		submenu.items.add(new DWRadioMenuItem(DWMessage.PEASANT.get(), Land.Peasant,       1, () -> config.setSelectedCode(Land.Peasant)));
-		submenu.items.add(new DWRadioMenuItem(DWMessage.PEASANT.get(), Land.Peasant_Grass, 1, () -> config.setSelectedCode(Land.Peasant_Grass)));
-		submenu.items.add(new DWRadioMenuItem(DWMessage.PEASANT.get(), Land.Peasant_Sand,  1, () -> config.setSelectedCode(Land.Peasant_Sand)));
 		
 		submenu = new DWMenu(DWMessage.SPECIAL.get());
 		menu.items.add(submenu);

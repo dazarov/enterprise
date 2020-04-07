@@ -21,7 +21,7 @@ public class Rocket extends FlyableUnit {
 		this.type = type;
 		setDirection(direction);
 		land = getLand();
-		Land.setLand(getLocation(), beneath);
+		Land.setForeground(getLocation(), beneath);
 		DWSounds.ROCKET_LAUNCH.playSound();
 	}
 	
@@ -94,7 +94,7 @@ public class Rocket extends FlyableUnit {
 		if (dir != Direction.NOWHERE && direction != dir) {
 			direction = dir;
 			land = getLand();
-			Land.setLand(getLocation(), land);
+			Land.setForeground(getLocation(), land);
 		}
 		return true;
 	}

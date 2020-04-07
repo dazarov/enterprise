@@ -147,90 +147,15 @@ public abstract class DWImages<T> {
 		image = loadImage("resources/land/grass.png");
 		images.put(Land.Grass, image);
 		
-		// TODO remove all _Grass 
-		image = loadImage("resources/land/hiro.png");
-		images.put(Land.Hero_Grass, image);
-
-		image = loadImage("resources/land/bullet.png");
-		images.put(Land.Bullet_Grass, image);
-
-		image = loadImage("resources/land/bomb.png");
-		images.put(Land.Bomb_Grass, image);
-
-		image = loadImage("resources/land/robot.png");
-		images.put(Land.BadSoldier_Grass, image);
-
-		image = loadImage("resources/land/tank.png");
-		images.put(Land.BadTank_Grass, image);
-
-		image = loadImage("resources/land/r_u.png");
-		images.put(Land.RocketNorth_Grass, image);
-
-		image = loadImage("resources/land/r_d.png");
-		images.put(Land.RocketSouth_Grass, image);
-
-		image = loadImage("resources/land/r_r.png");
-		images.put(Land.RocketEast_Grass, image);
-
-		image = loadImage("resources/land/r_l.png");
-		images.put(Land.RocketWest_Grass, image);
-
-		image = loadImage("resources/land/r_ur.png");
-		images.put(Land.RocketNorthEast_Grass, image);
-
-		image = loadImage("resources/land/r_ul.png");
-		images.put(Land.RocketNorthWest_Grass, image);
-
-		image = loadImage("resources/land/r_dr.png");
-		images.put(Land.RocketSouthEast_Grass, image);
-
-		image = loadImage("resources/land/r_dl.png");
-		images.put(Land.RocketSouthWest_Grass, image);
 
 		image = loadImage("resources/land/water.png");
 		images.put(Land.Water, image);
 		
-		image = loadImage("resources/land/bullet.png");
-		images.put(Land.Bullet_Water, image);
-
-		image = loadImage("resources/land/bomb.png");
-		images.put(Land.Bomb_Water, image);
-
-		image = loadImage("resources/land/r_u.png");
-		images.put(Land.RocketNorth_Water, image);
-
-		image = loadImage("resources/land/r_d.png");
-		images.put(Land.RocketSouth_Water, image);
-
-		image = loadImage("resources/land/r_r.png");
-		images.put(Land.RocketEast_Water, image);
-
-		image = loadImage("resources/land/r_l.png");
-		images.put(Land.RocketWest_Water, image);
-
-		image = loadImage("resources/land/r_ur.png");
-		images.put(Land.RocketNorthEast_Water, image);
-
-		image = loadImage("resources/land/r_ul.png");
-		images.put(Land.RocketNorthWest_Water, image);
-
-		image = loadImage("resources/land/r_dr.png");
-		images.put(Land.RocketSouthEast_Water, image);
-
-		image = loadImage("resources/land/r_dl.png");
-		images.put(Land.RocketSouthWest_Water, image);
-
 		image = loadImage("resources/land/soldier.png");
 		images.put(Land.GoodSoldier, image);
 
-		image = loadImage("resources/land/soldier.png");
-		images.put(Land.GoodSoldier_Grass, image);
-
 		image = loadImage("resources/land/tank2.png");
 		images.put(Land.GoodTank, image);
-
-		image = loadImage("resources/land/tank2.png");
-		images.put(Land.GoodTank_Grass, image);
 
 		image = loadImage("resources/land/radar.png");
 		images.put(Land.GoodRadar, image);
@@ -240,9 +165,6 @@ public abstract class DWImages<T> {
 
 		image = loadImage("resources/land/mine.png");
 		images.put(Land.Mine, image);
-
-		image = loadImage("resources/land/mine.png");
-		images.put(Land.Mine_Grass, image);
 
 		image = loadImage("resources/land/teleport.png");
 		images.put(Land.Teleport1, image);
@@ -261,95 +183,11 @@ public abstract class DWImages<T> {
 		images.put(Land.Teleport14, image);
 		images.put(Land.Teleport15, image);
 		
-		image = loadImage("resources/land/bunker.png");
-		images.put(Land.BadBunker_Grass, image);
-
-		image = loadImage("resources/land/patriot.png");
-		images.put(Land.BadRadar_Grass, image);
-		
-		image = loadImage("resources/land/bunker2.png");
-		images.put(Land.GoodBunker_Grass, image);
-
-		image = loadImage("resources/land/radar.png");
-		images.put(Land.GoodRadar_Grass, image);
-		
 		image = loadImage("resources/land/sand.png");
 		images.put(Land.Sand, image);
 
-		image = loadImage("resources/land/hiro.png");
-		images.put(Land.Hero_Sand, image);
-
-		image = loadImage("resources/land/bullet.png");
-		images.put(Land.Bullet_Sand, image);
-
-		image = loadImage("resources/land/bomb.png");
-		images.put(Land.Bomb_Sand, image);
-
-		image = loadImage("resources/land/mine.png");
-		images.put(Land.Mine_Sand, image);
-
-		image = loadImage("resources/land/r_u.png");
-		images.put(Land.RocketNorth_Sand, image);
-
-		image = loadImage("resources/land/r_d.png");
-		images.put(Land.RocketSouth_Sand, image);
-
-		image = loadImage("resources/land/r_r.png");
-		images.put(Land.RocketEast_Sand, image);
-
-		image = loadImage("resources/land/r_l.png");
-		images.put(Land.RocketWest_Sand, image);
-
-		image = loadImage("resources/land/r_ur.png");
-		images.put(Land.RocketNorthEast_Sand, image);
-
-		image = loadImage("resources/land/r_ul.png");
-		images.put(Land.RocketNorthWest_Sand, image);
-
-		image = loadImage("resources/land/r_dr.png");
-		images.put(Land.RocketSouthEast_Sand, image);
-
-		image = loadImage("resources/land/r_dl.png");
-		images.put(Land.RocketSouthWest_Sand, image);
-		
-		image = loadImage("resources/land/robot.png");
-		images.put(Land.BadSoldier_Sand, image);
-
-		image = loadImage("resources/land/tank.png");
-		images.put(Land.BadTank_Sand, image);
-		
-		image = loadImage("resources/land/bunker.png");
-		images.put(Land.BadBunker_Sand, image);
-
-		image = loadImage("resources/land/patriot.png");
-		images.put(Land.BadRadar_Sand, image);
-
-		image = loadImage("resources/land/soldier.png");
-		images.put(Land.GoodSoldier_Sand, image);
-
-		image = loadImage("resources/land/tank2.png");
-		images.put(Land.GoodTank_Sand, image);
-		
-		image = loadImage("resources/land/bunker2.png");
-		images.put(Land.GoodBunker_Sand, image);
-
-		image = loadImage("resources/land/radar.png");
-		images.put(Land.GoodRadar_Sand, image);
-		
 		image = loadImage("resources/land/stone.png");
 		images.put(Land.Stone, image);
-		
-		image = loadImage("resources/land/grave.png");
-		images.put(Land.Grave_Grass, image);
-		
-		image = loadImage("resources/land/grave.png");
-		images.put(Land.Grave_Sand, image);
-
-		image = loadImage("resources/land/graver.png");
-		images.put(Land.BadSoldierGrave_Grass, image);
-
-		image = loadImage("resources/land/graver.png");
-		images.put(Land.BadSoldierGrave_Sand, image);
 		
 		image = loadImage("resources/land/white_brick.png");
 		images.put(Land.WhiteBrick, image);
@@ -372,32 +210,11 @@ public abstract class DWImages<T> {
 		image = loadImage("resources/land/cannon_ball.png");
 		images.put(Land.CannonBall, image);
 
-		image = loadImage("resources/land/cannon_ball.png");
-		images.put(Land.CannonBall_Sand, image);
-
-		image = loadImage("resources/land/cannon_ball.png");
-		images.put(Land.CannonBall_Grass, image);
-
-		image = loadImage("resources/land/cannon_ball.png");
-		images.put(Land.CannonBall_Water, image);
-		
 		image = loadImage("resources/land/officer.png");
 		images.put(Land.GoodOfficer, image);
 		
-		image = loadImage("resources/land/officer.png");
-		images.put(Land.GoodOfficer_Grass, image);
-		
-		image = loadImage("resources/land/officer.png");
-		images.put(Land.GoodOfficer_Sand, image);
-
 		image = loadImage("resources/land/general.png");
 		images.put(Land.GoodGeneral, image);
-		
-		image = loadImage("resources/land/general.png");
-		images.put(Land.GoodGeneral_Grass, image);
-		
-		image = loadImage("resources/land/general.png");
-		images.put(Land.GoodGeneral_Sand, image);
 		
 		image = loadImage("resources/land/tree1.png");
 		images.put(Land.Tree1, image);
@@ -409,38 +226,14 @@ public abstract class DWImages<T> {
 		image = loadImage("resources/land/dark_knight.png");
 		images.put(Land.Dark_Knight, image);
 		
-		image = loadImage("resources/land/dark_knight.png");
-		images.put(Land.Dark_Knight_Grass, image);
-		
-		image = loadImage("resources/land/dark_knight.png");
-		images.put(Land.Dark_Knight_Sand, image);
-
 		image = loadImage("resources/land/gray_officer.png");
 		images.put(Land.BadOfficer, image);
 		
-		image = loadImage("resources/land/gray_officer.png");
-		images.put(Land.BadOfficer_Grass, image);
-		
-		image = loadImage("resources/land/gray_officer.png");
-		images.put(Land.BadOfficer_Sand, image);
-
 		image = loadImage("resources/land/gray_general.png");
 		images.put(Land.BadGeneral, image);
 		
-		image = loadImage("resources/land/gray_general.png");
-		images.put(Land.BadGeneral_Grass, image);
-		
-		image = loadImage("resources/land/gray_general.png");
-		images.put(Land.BadGeneral_Sand, image);
-
 		image = loadImage("resources/land/peasant.png");
 		images.put(Land.Peasant, image);
-		
-		image = loadImage("resources/land/peasant_.png");
-		images.put(Land.Peasant_Grass, image);
-		
-		image = loadImage("resources/land/peasant.png");
-		images.put(Land.Peasant_Sand, image);
 		
 		image = loadImage("resources/land/rail_v.png");
 		images.put(Land.Rail_Vertical, image);

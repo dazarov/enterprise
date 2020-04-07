@@ -20,7 +20,7 @@ public class CannonBall extends FlyableUnit {
 	public CannonBall(int x, int y, Direction direction) {
 		super(x, y, Land.CannonBall, DWConstants.CANNONBALL_SPEED);
 		setDirection(direction);
-		Land.setLand(getLocation(), beneath);
+		Land.setForeground(getLocation(), beneath);
 		DWSounds.CANNON_SHOT.playSound();
 	}
 

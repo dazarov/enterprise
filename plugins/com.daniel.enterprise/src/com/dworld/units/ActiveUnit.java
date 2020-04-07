@@ -44,7 +44,7 @@ public abstract class ActiveUnit extends Unit implements IActive {
 	public ActiveUnit(int x, int y, Land land) {
 		this(x, y);
 		this.land = land;
-		Land.setLand(getLocation(), land);
+		Land.setForeground(getLocation(), land);
 		//if(DWorldLauncher.launcher.isBuildMode()) active = false;
 	}
 	
@@ -355,7 +355,7 @@ public abstract class ActiveUnit extends Unit implements IActive {
 	protected boolean checkLand(){
 		if (Land.getLand(getLocation()) != land) {
 			die();
-			Land.setLand(getLocation(), Land.Empty);
+			Land.setForeground(getLocation(), Land.Empty);
 			return false;
 		}
 		return true;

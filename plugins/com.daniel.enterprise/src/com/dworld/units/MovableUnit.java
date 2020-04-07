@@ -53,9 +53,9 @@ public abstract class MovableUnit extends ActiveUnit implements IMovable {
 	public void die(){
 		super.die();
 		if (beneath != Land.Vacuum)
-			Land.setLand(getLocation(), getBeneath());
+			Land.setForeground(getLocation(), getBeneath());
 		else
-			Land.setLand(getLocation(), Land.Empty);
+			Land.setForeground(getLocation(), Land.Empty);
 	}
 
 	@Override
@@ -155,7 +155,7 @@ public abstract class MovableUnit extends ActiveUnit implements IMovable {
 	protected boolean checkLand(){
 		if (Land.getLand(getLocation()) != getLand()) {
 			die();
-			Land.setLand(getLocation(), getGrave(beneath));
+			Land.setForeground(getLocation(), getGrave(beneath));
 			return false;
 		}
 		return true;

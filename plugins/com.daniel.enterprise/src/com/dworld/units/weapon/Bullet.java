@@ -35,41 +35,17 @@ public class Bullet extends FlyableUnit {
 		case GoodSoldier:
 		case GoodOfficer:
 		case GoodGeneral:
-			Land.setLand(point, Land.Grave);
-			break;
-		case Hero_Grass:
-		case GoodSoldier_Grass:
-		case GoodOfficer_Grass:
-		case GoodGeneral_Grass:
-			Land.setLand(point, Land.Grave_Grass);
-			break;
-		case Hero_Sand:
-		case GoodSoldier_Sand:
-		case GoodOfficer_Sand:
-		case GoodGeneral_Sand:
-			Land.setLand(point, Land.Grave_Sand);
+			Land.setForeground(point, Land.Grave);
 			break;
 		case BadSoldier:
 		case BadOfficer:
 		case BadGeneral:
 		case Dark_Knight:
-			Land.setLand(point, Land.RobotGrave);
-			break;
-		case BadSoldier_Grass:
-		case BadOfficer_Grass:
-		case BadGeneral_Grass:
-		case Dark_Knight_Grass:
-			Land.setLand(point, Land.BadSoldierGrave_Grass);
-			break;
-		case BadSoldier_Sand:
-		case BadOfficer_Sand:
-		case BadGeneral_Sand:
-		case Dark_Knight_Sand:
-			Land.setLand(point, Land.BadSoldierGrave_Sand);
+			Land.setForeground(point, Land.RobotGrave);
 			break;
 		}
 		if (beneath != Land.Vacuum)
-			Land.setLand(getLocation(), getBeneath());
+			Land.setForeground(getLocation(), getBeneath());
 		
 		return false;
 	}

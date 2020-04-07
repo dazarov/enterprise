@@ -4,9 +4,11 @@ import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.EnumSet;
+import java.util.List;
 import java.util.Set;
 
 import com.dworld.pathfinding.TileBasedMap;
@@ -26,18 +28,48 @@ public enum Land implements TileBasedMap{
 	
 	Vacuum,
 	Empty,
+	
+	// Backgrounds
+	Sand,
+	Grass,
+	Water,
+	
+	Background1,
+	Background2,
+	Background3,
+	Background4,
+	Background5,
+	Background6,
+	
+	// Walls
 	Wall,
 	Brick,
+	Stone,
+	WhiteBrick,
+	BlackStone,
+	Mountain,
+	Wood1,
+	Wood2,
+	Wood3,
+	Wood4,
+	Tree1,
+	Tree2,
+	Tree3,
+	
+	Grave,
+	RobotGrave,
+	TankGrave,
+	Food,
 	Grenade,
 	Ammo,
-	BadSoldier,
-	BadTank,
-	Hero,
-	Bomb,
-	Bullet,
 	Patron,
-	Grave,
-	Enemy,
+	
+	// Weaponds
+	Bullet,
+	Bomb,
+	CannonBall,
+	Rocket,
+	Mine,
 	RocketNorth,
 	RocketSouth,
 	RocketEast,
@@ -46,14 +78,31 @@ public enum Land implements TileBasedMap{
 	RocketNorthWest,
 	RocketSouthEast,
 	RocketSouthWest,
-	Food,
-	Rocket,
-	OpenedDoor,
-	ClosedDoor,
-	RobotGrave,
-	TankGrave,
+	
+	// Friends
+	Hero,
+	Peasant,
+	GoodSoldier,
+	GoodOfficer,
+	GoodGeneral,
+	GoodTank,
+	GoodBunker,
+	GoodRadar,
+	
+	// Enemies
+	Enemy,
+	BadSoldier,
+	BadTank,
+	Dark_Knight,
+	BadOfficer,
+	BadGeneral,	
+	
 	BadBunker,
 	BadRadar,
+	
+	// Gates
+	OpenedDoor,
+	ClosedDoor,
 
 	OpenedHorizontalWoodGate,
 	ClosedHorizontalWoodGate,
@@ -73,143 +122,24 @@ public enum Land implements TileBasedMap{
 	OpenedHorizontalBrickGate,
 	ClosedHorizontalBrickGate,
 
-	Grass,
-	Hero_Grass,
-	Bullet_Grass,
-	Bomb_Grass,
-	BadSoldier_Grass,
-	BadTank_Grass,
-	RocketNorth_Grass,
-	RocketSouth_Grass,
-	RocketEast_Grass,
-	RocketWest_Grass,
-	RocketNorthEast_Grass,
-	RocketNorthWest_Grass,
-	RocketSouthEast_Grass,
-	RocketSouthWest_Grass,
-
-	Water,
-	Bullet_Water,
-	Bomb_Water,
-	RocketNorth_Water,
-	RocketSouth_Water,
-	RocketEast_Water,
-	RocketWest_Water,
-	RocketNorthEast_Water,
-	RocketNorthWest_Water,
-	RocketSouthEast_Water,
-	RocketSouthWest_Water,
-
-	GoodSoldier,
-	GoodSoldier_Grass,
-	GoodTank,
-	GoodTank_Grass,
-	GoodBunker,
-	GoodRadar,
-
-	Mine,
-	Mine_Grass,
-
+	// Teleports
 	Teleport1,
 	Teleport2,
 	Teleport3,
 	Teleport4,
 	Teleport5,
-
-	BadBunker_Grass,
-	BadRadar_Grass,
-	GoodBunker_Grass,
-	GoodRadar_Grass,
-
-	Sand,
-	Bullet_Sand,
-	Bomb_Sand,
-	RocketNorth_Sand,
-	RocketSouth_Sand,
-	RocketEast_Sand,
-	RocketWest_Sand,
-	RocketNorthEast_Sand,
-	RocketNorthWest_Sand,
-	RocketSouthEast_Sand,
-	RocketSouthWest_Sand,
-	Hero_Sand,
-	GoodSoldier_Sand,
-	GoodTank_Sand,
-	GoodBunker_Sand,
-	GoodRadar_Sand,
-	BadSoldier_Sand,
-	BadTank_Sand,
-	BadBunker_Sand,
-	BadRadar_Sand,
-	Mine_Sand,
-
-	Stone,
-
-	Grave_Grass,
-	Grave_Sand,
-	BadSoldierGrave_Grass,
-	BadSoldierGrave_Sand,
-	BadTankGrave_Grass,
-	BadTankGrave_Sand,
-	
-	WhiteBrick,
-	BlackStone,
-	Wood1,
-	Wood2,
-	Wood3,
-	Wood4,
-	
-	CannonBall,
-	CannonBall_Grass,
-	CannonBall_Sand,
-	CannonBall_Water,
-	
-	GoodOfficer,
-	GoodOfficer_Grass,
-	GoodOfficer_Sand,
-	
-	GoodGeneral,
-	GoodGeneral_Grass,
-	GoodGeneral_Sand,
-	
 	Teleport6,
 	Teleport7,
 	Teleport8,
 	Teleport9,
+	Teleport10,
+	Teleport11,
+	Teleport12,
+	Teleport13,
+	Teleport14,
+	Teleport15,
 	
-	Tree1,
-	Tree2,
-	Tree3,
-	
-	Dark_Knight,
-	Dark_Knight_Grass,
-	Dark_Knight_Sand,
-
-	BadOfficer,
-	BadOfficer_Grass,
-	BadOfficer_Sand,
-
-	BadGeneral,
-	BadGeneral_Grass,
-	BadGeneral_Sand,
-
-	Peasant,
-	Peasant_Grass,
-	Peasant_Sand,
-	
-	Rail_Vertical,
-	Rail_Horizontal,
-	Rail_Diagonal_Up,
-	Rail_Diagonal_Down,
-	Rail_Up_Right,
-	Rail_Up_Left,
-	Rail_Down_Right,
-	Rail_Down_Left,
-	Rail_Right_Up,
-	Rail_Right_Down,
-	Rail_Left_Up,
-	Rail_Left_Down,
-	
+	// Trains
 	Train_Vertical,
 	Train_Horizontal,
 	Train_Diagonal_Up,
@@ -222,17 +152,10 @@ public enum Land implements TileBasedMap{
 	Train_Right_Down,
 	Train_Left_Up,
 	Train_Left_Down,
-	
-	Rail_Vertical_Cross,
-	Rail_Diagonal_Cross,
-	
 	Train_Vertical_Cross,
 	Train_Horizontal_Cross,
 	Train_Diagonal_Up_Cross,
 	Train_Diagonal_Down_Cross,
-	
-	Station_Vertical,
-	Station_Horizontal,
 	
 	WarTrain_Vertical,
 	WarTrain_Horizontal,
@@ -246,20 +169,29 @@ public enum Land implements TileBasedMap{
 	WarTrain_Right_Down,
 	WarTrain_Left_Up,
 	WarTrain_Left_Down,
-	
 	WarTrain_Vertical_Cross,
 	WarTrain_Horizontal_Cross,
 	WarTrain_Diagonal_Up_Cross,
 	WarTrain_Diagonal_Down_Cross,
 	
-	Mountain,
+	// Rails
+	Rail_Vertical,
+	Rail_Horizontal,
+	Rail_Diagonal_Up,
+	Rail_Diagonal_Down,
+	Rail_Up_Right,
+	Rail_Up_Left,
+	Rail_Down_Right,
+	Rail_Down_Left,
+	Rail_Right_Up,
+	Rail_Right_Down,
+	Rail_Left_Up,
+	Rail_Left_Down,
+	Rail_Vertical_Cross,
+	Rail_Diagonal_Cross,
 	
-	Teleport10,
-	Teleport11,
-	Teleport12,
-	Teleport13,
-	Teleport14,
-	Teleport15;
+	Station_Vertical,
+	Station_Horizontal;
 	
 	private static final int FILE_KEY = 200;
 	
@@ -277,9 +209,7 @@ public enum Land implements TileBasedMap{
 	 */
 	
 	public static final Set<Land> heroList = EnumSet.of(
-		Hero,
-		Hero_Grass,
-		Hero_Sand
+		Hero
 	);
 
 	public static final Set<Land> rocketList = EnumSet.of(
@@ -290,52 +220,16 @@ public enum Land implements TileBasedMap{
 		RocketNorthEast,
 		RocketNorthWest,
 		RocketSouthEast,
-		RocketSouthWest,
-
-		RocketNorth_Grass,
-		RocketSouth_Grass,
-		RocketEast_Grass,
-		RocketWest_Grass,
-		RocketNorthEast_Grass,
-		RocketNorthWest_Grass,
-		RocketSouthEast_Grass,
-		RocketSouthWest_Grass,
-
-		RocketNorth_Water,
-		RocketSouth_Water,
-		RocketEast_Water,
-		RocketWest_Water,
-		RocketNorthEast_Water,
-		RocketNorthWest_Water,
-		RocketSouthEast_Water,
-		RocketSouthWest_Water,
-
-		RocketNorth_Sand,
-		RocketSouth_Sand,
-		RocketEast_Sand,
-		RocketWest_Sand,
-		RocketNorthEast_Sand,
-		RocketNorthWest_Sand,
-		RocketSouthEast_Sand,
-		RocketSouthWest_Sand
+		RocketSouthWest
 	);
 
 	public static final Set<Land> bulletList = EnumSet.of(
 		Bullet,
-		Bullet_Sand,
-		Bullet_Grass,
-		Bullet_Water,
-		CannonBall,
-		CannonBall_Sand,
-		CannonBall_Grass,
-		CannonBall_Water
+		CannonBall
 	);
 
 	private static final Set<Land> bombList = EnumSet.of(
-		Bomb,
-		Bomb_Sand,
-		Bomb_Grass,
-		Bomb_Water
+		Bomb
 	);
 	
 	public static final Set<Land> railList = EnumSet.of(
@@ -433,124 +327,6 @@ public enum Land implements TileBasedMap{
 		Sand
 	);
 
-	/**
-	 * list of codes which should be replaced by grass code during the save procedure
-	 * they are codes of flying objects above the grass
-	 */
-	public static final Set<Land> saveGrassList = EnumSet.of(
-		Bullet_Grass,
-		CannonBall_Grass,
-		Bomb_Grass,
-		RocketNorth_Grass,
-		RocketSouth_Grass,
-		RocketEast_Grass,
-		RocketWest_Grass,
-		RocketNorthEast_Grass,
-		RocketNorthWest_Grass,
-		RocketSouthEast_Grass,
-		RocketSouthWest_Grass
-	);
-	
-	public static final Set<Land> allGrassList = EnumSet.of(
-			Grass,
-			Hero_Grass,
-			GoodSoldier_Grass,
-			GoodTank_Grass,
-			GoodOfficer_Grass,
-			GoodGeneral_Grass,
-			GoodBunker_Grass,
-			GoodRadar_Grass,
-			BadSoldier_Grass,
-			BadTank_Grass,
-			BadOfficer_Grass,
-			BadGeneral_Grass,
-			BadBunker_Grass,
-			BadRadar_Grass,
-			Dark_Knight_Grass
-			
-	);
-	static{
-		allGrassList.addAll(saveGrassList);
-	}
-
-	/**
-	 * list of codes which should be replaced by water code during the save procedure
-	 * they are codes of flying objects above the water
-	 */
-	public static final Set<Land> waterList = EnumSet.of(
-		Water,
-		Bullet_Water,
-		CannonBall_Water,
-		Bomb_Water,
-		RocketNorth_Water,
-		RocketSouth_Water,
-		RocketEast_Water,
-		RocketWest_Water,
-		RocketNorthEast_Water,
-		RocketNorthWest_Water,
-		RocketSouthEast_Water,
-		RocketSouthWest_Water
-	);
-	
-	/**
-	 * list of codes which should be replaced by Sand code during the save procedure
-	 * they are codes of flying objects above the sand
-	 */
-	public static final Set<Land> saveSandList = EnumSet.of(
-		Sand,
-		Bullet_Sand,
-		CannonBall_Sand,
-		Bomb_Sand,
-		RocketNorth_Sand,
-		RocketSouth_Sand,
-		RocketEast_Sand,
-		RocketWest_Sand,
-		RocketNorthEast_Sand,
-		RocketNorthWest_Sand,
-		RocketSouthEast_Sand,
-		RocketSouthWest_Sand
-	);
-	
-	public static final Set<Land> allSandList = EnumSet.of(
-			Hero_Sand,
-			GoodSoldier_Sand,
-			GoodTank_Sand,
-			GoodOfficer_Sand,
-			GoodGeneral_Sand,
-			GoodBunker_Sand,
-			GoodRadar_Sand,
-			BadSoldier_Sand,
-			BadTank_Sand,
-			BadOfficer_Sand,
-			BadGeneral_Sand,
-			BadBunker_Sand,
-			BadRadar_Sand,
-			Dark_Knight_Sand
-			
-	);
-	static{
-		allSandList.addAll(saveSandList);
-	}
-	
-//	private static final Set<Land> sandExplList = EnumSet.of(
-//		Hero_Sand,
-//		Mine_Sand,
-//		GoodSoldier_Sand,
-//		GoodOfficer_Sand,
-//		GoodGeneral_Sand,
-//		GoodTank_Sand,
-//		GoodBunker_Sand,
-//		GoodRadar_Sand,
-//		BadSoldier_Sand,
-//		BadTank_Sand,
-//		BadBunker_Sand,
-//		BadRadar_Sand,
-//		BadOfficer_Sand,
-//		BadGeneral_Sand,
-//		Dark_Knight_Sand,
-//		Peasant_Sand
-//	);
-
 	private static final Set<Land> unsaveList = EnumSet.noneOf(Land.class);
 	static {
 		unsaveList.addAll(bulletList);
@@ -573,31 +349,15 @@ public enum Land implements TileBasedMap{
 	
 	public static final Set<Land> armoredEnemyList = EnumSet.of(
 		BadTank,
-		BadTank_Grass,
-		BadTank_Sand,
-		
 		BadBunker,
-		BadBunker_Grass,
-		BadBunker_Sand,
-		
-		BadRadar,
-		BadRadar_Grass,
-		BadRadar_Sand
+		BadRadar
 	);
 
 	public static final Set<Land> enemyList = EnumSet.of(
 		BadSoldier,
-		BadSoldier_Grass,
-		BadSoldier_Sand,
 		BadOfficer,
-		BadOfficer_Grass,
-		BadOfficer_Sand,
 		BadGeneral,
-		BadGeneral_Grass,
-		BadGeneral_Sand,
-		Dark_Knight,
-		Dark_Knight_Grass,
-		Dark_Knight_Sand
+		Dark_Knight
 	);
 	static {
 		enemyList.addAll(armoredEnemyList);
@@ -605,16 +365,8 @@ public enum Land implements TileBasedMap{
 	
 	public static final Set<Land> armoredCitizenList = EnumSet.of(
 		GoodTank,
-		GoodTank_Grass,
-		GoodTank_Sand,
-		
 		GoodRadar,
-		GoodRadar_Grass,
-		GoodRadar_Sand,
-		
-		GoodBunker,
-		GoodBunker_Grass,
-		GoodBunker_Sand
+		GoodBunker
 	);
 	static {
 		armoredCitizenList.addAll(trainList);
@@ -622,20 +374,9 @@ public enum Land implements TileBasedMap{
 
 	public static final Set<Land> citizenList = EnumSet.of(
 		GoodSoldier,
-		GoodSoldier_Grass,
-		GoodSoldier_Sand,
-
 		GoodOfficer,
-		GoodOfficer_Grass,
-		GoodOfficer_Sand,
-
 		GoodGeneral,
-		GoodGeneral_Grass,
-		GoodGeneral_Sand,
-			
-		Peasant,
-		Peasant_Grass,
-		Peasant_Sand
+		Peasant
 	);
 	static {
 		citizenList.addAll(armoredCitizenList);
@@ -664,24 +405,13 @@ public enum Land implements TileBasedMap{
 	);
 
 	public static final Set<Land> saveList = EnumSet.of(
-		Mine,
-		Mine_Grass,
-		Mine_Sand
+		Mine
 	);
 	static {
 		saveList.addAll(enemyList);
 		saveList.addAll(citizenList);
 		saveList.addAll(gateList);
 	}
-	
-	public static final Set<Land> backgroundList = EnumSet.noneOf(Land.class);
-		static {
-			backgroundList.addAll(allGrassList);
-			backgroundList.addAll(allSandList);
-			backgroundList.addAll(waterList);
-			backgroundList.addAll(railList);
-			//backgroundList.addAll(gateList);
-		}
 	
 	public static Land getLand(Location location) {
 		return getLand(location.getX(), location.getY());
@@ -725,20 +455,6 @@ public enum Land implements TileBasedMap{
 		}
 	}
 
-	public static Land setLand(Location location, Land land) {
-		return setLand(location.getX(), location.getY(), land);
-	}
-	
-	public static Land setLand(int x, int y, Land land) {
-		Land oldLand = getLand(x, y);
-		if(backgroundList.contains(land)){
-			setBackground(x, y, land);
-		}else{
-			setForeground(x, y, land);
-		}
-		return oldLand;
-	}
-	
 	public static void setLand(int x, int y, Land foreground, Land background) {
 		synchronized(Land.class){
 			landMap[x][y][0] = background;
@@ -1022,10 +738,10 @@ public enum Land implements TileBasedMap{
 		int progress = 0;
 		try(FileInputStream fs = new FileInputStream(file);
 				BufferedInputStream stream = new BufferedInputStream(fs);) {
-			
-			
 			int heroX = readInt(stream);
 			int heroY = readInt(stream);
+			int backgroundCode, foregroundCode;
+			Land background, foreground;
 			
 			for (int x = 0; x < DWConstants.MAX_X; x++) {
 				if(progressMonitor.isCancelled()){
@@ -1036,29 +752,22 @@ public enum Land implements TileBasedMap{
 					progressMonitor.progress(progress);	
 				}
 				for (int y = 0; y < DWConstants.MAX_Y; y++) {
-					int code = stream.read();
-					Land foreground = Land.values()[code];
-					if(code == -1){
-						throw new RuntimeException("End of File reached");
+					backgroundCode = stream.read();
+					foregroundCode = stream.read();
+					if(backgroundCode < 0){
+						background = Land.Empty;
+					}else{
+						background = Land.values()[backgroundCode];
+					}
+					if(foregroundCode < 0){
+						foreground = Land.Empty;
+					}else{
+						foreground = Land.values()[foregroundCode];
 					}
 					
+					foreground = Land.values()[foregroundCode];
 					
-					Land background = Vacuum;
-					if(allGrassList.contains(foreground)) {
-						background = Grass;
-					}else if(allSandList.contains(foreground)){
-						background = Sand;
-					}else if(waterList.contains(foreground)){
-						background = Water;
-					}else if(trainList.contains(foreground)){
-						background = getTrainBackground(foreground);
-					}else if(railList.contains(foreground)){
-						background = foreground;
-					}
-					
-					if(background != Vacuum){
-						setBackground(x, y, background);
-					}
+					setBackground(x, y, background);
 					
 					if(x == heroX && y == heroY){
 						loadMan(x, y, foreground, stream);
@@ -1069,10 +778,7 @@ public enum Land implements TileBasedMap{
 						loadUnit(foreground, x, y, stream)){
 						continue;
 					}
-					//Land foreground = land;
-					if(background == Vacuum){
-						setForeground(x, y, foreground);
-					}
+					setForeground(x, y, foreground);
 				}
 			}
 		} catch (IOException ex) {
@@ -1081,96 +787,50 @@ public enum Land implements TileBasedMap{
 		progressMonitor.close();
 		saved();
 	}
-	
-	private static Land getTrainBackground(Land foreground){
-		switch(foreground){
-		case Train_Diagonal_Down:
-			return Rail_Diagonal_Down;
-		case Train_Diagonal_Up:
-			return Rail_Diagonal_Up;
-		case Train_Down_Left:
-			return Rail_Down_Left;
-		case Train_Down_Right:
-			return Rail_Down_Right;
-		case Train_Horizontal:
-			return Rail_Horizontal;
-		case Train_Left_Down:
-			return Rail_Left_Down;
-		case Train_Left_Up:
-			return Rail_Left_Up;
-		case Train_Right_Down:
-			return Rail_Right_Down;
-		case Train_Right_Up:
-			return Rail_Right_Up;
-		case Train_Up_Left:
-			return Rail_Up_Left;
-		case Train_Up_Right:
-			return Rail_Up_Right;
-		case Train_Vertical:
-			return Rail_Vertical;
-		case Train_Vertical_Cross:
-			return Rail_Vertical_Cross;
-		case Train_Horizontal_Cross:
-			return Rail_Vertical_Cross;
-		case Train_Diagonal_Up_Cross:
-			return Rail_Diagonal_Cross;
-		case Train_Diagonal_Down_Cross:
-			return Rail_Diagonal_Cross;
-		case WarTrain_Vertical:
-			return Rail_Vertical;
-		case WarTrain_Diagonal_Down_Cross:
-			return Rail_Diagonal_Cross;
-		}
-		return Vacuum;
-	}
 
 	public static void save(String fileName, IProgressMonitor progressMonitor) {
-//		File file = new File(DWConfiguration.getInstance().getPathName()+fileName);
-//		int progress = 0;
-//		try(FileOutputStream fs = new FileOutputStream(file);
-//				BufferedOutputStream stream = new BufferedOutputStream(fs);) {
-//			
-//			ControlledUnit hero = DWConfiguration.getInstance().getControlledUnit();
-//			
-//			writeInt(stream, hero.getLocation().getX());
-//			writeInt(stream, hero.getLocation().getY());
-//			
-//			for (int x = 0; x < DWConstants.MAX_X; x++) {
-//				if(progress != x*100/DWConstants.MAX_X){
-//					progress = x*100/DWConstants.MAX_X;
-//					progressMonitor.progress(progress);	
-//				}
-//				for (int y = 0; y < DWConstants.MAX_Y; y++) {
-//					int land;
-//					synchronized(Land.class){
-//						land = landMap[x][y];
-//					}
-//					if (unsaveList.contains(land)) {
-//						if (waterList.contains(land))
-//							land = Water;
-//						else if (saveGrassList.contains(land))
-//							land = Grass;
-//						else if (saveSandList.contains(land))
-//							land = Sand;
-//						else
-//							land = Empty;
-//					}
-//					stream.write(land);
-//					if (saveList.contains(land)) {
-//						List<IUnit> list = DWConfiguration.getInstance().getEngine().findUnit(new Location(x, y));
-//						if (list != null){
-//							for(IUnit unit : list){
-//								unit.save(stream);
-//							}
-//						}
-//					}
-//				}
-//			}
-//		} catch (IOException ex) {
-//			ex.printStackTrace();
-//		}
-//		progressMonitor.close();
-//		saved();
+		File file = new File(DWConfiguration.getInstance().getPathName()+fileName);
+		int progress = 0;
+		try(FileOutputStream fs = new FileOutputStream(file);
+				BufferedOutputStream stream = new BufferedOutputStream(fs);) {
+			
+			ControlledUnit hero = DWConfiguration.getInstance().getControlledUnit();
+			
+			writeInt(stream, hero.getLocation().getX());
+			writeInt(stream, hero.getLocation().getY());
+			
+			for (int x = 0; x < DWConstants.MAX_X; x++) {
+				if(progress != x*100/DWConstants.MAX_X){
+					progress = x*100/DWConstants.MAX_X;
+					progressMonitor.progress(progress);	
+				}
+				for (int y = 0; y < DWConstants.MAX_Y; y++) {
+					Land background, foreground;
+					synchronized(Land.class){
+						background = landMap[x][y][0];
+						foreground = landMap[x][y][1];
+					}
+					
+					if (unsaveList.contains(foreground)) {
+						foreground = Land.Empty;
+					}
+					stream.write(background.ordinal());
+					stream.write(foreground.ordinal());
+					if (saveList.contains(foreground)) {
+						List<IUnit> list = DWConfiguration.getInstance().getEngine().findUnit(new Location(x, y));
+						if (list != null){
+							for(IUnit unit : list){
+								unit.save(stream);
+							}
+						}
+					}
+				}
+			}
+		} catch (IOException ex) {
+			ex.printStackTrace();
+		}
+		progressMonitor.close();
+		saved();
 	}
 	
 	public static void writeInt(BufferedOutputStream stream, int value) throws IOException{

@@ -21,7 +21,7 @@ public class Peasant extends WalkableUnit {
 	protected boolean lookAround() {
 		if (Land.getLand(getLocation()) != getLand()) {
 			die();
-			Land.setLand(getLocation(), getGrave(beneath));
+			Land.setForeground(getLocation(), getGrave(beneath));
 			return false;
 		}
 		return true;

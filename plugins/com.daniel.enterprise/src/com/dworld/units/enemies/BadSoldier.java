@@ -14,14 +14,7 @@ public class BadSoldier extends Soldier {
 
 	@Override
 	protected Land getGrave(Land beneath){
-		switch(beneath){
-		case Grass:
-			return Land.BadSoldierGrave_Grass;
-		case Sand:
-			return Land.BadSoldierGrave_Sand;
-		default:
-			return Land.RobotGrave;
-		}
+		return Land.RobotGrave;
 	}
 	
 	@Override

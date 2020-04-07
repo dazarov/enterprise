@@ -14,7 +14,7 @@ public class Bomb extends WalkableUnit {
 		super(x, y, Land.Bomb, DWConstants.BOMB_SPEED);
 		setDirection(direction);
 		this.distance = distance;
-		Land.setLand(getLocation(), beneath);
+		Land.setForeground(getLocation(), beneath);
 		DWSounds.GRENADE.playSound();
 	}
 	

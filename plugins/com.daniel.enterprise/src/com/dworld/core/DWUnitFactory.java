@@ -28,64 +28,32 @@ public class DWUnitFactory {
 	private static Map<Land, Class<? extends Unit>> unitMap = new EnumMap<>(Land.class);
 	static{
 		unitMap.put(Land.BadSoldier, BadSoldier.class);
-		unitMap.put(Land.BadSoldier_Grass, BadSoldier.class);
-		unitMap.put(Land.BadSoldier_Sand, BadSoldier.class);
 		
 		unitMap.put(Land.BadOfficer, BadOfficer.class);
-		unitMap.put(Land.BadOfficer_Grass, BadOfficer.class);
-		unitMap.put(Land.BadOfficer_Sand, BadOfficer.class);
 
 		unitMap.put(Land.BadGeneral, BadGeneral.class);
-		unitMap.put(Land.BadGeneral_Grass, BadGeneral.class);
-		unitMap.put(Land.BadGeneral_Sand, BadGeneral.class);
 
 		unitMap.put(Land.Dark_Knight, DarkKnight.class);
-		unitMap.put(Land.Dark_Knight_Grass, DarkKnight.class);
-		unitMap.put(Land.Dark_Knight_Sand, DarkKnight.class);
 
 		unitMap.put(Land.BadTank, BadTank.class);
-		unitMap.put(Land.BadTank_Grass, BadTank.class);
-		unitMap.put(Land.BadTank_Sand, BadTank.class);
 
 		unitMap.put(Land.BadBunker, BadBunker.class);
-		unitMap.put(Land.BadBunker_Grass, BadBunker.class);
-		unitMap.put(Land.BadBunker_Sand, BadBunker.class);
 
 		unitMap.put(Land.BadRadar, BadRadar.class);
-		unitMap.put(Land.BadRadar_Grass, BadRadar.class);
-		unitMap.put(Land.BadRadar_Sand, BadRadar.class);
 
 		unitMap.put(Land.Mine, Mine.class);
-		unitMap.put(Land.Mine_Grass, Mine.class);
-		unitMap.put(Land.Mine_Sand, Mine.class);
 
 		unitMap.put(Land.GoodSoldier, GoodSoldier.class);
-		unitMap.put(Land.GoodSoldier_Grass, GoodSoldier.class);
-		unitMap.put(Land.GoodSoldier_Sand, GoodSoldier.class);
-
-//		unitMap.put(Land.Peasant, Peasant.class);
-//		unitMap.put(Land.Peasant_Grass, Peasant.class);
-//		unitMap.put(Land.Peasant_Sand, Peasant.class);
 
 		unitMap.put(Land.GoodOfficer, GoodOfficer.class);
-		unitMap.put(Land.GoodOfficer_Grass, GoodOfficer.class);
-		unitMap.put(Land.GoodOfficer_Sand, GoodOfficer.class);
 
 		unitMap.put(Land.GoodGeneral, GoodGeneral.class);
-		unitMap.put(Land.GoodGeneral_Grass, GoodGeneral.class);
-		unitMap.put(Land.GoodGeneral_Sand, GoodGeneral.class);
 
 		unitMap.put(Land.GoodTank, GoodTank.class);
-		unitMap.put(Land.GoodTank_Grass, GoodTank.class);
-		unitMap.put(Land.GoodTank_Sand, GoodTank.class);
 
 		unitMap.put(Land.GoodRadar, GoodRadar.class);
-		unitMap.put(Land.GoodRadar_Grass, GoodRadar.class);
-		unitMap.put(Land.GoodRadar_Sand, GoodRadar.class);
 
 		unitMap.put(Land.GoodBunker, GoodBunker.class);
-		unitMap.put(Land.GoodBunker_Grass, GoodBunker.class);
-		unitMap.put(Land.GoodBunker_Sand, GoodBunker.class);
 
 		unitMap.put(Land.Teleport1, Teleport.class);
 		unitMap.put(Land.Teleport2, Teleport.class);

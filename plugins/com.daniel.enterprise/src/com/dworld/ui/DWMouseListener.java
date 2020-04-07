@@ -57,7 +57,7 @@ public class DWMouseListener {
 				SelectionManager.setSelectedLine(startLocation, startLocation);
 		}else if(isBrush()){
 			if (button == MouseEvent.BUTTON1){
-				Land.setLand(location, DWConfiguration.getInstance().getSelectedCode());
+				Land.setForeground(location, DWConfiguration.getInstance().getSelectedCode());
 				DWUnitFactory.createUnit(DWConfiguration.getInstance().getSelectedCode(), location.getX(), location.getY());
 			}else{
 				List<IUnit> list = DWConfiguration.getInstance().getEngine().findUnit(location);
@@ -66,7 +66,7 @@ public class DWMouseListener {
 						unit.die();
 					}
 				}
-				Land.setLand(location, Land.Empty);
+				Land.setForeground(location, Land.Empty);
 			}
 			Land.modified();
 		}
@@ -97,9 +97,9 @@ public class DWMouseListener {
 				for(int x = rectangle.x; x < rectangle.x+rectangle.width; x++){
 					for(int y = rectangle.y; y < rectangle.y+rectangle.height; y++){
 						if (button == MouseEvent.BUTTON1)
-							Land.setLand(new Location(x, y), DWConfiguration.getInstance().getSelectedCode());
+							Land.setForeground(new Location(x, y), DWConfiguration.getInstance().getSelectedCode());
 						else
-							Land.setLand(new Location(x, y), Land.Empty);
+							Land.setForeground(new Location(x, y), Land.Empty);
 					}
 				}
 				Land.modified();
@@ -108,9 +108,9 @@ public class DWMouseListener {
 				if(points != null){
 					for(Location point : points){
 						if (button == MouseEvent.BUTTON1){
-							Land.setLand(point, DWConfiguration.getInstance().getSelectedCode());
+							Land.setForeground(point, DWConfiguration.getInstance().getSelectedCode());
 						}else{
-							Land.setLand(point, Land.Empty);
+							Land.setForeground(point, Land.Empty);
 						}
 					}
 				}
@@ -176,9 +176,9 @@ public class DWMouseListener {
 			return;
 		}else if(isBrush()){
 			if (startButton == MouseEvent.BUTTON1){
-				Land.setLand(location, DWConfiguration.getInstance().getSelectedCode());
+				Land.setForeground(location, DWConfiguration.getInstance().getSelectedCode());
 			} else {
-				Land.setLand(location, Land.Empty);
+				Land.setForeground(location, Land.Empty);
 			}
 		}
 	}

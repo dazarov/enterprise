@@ -25,7 +25,7 @@ public class ControlledUnit extends WalkableUnit {
 	public void setLand(Land land){
 		this.land = land;
 		
-		Land.setLand(getLocation(), getLand());
+		Land.setForeground(getLocation(), getLand());
 	}
 	
 	protected Set<Land> getListToFightWith(){
@@ -81,7 +81,7 @@ public class ControlledUnit extends WalkableUnit {
 				}
 				return;
 		}else if(key == 76){ // l key
-			Land.setLand(getLocation(), getLand());
+			Land.setForeground(getLocation(), getLand());
 			activate();
 			resurrect();
 		}
@@ -105,16 +105,7 @@ public class ControlledUnit extends WalkableUnit {
 	protected boolean lookAround() {
 		if (Land.getLand(getLocation()) != getLand()) {
 			die();
-			switch(beneath){
-			case Grass:
-				Land.setLand(getLocation(), Land.Grave_Grass);
-				break;
-			case Sand:
-				Land.setLand(getLocation(), Land.Grave_Sand);
-				break;
-			default:
-				Land.setLand(getLocation(), Land.Grave);
-			}
+				Land.setForeground(getLocation(), Land.Grave);
 			return false;
 		}
 		if(DWConfiguration.getInstance().isFight()){
@@ -206,7 +197,7 @@ public class ControlledUnit extends WalkableUnit {
 				
 			case 84: // t
 				
-				Land.setLand(getLocation().getX(), getLocation().getY()-1, Land.Teleport5);
+				Land.setForeground(getLocation().getX(), getLocation().getY()-1, Land.Teleport5);
 				DWUnitFactory.createUnit(Land.Teleport5, getLocation().getX(), getLocation().getY()-1);
 				break;
 
@@ -264,14 +255,7 @@ public class ControlledUnit extends WalkableUnit {
 	
 	@Override
 	protected Land getGrave(Land beneath){
-		switch(beneath){
-		case Grass:
-			return Land.Grave_Grass;
-		case Sand:
-			return Land.Grave_Sand;
-		default:
-			return Land.Grave;
-		}
+		return Land.Grave;
 	}
 	
 	@Override
