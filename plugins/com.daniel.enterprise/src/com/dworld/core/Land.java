@@ -96,7 +96,6 @@ public enum Land implements TileBasedMap{
 	Dark_Knight,
 	BadOfficer,
 	BadGeneral,	
-	
 	BadBunker,
 	BadRadar,
 	
@@ -208,9 +207,33 @@ public enum Land implements TileBasedMap{
 	 * Land lists section start
 	 */
 	
-	public static final Set<Land> heroList = EnumSet.of(
-		Hero
+	public static final Set<Land> openedGateList = EnumSet.of(
+		OpenedHorizontalSteelGate,
+		OpenedVerticalSteelGate,
+		OpenedHorizontalConcreteGate,
+		OpenedVerticalConcreteGate,
+		OpenedHorizontalWoodGate,
+		OpenedVerticalWoodGate,
+		OpenedHorizontalBrickGate,
+		OpenedVerticalBrickGate
 	);
+		
+	public static final Set<Land> closedGateList = EnumSet.of(
+		ClosedHorizontalSteelGate,
+		ClosedVerticalSteelGate,
+		ClosedHorizontalConcreteGate,
+		ClosedVerticalConcreteGate,
+		ClosedHorizontalWoodGate,
+		ClosedVerticalWoodGate,
+		ClosedHorizontalBrickGate,
+		ClosedVerticalBrickGate
+	);
+	
+	public static final Set<Land> gateList = EnumSet.noneOf(Land.class);
+	static {
+		gateList.addAll(openedGateList);
+		gateList.addAll(closedGateList);
+	}
 
 	public static final Set<Land> rocketList = EnumSet.of(
 		RocketNorth,
@@ -271,29 +294,21 @@ public enum Land implements TileBasedMap{
 	);
 	static{
 		trainList.addAll(wartrainList);
-	}
-	
+	}	
 
 	// Only Backgrounds
 	public static final Set<Land> walkBackgroundList = EnumSet.of(
 		Empty,
 		RobotGrave,
-		OpenedHorizontalWoodGate,
-		OpenedVerticalWoodGate,
-		OpenedHorizontalSteelGate,
-		OpenedVerticalSteelGate,
-		OpenedHorizontalConcreteGate,
-		OpenedVerticalConcreteGate,
-		OpenedHorizontalBrickGate,
-		OpenedVerticalBrickGate,
 		Grass,
 		Sand
 	);
 	static{
+		walkBackgroundList.addAll(openedGateList);
 		walkBackgroundList.addAll(railList);
 	}
 	
-	// Only Backgrounds
+	// Only foregrounds
 	public static final Set<Land> walkForegroundList = EnumSet.of(
 		Empty,
 		Grenade,
@@ -311,9 +326,12 @@ public enum Land implements TileBasedMap{
 		Empty,
 		Bullet,
 		Bomb,
+		Ammo,
 		Rocket,
-		CannonBall
+		CannonBall,
+		Mine
 	);
+	
 	
 
 	private static final Set<Land> unexplosiveList = EnumSet.of(
@@ -322,9 +340,7 @@ public enum Land implements TileBasedMap{
 		ClosedHorizontalSteelGate,
 		ClosedVerticalSteelGate,
 		ClosedHorizontalConcreteGate,
-		ClosedVerticalConcreteGate,
-		Water,
-		Sand
+		ClosedVerticalConcreteGate
 	);
 
 	private static final Set<Land> unsaveList = EnumSet.noneOf(Land.class);
@@ -373,6 +389,7 @@ public enum Land implements TileBasedMap{
 	}
 
 	public static final Set<Land> citizenList = EnumSet.of(
+		Hero,
 		GoodSoldier,
 		GoodOfficer,
 		GoodGeneral,
@@ -380,30 +397,8 @@ public enum Land implements TileBasedMap{
 	);
 	static {
 		citizenList.addAll(armoredCitizenList);
-		
-		citizenList.addAll(heroList);
 	}
 	
-	public static final Set<Land> gateList = EnumSet.of(
-		OpenedHorizontalSteelGate,
-		ClosedHorizontalSteelGate,
-		OpenedVerticalSteelGate,
-		ClosedVerticalSteelGate,
-		OpenedHorizontalConcreteGate,
-		ClosedHorizontalConcreteGate,
-		OpenedVerticalConcreteGate,
-		ClosedVerticalConcreteGate,
-
-		OpenedHorizontalWoodGate,
-		ClosedHorizontalWoodGate,
-		OpenedVerticalWoodGate,
-		ClosedVerticalWoodGate,
-		OpenedHorizontalBrickGate,
-		ClosedHorizontalBrickGate,
-		OpenedVerticalBrickGate,
-		ClosedVerticalBrickGate
-	);
-
 	public static final Set<Land> saveList = EnumSet.of(
 		Mine
 	);
@@ -411,6 +406,22 @@ public enum Land implements TileBasedMap{
 		saveList.addAll(enemyList);
 		saveList.addAll(citizenList);
 		saveList.addAll(gateList);
+	}
+	
+	public static final Set<Land> backgroundList = EnumSet.of(
+		Sand,
+		Grass,
+		Water,
+		Background1,
+		Background2,
+		Background3,
+		Background4,
+		Background5,
+		Background6
+	);
+	static{
+		backgroundList.addAll(openedGateList);
+		backgroundList.addAll(railList);
 	}
 	
 	public static Land getLand(Location location) {

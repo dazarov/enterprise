@@ -12,66 +12,12 @@ public class WarTrain extends Train {
 	public WarTrain(int x, int y, Land land) {
 		super(x, y, land);
 	}
-
-	@SuppressWarnings("incomplete-switch")
-	@Override
-	protected Land getDefaultBeneath(Land land){
-		switch(land){
-		case WarTrain_Vertical:
-			return Land.Rail_Vertical;
-			
-		case WarTrain_Horizontal:
-			return Land.Rail_Horizontal;
-			
-		case WarTrain_Diagonal_Up:
-			return Land.Rail_Diagonal_Up;
-			
-		case WarTrain_Diagonal_Down:
-			return Land.Rail_Diagonal_Down;
-			
-		case WarTrain_Up_Right:
-			return Land.Rail_Up_Right;
-			
-		case WarTrain_Up_Left:
-			return Land.Rail_Up_Left;
-			
-		case WarTrain_Down_Right:
-			return Land.Rail_Down_Right;
-			
-		case WarTrain_Down_Left:
-			return Land.Rail_Down_Left;
-			
-		case WarTrain_Right_Up:
-			return Land.Rail_Right_Up;
-			
-		case WarTrain_Right_Down:
-			return Land.Rail_Right_Down;
-			
-		case WarTrain_Left_Up:
-			return Land.Rail_Left_Up;
-			
-		case WarTrain_Left_Down:
-			return Land.Rail_Left_Down;
-			
-		case WarTrain_Vertical_Cross:
-			return Land.Rail_Vertical_Cross;
-			
-		case WarTrain_Horizontal_Cross:
-			return Land.Rail_Vertical_Cross;
-			
-		case WarTrain_Diagonal_Up_Cross:
-			return Land.Rail_Diagonal_Cross;
-			
-		case WarTrain_Diagonal_Down_Cross:
-			return Land.Rail_Diagonal_Cross;
-		}
-		return Land.Empty;
-	}
 	
 	@SuppressWarnings("incomplete-switch")
 	@Override
 	public Land getLand(){
-		switch(beneath){
+		Land background = Land.getBackground(getLocation());
+		switch(background){
 		case Rail_Vertical:
 			return Land.WarTrain_Vertical;
 			

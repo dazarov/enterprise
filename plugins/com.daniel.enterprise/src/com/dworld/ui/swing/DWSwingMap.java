@@ -229,6 +229,9 @@ public class DWSwingMap {
 			}
 			for(int y = startY, windowY = 0; y < (startY+height); y++, windowY++){
 				Land land = Land.getLand(x, y);
+				if(land == Land.Empty){
+					land = Land.getBackground(x, y);
+				}
 				if(land != Land.Empty){
 					switch(land){
 					case Brick:
@@ -310,10 +313,7 @@ public class DWSwingMap {
 							g.setColor(Color.white);
 					}
 					g.drawLine(windowX, windowY, windowX, windowY);
-				}//else{
-				//	g.setColor(Color.black);
-				//	g.drawLine(windowX, windowY, windowX, windowY);
-				//}
+				}
 			}
 		}
 	}

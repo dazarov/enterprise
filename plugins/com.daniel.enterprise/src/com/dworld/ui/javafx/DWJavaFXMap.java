@@ -8,7 +8,6 @@ import com.dworld.ui.IProgressMonitor;
 
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.PixelWriter;
@@ -69,104 +68,6 @@ public class DWJavaFXMap {
 	    
 	}
 	
-	static void drawRegion(GraphicsContext g, int startX, int startY, int width, int height, IProgressMonitor monitor){
-		int progress = 0;
-		for(int x = startX, windowX = 0; x < (startX+width); x++, windowX++){
-			if(monitor != null && progress != windowX*100/width){
-				progress = windowX*100/width;
-				monitor.progress(progress);	
-			}
-			for(int y = startY, windowY = 0; y < (startY+height); y++, windowY++){
-				Land land = Land.getLand(x, y);
-				if(land != Land.Empty){
-					switch(land){
-					case Brick:
-					case ClosedHorizontalBrickGate:
-					case OpenedHorizontalBrickGate:
-					case ClosedVerticalBrickGate:
-					case OpenedVerticalBrickGate:
-					case ClosedHorizontalWoodGate:
-					case OpenedHorizontalWoodGate:
-					case ClosedVerticalWoodGate:
-					case OpenedVerticalWoodGate:
-						
-						g.setStroke(Color.RED);
-						break;
-						
-					case Wall:
-					case ClosedHorizontalSteelGate:
-					case OpenedHorizontalSteelGate:
-					case ClosedVerticalSteelGate:
-					case OpenedVerticalSteelGate:
-					case ClosedHorizontalConcreteGate:
-					case OpenedHorizontalConcreteGate:
-					case ClosedVerticalConcreteGate:
-					case OpenedVerticalConcreteGate:
-					case Rail_Vertical:
-					case Rail_Horizontal:
-					case Rail_Diagonal_Up:
-					case Rail_Diagonal_Down:
-					case Rail_Up_Right:
-					case Rail_Up_Left:
-					case Rail_Down_Right:
-					case Rail_Down_Left:
-					case Rail_Right_Up:
-					case Rail_Right_Down:
-					case Rail_Left_Up:
-					case Rail_Left_Down:
-					case Rail_Vertical_Cross:
-					case Rail_Diagonal_Cross:
-					case Station_Horizontal:
-					case Station_Vertical:
-						
-						g.setStroke(Color.GRAY);
-						break;
-						
-					case Grass:
-						g.setStroke(Color.GREEN);
-						break;
-						
-					case Water:
-						g.setStroke(Color.BLUE);
-						break;
-						
-					case Sand:
-						g.setStroke(Color.YELLOW);
-						break;
-					case Mountain:
-						g.setStroke(Color.MAGENTA);
-						break;
-					case Wood1:
-					case Wood2:
-					case Wood3:
-					case Wood4:
-						g.setStroke(Color.ORANGE);
-						break;
-						
-					case Tree1:
-					case Tree2:
-					case Tree3:
-						g.setStroke(new Color(0,0.39,0,1));
-						break;
-
-					case Ammo:
-					case Grenade:
-					case Rocket:
-						g.setStroke(Color.PINK);
-						break;
-						
-						default:
-							g.setStroke(Color.WHITE);
-					}
-					g.strokeLine(windowX, windowY, windowX, windowY);
-				}//else{
-				//	g.setStroke(Color.BLACK);
-				//	g.strokeLine(windowX, windowY, windowX, windowY);
-				//}
-			}
-		}
-	}
-	
 	static void drawImage(PixelWriter writer, int startX, int startY, int width, int height, IProgressMonitor monitor){
 		int progress = 0;
 		for(int x = startX, windowX = 0; x < (startX+width); x++, windowX++){
@@ -179,6 +80,9 @@ public class DWJavaFXMap {
 			}
 			for(int y = startY, windowY = 0; y < (startY+height); y++, windowY++){
 				Land land = Land.getLand(x, y);
+				if(land == Land.Empty){
+					land = Land.getBackground(x, y);
+				}
 				if(land != Land.Empty){
 					switch(land){
 					case Brick:
@@ -227,7 +131,7 @@ public class DWJavaFXMap {
 						break;
 						
 					case Water:
-						writer.setColor(windowX, windowY, DWJavaFXColors.WATER);
+						writer.setColor(windowX, windowY, Color.BLUE);
 						break;
 						
 					case Sand:

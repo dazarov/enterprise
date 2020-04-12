@@ -10,7 +10,7 @@ import com.dworld.units.WalkableUnit;
 
 public class Train extends WalkableUnit {
 
-	//private Land oldBeneath = Land.Vacuum;
+	private Land oldBackground = Land.Vacuum;
 	private boolean going = true;
 	private int delay = 0;
 	private static final int STOP = 300;
@@ -135,12 +135,13 @@ public class Train extends WalkableUnit {
 
 	
 	protected void getRailDirection() {
-		//if(beneath == oldBeneath){
-		//	return;
-		//}else{
-		//	oldBeneath = beneath;
-		//}
-		direction = RailUtils.getRailDirection(direction, Land.getBackground(getLocation()));
+		Land background = Land.getBackground(getLocation());
+		if(background == oldBackground){
+			return;
+		}else{
+			oldBackground = background;
+		}
+		direction = RailUtils.getRailDirection(direction, background);
 	}
 	
 	@Override

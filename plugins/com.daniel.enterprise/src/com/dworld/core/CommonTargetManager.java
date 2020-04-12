@@ -5,8 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 
 public class CommonTargetManager {
-	private static HashMap<IMovable, CommonTarget>friends = new HashMap<IMovable, CommonTarget>();
-	private static HashMap<IMovable, CommonTarget>enemies = new HashMap<IMovable, CommonTarget>();
+	private static HashMap<IMovable, CommonTarget> friends = new HashMap<IMovable, CommonTarget>();
+	private static HashMap<IMovable, CommonTarget> enemies = new HashMap<IMovable, CommonTarget>();
 	
 	public static void reportTarget(Location targetLocation){
 		IUnit targetUnit = null;
