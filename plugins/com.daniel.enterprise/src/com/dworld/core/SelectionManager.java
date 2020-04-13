@@ -189,7 +189,7 @@ public class SelectionManager {
 				for(int x = copiedArea.x; x < copiedArea.x+copiedArea.width; x++){
 					for(int y = copiedArea.y; y < copiedArea.y+copiedArea.height; y++){
 						Land land = Land.getLand(x, y);
-						Land.setForeground(newX, newY, land);
+						Land.setLand(newX, newY, land);
 						newY++;
 					}
 					newY = copyTo.getY();
@@ -225,7 +225,7 @@ public class SelectionManager {
 							doneMap.put(point2, land2);
 						}
 						
-						Land.setForeground(point2, land1);
+						Land.setLand(point2, land1);
 					}
 				}
 				
@@ -260,7 +260,7 @@ public class SelectionManager {
 							doneMap.put(point2, land2);
 						}
 						
-						Land.setForeground(point2, land1);
+						Land.setLand(point2, land1);
 					}
 				}
 
@@ -280,8 +280,8 @@ public class SelectionManager {
 						Land land1 = Land.getLand(x, y);
 						int y2 = (selectedArea.y + selectedArea.height-1)-(y-selectedArea.y);
 						Land land2 = Land.getLand(x, y2);
-						Land.setForeground(x, y, land2);
-						Land.setForeground(x, y2, land1);
+						Land.setLand(x, y, land2);
+						Land.setLand(x, y2, land1);
 					}
 				}
 				Land.modified();
@@ -297,8 +297,8 @@ public class SelectionManager {
 						Land land1 = Land.getLand(x, y);
 						int x2 = (selectedArea.x + selectedArea.width-1)-(x-selectedArea.x);
 						Land land2 = Land.getLand(x2, y);
-						Land.setForeground(x, y, land2);
-						Land.setForeground(x2, y, land1);
+						Land.setLand(x, y, land2);
+						Land.setLand(x2, y, land1);
 					}
 				}
 				Land.modified();
@@ -314,8 +314,8 @@ public class SelectionManager {
 						Land land1 = Land.getLand(x, y);
 						int y2 = y - 1;
 						Land land2 = Land.getLand(x, y2);
-						Land.setForeground(x, y, land2);
-						Land.setForeground(x, y2, land1);
+						Land.setLand(x, y, land2);
+						Land.setLand(x, y2, land1);
 					}
 				}
 				selectedArea.y = selectedArea.y - 1;
@@ -332,8 +332,8 @@ public class SelectionManager {
 						Land land1 = Land.getLand(x, y);
 						int y2 = y + 1;
 						Land land2 = Land.getLand(x, y2);
-						Land.setForeground(x, y, land2);
-						Land.setForeground(x, y2, land1);
+						Land.setLand(x, y, land2);
+						Land.setLand(x, y2, land1);
 					}
 				}
 				selectedArea.y = selectedArea.y + 1;
@@ -350,8 +350,8 @@ public class SelectionManager {
 						Land land1 = Land.getLand(x, y);
 						int x2 = x - 1;
 						Land land2 = Land.getLand(x2, y);
-						Land.setForeground(x, y, land2);
-						Land.setForeground(x2, y, land1);
+						Land.setLand(x, y, land2);
+						Land.setLand(x2, y, land1);
 					}
 				}
 				selectedArea.x = selectedArea.x - 1;
@@ -368,8 +368,8 @@ public class SelectionManager {
 						Land land1 = Land.getLand(x, y);
 						int x2 = x + 1;
 						Land land2 = Land.getLand(x2, y);
-						Land.setForeground(x, y, land2);
-						Land.setForeground(x2, y, land1);
+						Land.setLand(x, y, land2);
+						Land.setLand(x2, y, land1);
 					}
 				}
 				selectedArea.x = selectedArea.x + 1;
@@ -384,7 +384,7 @@ public class SelectionManager {
 				for(int y1 = SelectionManager.getSelectedArea().y; y1 < SelectionManager.getSelectedArea().getY() + SelectionManager.getSelectedArea().height; y1++){
 					Land land = Land.getLand(x1, y1);
 					if(land == oldLand){
-						Land.setForeground(x1, y1, newLand);
+						Land.setLand(x1, y1, newLand);
 					}
 				}
 				
@@ -405,12 +405,12 @@ public class SelectionManager {
 		int yy = startY;
 		while(true){
 			while(Land.getLand(xx, yy) == oldLand){
-				Land.setForeground(xx, yy, newLand);
+				Land.setLand(xx, yy, newLand);
 				xx++;
 			}
 			xx = startX-1;
 			while(Land.getLand(xx, yy) == oldLand){
-				Land.setForeground(xx, yy, newLand);
+				Land.setLand(xx, yy, newLand);
 				xx--;
 			}
 			xx = startX;

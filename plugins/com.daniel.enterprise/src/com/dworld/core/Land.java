@@ -206,7 +206,7 @@ public enum Land implements TileBasedMap{
 	/**
 	 * Land lists section start
 	 */
-	
+	// backgrounds
 	public static final Set<Land> openedGateList = EnumSet.of(
 		OpenedHorizontalSteelGate,
 		OpenedVerticalSteelGate,
@@ -218,6 +218,7 @@ public enum Land implements TileBasedMap{
 		OpenedVerticalBrickGate
 	);
 		
+	// foregrounds
 	public static final Set<Land> closedGateList = EnumSet.of(
 		ClosedHorizontalSteelGate,
 		ClosedVerticalSteelGate,
@@ -255,6 +256,7 @@ public enum Land implements TileBasedMap{
 		Bomb
 	);
 	
+	// backgrounds
 	public static final Set<Land> railList = EnumSet.of(
 		Rail_Diagonal_Down,
 		Rail_Diagonal_Up,
@@ -274,24 +276,8 @@ public enum Land implements TileBasedMap{
 
 	public static final Set<Land> wartrainList = EnumSet.range(WarTrain_Vertical, WarTrain_Diagonal_Down_Cross);
 
-	public static final Set<Land> trainList = EnumSet.of(
-		Train_Diagonal_Down,
-		Train_Diagonal_Up,
-		Train_Down_Left,
-		Train_Down_Right,
-		Train_Horizontal,
-		Train_Left_Down,
-		Train_Left_Up,
-		Train_Right_Down,
-		Train_Right_Up,
-		Train_Up_Left,
-		Train_Up_Right,
-		Train_Vertical,
-		Train_Vertical_Cross,
-		Train_Horizontal_Cross,
-		Train_Diagonal_Up_Cross,
-		Train_Diagonal_Down_Cross
-	);
+	public static final Set<Land> trainList = EnumSet.range(Train_Vertical, Train_Diagonal_Down_Cross);
+
 	static{
 		trainList.addAll(wartrainList);
 	}	
@@ -299,7 +285,6 @@ public enum Land implements TileBasedMap{
 	// Only Backgrounds
 	public static final Set<Land> walkBackgroundList = EnumSet.of(
 		Empty,
-		RobotGrave,
 		Grass,
 		Sand
 	);
@@ -314,6 +299,7 @@ public enum Land implements TileBasedMap{
 		Grenade,
 		Ammo,
 		Rocket,
+		Patron,
 		Food,
 		Bullet,
 		Bomb,
@@ -325,15 +311,15 @@ public enum Land implements TileBasedMap{
 	public static final Set<Land> flyAndFindList = EnumSet.of(
 		Empty,
 		Bullet,
+		Patron,
 		Bomb,
+		Grenade,
 		Ammo,
 		Rocket,
 		CannonBall,
 		Mine
 	);
 	
-	
-
 	private static final Set<Land> unexplosiveList = EnumSet.of(
 		Vacuum,
 		Wall,
@@ -470,6 +456,18 @@ public enum Land implements TileBasedMap{
 		synchronized(Land.class){
 			landMap[x][y][0] = background;
 			landMap[x][y][1] = foreground;
+		}
+	}
+	
+	public static Land setLand(Location location, Land foreground) {
+		return setLand(location.getX(), location.getY(), foreground);
+	}
+	
+	public static Land setLand(int x, int y, Land land) {
+		if(backgroundList.contains(land)){
+			return setBackground(x, y, land);
+		}else{
+			return setForeground(x, y, land);
 		}
 	}
 	

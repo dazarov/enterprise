@@ -36,6 +36,7 @@ public class DWJavaFXMenuBuilder {
 	
 	private void createMenu(DWMenu menu, Object parent){
 		Menu jMenu = new Menu(menu.label);
+		//jMenu.setStyle("-fx-background-color: BLACK");
 		
 		for(DWMenuItem item : menu.items){
 			if(item instanceof DWMenu){

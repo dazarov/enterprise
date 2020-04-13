@@ -151,6 +151,9 @@ public class DWMenuStructure {
 		submenu.items.add(new DWRadioMenuItem(DWMessage.TRAIN.get(), Land.Train_Horizontal, 1, () -> config.setSelectedCode(Land.Train_Horizontal)));
 		submenu.items.add(new DWRadioMenuItem(DWMessage.TRAIN.get(), Land.Train_Vertical,   1, () -> config.setSelectedCode(Land.Train_Vertical)));
 		submenu.items.add(new DWMenuItem());
+		submenu.items.add(new DWRadioMenuItem(DWMessage.WAR_TRAIN.get(), Land.WarTrain_Horizontal, 1, () -> config.setSelectedCode(Land.WarTrain_Horizontal)));
+		submenu.items.add(new DWRadioMenuItem(DWMessage.TRAIN.get(), Land.WarTrain_Vertical,   1, () -> config.setSelectedCode(Land.WarTrain_Vertical)));
+		submenu.items.add(new DWMenuItem());
 		submenu.items.add(new DWRadioMenuItem(DWMessage.STATION.get(), Land.Station_Horizontal, 1, () -> config.setSelectedCode(Land.Station_Horizontal)));
 		submenu.items.add(new DWRadioMenuItem(DWMessage.STATION.get(), Land.Station_Vertical,   1, () -> config.setSelectedCode(Land.Station_Vertical)));
 		submenu.items.add(new DWMenuItem());
