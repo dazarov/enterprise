@@ -43,7 +43,7 @@
     "merge-descriptors": "0.0.2",
     "utils-merge": "1.0.0",
     "escape-html": "1.0.1",
-    "qs": "1.0.0",
+    "qs": "6.9.3",
     "serve-static": "1.0.1",
     "path-to-regexp": "0.1.2",
     "debug": "2.6.9"
